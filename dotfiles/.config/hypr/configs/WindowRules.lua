@@ -91,9 +91,9 @@ hl.window_rule({ match = { class = "^(eog|org.gnome.Loupe)$" }, tag = "+viewer" 
 
 -- Special override rules
 hl.window_rule({ match = { tag = "multimedia_video" }, no_blur = true })
-hl.window_rule({ match = { tag = "multimedia_video" }, opacity = { active = 1.0, inactive = 1.0 } })
+hl.window_rule({ match = { tag = "multimedia_video" }, opacity = "1.0 1.0" })
 hl.window_rule({ match = { tag = "multimedia" }, no_blur = true })
-hl.window_rule({ match = { tag = "multimedia" }, opacity = { active = 1.0, inactive = 1.0 } })
+hl.window_rule({ match = { tag = "multimedia" }, opacity = "1.0 1.0" })
 
 -- POSITION
 hl.window_rule({ match = { tag = "cheat" }, center = true })
@@ -119,36 +119,36 @@ hl.window_rule({ match = { class = "^([Ff]erdium)$" }, float = true })
 
 -- Popups and dialogue
 hl.window_rule({ match = { title = "^(Authentication Required)$" }, float = true, center = true })
-hl.window_rule({ match = { class = "(codium|codium-url-handler|VSCodium)", title_negative = ".*(codium.*|.*VSCodium.*)" }, float = true })
-hl.window_rule({ match = { class = "^(com.heroicgameslauncher.hgl)$", title_negative = "(Heroic Games Launcher)" }, float = true })
-hl.window_rule({ match = { class = "^([Ss]team)$", title_negative = "^([Ss]team)$" }, float = true })
-hl.window_rule({ match = { title = "^(Add Folder to Workspace)$" }, float = true, size = { width = "monitor_w*0.7", height = "monitor_h*0.6" }, center = true })
-hl.window_rule({ match = { title = "^(Save As)$" }, float = true, size = { width = "monitor_w*0.7", height = "monitor_h*0.6" }, center = true })
-hl.window_rule({ match = { initial_title = "(Open Files)" }, float = true, size = { width = "monitor_w*0.7", height = "monitor_h*0.6" } })
-hl.window_rule({ match = { title = "^(SDDM Background)$" }, float = true, center = true, size = { width = "monitor_w*0.16", height = "monitor_h*0.12" } })
-hl.window_rule({ match = { class = "^(yad)$" }, float = true, center = true, size = { width = "monitor_w*0.2", height = "monitor_h*0.2" } })
+hl.window_rule({ match = { class = "(codium|codium-url-handler|VSCodium)" }, float = true })
+hl.window_rule({ match = { class = "^(com.heroicgameslauncher.hgl)$" }, float = true })
+hl.window_rule({ match = { class = "^([Ss]team)$" }, float = true })
+hl.window_rule({ match = { title = "^(Add Folder to Workspace)$" }, float = true, size = { "monitor_w*0.7", "monitor_h*0.6" }, center = true })
+hl.window_rule({ match = { title = "^(Save As)$" }, float = true, size = { "monitor_w*0.7", "monitor_h*0.6" }, center = true })
+hl.window_rule({ match = { initial_title = "(Open Files)" }, float = true, size = { "monitor_w*0.7", "monitor_h*0.6" } })
+hl.window_rule({ match = { title = "^(SDDM Background)$" }, float = true, center = true, size = { "monitor_w*0.16", "monitor_h*0.12" } })
+hl.window_rule({ match = { class = "^(yad)$" }, float = true, center = true, size = { "monitor_w*0.2", "monitor_h*0.2" } })
 hl.window_rule({ match = { class = "^(hyprland-donate-screen)$" }, float = true, center = true })
 
 -- OPACITY
-hl.window_rule({ match = { tag = "browser" }, opacity = { active = 0.99, inactive = 0.8 } })
-hl.window_rule({ match = { tag = "projects" }, opacity = { active = 0.9, inactive = 0.8 } })
-hl.window_rule({ match = { tag = "im" }, opacity = { active = 0.94, inactive = 0.86 } })
-hl.window_rule({ match = { tag = "multimedia" }, opacity = { active = 0.94, inactive = 0.86 } })
-hl.window_rule({ match = { tag = "file-manager" }, opacity = { active = 0.9, inactive = 0.8 } })
-hl.window_rule({ match = { tag = "terminal" }, opacity = { active = 0.9, inactive = 0.7 } })
-hl.window_rule({ match = { tag = "settings" }, opacity = { active = 0.8, inactive = 0.7 } })
-hl.window_rule({ match = { tag = "viewer" }, opacity = { active = 0.82, inactive = 0.75 } })
-hl.window_rule({ match = { tag = "wallpaper" }, opacity = { active = 0.9, inactive = 0.7 } })
-hl.window_rule({ match = { class = "^(gedit|org.gnome.TextEditor|mousepad)$" }, opacity = { active = 0.8, inactive = 0.7 } })
-hl.window_rule({ match = { class = "^(deluge)$" }, opacity = { active = 0.9, inactive = 0.8 } })
-hl.window_rule({ match = { class = "^(seahorse)$" }, opacity = { active = 0.9, inactive = 0.8 } })
-hl.window_rule({ match = { title = "^(Picture-in-Picture)$" }, opacity = { active = 0.95, inactive = 0.75 } })
+hl.window_rule({ match = { tag = "browser" }, opacity = "0.99 0.8" })
+hl.window_rule({ match = { tag = "projects" }, opacity = "0.9 0.8" })
+hl.window_rule({ match = { tag = "im" }, opacity = "0.94 0.86" })
+hl.window_rule({ match = { tag = "multimedia" }, opacity = "0.94 0.86" })
+hl.window_rule({ match = { tag = "file-manager" }, opacity = "0.9 0.8" })
+hl.window_rule({ match = { tag = "terminal" }, opacity = "0.9 0.7" })
+hl.window_rule({ match = { tag = "settings" }, opacity = "0.8 0.7" })
+hl.window_rule({ match = { tag = "viewer" }, opacity = "0.82 0.75" })
+hl.window_rule({ match = { tag = "wallpaper" }, opacity = "0.9 0.7" })
+hl.window_rule({ match = { class = "^(gedit|org.gnome.TextEditor|mousepad)$" }, opacity = "0.8 0.7" })
+hl.window_rule({ match = { class = "^(deluge)$" }, opacity = "0.9 0.8" })
+hl.window_rule({ match = { class = "^(seahorse)$" }, opacity = "0.9 0.8" })
+hl.window_rule({ match = { title = "^(Picture-in-Picture)$" }, opacity = "0.95 0.75" })
 
 -- SIZE
-hl.window_rule({ match = { tag = "cheat" }, size = { width = "monitor_w*0.65", height = "monitor_h*0.9" } })
-hl.window_rule({ match = { tag = "wallpaper" }, size = { width = "monitor_w*0.7", height = "monitor_h*0.7" } })
-hl.window_rule({ match = { tag = "settings" }, size = { width = "monitor_w*0.7", height = "monitor_h*0.7" } })
-hl.window_rule({ match = { class = "^([Ff]erdium)$" }, size = { width = "monitor_w*0.6", height = "monitor_h*0.7" } })
+hl.window_rule({ match = { tag = "cheat" }, size = { "monitor_w*0.65", "monitor_h*0.9" } })
+hl.window_rule({ match = { tag = "wallpaper" }, size = { "monitor_w*0.7", "monitor_h*0.7" } })
+hl.window_rule({ match = { tag = "settings" }, size = { "monitor_w*0.7", "monitor_h*0.7" } })
+hl.window_rule({ match = { class = "^([Ff]erdium)$" }, size = { "monitor_w*0.6", "monitor_h*0.7" } })
 
 -- BLUR & FULLSCREEN
 hl.window_rule({ match = { tag = "games" }, no_blur = true, fullscreen = false })
@@ -168,7 +168,7 @@ hl.layer_rule({ match = { namespace = "quickshell:overview" }, ignore_alpha = 0.
 hl.window_rule({
     name = "Whatsapp-zapzap",
     match = { class = "^([Ww]hatsapp-for-linux|ZapZap|com.rtosta.zapzap)$" },
-    size = { width = "monitor_w*0.6", height = "monitor_h*0.7" },
+    size = { "monitor_w*0.6", "monitor_h*0.7" },
     center = true,
 })
 
@@ -177,10 +177,10 @@ hl.window_rule({
     match = { title = "^(Picture-in-Picture)$" },
     float = true,
     move = "72% 7%",
-    opacity = { active = 0.95, inactive = 0.75 },
+    opacity = "0.95 0.75",
     pin = true,
     keep_aspect_ratio = true,
-    size = { width = "monitor_w*0.3", height = "monitor_h*0.3" },
+    size = { "monitor_w*0.3", "monitor_h*0.3" },
 })
 
 -- Thunar copy progress dialog
@@ -189,5 +189,5 @@ hl.window_rule({
     match = { class = "^(thunar)$", title = "^(File Operation Progress)$" },
     float = true,
     center = true,
-    size = { width = "monitor_w*0.26", height = "monitor_h*0.18" },
+    size = { "monitor_w*0.26", "monitor_h*0.18" },
 })
