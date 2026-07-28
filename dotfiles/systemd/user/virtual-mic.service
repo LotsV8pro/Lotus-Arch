@@ -1,0 +1,11 @@
+[Unit]
+Description=Permanent PipeWire Virtual Microphone for OBS
+After=pipewire.service wireplumber.service
+
+[Service]
+Type=simple
+ExecStart=%h/.local/bin/virtual-mic
+Restart=always
+
+[Install]
+WantedBy=default.target
