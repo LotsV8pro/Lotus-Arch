@@ -276,8 +276,8 @@ EOF
 preset_mono() {
     cat > "$PALETTE" << 'EOF'
 # D̷E̷D̷S̷E̷C̷ Palette — Monochrome (Light Purple)
-primary=#B8B0C8
-primary_dim=#787088
+primary=#C4A8E2
+primary_dim=#8C7AA6
 primary_dark=#383048
 primary_light=#D8D0E8
 bg=#141218

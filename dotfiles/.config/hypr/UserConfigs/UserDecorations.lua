@@ -8,8 +8,8 @@ hl.config({
         gaps_out = 8,
         
         col = {
-            active_border = { colors = {"rgba(B8B0C8cc)", "rgba(787088cc)"}, angle = 135 },
-            inactive_border = { colors = {"rgba(B8B0C822)", "rgba(78708822)"}, angle = 135 },
+            active_border = { colors = {"rgba(C4A8E2cc)", "rgba(8C7AA6cc)"}, angle = 135 },
+            inactive_border = { colors = {"rgba(C4A8E222)", "rgba(8C7AA622)"}, angle = 135 },
         },
     },
 })
@@ -31,8 +31,8 @@ hl.config({
             enabled = true,
             range = 15,
             render_power = 3,
-            color = "rgba(B8B0C830)",
-            color_inactive = "rgba(78708815)",
+            color = "rgba(C4A8E230)",
+            color_inactive = "rgba(8C7AA615)",
             offset = "0, 4",
         },
         
@@ -56,14 +56,14 @@ hl.config({
 hl.config({
     group = {
         col = {
-            border_active = "rgba(B8B0C8cc)",
-            border_inactive = "rgba(78708833)",
+            border_active = "rgba(C4A8E2cc)",
+            border_inactive = "rgba(8C7AA633)",
         },
         
         groupbar = {
             col = {
-                active = "rgba(B8B0C8cc)",
-                inactive = "rgba(78708833)",
+                active = "rgba(C4A8E2cc)",
+                inactive = "rgba(8C7AA633)",
             },
             enabled = true,
         },

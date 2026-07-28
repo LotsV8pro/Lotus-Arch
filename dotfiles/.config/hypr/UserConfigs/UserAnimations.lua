@@ -4,7 +4,7 @@
 -- Animation curves
 hl.curve("dedsec", { type = "bezier", points = { {0.22, 0.61}, {0.36, 1.0} } })
 hl.curve("dedsec-fast", { type = "bezier", points = { {0.15, 0.8}, {0.3, 1.0} } })
-hl.curve("dedsec-spring", { type = "bezier", points = { {0.34, 1.56}, {0.64, 1.0} } })
+hl.curve("dedsec-spring", { type = "spring", mass = 1, stiffness = 71.2633, dampening = 15.8273644 })
 
 -- Animation settings
 hl.config({
