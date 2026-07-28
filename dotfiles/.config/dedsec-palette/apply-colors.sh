@@ -1280,7 +1280,114 @@ cat > "$HYPR_COLORS" << HYPR
 \$color15 = rgb(cccccc)
 HYPR
 
-# ── 6. Reload Everything ───────────────────────────────────────
+# ── 6. Rofi Palette Menu Theme ──────────────────────────────────
+ROFI_PALETTE="$HOME/.config/rofi/themes/dedsec-palette.rasi"
+BG_EE_PALETTE="${bg}ee"
+
+cat > "$ROFI_PALETTE" << ROSIPAL
+/* D̷E̷D̷S̷E̷C̷ — Compact Palette Menu (auto-generated) */
+
+configuration {
+    modi:               "drun";
+    show-icons:         false;
+    hover-select:       true;
+    me-select-entry:    "";
+    me-accept-entry:    "MousePrimary";
+}
+
+* {
+    bg:             ${BG_EE_PALETTE};
+    bg-alt:         ${bg_alt};
+    fg:             ${fg};
+    fg-dim:         ${fg_dim};
+    purple:         ${primary};
+    purple-dim:     ${primary_dim};
+    selected:       ${primary}33;
+    urgent:         ${red};
+}
+
+window {
+    width:              420px;
+    location:           center;
+    anchor:             center;
+    border:             1px;
+    border-color:       @purple;
+    border-radius:      8px;
+    background-color:   @bg;
+}
+
+mainbox {
+    children:           [ "inputbar", "listbox" ];
+    background-color:   @bg;
+    spacing:            0;
+    padding:            0;
+}
+
+inputbar {
+    children:           [ "textbox-prompt-colon", "entry" ];
+    background-color:   @bg-alt;
+    border:             1px;
+    border-color:       @purple-dim;
+    border-radius:      8px 8px 0 0;
+    padding:            8px 12px;
+    spacing:            8px;
+}
+
+textbox-prompt-colon {
+    expand:             false;
+    str:                " ";
+    text-color:         @purple;
+    background-color:   transparent;
+}
+
+entry {
+    text-color:         @fg;
+    background-color:   transparent;
+    placeholder:        "Search...";
+    placeholder-color:  @fg-dim;
+}
+
+listbox {
+    children:           [ "listview" ];
+    background-color:   @bg;
+    border:             1px;
+    border-color:       @purple-dim;
+    border-radius:      0 0 8px 8px;
+    border-top:         0;
+    padding:            4px;
+}
+
+listview {
+    lines:              12;
+    columns:            1;
+    fixed-height:       true;
+    scrollbar:          false;
+}
+
+element {
+    padding:            6px 10px;
+    border-radius:      6px;
+    spacing:            8px;
+}
+
+element selected {
+    background-color:   @selected;
+    text-color:         @purple;
+}
+
+element normal.normal {
+    text-color:         @fg;
+}
+
+textbox {
+    background-color:   @bg-alt;
+    text-color:         @purple;
+    vertical-align:     0.5;
+    horizontal-align:   0.0;
+}
+ROSIPAL
+
+# ── 7. Reload Everything ───────────────────────────────────────
 hyprctl reload 2>/dev/null || true
 killall waybar 2>/dev/null || true
 sleep 0.5
