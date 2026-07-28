@@ -99,6 +99,9 @@ hl.bind(mainMod .. " + W", hl.dsp.exec_cmd(user_scripts_dir .. "/WallpaperSelect
 -- Wallpaper effects
 hl.bind(mainMod .. " + SHIFT + W", hl.dsp.exec_cmd(user_scripts_dir .. "/WallpaperEffects.sh"))
 
+-- Quick Settings menu
+hl.bind(mainMod .. " + SHIFT + E", hl.dsp.exec_cmd(scripts_dir .. "/Quick_Settings.sh"), { description = "Quick Settings" })
+
 -- Random wallpaper
 hl.bind("CTRL + ALT + W", hl.dsp.exec_cmd(user_scripts_dir .. "/WallpaperRandom.sh"))
 
