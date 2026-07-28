@@ -1,0 +1,78 @@
+[{
+"include": [
+  "$HOME/.config/waybar/Modules",
+  "$HOME/.config/waybar/ModulesWorkspaces",
+  "$HOME/.config/waybar/ModulesCustom",
+  "$HOME/.config/waybar/ModulesGroups",
+  "$HOME/.config/waybar/UserModules",
+  ],
+"layer": "top",
+"exclusive": true,
+"passthrough": false,
+"position": "top",
+"spacing": 0,
+"fixed-center": true,
+"ipc": true,
+"height": 38,
+"margin-top": 0,
+"margin-left": 0,
+"margin-right": 0,
+
+"modules-left": [
+    "cpu",
+    "custom/gpu",
+    "memory",
+    "temperature",
+    ],
+
+"modules-center": [
+    "clock",
+    ],
+
+"modules-right": [
+    "mpris",
+    "pulseaudio",
+    "pulseaudio#microphone",
+    "bluetooth",
+    ],
+},
+
+{
+"include": [
+  "$HOME/.config/waybar/Modules",
+  "$HOME/.config/waybar/ModulesWorkspaces",
+  "$HOME/.config/waybar/ModulesCustom",
+  "$HOME/.config/waybar/ModulesGroups",
+  "$HOME/.config/waybar/UserModules",
+  ],
+"layer": "top",
+"exclusive": true,
+"passthrough": false,
+"position": "bottom",
+"spacing": 0,
+"fixed-center": true,
+"ipc": true,
+"height": 38,
+"margin-bottom": 0,
+"margin-left": 0,
+"margin-right": 0,
+
+"modules-left": [
+    "custom/menu",
+    "power-profiles-daemon",
+    "custom/nightlight",
+    ],
+
+"modules-center": [
+    "hyprland/workspaces#rw",
+    ],
+
+"modules-right": [
+    "hyprland/window",
+    "wlr/taskbar",
+    "tray",
+    "group/notify",
+    "custom/updater",
+    "custom/power",
+    ],
+}],

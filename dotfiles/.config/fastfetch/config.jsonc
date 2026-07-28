@@ -1,0 +1,96 @@
+{
+  "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/master/doc/json_schema.json",
+  "logo": {
+    "source": "$HOME/.config/fastfetch/dedsec.txt",
+    "padding": {
+      "top": 1,
+      "left": 2,
+      "right": 6
+    }
+  },
+  "display": {
+    "color": {
+      "keys": "#00ff41"
+    },
+    "separator": " → "
+  },
+  "modules": [
+    {
+      "type": "custom",
+      "format": "{#green} ▌D̷E̷D̷S̷E̷C̷▌ SYSTEM OVERRIDE{#}"
+    },
+    {
+      "type": "custom",
+      "format": "{#green} ┊{#}"
+    },
+    {
+      "type": "os",
+      "key": "{#green} ┊ OS{#}",
+      "keyColor": "green"
+    },
+    {
+      "type": "kernel",
+      "key": "{#green} ┊ KERNEL{#}",
+      "keyColor": "green"
+    },
+    {
+      "type": "custom",
+      "format": "{#green} ┊{#}"
+    },
+    {
+      "type": "cpu",
+      "key": "{#green} ┊ CPU{#}",
+      "keyColor": "green"
+    },
+    {
+      "type": "gpu",
+      "key": "{#green} ┊ GPU{#}",
+      "keyColor": "green"
+    },
+    {
+      "type": "custom",
+      "format": "{#green} ┊{#}"
+    },
+    {
+      "type": "shell",
+      "key": "{#green} ┊ SHELL{#}",
+      "keyColor": "green"
+    },
+    {
+      "type": "terminal",
+      "key": "{#green} ┊ TERMINAL{#}",
+      "keyColor": "green"
+    },
+    {
+      "type": "custom",
+      "format": "{#green} ┊{#}"
+    },
+    {
+      "type": "uptime",
+      "key": "{#green} ┊ UPTIME{#}",
+      "keyColor": "green"
+    },
+    {
+      "type": "loadavg",
+      "key": "{#green} ┊ LOAD{#}",
+      "keyColor": "green"
+    },
+    {
+      "type": "custom",
+      "format": "{#green} ┊{#}"
+    },
+    {
+      "type": "media",
+      "key": "{#green} ┊ MEDIA{#}",
+      "keyColor": "green"
+    },
+    {
+      "type": "custom",
+      "format": "{#green} ┊{#}"
+    },
+    {
+      "type": "custom",
+      "format": "{#green} ▌{#}{#green}[!] ACCESS GRANTED{#}"
+    }
+  ]
+}
