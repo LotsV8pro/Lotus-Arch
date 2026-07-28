@@ -1,19 +1,20 @@
 #!/bin/bash
-# ██████╗ ███████╗██╗   ██╗███████╗███╗   ██╗███████╗██████╗
-# ██╔══██╗██╔════╝██║   ██║██╔════╝████╗  ██║██╔════╝██╔══██╗
-# ██║  ██║█████╗  ██║   ██║█████╗  ██╔██╗ ██║█████╗  ██████╔╝
-# ██║  ██║██╔══╝  ╚██╗ ██╔╝██╔══╝  ██║╚██╗██║██╔══╝  ██╔══██╗
-# ██████╔╝███████╗ ╚████╔╝ ███████╗██║ ╚████║███████╗██║  ██║
-# ╚═════╝ ╚══════╝  ╚═══╝  ╚══════╝╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝
+# ██╗      ██████╗ ████████╗██╗   ██╗███████╗
+# ██║     ██╔═══██╗╚══██╔══╝██║   ██║██╔════╝
+# ██║     ██║   ██║   ██║   ██║   ██║███████╗
+# ██║     ██║   ██║   ██║   ██║   ██║╚════██║
+# ███████╗╚██████╔╝   ██║   ╚██████╔╝███████║
+# ╚══════╝ ╚═════╝    ╚═╝    ╚═════╝ ╚══════╝
 #
-# Arch DedSec - Hyprland Desktop Installer
+# Lotus-Arch - Hyprland Desktop Installer
 # NVIDIA RTX 4070 + i7-13700KF optimized
+# Lua-only Hyprland config (HyprGlass plugin ready)
 #
-# From minimal Arch to full DedSec desktop in one script.
+# From minimal Arch to full Lotus-Arch desktop in one script.
 #
 # Usage:
-#   git clone https://github.com/LotsV8pro/Arch-DedSec.git
-#   cd Arch-DedSec
+#   git clone https://github.com/LotsV8pro/Lotus-Arch.git
+#   cd Lotus-Arch
 #   chmod +x install.sh
 #   ./install.sh
 
@@ -35,17 +36,17 @@ print_banner() {
     echo -e "${MAGENTA}"
     cat << "EOF"
 
-  ██████╗ ███████╗██╗   ██╗███████╗███╗   ██╗███████╗██████╗
-  ██╔══██╗██╔════╝██║   ██║██╔════╝████╗  ██║██╔════╝██╔══██╗
-  ██║  ██║█████╗  ██║   ██║█████╗  ██╔██╗ ██║█████╗  ██████╔╝
-  ██║  ██║██╔══╝  ╚██╗ ██╔╝██╔══╝  ██║╚██╗██║██╔══╝  ██╔══██╗
-  ██████╔╝███████╗ ╚████╔╝ ███████╗██║ ╚████║███████╗██║  ██║
-  ╚═════╝ ╚══════╝  ╚═══╝  ╚══════╝╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝
+  ██╗      ██████╗ ████████╗██╗   ██╗███████╗
+  ██║     ██╔═══██╗╚══██╔══╝██║   ██║██╔════╝
+  ██║     ██║   ██║   ██║   ██║   ██║███████╗
+  ██║     ██║   ██║   ██║   ██║   ██║╚════██║
+  ███████╗╚██████╔╝   ██║   ╚██████╔╝███████║
+  ╚══════╝ ╚═════╝    ╚═╝    ╚═════╝ ╚══════╝
 
 EOF
     echo -e "${NC}"
-    echo -e "${CYAN}  Arch Linux + Hyprland | Full Desktop Environment${NC}"
-    echo -e "${CYAN}  https://github.com/LotsV8pro/Arch-DedSec${NC}"
+    echo -e "${CYAN}  Arch Linux + Hyprland | Lua Config | NVIDIA Ready${NC}"
+    echo -e "${CYAN}  https://github.com/LotsV8pro/Lotus-Arch${NC}"
     echo ""
 }
 
@@ -151,7 +152,8 @@ main() {
     run_phase 4 "04-services.sh"    "Enable Services"
     run_phase 5 "05-zsh.sh"         "ZSH Shell"
     run_phase 6 "06-dotfiles.sh"    "Deploy Dotfiles"
-    run_phase 7 "07-cleanup.sh"     "Final Cleanup"
+    run_phase 7 "08-plugins.sh"     "Hyprland Plugins (HyprGlass)"
+    run_phase 8 "07-cleanup.sh"     "Final Cleanup"
 
     echo ""
     echo -e "${GREEN}═══════════════════════════════════════════${NC}"

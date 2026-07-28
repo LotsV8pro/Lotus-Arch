@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Arctis Sound Manager
+Exec=arctis-sound-manager
+Hidden=true
+NoDisplay=false
+X-GNOME-Autostart-enabled=true
