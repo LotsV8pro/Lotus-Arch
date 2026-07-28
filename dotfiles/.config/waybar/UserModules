@@ -1,0 +1,14 @@
+//* ---- Custom User Modules ---- *//
+
+{
+
+"custom/gpu": {
+    "exec": "$HOME/.config/hypr/UserScripts/GpuUsage.sh",
+    "return-type": "json",
+    "interval": 3,
+    "format": "{}",
+    "tooltip": true,
+    "on-click-right": "nvidia-settings"
+},
+
+}

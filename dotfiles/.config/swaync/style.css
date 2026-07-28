@@ -1,0 +1,334 @@
+/* D̷E̷D̷S̷E̷C̷ Notifications — swaync (Purple) */
+
+@define-color bg rgba(13, 10, 26, 0.95);
+@define-color bg-alt #1a1030;
+@define-color fg #D4A5FF;
+@define-color fg-dim #7B6B9E;
+@define-color purple #B44AFF;
+@define-color purple-dim #7B2FBE;
+@define-color border #B44AFF44;
+@define-color red #ff4488;
+
+* {
+    font-family: "JetBrainsMono Nerd Font";
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.control-center .notification-row:focus,
+.control-center .notification-row:hover {
+    opacity: 1;
+    background: @bg;
+    border-radius: 10px;
+}
+
+.notification-row {
+    outline: none;
+}
+
+.notification {
+    background: @bg;
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: 1px solid @border;
+    border-left: 3px solid @purple;
+}
+
+.notification-default-action {
+    margin: 0;
+    padding: 0;
+    border-radius: 10px;
+}
+
+.close-button {
+    background: @red;
+    color: @bg;
+    text-shadow: none;
+    padding: 0;
+    border-radius: 50%;
+    margin-top: 4px;
+    margin-right: 4px;
+}
+
+.close-button:hover {
+    background: @red;
+    transition: all .15s ease-in-out;
+    border: none;
+}
+
+.notification-action {
+    border: 1px solid @border;
+    border-top: none;
+    border-radius: 0 0 10px 10px;
+}
+
+.notification-default-action:hover,
+.notification-action:hover {
+    color: @purple;
+    background: @bg;
+}
+
+.notification-default-action {
+    border-radius: 10px;
+    margin: 4px;
+}
+
+.notification-default-action:not(:only-child) {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.notification-action:first-child {
+    border-bottom-left-radius: 0;
+    background: @bg;
+}
+
+.notification-action:last-child {
+    border-bottom-right-radius: 0;
+    background: @bg-alt;
+}
+
+.inline-reply {
+    margin-top: 8px;
+}
+
+.inline-reply-entry {
+    background: @bg;
+    color: @fg;
+    caret-color: @fg;
+    border: 1px solid @border;
+    border-radius: 8px;
+}
+
+.inline-reply-button {
+    font-size: 0.5rem;
+    margin-left: 4px;
+    background: @bg;
+    border: 1px solid @border;
+    border-radius: 8px;
+    color: @fg;
+}
+
+.inline-reply-button:disabled {
+    background: initial;
+    color: @fg-dim;
+    border: 1px solid transparent;
+}
+
+.inline-reply-button:hover {
+    background: @purple;
+    color: @bg;
+}
+
+.body-image {
+    margin-top: 6px;
+    color: @fg;
+    border-radius: 8px;
+}
+
+.summary {
+    font-size: 1rem;
+    font-weight: bold;
+    background: transparent;
+    color: @purple;
+}
+
+.time {
+    font-size: 0.8rem;
+    font-weight: bold;
+    background: transparent;
+    color: @fg-dim;
+    text-shadow: none;
+    margin-right: 18px;
+}
+
+.body {
+    font-size: 1rem;
+    font-weight: bold;
+    background: transparent;
+    color: @fg;
+    text-shadow: none;
+}
+
+.control-center {
+    background: @bg;
+    border: 1px solid @purple-dim;
+    color: @fg;
+    border-radius: 12px;
+}
+
+.control-center-list {
+    background: transparent;
+}
+
+.control-center-list-placeholder {
+    opacity: 0.5;
+    color: @fg-dim;
+}
+
+.floating-notifications {
+    background: transparent;
+}
+
+.blank-window {
+    background: alpha(black, 0.1);
+}
+
+.widget-title {
+    color: @purple;
+    background: @bg-alt;
+    padding: 6px 10px;
+    margin: 4px;
+    font-size: 1rem;
+    border-radius: 8px;
+    border: 1px solid @border;
+}
+
+.widget-title > button {
+    font-size: 0.75rem;
+    color: @fg;
+    border-radius: 6px;
+    background: transparent;
+    border: 1px solid @border;
+}
+
+.widget-title > button:hover {
+    background: @purple;
+    color: @bg;
+}
+
+.widget-dnd {
+    background: @bg-alt;
+    padding: 6px 10px;
+    margin: 4px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    color: @fg;
+    border: 1px solid @border;
+}
+
+.widget-dnd > switch {
+    border-radius: 12px;
+    border: 1px solid @purple-dim;
+    background: @bg-alt;
+}
+
+.widget-dnd > switch:checked {
+    background: @purple;
+    border: 1px solid @purple;
+}
+
+.widget-dnd > switch slider {
+    background: @bg;
+    border-radius: 50%;
+}
+
+.widget-dnd > switch:checked slider {
+    background: @bg;
+    border-radius: 50%;
+}
+
+.widget-label {
+    margin: 4px;
+}
+
+.widget-label > label {
+    font-size: 1rem;
+    color: @fg;
+}
+
+.widget-mpris {
+    color: @fg;
+    background: @bg;
+    padding: 6px 10px;
+    margin: 4px;
+    border-radius: 8px;
+    border: 1px solid @border;
+}
+
+.widget-mpris > box > button {
+    border-radius: 8px;
+}
+
+.widget-mpris-player {
+    padding: 6px 10px;
+    margin: 4px;
+}
+
+.widget-mpris-title {
+    font-weight: bold;
+    font-size: 1rem;
+    color: @purple;
+}
+
+.widget-mpris-subtitle {
+    font-size: 0.75rem;
+    color: @fg-dim;
+}
+
+.widget-buttons-grid {
+    font-size: large;
+    color: @purple;
+    padding: 6px;
+    margin: 4px;
+    border-radius: 8px;
+    background: @bg-alt;
+    border: 1px solid @border;
+}
+
+.widget-buttons-grid > flowbox > flowboxchild > button {
+    margin: 2px;
+    background: @bg;
+    border-radius: 8px;
+    color: @fg;
+    border: 1px solid transparent;
+}
+
+.widget-buttons-grid > flowbox > flowboxchild > button:hover {
+    background: @purple;
+    color: @bg;
+}
+
+.widget-menubar > box > .menu-button-bar > button {
+    border: none;
+    background: transparent;
+}
+
+.topbar-buttons > button {
+    border: none;
+    background: transparent;
+}
+
+.widget-volume {
+    background: @bg-alt;
+    padding: 6px;
+    margin: 8px;
+    border-radius: 10px;
+    font-size: x-large;
+    color: @fg;
+    border: 1px solid @border;
+}
+
+.widget-volume > box > button {
+    background: @purple;
+    border: none;
+    color: @bg;
+}
+
+.per-app-volume {
+    background-color: @bg;
+    padding: 6px 10px 10px;
+    margin: 0 8px 8px;
+    border-radius: 10px;
+    color: @fg;
+}
+
+.widget-backlight {
+    background: @bg-alt;
+    padding: 6px;
+    margin: 8px;
+    border-radius: 10px;
+    font-size: x-large;
+    color: @fg;
+    border: 1px solid @border;
+}

@@ -1,0 +1,121 @@
+/* Waybar Workspaces modules */
+
+/* D̷E̷D̷S̷E̷C̷ — workspace styles */
+
+{
+// ── Default: Clean Number Pill Style ─────────────────────────
+"hyprland/workspaces": {
+	"active-only": false,
+	"all-outputs": false,
+	"format": "{name}",
+	"show-special": false,
+	"on-click": "activate",
+	"on-scroll-up": "hyprctl dispatch workspace e+1",
+	"on-scroll-down": "hyprctl dispatch workspace e-1",
+	"sort-by-number": true,
+	"persistent-workspaces": {
+		"DP-2": 5,
+		"HDMI-A-1": 5
+	},
+},
+
+// CIRCLES Style
+"hyprland/workspaces#circles": {
+	"active-only": false,
+	"all-outputs": true,
+	"format": "{icon}",
+	"show-special": false,
+	"on-click": "activate",
+	"on-scroll-up": "hyprctl dispatch workspace e+1",
+	"on-scroll-down": "hyprctl dispatch workspace e-1",
+    "persistent-workspaces": {
+      "*": 5
+	},
+	"format-icons": {
+		"active": "",
+		"default": "",
+	},
+},
+
+// ROMAN Numerals style
+"hyprland/workspaces#roman": {
+	"active-only": false,
+	"all-outputs": true,
+	"format": "{icon}",
+	"show-special": false,
+	"on-click": "activate",
+	"on-scroll-up": "hyprctl dispatch workspace e+1",
+	"on-scroll-down": "hyprctl dispatch workspace e-1",
+    "persistent-workspaces": {
+      "*": 5
+	},
+	"format-icons": {
+		"1": "I",
+		"2": "II",
+		"3": "III",
+		"4": "IV",
+		"5": "V",
+		"6": "VI",
+		"7": "VII",
+		"8": "VIII",
+		"9": "IX",
+		"10": "X",
+	},
+},
+
+// Kanji / Japanese style
+"hyprland/workspaces#kanji": {
+	"disable-scroll": true,
+	"show-special": false,
+	"all-outputs": true,
+	"format": "{icon}",
+    "persistent-workspaces": {
+      "*": 5
+	},
+	"format-icons": {
+		"1": "一",
+		"2": "二",
+		"3": "三",
+		"4": "四",
+		"5": "五",
+		"6": "六",
+		"7": "七",
+		"8": "八",
+		"9": "九",
+		"10": "十",
+	}
+},
+
+// NUMBERS and ICONS with window rewrite
+"hyprland/workspaces#rw": {
+	"disable-scroll": true,
+	"all-outputs": true,
+	"warp-on-scroll": false,
+	"sort-by-number": true,
+	"show-special": false,
+	"on-click": "activate",
+	"on-scroll-up": "hyprctl dispatch workspace e+1",
+	"on-scroll-down": "hyprctl dispatch workspace e-1",
+	"persistent-workspaces": {
+		"*": 5
+	  },
+	"format": "{icon} {windows}",
+	"format-window-separator": " ",
+	"window-rewrite-default": " ",
+	"window-rewrite": {
+		"class<firefox|org.mozilla.firefox|librewolf|floorp|mercury-browser|[Cc]achy-browser>": " ",
+		"class<zen>": "󰰷 ",
+		"class<Chromium|Thorium|[Cc]hrome>": " ",
+		"class<kitty|konsole|[Aa]lacritty>": " ",
+		"class<com.mitchellh.ghostty>": " ",
+		"class<discord|discord-canary|[Ww]ebcord|[Vv]esktop|com.discordapp.Discord|dev.vencord.Vesktop>": " ",
+		"class<[Ss]ignal|signal-desktop|org.signal.Signal>": "󰍩 ",
+		"class<mpv>": " ",
+		"class<[Ss]potify>": " ",
+		"class<VSCode|code|code-url-handler|code-oss|codium|codium-url-handler|VSCodium>": "󰨞 ",
+		"class<obs|com.obsproject.Studio>": " ",
+		"class<steam>": " ",
+		"class<thunar|nemo>": "󰝰 ",
+	}
+},
+}

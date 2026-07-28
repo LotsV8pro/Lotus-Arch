@@ -1,0 +1,286 @@
+/* ═══════════════════════════════════════════════════════════════
+   D̷E̷D̷S̷E̷C̷  — Waybar Theme (Purple / Modern)
+   ═══════════════════════════════════════════════════════════════ */
+
+@define-color dedsec-purple #B44AFF;
+@define-color dedsec-purple-dim #7B2FBE;
+@define-color dedsec-purple-dark #4a1d80;
+@define-color dedsec-light #D4A5FF;
+@define-color dedsec-pink #ff66cc;
+@define-color dedsec-bg #0d0a1a;
+@define-color dedsec-bg-alt #1a1030;
+@define-color dedsec-bg-module #130f24;
+@define-color dedsec-border #B44AFF;
+@define-color dedsec-text #D4A5FF;
+@define-color dedsec-text-dim #7B6B9E;
+@define-color dedsec-red #ff4488;
+@define-color dedsec-yellow #ffcc00;
+
+* {
+    font-family: "JetBrainsMono Nerd Font";
+    font-weight: bold;
+    min-height: 0;
+    font-size: 95%;
+}
+
+/* ── Bar ──────────────────────────────────────────────────────── */
+window#waybar {
+    background: rgba(13, 10, 26, 0.92);
+    border-bottom: 1px solid @dedsec-border;
+    color: @dedsec-text;
+}
+
+window#waybar.hidden {
+    opacity: 0.3;
+}
+
+tooltip {
+    background: @dedsec-bg;
+    border: 1px solid @dedsec-purple-dim;
+    color: @dedsec-text;
+    border-radius: 8px;
+}
+
+tooltip label {
+    color: @dedsec-text;
+}
+
+/* ── Modules containers ───────────────────────────────────────── */
+.modules-left,
+.modules-right {
+    background: @dedsec-bg-module;
+    border: 1px solid @dedsec-border;
+    border-radius: 10px;
+    padding: 0 8px;
+}
+
+.modules-center {
+    background: @dedsec-bg-module;
+    border: 1px solid @dedsec-border;
+    border-radius: 10px;
+    padding: 0 8px;
+}
+
+/* ── Workspaces ───────────────────────────────────────────────── */
+#workspaces button {
+    color: @dedsec-text-dim;
+    background: transparent;
+    border: none;
+    border-radius: 6px;
+    padding: 2px 10px;
+    margin: 3px 2px;
+    font-weight: bold;
+    transition: all 0.25s ease;
+}
+
+#workspaces button.active {
+    color: @dedsec-bg;
+    background: @dedsec-purple;
+    border-radius: 6px;
+    box-shadow: 0 0 12px @dedsec-purple-dim;
+}
+
+#workspaces button:hover {
+    color: @dedsec-bg;
+    background: @dedsec-purple-dim;
+}
+
+#workspaces button.urgent {
+    color: @dedsec-bg;
+    background: @dedsec-red;
+}
+
+/* ── All modules ──────────────────────────────────────────────── */
+#clock,
+#cpu,
+#memory,
+#disk,
+#temperature,
+#battery,
+#bluetooth,
+#network,
+#pulseaudio,
+#backlight,
+#tray,
+#window,
+#idle_inhibitor,
+#keyboard-state,
+#power-profiles-daemon,
+#mpris,
+#custom-menu,
+#custom-power,
+#custom-lock,
+#custom-light_dark,
+#custom-cycle_wall,
+#custom-nightlight,
+#custom-updater,
+#custom-weather,
+#custom-swaync,
+#custom-playerctl,
+#custom-spotify,
+#taskbar button,
+#wireplumber,
+#custom-cava_mviz,
+#custom-hypridle,
+#custom-hint,
+#custom-hyprpicker,
+#custom-browser,
+#custom-file_manager,
+#custom-keybinds,
+#custom-keyboard,
+#custom-quit,
+#custom-reboot,
+#custom-settings,
+#custom-tty,
+#custom-dot_update,
+#custom-power_vertical {
+    color: @dedsec-text;
+    padding: 0 8px;
+    margin: 3px 0;
+}
+
+/* ── Clock ────────────────────────────────────────────────────── */
+#clock {
+    color: @dedsec-purple;
+    font-weight: bold;
+    border-left: 1px solid @dedsec-border;
+    border-right: 1px solid @dedsec-border;
+}
+
+/* ── CPU ──────────────────────────────────────────────────────── */
+#cpu {
+    color: @dedsec-text;
+}
+
+/* ── Memory ───────────────────────────────────────────────────── */
+#memory {
+    color: @dedsec-text-dim;
+}
+
+/* ── Temperature ──────────────────────────────────────────────── */
+#temperature {
+    color: @dedsec-text;
+}
+
+#temperature.critical {
+    color: @dedsec-red;
+}
+
+/* ── Battery ──────────────────────────────────────────────────── */
+#battery {
+    color: @dedsec-text;
+}
+
+#battery.critical:not(.charging) {
+    color: @dedsec-red;
+}
+
+/* ── Network ──────────────────────────────────────────────────── */
+#network {
+    color: @dedsec-text;
+}
+
+#network.disconnected {
+    color: @dedsec-red;
+}
+
+/* ── Bluetooth ────────────────────────────────────────────────── */
+#bluetooth {
+    color: @dedsec-text;
+}
+
+#bluetooth.disabled,
+#bluetooth.off {
+    color: @dedsec-text-dim;
+}
+
+/* ── Audio ────────────────────────────────────────────────────── */
+#pulseaudio {
+    color: @dedsec-text;
+}
+
+#pulseaudio.muted {
+    color: @dedsec-text-dim;
+    opacity: 0.5;
+}
+
+/* ── Tray ─────────────────────────────────────────────────────── */
+#tray {
+    color: @dedsec-text-dim;
+}
+
+/* ── Taskbar ──────────────────────────────────────────────────── */
+#taskbar button {
+    color: @dedsec-text-dim;
+    border-radius: 6px;
+    padding: 0 8px;
+    margin: 2px 2px;
+}
+
+#taskbar button.active {
+    color: @dedsec-bg;
+    background: @dedsec-purple-dim;
+}
+
+#taskbar button:hover {
+    color: @dedsec-bg;
+    background: @dedsec-purple-dark;
+}
+
+/* ── Window title ─────────────────────────────────────────────── */
+#window {
+    color: @dedsec-text-dim;
+    font-style: italic;
+}
+
+/* ── Idle inhibitor ───────────────────────────────────────────── */
+#idle_inhibitor.activated {
+    color: @dedsec-purple;
+}
+
+#idle_inhibitor.deactivated {
+    color: @dedsec-text-dim;
+    opacity: 0.5;
+}
+
+#custom-hypridle.notactive {
+    color: @dedsec-purple;
+}
+
+/* ── Power profiles ───────────────────────────────────────────── */
+#power-profiles-daemon {
+    color: @dedsec-text;
+}
+
+/* ── MPRIS ────────────────────────────────────────────────────── */
+#mpris {
+    color: @dedsec-text-dim;
+}
+
+/* ── Sliders ──────────────────────────────────────────────────── */
+#backlight-slider slider,
+#pulseaudio-slider slider {
+    min-width: 0px;
+    min-height: 0px;
+    opacity: 0;
+    background-image: none;
+    border: none;
+    box-shadow: none;
+}
+
+#backlight-slider trough,
+#pulseaudio-slider trough {
+    min-width: 80px;
+    min-height: 4px;
+    border-radius: 4px;
+    background-color: @dedsec-bg-alt;
+    border: 1px solid @dedsec-border;
+}
+
+#backlight-slider highlight,
+#pulseaudio-slider highlight {
+    min-height: 4px;
+    border-radius: 4px;
+    background-color: @dedsec-purple-dim;
+    box-shadow: 0 0 6px @dedsec-purple-dark;
+}
