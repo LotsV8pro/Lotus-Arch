@@ -1,0 +1,222 @@
+/* M̷O̷N̷O̷C̷H̷R̷O̷M̷E̷ — Minimalistic Floating Pill (Dynamic Island) */
+/* Colors auto-generated from dedsec palette — do not edit manually */
+
+@define-color primary #C4A8E2;
+@define-color primary-dim #8C7AA6;
+@define-color primary-dark #383048;
+@define-color primary-light #D8D0E8;
+@define-color bg #141218;
+@define-color bg-alt #1C1A22;
+@define-color bg-light #282430;
+@define-color fg #D8D0E8;
+@define-color fg-dim #887898;
+@define-color border #383048;
+@define-color border-light #504860;
+@define-color red #C8B8C8;
+@define-color orange #D0C0C8;
+@define-color yellow #E0D8E8;
+@define-color coral #C8B8C0;
+@define-color green #C0D0C0;
+@define-color teal #B8D0C8;
+@define-color cyan #B8C0D0;
+@define-color blue #B8B8D0;
+@define-color indigo #9080A8;
+@define-color lavender #C8B8D8;
+@define-color magenta #D0B8D0;
+
+* {
+    font-family: "JetBrainsMono Nerd Font";
+    font-weight: 600;
+    min-height: 0;
+    font-size: 92%;
+}
+
+window#waybar,
+window#waybar.empty,
+window#waybar.empty #window {
+    background-color: transparent;
+    padding: 0;
+    border: none;
+}
+
+.modules-left,
+.modules-center,
+.modules-right {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* ── Floating Pill Modules ── */
+#custom-menu,
+#mpris,
+#custom-weather,
+#clock,
+#workspaces,
+#pulseaudio,
+#network,
+#battery,
+#bluetooth,
+#custom-swaync,
+#tray,
+#cpu,
+#memory,
+#temperature,
+#custom-powerprofiles,
+#idle_inhibitor {
+    background-color: rgba(28, 26, 34, 0.88);
+    color: @fg;
+    border-radius: 20px;
+    padding: 6px 20px;
+    margin: 6px 4px;
+    border: 1px solid rgba(20, 18, 24, 0.15);
+    transition: all 200ms ease;
+}
+
+#custom-menu:hover,
+#mpris:hover,
+#custom-weather:hover,
+#clock:hover,
+#workspaces:hover,
+#pulseaudio:hover,
+#network:hover,
+#battery:hover,
+#bluetooth:hover,
+#custom-swaync:hover,
+#cpu:hover,
+#memory:hover,
+#temperature:hover,
+#custom-powerprofiles:hover,
+#idle_inhibitor:hover {
+    background-color: rgba(28, 26, 34, 0.92);
+    border-color: rgba(28, 26, 34, 0.3);
+}
+
+/* ── Module Colors ── */
+#custom-menu {
+    color: @primary-light;
+    font-size: 1.15em;
+    padding: 6px 18px;
+}
+
+#clock {
+    color: @primary-light;
+    font-size: 1.05em;
+    font-weight: 700;
+    padding: 6px 22px;
+}
+
+#mpris {
+    color: @primary;
+    min-width: 100px;
+    padding: 6px 18px;
+}
+
+#workspaces {
+    color: @fg-dim;
+    padding: 6px 12px;
+}
+
+#pulseaudio             { color: @teal; }
+#pulseaudio.muted       { color: @fg-dim; }
+#network                { color: @cyan; }
+#network.disconnected   { color: @fg-dim; }
+#battery                { color: @green; }
+#battery.full           { color: @primary-light; }
+#battery.charging       { color: @primary; }
+#battery.warning:not(.charging) { color: @orange; }
+#battery.critical:not(.charging) {
+    color: @primary-light;
+    animation-name: blink;
+    animation-duration: 2s;
+    animation-timing-function: steps(10);
+    animation-iteration-count: infinite;
+}
+
+@keyframes blink {
+    to { color: @fg-dim; }
+}
+
+#bluetooth              { color: @indigo; }
+#bluetooth.disabled,
+#bluetooth.off          { color: @fg-dim; }
+#cpu                    { color: @primary; }
+#memory                 { color: @primary; }
+#temperature            { color: @primary; }
+#temperature.critical   { color: @primary-light; }
+#custom-swaync          { color: @lavender; }
+#custom-weather         { color: @cyan; }
+#custom-powerprofiles   { color: @teal; }
+#idle_inhibitor         { color: @fg-dim; }
+#idle_inhibitor.activated { color: @primary-light; }
+#tray                   { color: @fg-dim; }
+#window                 { color: @fg-dim; font-style: italic; }
+
+/* ── Workspaces Buttons ── */
+#workspaces button {
+    padding: 0px 8px;
+    color: @fg-dim;
+    background-color: transparent;
+    border: none;
+    border-radius: 12px;
+    min-width: 20px;
+    margin: 2px 1px;
+    transition: all 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+#workspaces button.active {
+    color: @bg;
+    background-color: @primary-light;
+    border-radius: 12px;
+    min-width: 30px;
+}
+
+#workspaces button:hover {
+    color: @bg;
+    background-color: @primary-dim;
+}
+
+#workspaces button.urgent {
+    color: @bg;
+    background-color: @primary-light;
+}
+
+/* ── Tooltip ── */
+tooltip {
+    background-color: rgba(28, 26, 34, 0.94);
+    border: 1px solid @border;
+    color: @fg;
+    border-radius: 14px;
+    padding: 6px 10px;
+}
+
+tooltip label { color: @fg; }
+
+#tray > .passive { -gtk-icon-effect: dim; }
+#tray > .needs-attention { -gtk-icon-effect: highlight; }
+
+/* ── Slider ── */
+#pulseaudio-slider slider,
+#backlight-slider slider {
+    min-width: 0px;
+    min-height: 0px;
+    opacity: 0;
+    background-image: none;
+    border: none;
+}
+
+#pulseaudio-slider trough,
+#backlight-slider trough {
+    min-width: 80px;
+    min-height: 4px;
+    border-radius: 4px;
+    background-color: rgba(20, 18, 24, 0.15);
+}
+
+#pulseaudio-slider highlight,
+#backlight-slider highlight {
+    min-height: 4px;
+    border-radius: 4px;
+    background-color: @primary;
+}
