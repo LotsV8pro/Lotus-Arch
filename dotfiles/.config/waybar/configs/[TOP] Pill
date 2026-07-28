@@ -1,0 +1,38 @@
+// ### D̷E̷D̷S̷E̷C̷ — Top Pill Layout (Floating) ### //
+{
+"include": [
+  "$HOME/.config/waybar/Modules",
+  "$HOME/.config/waybar/ModulesWorkspaces",
+  "$HOME/.config/waybar/ModulesCustom",
+  "$HOME/.config/waybar/ModulesGroups",
+  "$HOME/.config/waybar/UserModules",
+  ],
+"layer": "top",
+"exclusive": true,
+"passthrough": false,
+"position": "top",
+"spacing": 0,
+"fixed-center": true,
+"ipc": true,
+"height": 48,
+"margin-top": 6,
+"margin-left": 0,
+"margin-right": 0,
+
+"modules-left": [
+    "custom/launcher",
+    "clock",
+    "custom/updates",
+    ],
+
+"modules-center": [
+    "hyprland/workspaces",
+    ],
+
+"modules-right": [
+    "pulseaudio",
+    "network",
+    "battery",
+    "custom/notification",
+    ],
+}

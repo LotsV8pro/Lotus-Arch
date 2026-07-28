@@ -1,0 +1,180 @@
+/* D̷E̷D̷S̷E̷C̷ — Waybar (Flat Purple) */
+
+@define-color purple #B8B0C8;
+@define-color purple-dim #787088;
+@define-color purple-dark #383048;
+@define-color purple-light #D8D0E8;
+@define-color bg #141218;
+@define-color bg-alt #1C1A22;
+@define-color bg-light #282430;
+@define-color border #383048;
+@define-color border-light #504860;
+@define-color text #D8D0E8;
+@define-color text-dim #887898;
+@define-color red #C8B8C8;
+@define-color green #C0D0C0;
+@define-color cyan #B8C0D0;
+@define-color orange #D0C0C8;
+@define-color pink #D0B8D0;
+@define-color teal #B8D0C8;
+@define-color magenta #D0B8D0;
+@define-color indigo #9080A8;
+@define-color coral #C8B8C0;
+@define-color lavender #C8B8D8;
+@define-color neon-green #D0E8D0;
+@define-color neon-cyan #D0E0E8;
+@define-color neon-pink #E8D0D8;
+
+* {
+    font-family: "JetBrainsMono Nerd Font";
+    font-weight: bold;
+    min-height: 0;
+    font-size: 90%;
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
+window#waybar {
+    background: @bg;
+}
+
+tooltip {
+    background: @bg-alt;
+    border: 1px solid @border;
+    color: @text;
+    border-radius: 8px;
+    padding: 4px 8px;
+}
+
+tooltip label {
+    color: @text;
+}
+
+.modules-left,
+.modules-right,
+.modules-center {
+    background: transparent;
+    padding: 0 4px;
+}
+
+#workspaces button {
+    color: @text-dim;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    padding: 4px 12px;
+    min-width: 24px;
+    font-size: 115%;
+}
+
+#workspaces button.active {
+    color: @bg;
+    background: @purple;
+    min-width: 36px;
+}
+
+#workspaces button:hover {
+    color: @bg;
+    background: @purple-dim;
+}
+
+#workspaces button.urgent {
+    color: @bg;
+    background: @red;
+}
+
+#cpu,
+#custom-gpu,
+#memory,
+#temperature,
+#clock,
+#mpris,
+#pulseaudio,
+#bluetooth,
+#window,
+#tray,
+#power-profiles-daemon,
+#custom-menu,
+#custom-updater,
+#custom-power,
+#custom-lock,
+#custom-nightlight {
+    color: @text;
+    padding: 0 8px;
+}
+
+#cpu                    { color: @cyan; }
+#custom-gpu             { color: @green; }
+#memory                 { color: @orange; }
+#temperature            { color: @text; }
+#temperature.critical   { color: @red; }
+#clock                  { color: @purple; font-size: 1.05em; }
+#mpris                  { color: @pink; font-size: 115%; }
+#pulseaudio             { color: @teal; }
+#pulseaudio.muted       { color: @text-dim; opacity: 0.5; }
+#bluetooth              { color: @indigo; }
+#bluetooth.disabled,
+#bluetooth.off          { color: @text-dim; opacity: 0.5; }
+#window                 { color: @text-dim; font-style: italic; }
+#power-profiles-daemon  { color: @green; }
+#custom-menu            { color: @purple; font-size: 1.15em; }
+#custom-updater         { color: @green; }
+#custom-power           { color: @coral; }
+#custom-lock            { color: @lavender; }
+#custom-nightlight      { color: @orange; }
+
+#wlr-taskbar {
+    color: @text;
+    padding: 0 8px;
+}
+
+#wlr-taskbar button {
+    color: @text-dim;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    padding: 4px 8px;
+    min-width: 20px;
+}
+
+#wlr-taskbar button.active {
+    color: @bg;
+    background: @purple-dim;
+    min-width: 36px;
+}
+
+#wlr-taskbar button:hover {
+    color: @bg;
+    background: @purple-dark;
+}
+
+#tray {
+    color: @text-dim;
+}
+
+#group-notify {
+    background: transparent;
+    margin: 0;
+    padding: 0;
+}
+
+#pulseaudio-slider slider {
+    min-width: 0px;
+    min-height: 0px;
+    opacity: 0;
+    background-image: none;
+    border: none;
+}
+
+#pulseaudio-slider trough {
+    min-width: 80px;
+    min-height: 4px;
+    border-radius: 4px;
+    background-color: @bg-alt;
+}
+
+#pulseaudio-slider highlight {
+    min-height: 4px;
+    border-radius: 4px;
+    background-color: @purple;
+}

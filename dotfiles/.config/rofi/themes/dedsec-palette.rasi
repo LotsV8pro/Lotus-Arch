@@ -1,0 +1,95 @@
+/* D̷E̷D̷S̷E̷C̷ — Compact Palette Menu */
+
+configuration {
+    modi:               "drun";
+    show-icons:         false;
+    hover-select:       true;
+    me-select-entry:    "";
+    me-accept-entry:    "MousePrimary";
+}
+
+* {
+    bg:             #0d0a1aee;
+    bg-alt:         #1a1030;
+    fg:             #D4A5FF;
+    purple:         #B44AFF;
+    purple-dim:     #7B2FBE;
+    selected:       #B44AFF33;
+    urgent:         #ff4488;
+}
+
+window {
+    width:              420px;
+    location:           center;
+    anchor:             center;
+    border:             1px;
+    border-color:       @purple;
+    border-radius:      8px;
+    background-color:   @bg;
+}
+
+mainbox {
+    children:           [ "inputbar", "listview" ];
+    background-color:   @bg;
+    spacing:            0;
+    padding:            0;
+}
+
+inputbar {
+    children:           [ "textbox-prompt-colon", "entry" ];
+    background-color:   @bg-alt;
+    border:             1px;
+    border-color:       @purple-dim;
+    border-radius:      8px 8px 0 0;
+    padding:            8px 12px;
+    spacing:            8px;
+}
+
+textbox-prompt-colon {
+    str:                " ";
+    text-color:         @purple;
+    background-color:   transparent;
+}
+
+entry {
+    text-color:         @fg;
+    background-color:   transparent;
+    cursor:             text;
+}
+
+listview {
+    columns:            1;
+    lines:              15;
+    fixed-height:       false;
+    scrollbar:          false;
+    spacing:            0px;
+    padding:            4px;
+    background-color:   @bg;
+}
+
+element {
+    padding:            6px 10px;
+    margin:             0px 2px;
+    cursor:             pointer;
+    background-color:   transparent;
+    border-radius:      4px;
+}
+
+element normal {
+    text-color:         @fg;
+}
+
+element selected {
+    background-color:   @selected;
+    text-color:         @purple;
+    border:             1px;
+    border-color:       @purple-dim;
+}
+
+element-text {
+    background-color:   transparent;
+    text-color:         inherit;
+    cursor:             inherit;
+    vertical-align:     0.5;
+    horizontal-align:   0;
+}

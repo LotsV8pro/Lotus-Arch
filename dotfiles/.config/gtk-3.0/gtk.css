@@ -1,0 +1,186 @@
+/* D̷E̷D̷S̷E̷C̷ — GTK3 Thunar Theme (Pill / Rounded) */
+@define-color dedsec-purple    #B8B0C8;
+@define-color dedsec-purple-dim #787088;
+@define-color dedsec-purple-dark #383048;
+@define-color dedsec-bg        #141218;
+@define-color dedsec-bg-alt    #1C1A22;
+@define-color dedsec-bg-light  #282430;
+@define-color dedsec-fg        #D8D0E8;
+@define-color dedsec-fg-dim    #887898;
+@define-color dedsec-border    #383048;
+@define-color dedsec-red       #C8B8C8;
+@define-color dedsec-green     #C0D0C0;
+@define-color dedsec-cyan      #B8C0D0;
+
+.thunar .view, .thunar iconview, .thunar .thunar-wallpaper,
+.thunar scrolledwindow, .thunar {
+    background-color: @dedsec-bg; color: @dedsec-fg;
+}
+
+.thunar headerbar, .thunar .titlebar {
+    background-color: @dedsec-bg-alt; border-bottom: 1px solid @dedsec-border;
+    border-radius: 0; padding: 4px 8px; min-height: 38px;
+}
+.thunar headerbar title, .thunar headerbar label { color: @dedsec-fg; font-weight: bold; }
+
+.thunar .sidebar {
+    background-color: @dedsec-bg-alt; border-right: 1px solid @dedsec-border; padding: 6px;
+}
+.thunar .sidebar .view, .thunar .sidebar treeview {
+    background-color: transparent; color: @dedsec-fg; border: none; outline: none; font-weight: bold;
+}
+.thunar .sidebar .sidebar-label {
+    color: @dedsec-fg-dim; font-size: 0.85em; font-weight: bold; padding: 8px 12px 4px 12px; letter-spacing: 1px;
+}
+.thunar .sidebar row, .thunar .sidebar treeview row {
+    padding: 2px 4px; margin: 1px 4px; border-radius: 12px; min-height: 32px; transition: all 200ms ease;
+}
+.thunar .sidebar row:hover, .thunar .sidebar treeview row:hover {
+    background-color: rgba(184, 176, 200, 0.12); border-radius: 12px;
+}
+.thunar .sidebar row:selected, .thunar .sidebar treeview row:selected {
+    background-color: rgba(184, 176, 200, 0.25); color: @dedsec-purple; border-radius: 12px;
+    border: 1px solid rgba(184, 176, 200, 0.3);
+}
+.thunar .sidebar row:selected label, .thunar .sidebar treeview row:selected label { color: @dedsec-purple; font-weight: bold; }
+.thunar .sidebar row:selected image, .thunar .sidebar treeview row:selected image { color: @dedsec-purple; }
+.thunar .sidebar row image, .thunar .sidebar treeview row image { color: @dedsec-fg-dim; padding-right: 8px; }
+
+.thunar toolbar, .thunar .toolbar {
+    background-color: @dedsec-bg-alt; border-bottom: 1px solid @dedsec-border; padding: 4px 8px; border-radius: 0;
+}
+.thunar toolbar button, .thunar .toolbar button {
+    background-color: transparent; color: @dedsec-fg; border: 1px solid transparent;
+    border-radius: 12px; padding: 4px 10px; min-width: 32px; min-height: 32px; transition: all 200ms ease;
+}
+.thunar toolbar button:hover, .thunar .toolbar button:hover {
+    background-color: rgba(184, 176, 200, 0.15); border-color: @dedsec-border; color: @dedsec-purple;
+}
+
+.thunar .path-bar button {
+    background-color: rgba(28, 26, 34, 0.6); color: @dedsec-fg;
+    border: 1px solid @dedsec-border; border-radius: 12px; padding: 4px 14px; margin: 2px 2px; min-height: 28px;
+    transition: all 200ms ease;
+}
+.thunar .path-bar button:hover {
+    background-color: rgba(184, 176, 200, 0.2); border-color: @dedsec-purple-dim; color: @dedsec-purple;
+}
+.thunar .path-bar button:checked, .thunar .path-bar button:last-child {
+    background-color: rgba(184, 176, 200, 0.25); color: @dedsec-purple; border-color: @dedsec-purple;
+}
+
+.thunar .search-bar entry, .thunar entry.search {
+    background-color: @dedsec-bg; color: @dedsec-fg; border: 1px solid @dedsec-border;
+    border-radius: 16px; padding: 4px 14px; min-height: 30px; caret-color: @dedsec-purple;
+}
+.thunar .search-bar entry:focus, .thunar entry.search:focus {
+    border-color: @dedsec-purple; box-shadow: 0 0 0 2px rgba(184, 176, 200, 0.2);
+}
+
+.thunar .view header button, .thunar GtkTreeViewHeaderButton {
+    background-color: @dedsec-bg-alt; color: @dedsec-fg-dim;
+    border-bottom: 1px solid @dedsec-border; border-right: 1px solid @dedsec-border;
+    border-radius: 0; padding: 6px 12px; font-weight: bold; font-size: 0.9em;
+}
+
+.thunar .view row, .thunar iconview cell {
+    padding: 4px 8px; margin: 1px 6px; border-radius: 10px; min-height: 34px; transition: all 150ms ease;
+}
+.thunar .view row:hover, .thunar iconview cell:hover {
+    background-color: rgba(184, 176, 200, 0.10); border-radius: 10px;
+}
+.thunar .view row:selected, .thunar iconview cell:selected {
+    background-color: rgba(184, 176, 200, 0.22); color: @dedsec-purple; border-radius: 10px;
+    border: 1px solid rgba(184, 176, 200, 0.3);
+}
+.thunar .view row:selected label, .thunar iconview cell:selected label { color: @dedsec-purple; font-weight: bold; }
+
+.thunar scrollbar, .thunar scrolledwindow scrollbar { background-color: transparent; border: none; }
+.thunar scrollbar slider, .thunar scrolledwindow scrollbar slider {
+    background-color: rgba(184, 176, 200, 0.25); border: none; border-radius: 20px;
+    min-width: 6px; min-height: 40px; margin: 4px 2px; transition: all 200ms ease;
+}
+.thunar scrollbar slider:hover, .thunar scrolledwindow scrollbar slider:hover {
+    background-color: rgba(184, 176, 200, 0.45); min-width: 8px;
+}
+
+.thunar .statusbar, .thunar statusbar {
+    background-color: @dedsec-bg-alt; border-top: 1px solid @dedsec-border;
+    color: @dedsec-fg-dim; padding: 4px 12px; font-size: 0.85em;
+}
+
+.thunar button {
+    color: @dedsec-fg; border-radius: 12px; padding: 4px 14px; min-height: 30px; transition: all 200ms ease;
+}
+.thunar button:hover { background-color: rgba(184, 176, 200, 0.15); color: @dedsec-purple; }
+.thunar button:active { background-color: rgba(184, 176, 200, 0.25); }
+.thunar button.suggested-action {
+    background-color: rgba(184, 176, 200, 0.3); color: @dedsec-purple;
+    border: 1px solid @dedsec-purple-dim; border-radius: 12px;
+}
+.thunar button.suggested-action:hover {
+    background-color: rgba(184, 176, 200, 0.45); border-color: @dedsec-purple;
+}
+
+.thunar entry, .thunar spinbutton {
+    background-color: @dedsec-bg; color: @dedsec-fg; border: 1px solid @dedsec-border;
+    border-radius: 12px; padding: 4px 12px; min-height: 30px; caret-color: @dedsec-purple;
+}
+.thunar entry:focus, .thunar spinbutton:focus {
+    border-color: @dedsec-purple; box-shadow: 0 0 0 2px rgba(184, 176, 200, 0.2);
+}
+.thunar entry selection, .thunar spinbutton selection {
+    background-color: rgba(184, 176, 200, 0.35); color: @dedsec-fg;
+}
+
+.thunar .context-menu, .thunar menu, .thunar popupmenu, .thunar popover {
+    background-color: @dedsec-bg-alt; border: 1px solid @dedsec-border;
+    border-radius: 12px; padding: 6px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+.thunar .context-menu menuitem, .thunar menu menuitem {
+    color: @dedsec-fg; border-radius: 8px; padding: 6px 16px; min-height: 30px; transition: all 150ms ease;
+}
+.thunar .context-menu menuitem:hover, .thunar menu menuitem:hover {
+    background-color: rgba(184, 176, 200, 0.15); color: @dedsec-purple;
+}
+.thunar .context-menu menuitem:disabled, .thunar menu menuitem:disabled { color: @dedsec-fg-dim; opacity: 0.5; }
+.thunar .context-menu separator, .thunar menu separator {
+    background-color: @dedsec-border; margin: 4px 8px; min-height: 1px;
+}
+
+.thunar notebook > header tab {
+    background-color: transparent; color: @dedsec-fg-dim; border: none;
+    border-bottom: 2px solid transparent; border-radius: 8px 8px 0 0; padding: 6px 16px; min-height: 32px;
+}
+.thunar notebook > header tab:hover { color: @dedsec-fg; background-color: rgba(184, 176, 200, 0.08); }
+.thunar notebook > header tab:checked {
+    color: @dedsec-purple; border-bottom-color: @dedsec-purple; background-color: rgba(184, 176, 200, 0.12);
+}
+
+.thunar tooltip, .thunar GtkTooltip {
+    background-color: @dedsec-bg-alt; color: @dedsec-fg;
+    border: 1px solid @dedsec-border; border-radius: 10px; padding: 6px 10px;
+}
+
+.thunar progressbar trough, .thunar .progressbar trough {
+    background-color: @dedsec-bg-light; border-radius: 10px; min-height: 8px;
+}
+.thunar progressbar progress, .thunar .progressbar progress {
+    background-color: @dedsec-purple; border-radius: 10px; min-height: 8px;
+}
+
+.thunar checkbutton check, .thunar radiobutton radio {
+    background-color: @dedsec-bg; border: 2px solid @dedsec-border; border-radius: 6px; min-width: 18px; min-height: 18px;
+}
+.thunar checkbutton check:checked, .thunar radiobutton radio:checked {
+    background-color: @dedsec-purple; border-color: @dedsec-purple; color: @dedsec-bg;
+}
+
+.thunar switch {
+    background-color: @dedsec-bg-light; border-radius: 20px; padding: 2px; min-width: 48px; min-height: 26px;
+}
+.thunar switch:checked { background-color: rgba(184, 176, 200, 0.4); }
+.thunar switch slider {
+    background-color: @dedsec-fg-dim; border-radius: 20px; min-width: 22px; min-height: 22px;
+}
+.thunar switch:checked slider { background-color: @dedsec-purple; }

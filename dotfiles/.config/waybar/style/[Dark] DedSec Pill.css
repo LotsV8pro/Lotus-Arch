@@ -1,0 +1,151 @@
+/* D̷E̷D̷S̷E̷C̷ — Waybar Floating Pill Style (HyprGlass ready) */
+
+@define-color purple #B8B0C8;
+@define-color purple-dim #787088;
+@define-color purple-dark #383048;
+@define-color purple-light #D8D0E8;
+@define-color bg #141218;
+@define-color bg-alt #1C1A22;
+@define-color bg-light #282430;
+@define-color border #383048;
+@define-color border-light #504860;
+@define-color text #D8D0E8;
+@define-color text-dim #887898;
+@define-color red #C8B8C8;
+@define-color green #C0D0C0;
+@define-color cyan #B8C0D0;
+@define-color orange #D0C0C8;
+@define-color pink #D0B8D0;
+@define-color teal #B8D0C8;
+@define-color magenta #D0B8D0;
+@define-color indigo #9080A8;
+@define-color coral #C8B8C0;
+@define-color lavender #C8B8D8;
+
+/* RESET ALL CONTAINERS — GTK3 compatible (no !important, no shorthand) */
+window#waybar {
+    background-color: transparent;
+    border: none;
+}
+
+#waybar {
+    background-color: transparent;
+    border: none;
+}
+
+.modules-left,
+.modules-center,
+.modules-right {
+    background-color: transparent;
+    border: none;
+}
+
+/* PILL MODULES */
+#custom-menu,
+#mpris,
+#custom-weather,
+#clock,
+#workspaces,
+#pulseaudio,
+#network,
+#battery,
+#custom-swaync,
+#tray {
+    background-color: rgba(28, 26, 34, 0.85);
+    color: @text;
+    border-radius: 18px;
+    padding: 4px 14px;
+    margin: 6px 4px;
+    border: 1px solid rgba(20, 18, 24, 0.4);
+}
+
+#custom-menu:hover,
+#mpris:hover,
+#custom-weather:hover,
+#clock:hover,
+#workspaces:hover,
+#pulseaudio:hover,
+#network:hover,
+#battery:hover,
+#custom-swaync:hover {
+    background-color: rgba(28, 26, 34, 0.92);
+    border-color: @purple;
+}
+
+#custom-menu            { color: @purple; font-size: 1.15em; }
+#mpris                  { color: @pink; min-width: 120px; max-width: 280px; }
+#custom-weather         { color: @cyan; }
+#clock                  { color: @purple; font-size: 1.05em; }
+#workspaces             { color: @text-dim; }
+#pulseaudio             { color: @teal; }
+#network                { color: @indigo; }
+#battery                { color: @green; }
+#custom-swaync          { color: @lavender; }
+
+/* WORKSPACES BUTTONS */
+#workspaces button {
+    padding: 0px 6px;
+    color: #a6adc8;
+    background-color: transparent;
+    border: none;
+    border-radius: 12px;
+    min-width: 20px;
+    margin: 2px 1px;
+}
+
+#workspaces button.active {
+    color: #11111b;
+    background-color: #89b4fa;
+    border-radius: 12px;
+}
+
+#workspaces button:hover {
+    color: @bg;
+    background-color: @purple-dim;
+}
+
+#workspaces button.urgent {
+    color: @bg;
+    background-color: @red;
+}
+
+tooltip {
+    background-color: rgba(28, 26, 34, 0.92);
+    border: 1px solid @border;
+    color: @text;
+    border-radius: 12px;
+    padding: 6px 10px;
+}
+
+tooltip label {
+    color: @text;
+}
+
+#tray > .passive {
+    -gtk-icon-effect: dim;
+}
+
+#tray > .needs-attention {
+    -gtk-icon-effect: highlight;
+}
+
+#pulseaudio-slider slider {
+    min-width: 0px;
+    min-height: 0px;
+    opacity: 0;
+    background-image: none;
+    border: none;
+}
+
+#pulseaudio-slider trough {
+    min-width: 80px;
+    min-height: 4px;
+    border-radius: 4px;
+    background-color: rgba(20, 18, 24, 0.6);
+}
+
+#pulseaudio-slider highlight {
+    min-height: 4px;
+    border-radius: 4px;
+    background-color: @purple;
+}
