@@ -1192,6 +1192,67 @@ hl.config({
 })
 DECOR
 
+# Also write .conf version (hyprland.conf still sources it)
+DECOR_CONF="$HOME/.config/hypr/UserConfigs/UserDecorations.conf"
+
+cat > "$DECOR_CONF" << DECORCONF
+# D̷E̷D̷S̷E̷C̷ Decorations
+
+general {
+  border_size = 2
+  gaps_in = 4
+  gaps_out = 8
+
+  col.active_border = rgba($(strip ${primary})cc) rgba($(strip ${primary_dim})cc) 135deg
+  col.inactive_border = rgba($(strip ${primary})22) rgba($(strip ${primary_dim})22) 135deg
+}
+
+decoration {
+  rounding = 10
+
+  active_opacity = 1.0
+  inactive_opacity = 0.90
+  fullscreen_opacity = 1.0
+
+  dim_inactive = true
+  dim_strength = 0.12
+  dim_special = 0.8
+
+  shadow {
+    enabled = true
+    range = 15
+    render_power = 3
+    color = rgba($(strip ${primary})30)
+    color_inactive = rgba($(strip ${primary_dim})15)
+    offset = 0, 4
+  }
+
+  blur {
+    enabled = true
+    size = 10
+    passes = 4
+    new_optimizations = true
+    xray = true
+    ignore_opacity = true
+    special = true
+    popups = true
+    noise = 0.015
+    contrast = 1.1
+    brightness = 0.8
+  }
+}
+
+group {
+  col.border_active = rgba($(strip ${primary})cc)
+  col.border_inactive = rgba($(strip ${primary_dim})33)
+
+  groupbar {
+    col.active = rgba($(strip ${primary})cc)
+    col.inactive = rgba($(strip ${primary_dim})33)
+    enabled = true
+  }
+}
+DECORCONF
 
 # ── 5. Hyprland Wallust Colors ─────────────────────────────────
 HYPR_COLORS="$HOME/.config/hypr/wallust/wallust-hyprland.conf"

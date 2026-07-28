@@ -29,3 +29,4 @@ hl.exec("wl-paste --type image --watch cliphist store")
 -- Additional startup apps
 hl.exec("blueman-applet")
 hl.exec(scripts_dir .. "/KeybindsLayoutInit.sh")
+hl.exec(scripts_dir .. "/XboxGuideButton.sh")
