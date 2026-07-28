@@ -204,7 +204,17 @@ main() {
     [[ -z "$choice" ]] && continue
 
     if [[ "$choice" == "$RANDOM_PIC_NAME" ]]; then
-      choice=$(basename "$RANDOM_PIC")
+      # RANDOM_PIC is lost from subshell, so re-pick from the current folder
+      local pick
+      pick=$(find -L "$selected_dir" -type f \( \
+        -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.gif" -o \
+        -iname "*.bmp" -o -iname "*.tiff" -o -iname "*.webp" -o \
+        -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.mov" -o -iname "*.webm" \) 2>/dev/null | shuf -n 1)
+      if [[ -z "$pick" ]]; then
+        notify-send -i "$iDIR/error.png" "No wallpapers" "No wallpapers found in this folder"
+        continue
+      fi
+      choice=$(basename "$pick")
     fi
 
     choice_basename=$(basename "$choice" | sed 's/\(.*\)\.[^.]*$/\1/')
