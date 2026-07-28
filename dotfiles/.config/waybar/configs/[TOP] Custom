@@ -28,7 +28,8 @@
     "active-only": false,
     "format": "{icon}",
     "persistent_workspaces": {
-      "*": 5
+      "DP-2": [1, 2, 3, 4, 5],
+      "HDMI-A-1": [6, 7, 8, 9, 10]
     },
     "format-icons": {
       "1": "一",

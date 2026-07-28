@@ -16,7 +16,7 @@ mkdir -p "$PRESETS_DIR"
 # ── Save current state to a preset ─────────────────────────────
 save_preset() {
     local name
-    name=$(rofi -dmenu -p "  Save Preset As" -theme "$MENU_THEME" 2>/dev/null)
+    name=$(rofi -dmenu -p "  Save Preset As" -config "$MENU_THEME" 2>/dev/null)
     [[ -z "$name" ]] && exit 0
 
     name=$(echo "$name" | tr ' /' '_' | tr -cd 'a-zA-Z0-9_-')
@@ -91,7 +91,6 @@ load_preset() {
 
     # Reload
     hyprctl reload 2>/dev/null
-    killall waybar 2>/dev/null; sleep 0.3; waybar &>/dev/null &
 
     notify-send "Preset Loaded" "$name" -i dialog-ok
 }
@@ -103,7 +102,7 @@ delete_preset() {
     name=$(basename "$preset_dir")
 
     local confirm
-    confirm=$(echo -e "Yes\nNo" | rofi -dmenu -p "  Delete '$name'?" -theme "$MENU_THEME" 2>/dev/null)
+    confirm=$(echo -e "Yes\nNo" | rofi -dmenu -p "  Delete '$name'?" -config "$MENU_THEME" 2>/dev/null)
     [[ "$confirm" != "Yes" ]] && return
 
     rm -rf "$preset_dir"
@@ -111,7 +110,7 @@ delete_preset() {
 }
 
 # ── Main menu ──────────────────────────────────────────────────
-action=$(printf '%s\n' "  Save Current" "  Load Preset" "  Delete Preset" | rofi -dmenu -p "  Preset Manager" -theme "$MENU_THEME" -no-custom 2>/dev/null)
+action=$(printf '%s\n' "  Save Current" "  Load Preset" "  Delete Preset" | rofi -dmenu -p "  Preset Manager" -config "$MENU_THEME" -no-custom 2>/dev/null)
 [[ -z "$action" ]] && exit 0
 
 case "$action" in
@@ -127,7 +126,7 @@ case "$action" in
 
         [[ ${#presets[@]} -eq 0 ]] && { notify-send "No Presets" "Save one first"; exit 0; }
 
-        chosen=$(printf '%s\n' "${presets[@]}" | rofi -dmenu -p "  Load Preset" -theme "$MENU_THEME" 2>/dev/null)
+        chosen=$(printf '%s\n' "${presets[@]}" | rofi -dmenu -p "  Load Preset" -config "$MENU_THEME" 2>/dev/null)
         [[ -z "$chosen" ]] && exit 0
 
         chosen=$(echo "$chosen" | xargs)
@@ -142,7 +141,7 @@ case "$action" in
 
         [[ ${#presets[@]} -eq 0 ]] && { notify-send "No Presets" "Nothing to delete"; exit 0; }
 
-        chosen=$(printf '%s\n' "${presets[@]}" | rofi -dmenu -p "  Delete Preset" -theme "$MENU_THEME" 2>/dev/null)
+        chosen=$(printf '%s\n' "${presets[@]}" | rofi -dmenu -p "  Delete Preset" -config "$MENU_THEME" 2>/dev/null)
         [[ -z "$chosen" ]] && exit 0
 
         chosen=$(echo "$chosen" | xargs)

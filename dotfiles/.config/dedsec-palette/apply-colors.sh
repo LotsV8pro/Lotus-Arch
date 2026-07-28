@@ -1365,18 +1365,59 @@ listview {
 }
 
 element {
-    padding:            6px 10px;
-    border-radius:      6px;
+    padding:            10px 14px;
+    margin:             0px 4px;
+    cursor:             pointer;
+    background-color:   transparent;
+    border-radius:      8px;
     spacing:            8px;
 }
 
-element selected {
-    background-color:   @selected;
-    text-color:         @purple;
+element normal.normal {
+    background-color:   inherit;
+    text-color:         ${fg};
 }
 
-element normal.normal {
-    text-color:         @fg;
+element normal.urgent {
+    background-color:   inherit;
+    text-color:         ${red};
+}
+
+element normal.active {
+    background-color:   inherit;
+    text-color:         ${primary_dim};
+}
+
+element selected.normal {
+    background-color:   ${primary}33;
+    text-color:         ${primary};
+    border:             1px;
+    border-color:       ${primary_dim};
+}
+
+element selected.urgent {
+    background-color:   inherit;
+    text-color:         ${red};
+}
+
+element selected.active {
+    background-color:   inherit;
+    text-color:         ${primary_dim};
+}
+
+element alternate.normal {
+    background-color:   inherit;
+    text-color:         ${fg};
+}
+
+element alternate.urgent {
+    background-color:   inherit;
+    text-color:         ${red};
+}
+
+element alternate.active {
+    background-color:   inherit;
+    text-color:         ${primary_dim};
 }
 
 textbox {
@@ -1388,9 +1429,8 @@ textbox {
 ROSIPAL
 
 # ── 7. Reload Everything ───────────────────────────────────────
-hyprctl reload 2>/dev/null || true
 killall waybar 2>/dev/null || true
-sleep 0.5
-waybar &>/dev/null &
+sleep 0.3
+hyprctl reload 2>/dev/null || true
 
 echo "Palette applied!"

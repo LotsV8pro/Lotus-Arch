@@ -50,7 +50,7 @@ hl.config({
             natural_scroll = true,
             clickfinger_behavior = false,
             middle_button_emulation = false,
-            tap-to-click = true,
+            tap_to_click = true,
             drag_lock = false,
         },
         
@@ -87,22 +87,25 @@ hl.config({
 hl.gesture({
     fingers = 4,
     direction = "up",
-    action = "exec",
-    command = "hyprctl keyword cursor:zoom_factor \"$(hyprctl getoption cursor:zoom_factor | awk 'NR==1 {factor = $2; if (factor < 1) {factor = 1}; print factor * 1.5}')\"",
+    action = function()
+        hl.exec_cmd("hyprctl keyword cursor:zoom_factor \"$(hyprctl getoption cursor:zoom_factor | awk 'NR==1 {factor = $2; if (factor < 1) {factor = 1}; print factor * 1.5}')\"")
+    end,
 })
 
 hl.gesture({
     fingers = 4,
     direction = "down",
-    action = "exec",
-    command = "hyprctl keyword cursor:zoom_factor \"$(hyprctl getoption cursor:zoom_factor | awk 'NR==1 {factor = $2; if (factor < 1) {factor = 1}; print factor / 1.5}')\"",
+    action = function()
+        hl.exec_cmd("hyprctl keyword cursor:zoom_factor \"$(hyprctl getoption cursor:zoom_factor | awk 'NR==1 {factor = $2; if (factor < 1) {factor = 1}; print factor / 1.5}')\"")
+    end,
 })
 
 hl.gesture({
     fingers = 3,
     direction = "up",
-    action = "exec",
-    command = scripts_dir .. "/OverviewToggle.sh",
+    action = function()
+        hl.exec_cmd(scripts_dir .. "/OverviewToggle.sh")
+    end,
 })
 
 -- Misc settings

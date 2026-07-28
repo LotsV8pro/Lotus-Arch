@@ -6,9 +6,6 @@ local scripts_dir = os.getenv("HOME") .. "/.config/hypr/scripts"
 local user_configs_dir = os.getenv("HOME") .. "/.config/hypr/UserConfigs"
 local user_scripts_dir = os.getenv("HOME") .. "/.config/hypr/UserScripts"
 
--- Load user defaults
-require("UserConfigs.01-UserDefaults")
-
 -- STANDARD
 -- App launcher
 hl.bind(mainMod .. " + D", hl.dsp.exec_cmd("pkill rofi || true && rofi -show drun -modi drun,filebrowser,run,window"))
@@ -63,10 +60,10 @@ hl.bind(mainMod .. " + CTRL + R", hl.dsp.exec_cmd(scripts_dir .. "/RofiThemeSele
 hl.bind(mainMod .. " + CTRL + SHIFT + R", hl.dsp.exec_cmd("pkill rofi || true && " .. scripts_dir .. "/RofiThemeSelector-modified.sh"))
 
 -- Fullscreen
-hl.bind(mainMod .. " + SHIFT + F", hl.dsp.window.fullscreen())
+hl.bind(mainMod .. " + SHIFT + F", hl.dsp.window.fullscreen({ mode = "fullscreen", action = "toggle" }))
 
 -- Maximize window
-hl.bind(mainMod .. " + CTRL + F", hl.dsp.window.fullscreen({ maximize = true }))
+hl.bind(mainMod .. " + CTRL + F", hl.dsp.window.fullscreen({ mode = "maximized", action = "set" }))
 
 -- Float current window
 hl.bind(mainMod .. " + SPACE", hl.dsp.window.float({ action = "toggle" }))
@@ -106,7 +103,7 @@ hl.bind(mainMod .. " + SHIFT + E", hl.dsp.exec_cmd(scripts_dir .. "/Quick_Settin
 hl.bind("CTRL + ALT + W", hl.dsp.exec_cmd(user_scripts_dir .. "/WallpaperRandom.sh"))
 
 -- Toggle active window opacity
-hl.bind(mainMod .. " + CTRL + O", hl.dsp.window.set_prop("active opaque", "toggle"))
+hl.bind(mainMod .. " + CTRL + O", hl.dsp.window.set_prop({ prop = "active opaque", value = "toggle" }))
 
 -- Search keybinds
 hl.bind(mainMod .. " + SHIFT + K", hl.dsp.exec_cmd(scripts_dir .. "/KeyBinds.sh"))
@@ -167,30 +164,29 @@ hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
 hl.bind(mainMod .. " + M", hl.dsp.exec_cmd("hyprctl dispatch splitratio 0.3"))
 
 -- Layout aware keybinds initialization
-hl.exec(scripts_dir .. "/ChangeLayout.sh init")
+hl.dsp.exec_cmd(scripts_dir .. "/ChangeLayout.sh init")
 
 -- Cycle windows; if floating bring to top
-hl.bind("ALT + Tab", hl.dsp.window.cycle_next())
-hl.bind("ALT + Tab", hl.dsp.window.bring_active_to_top())
+hl.bind("ALT + Tab", hl.dsp.window.cycle_next({}))
+hl.bind("ALT + Tab", hl.dsp.window.bring_to_top())
 
 -- Special Keys / Hot Keys
 -- Volume controls
-hl.bind("", "xf86audioraisevolume", hl.dsp.exec_cmd(scripts_dir .. "/Volume.sh --inc"), { locked = true, repeat = true })
-hl.bind("", "xf86audiolowervolume", hl.dsp.exec_cmd(scripts_dir .. "/Volume.sh --dec"), { locked = true, repeat = true })
-hl.bind("ALT", "xf86audioraisevolume", hl.dsp.exec_cmd(scripts_dir .. "/Volume.sh --inc-precise"), { locked = true, repeat = true })
-hl.bind("ALT", "xf86audiolowervolume", hl.dsp.exec_cmd(scripts_dir .. "/Volume.sh --dec-precise"), { locked = true, repeat = true })
-hl.bind("", "xf86AudioMicMute", hl.dsp.exec_cmd(scripts_dir .. "/Volume.sh --toggle-mic"), { locked = true })
-hl.bind("", "xf86audiomute", hl.dsp.exec_cmd(scripts_dir .. "/Volume.sh --toggle"), { locked = true })
-hl.bind("", "xf86Sleep", hl.dsp.exec_cmd("systemctl suspend"), { locked = true })
-hl.bind("", "xf86Rfkill", hl.dsp.exec_cmd(scripts_dir .. "/AirplaneMode.sh"), { locked = true })
+hl.bind("xf86audioraisevolume", hl.dsp.exec_cmd(scripts_dir .. "/Volume.sh --inc"), { locked = true, repeating = true })
+hl.bind("xf86audiolowervolume", hl.dsp.exec_cmd(scripts_dir .. "/Volume.sh --dec"), { locked = true, repeating = true })
+hl.bind("ALT + xf86audioraisevolume", hl.dsp.exec_cmd(scripts_dir .. "/Volume.sh --inc-precise"), { locked = true, repeating = true })
+hl.bind("ALT + xf86audiolowervolume", hl.dsp.exec_cmd(scripts_dir .. "/Volume.sh --dec-precise"), { locked = true, repeating = true })
+hl.bind("xf86AudioMicMute", hl.dsp.exec_cmd(scripts_dir .. "/Volume.sh --toggle-mic"), { locked = true })
+hl.bind("xf86audiomute", hl.dsp.exec_cmd(scripts_dir .. "/Volume.sh --toggle"), { locked = true })
+hl.bind("xf86Sleep", hl.dsp.exec_cmd("systemctl suspend"), { locked = true })
+hl.bind("xf86Rfkill", hl.dsp.exec_cmd(scripts_dir .. "/AirplaneMode.sh"), { locked = true })
 
 -- Media controls using keyboards
-hl.bind("", "xf86AudioPlayPause", hl.dsp.exec_cmd(scripts_dir .. "/MediaCtrl.sh --pause"), { locked = true })
-hl.bind("", "xf86AudioPause", hl.dsp.exec_cmd(scripts_dir .. "/MediaCtrl.sh --pause"), { locked = true })
-hl.bind("", "xf86AudioPlay", hl.dsp.exec_cmd(scripts_dir .. "/MediaCtrl.sh --pause"), { locked = true })
-hl.bind("", "xf86AudioNext", hl.dsp.exec_cmd(scripts_dir .. "/MediaCtrl.sh --nxt"), { locked = true })
-hl.bind("", "xf86AudioPrev", hl.dsp.exec_cmd(scripts_dir .. "/MediaCtrl.sh --prv"), { locked = true })
-hl.bind("", "xf86audiostop", hl.dsp.exec_cmd(scripts_dir .. "/MediaCtrl.sh --stop"), { locked = true })
+hl.bind("xf86AudioPause", hl.dsp.exec_cmd(scripts_dir .. "/MediaCtrl.sh --pause"), { locked = true })
+hl.bind("xf86AudioPlay", hl.dsp.exec_cmd(scripts_dir .. "/MediaCtrl.sh --pause"), { locked = true })
+hl.bind("xf86AudioNext", hl.dsp.exec_cmd(scripts_dir .. "/MediaCtrl.sh --nxt"), { locked = true })
+hl.bind("xf86AudioPrev", hl.dsp.exec_cmd(scripts_dir .. "/MediaCtrl.sh --prv"), { locked = true })
+hl.bind("xf86audiostop", hl.dsp.exec_cmd(scripts_dir .. "/MediaCtrl.sh --stop"), { locked = true })
 
 -- Screenshot keybindings
 hl.bind(mainMod .. " + Print", hl.dsp.exec_cmd(scripts_dir .. "/ScreenShot.sh --now"))
@@ -203,10 +199,10 @@ hl.bind("ALT + Print", hl.dsp.exec_cmd(scripts_dir .. "/ScreenShot.sh --active")
 hl.bind(mainMod .. " + SHIFT + S", hl.dsp.exec_cmd(scripts_dir .. "/ScreenShot.sh --swappy"))
 
 -- Resize windows
-hl.bind(mainMod .. " + SHIFT + left", hl.dsp.window.resize({ direction = "left", amount = 50 }))
-hl.bind(mainMod .. " + SHIFT + right", hl.dsp.window.resize({ direction = "right", amount = 50 }))
-hl.bind(mainMod .. " + SHIFT + up", hl.dsp.window.resize({ direction = "up", amount = 50 }))
-hl.bind(mainMod .. " + SHIFT + down", hl.dsp.window.resize({ direction = "down", amount = 50 }))
+hl.bind(mainMod .. " + SHIFT + left", hl.dsp.window.resize({ x = -50, y = 0 }))
+hl.bind(mainMod .. " + SHIFT + right", hl.dsp.window.resize({ x = 50, y = 0 }))
+hl.bind(mainMod .. " + SHIFT + up", hl.dsp.window.resize({ x = 0, y = -50 }))
+hl.bind(mainMod .. " + SHIFT + down", hl.dsp.window.resize({ x = 0, y = 50 }))
 
 -- Move windows
 hl.bind(mainMod .. " + CTRL + left", hl.dsp.window.move({ direction = "left" }))
@@ -221,17 +217,17 @@ hl.bind(mainMod .. " + ALT + up", hl.dsp.window.swap({ direction = "up" }))
 hl.bind(mainMod .. " + ALT + down", hl.dsp.window.swap({ direction = "down" }))
 
 -- Group
-hl.bind(mainMod .. " + G", hl.dsp.window.toggle_group())
+hl.bind(mainMod .. " + G", hl.dsp.group.toggle())
 
 -- Navigate within a group
-hl.bind(mainMod .. " + Tab", hl.dsp.window.change_group_active({ forward = true }))
-hl.bind(mainMod .. " + CTRL + Tab", hl.dsp.window.change_group_active())
-hl.bind(mainMod .. " + SHIFT + Tab", hl.dsp.window.change_group_active({ forward = false }))
+hl.bind(mainMod .. " + Tab", hl.dsp.group.next())
+hl.bind(mainMod .. " + CTRL + Tab", hl.dsp.group.prev())
+hl.bind(mainMod .. " + SHIFT + Tab", hl.dsp.group.prev())
 
 -- Move window into/out of group
-hl.bind(mainMod .. " + CTRL + K", hl.dsp.window.move_into_group({ direction = "left" }))
-hl.bind(mainMod .. " + CTRL + L", hl.dsp.window.move_into_group({ direction = "right" }))
-hl.bind(mainMod .. " + CTRL + H", hl.dsp.window.move_out_of_group())
+hl.bind(mainMod .. " + CTRL + K", hl.dsp.window.move({ into_group = "left" }))
+hl.bind(mainMod .. " + CTRL + L", hl.dsp.window.move({ into_group = "right" }))
+hl.bind(mainMod .. " + CTRL + H", hl.dsp.window.move({ out_of_group = true }))
 
 -- Move focus with mainMod + arrow keys
 hl.bind(mainMod .. " + left", hl.dsp.focus({ direction = "left" }))
@@ -240,8 +236,8 @@ hl.bind(mainMod .. " + up", hl.dsp.focus({ direction = "up" }))
 hl.bind(mainMod .. " + down", hl.dsp.focus({ direction = "down" }))
 
 -- Workspaces related
-hl.bind(mainMod .. " + Tab", hl.dsp.workspace({ action = "next" }))
-hl.bind(mainMod .. " + SHIFT + Tab", hl.dsp.workspace({ action = "previous" }))
+hl.bind(mainMod .. " + Tab", hl.dsp.focus({ workspace = "m+1" }))
+hl.bind(mainMod .. " + SHIFT + Tab", hl.dsp.focus({ workspace = "m-1" }))
 
 -- Special workspace
 hl.bind(mainMod .. " + SHIFT + U", hl.dsp.window.move({ workspace = "special" }))
@@ -250,34 +246,34 @@ hl.bind(mainMod .. " + U", hl.dsp.workspace.toggle_special())
 -- Switch workspaces with mainMod + [0-9]
 for i = 1, 10 do
     local key = i % 10 -- 10 maps to key 0
-    hl.bind(mainMod .. " + code:" .. (9 + i), hl.dsp.workspace({ id = i }))
+    hl.bind(mainMod .. " + code:" .. (9 + i), hl.dsp.focus({ workspace = tostring(i) }))
 end
 
 -- Move active window and follow to workspace mainMod + SHIFT [0-9]
 for i = 1, 10 do
     local key = i % 10 -- 10 maps to key 0
-    hl.bind(mainMod .. " + SHIFT + code:" .. (9 + i), hl.dsp.window.move({ workspace = i }))
+    hl.bind(mainMod .. " + SHIFT + code:" .. (9 + i), hl.dsp.window.move({ workspace = tostring(i) }))
 end
 
 -- Move to previous/next workspace with brackets
-hl.bind(mainMod .. " + SHIFT + bracketleft", hl.dsp.window.move({ workspace = "-1" }))
-hl.bind(mainMod .. " + SHIFT + bracketright", hl.dsp.window.move({ workspace = "+1" }))
+hl.bind(mainMod .. " + SHIFT + bracketleft", hl.dsp.window.move({ workspace = "e-1" }))
+hl.bind(mainMod .. " + SHIFT + bracketright", hl.dsp.window.move({ workspace = "e+1" }))
 
 -- Move active window to a workspace silently mainMod + CTRL [0-9]
 for i = 1, 10 do
     local key = i % 10 -- 10 maps to key 0
-    hl.bind(mainMod .. " + CTRL + code:" .. (9 + i), hl.dsp.window.move_silent({ workspace = i }))
+    hl.bind(mainMod .. " + CTRL + code:" .. (9 + i), hl.dsp.window.move({ workspace = tostring(i), follow = false }))
 end
 
 -- Move silently to previous/next workspace with brackets
-hl.bind(mainMod .. " + CTRL + bracketleft", hl.dsp.window.move_silent({ workspace = "-1" }))
-hl.bind(mainMod .. " + CTRL + bracketright", hl.dsp.window.move_silent({ workspace = "+1" }))
+hl.bind(mainMod .. " + CTRL + bracketleft", hl.dsp.window.move({ workspace = "e-1", follow = false }))
+hl.bind(mainMod .. " + CTRL + bracketright", hl.dsp.window.move({ workspace = "e+1", follow = false }))
 
 -- Scroll through existing workspaces with mainMod + scroll
-hl.bind(mainMod .. " + mouse_down", hl.dsp.workspace({ action = "next" }))
-hl.bind(mainMod .. " + mouse_up", hl.dsp.workspace({ action = "previous" }))
-hl.bind(mainMod .. " + period", hl.dsp.workspace({ action = "next" }))
-hl.bind(mainMod .. " + comma", hl.dsp.workspace({ action = "previous" }))
+hl.bind(mainMod .. " + mouse_down", hl.dsp.focus({ workspace = "m+1" }))
+hl.bind(mainMod .. " + mouse_up", hl.dsp.focus({ workspace = "m-1" }))
+hl.bind(mainMod .. " + period", hl.dsp.focus({ workspace = "m+1" }))
+hl.bind(mainMod .. " + comma", hl.dsp.focus({ workspace = "m-1" }))
 
 -- Move/resize windows with mainMod + LMB/RMB and dragging
 hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(), { mouse = true })

@@ -17,6 +17,11 @@ local files = "thunar"
 local search_engine = "https://www.google.com/search?q={}"
 
 -- Export variables for use in other modules
+-- Also export as Hyprland env vars so shell scripts and $variable references work
+hl.env("term", term)
+hl.env("files", files)
+hl.env("search_engine", search_engine)
+
 return {
     edit = edit,
     term = term,

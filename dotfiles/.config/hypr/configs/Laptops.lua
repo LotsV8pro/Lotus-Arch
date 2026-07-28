@@ -9,15 +9,15 @@ local user_configs_dir = os.getenv("HOME") .. "/.config/hypr/UserConfigs"
 local touchpad_device = "asue1209:00-04f3:319f-touchpad"
 
 -- Keyboard brightness controls
-hl.bind("", "xf86KbdBrightnessDown", hl.dsp.exec_cmd(scripts_dir .. "/BrightnessKbd.sh --dec"), { repeat = true })
-hl.bind("", "xf86KbdBrightnessUp", hl.dsp.exec_cmd(scripts_dir .. "/BrightnessKbd.sh --inc"), { repeat = true })
+hl.bind("xf86KbdBrightnessDown", hl.dsp.exec_cmd(scripts_dir .. "/BrightnessKbd.sh --dec"), { repeating = true })
+hl.bind("xf86KbdBrightnessUp", hl.dsp.exec_cmd(scripts_dir .. "/BrightnessKbd.sh --inc"), { repeating = true })
 
 -- Monitor brightness controls
-hl.bind("", "xf86MonBrightnessDown", hl.dsp.exec_cmd(scripts_dir .. "/Brightness.sh --dec"), { repeat = true })
-hl.bind("", "xf86MonBrightnessUp", hl.dsp.exec_cmd(scripts_dir .. "/Brightness.sh --inc"), { repeat = true })
+hl.bind("xf86MonBrightnessDown", hl.dsp.exec_cmd(scripts_dir .. "/Brightness.sh --dec"), { repeating = true })
+hl.bind("xf86MonBrightnessUp", hl.dsp.exec_cmd(scripts_dir .. "/Brightness.sh --inc"), { repeating = true })
 
 -- Touchpad toggle
-hl.bind("", "xf86TouchpadToggle", hl.dsp.exec_cmd(scripts_dir .. "/TouchPad.sh"))
+hl.bind("xf86TouchpadToggle", hl.dsp.exec_cmd(scripts_dir .. "/TouchPad.sh"))
 
 -- Screenshot keybindings using F6 (no PrinSrc button)
 hl.bind(mainMod .. " + F6", hl.dsp.exec_cmd(scripts_dir .. "/ScreenShot.sh --now"))
