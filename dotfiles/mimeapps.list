@@ -1,0 +1,7 @@
+
+[Default Applications]
+inode/directory=thunar.desktop
+application/x-wayland-gnome-saved-search=thunar.desktop
+x-scheme-handler/arctis-asm=ArctisManager.desktop
+x-scheme-handler/nxm=hd2arsenal.desktop
+x-scheme-handler/rsnl=hd2arsenal.desktop

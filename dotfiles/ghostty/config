@@ -1,0 +1,56 @@
+# D̷E̷D̷S̷E̷C̷ Theme — Ghostty
+
+adjust-cell-height = 10%
+background-blur-radius = 60
+background-opacity = 0.92
+bold-is-bright = true
+confirm-close-surface = false
+cursor-style = bar
+cursor-style-blink = true
+font-family = JetBrainsMono Nerd Font Mono
+font-size = 12
+gtk-single-instance = true
+mouse-hide-while-typing = true
+quick-terminal-position = center
+shell-integration = detect
+shell-integration-features = cursor,sudo
+term = xterm-256color
+title = D̷E̷D̷S̷E̷C̷ Terminal
+unfocused-split-opacity = 0.5
+wait-after-command = false
+window-height = 32
+window-save-state = always
+window-theme = dark
+window-width = 110
+
+# Colors
+background = #141218
+foreground = #D8D0E8
+cursor-color = #C4A8E2
+cursor-text = #141218
+selection-background = #C4A8E2
+selection-foreground = #141218
+
+# Normal colors
+palette = 0=#141218
+palette = 1=#C8B8C8
+palette = 2=#C4A8E2
+palette = 3=#E0D8E8
+palette = 4=#B8B8D0
+palette = 5=#D0B8D0
+palette = 6=#B8C0D0
+palette = 7=#cccccc
+
+# Bright colors
+palette = 8=#383048
+palette = 9=#C8B8C0
+palette = 10=#B8D0C8
+palette = 11=#D8C8D0
+palette = 12=#9080A8
+palette = 13=#D0B8D0
+palette = 14=#B8C0D0
+palette = 15=#ffffff
+
+window-padding-x = 12
+window-padding-y = 8
+window-padding-color = extend
