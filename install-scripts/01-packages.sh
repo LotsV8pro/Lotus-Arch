@@ -151,21 +151,78 @@ DEV=(
     deno
 )
 
-ALL_PACKAGES=("${HYPR[@]}" "${GRAPHICS[@]}" "${BAR[@]}" "${LAUNCHER[@]}" \
-    "${TERMINAL[@]}" "${FILEMANAGER[@]}" "${NOTIFY[@]}" "${AUDIO[@]}" \
-    "${DM[@]}" "${SCREENSHOT[@]}" "${THEME[@]}" "${FONTS[@]}" \
-    "${UTILS[@]}" "${MEDIA[@]}" "${BLUETOOTH[@]}" "${NETWORK[@]}" \
-    "${MISC[@]}" "${GAMING[@]}" "${HARDWARE[@]}" "${LAPTOP[@]}" \
-    "${LIBS32[@]}" "${DEV[@]}")
+# ── Interactive category selection ──
+confirm() {
+    echo -e -n "\n  Install $1? [Y/n]: "
+    read -r ans
+    [[ "$ans" =~ ^[Nn] ]] && return 1 || return 0
+}
+
+CATEGORIES=(
+    "HYPR:Hyprland Core (hyprland, hyprlock, hypridle, portals)"
+    "BAR:Waybar Status Bar"
+    "LAUNCHER:Rofi App Launcher"
+    "TERMINAL:Kitty Terminal"
+    "FILEMANAGER:Thunar File Manager"
+    "NOTIFY:Swaync Notifications"
+    "AUDIO:PipeWire Audio Stack"
+    "DM:SDDM Display Manager"
+    "SCREENSHOT:Screenshot & Recording (grim, slurp, OBS)"
+    "THEME:Theming Tools (KVantum, qt5ct/6ct, nwg-look)"
+    "FONTS:Fonts (JetBrains Mono, Fira Code, Nerd Fonts)"
+    "UTILS:System Utilities (fastfetch, btop, neovim, git, etc)"
+    "MEDIA:Media Apps (MPV, loupe, ImageMagick)"
+    "BLUETOOTH:Bluetooth Support"
+    "NETWORK:NetworkManager Stack"
+    "MISC:Misc (wlogout, cliphist, power-profiles, flatpak)"
+    "GAMING:Gaming (Steam, Lutris, MangoHud, Gamescope)"
+    "HARDWARE:ASUS Hardware Support (asusctl)"
+    "LIBS32:32-bit Libraries (for gaming compatibility)"
+    "DEV:Dev Tools (cmake, python, deno)"
+)
+
+SELECTED=()
+for entry in "${CATEGORIES[@]}"; do
+    name="${entry%%:*}"
+    desc="${entry#*:}"
+    if confirm "$desc"; then
+        case "$name" in
+            HYPR)       SELECTED+=("${HYPR[@]}") ;;
+            BAR)        SELECTED+=("${BAR[@]}") ;;
+            LAUNCHER)   SELECTED+=("${LAUNCHER[@]}") ;;
+            TERMINAL)   SELECTED+=("${TERMINAL[@]}") ;;
+            FILEMANAGER) SELECTED+=("${FILEMANAGER[@]}") ;;
+            NOTIFY)     SELECTED+=("${NOTIFY[@]}") ;;
+            AUDIO)      SELECTED+=("${AUDIO[@]}") ;;
+            DM)         SELECTED+=("${DM[@]}") ;;
+            SCREENSHOT) SELECTED+=("${SCREENSHOT[@]}") ;;
+            THEME)      SELECTED+=("${THEME[@]}") ;;
+            FONTS)      SELECTED+=("${FONTS[@]}") ;;
+            UTILS)      SELECTED+=("${UTILS[@]}") ;;
+            MEDIA)      SELECTED+=("${MEDIA[@]}") ;;
+            BLUETOOTH)  SELECTED+=("${BLUETOOTH[@]}") ;;
+            NETWORK)    SELECTED+=("${NETWORK[@]}") ;;
+            MISC)       SELECTED+=("${MISC[@]}") ;;
+            GAMING)     SELECTED+=("${GAMING[@]}" "${LIBS32[@]}") ;;
+            HARDWARE)   SELECTED+=("${HARDWARE[@]}") ;;
+            LIBS32)     SELECTED+=("${LIBS32[@]}") ;;
+            DEV)        SELECTED+=("${DEV[@]}") ;;
+        esac
+    fi
+done
 
 # Filter valid packages
 VALID=()
-for pkg in "${ALL_PACKAGES[@]}"; do
+for pkg in "${SELECTED[@]}"; do
     if pacman -Si "$pkg" &>/dev/null; then
         VALID+=("$pkg")
     fi
 done
 
-sudo pacman -S --needed --noconfirm "${VALID[@]}" 2>/dev/null || true
+if [[ ${#VALID[@]} -gt 0 ]]; then
+    sudo pacman -S --needed --noconfirm "${VALID[@]}" 2>/dev/null || true
+else
+    echo "  No packages selected."
+fi
 
 echo "[01] Core packages installed."

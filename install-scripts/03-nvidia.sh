@@ -3,6 +3,13 @@
 
 set -euo pipefail
 
+echo -n "  Install NVIDIA drivers (optimized for RTX 4070)? [Y/n]: "
+read -r nvidia_ans
+if [[ "$nvidia_ans" =~ ^[Nn] ]]; then
+    echo "  Skipping NVIDIA setup."
+    exit 0
+fi
+
 echo "[03] Setting up NVIDIA..."
 
 # Install nvidia-open-dkms if not already
