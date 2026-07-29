@@ -1,0 +1,16 @@
+arctis-sound-manager
+asusctl
+deepcool-digital-linux-git
+gtk-engine-murrine
+gwe
+linux-wallpaperengine-bin
+mangojuice
+obs-pipewire-audio-capture-git
+spotify
+ttf-victor-mono
+vesktop-bin
+vial-appimage
+wlogout
+yay-bin
+yay-bin-debug
+zen-browser-bin
