@@ -31,7 +31,7 @@
         "separator": " → "
     },
     "modules": [
-        { "type": "custom", "format": "  ▌D̷E̷D̷S̷E̷C̷▌ SYSTEM OVERRIDE" },
+        { "type": "custom", "format": "  ▌LOTUS▌ SYSTEM OVERRIDE" },
         { "type": "custom", "format": "  ┊" },
         { "type": "os", "key": "  ┊ OS", "keyColor": "green" },
         { "type": "kernel", "key": "  ┊ KERNEL", "keyColor": "green" },

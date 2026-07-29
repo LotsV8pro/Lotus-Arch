@@ -1,4 +1,4 @@
-# D̷E̷D̷S̷E̷C̷ Prompt — Purple + Mint Green
+# LOTUS Prompt — Purple + Mint Green
 
 PROMPT='%F{#00E5A0}λ %m %F{#D4A5FF}%c %F{#00E5A0}→ $(git_prompt_info)$(hg_prompt_info)%f'
 

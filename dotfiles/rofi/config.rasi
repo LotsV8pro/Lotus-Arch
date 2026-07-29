@@ -1,3 +1,3 @@
-/* D̷E̷D̷S̷E̷C̷ — Rofi Config */
+/* LOTUS — Rofi Config */
 @import "~/.config/rofi/0-shared-fonts.rasi"
-@theme "~/.config/rofi/themes/dedsec.rasi"
+@theme "~/.config/rofi/themes/lotus.rasi"

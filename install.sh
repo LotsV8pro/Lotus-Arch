@@ -130,7 +130,7 @@ main() {
     echo "  NVIDIA drivers (open-dkms)"
     echo "  Steam + MangoHud + Gaming tools"
     echo "  ZSH + Oh-My-ZSH"
-    echo "  All DedSec purple theme dotfiles"
+    echo "  All Lotus purple theme dotfiles"
     echo "  50+ waybar themes, animations, palettes"
     echo ""
     echo -e "${YELLOW}  ⚠  Reboot required after installation.${NC}"

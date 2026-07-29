@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
-# D̷E̷D̷S̷E̷C̷ SDDM Theme Installer
-# Run with: sudo ./sddm-dedsec-install.sh
+# LOTUS SDDM Theme Installer
+# Run with: sudo ./sddm-lotus-install.sh
 
 set -euo pipefail
 
-THEME_DIR="/usr/share/sddm/themes/dedsec"
+THEME_DIR="/usr/share/sddm/themes/lotus"
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
-echo "[*] Installing DedSec SDDM theme..."
+echo "[*] Installing Lotus SDDM theme..."
 
 # Create theme directory
 mkdir -p "$THEME_DIR"
@@ -15,7 +15,7 @@ mkdir -p "$THEME_DIR"
 # Create theme metadata
 cat > "$THEME_DIR/metadata.desktop" << 'EOF'
 [Sddm Greeter Theme]
-Name=DedSec
+Name=Lotus
 Description=Watch Dogs / ctOS Infiltration Style
 Author=glimp
 Copyright=GPL-3.0
@@ -30,7 +30,7 @@ EOF
 # Create theme config
 cat > "$THEME_DIR/theme.conf" << 'EOF'
 [General]
-background=/usr/share/sddm/themes/dedsec/background.png
+background=/usr/share/sddm/themes/lotus/background.png
 color=#00FF41
 font=JetBrainsMono Nerd Font
 fontSize=14
@@ -70,11 +70,11 @@ Rectangle {
         }
     }
 
-    // DedSec logo
+    // Lotus logo
     Text {
         anchors.centerIn: parent
         anchors.verticalCenterOffset: -120
-        text: "D̷E̷D̷S̷E̷C̷"
+        text: "LOTUS"
         font.family: "JetBrainsMono Nerd Font"
         font.pixelSize: 48
         font.bold: true
@@ -236,7 +236,7 @@ Rectangle {
             }
 
             Text {
-                text: "// D̷E̷D̷S̷E̷C̷ INFILTRATION"
+                text: "// LOTUS INFILTRATION"
                 font.family: "JetBrainsMono Nerd Font"
                 font.pixelSize: 10
                 color: "#00FF4166"
@@ -264,7 +264,7 @@ Rectangle {
 }
 QMLEOF
 
-echo "[+] DedSec SDDM theme installed to $THEME_DIR"
+echo "[+] Lotus SDDM theme installed to $THEME_DIR"
 echo "[*] Set theme in /etc/sddm.conf:"
 echo "    [Theme]"
-echo "    Current=dedsec"
+echo "    Current=lotus"
