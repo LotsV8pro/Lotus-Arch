@@ -1,0 +1,240 @@
+:root {
+    --spice-glow: rgba(196, 168, 226, 0.15);
+    --spice-glow-strong: rgba(196, 168, 226, 0.35);
+    --spice-glass: rgba(20, 18, 24, 0.85);
+    --spice-glass-alt: rgba(28, 26, 34, 0.92);
+    --spice-roundness: 10px;
+}
+
+body {
+    background-color: var(--spice-main);
+}
+
+/* ─── Rounded corners everywhere ─── */
+.main-rootlist-rootlist,
+.main-rootlist-rootlistContent,
+.main-navBar-navBar,
+.main-topBar-topbarContainer,
+.control-button,
+.main-card-card,
+.main-playlistEditDetails-textInput,
+.main-entityHeader-overlay,
+.main-topBar-background,
+.main-entityHeader-metaText,
+.main-playButton-button {
+    border-radius: var(--spice-roundness);
+}
+
+/* ─── Glassy sidebar ─── */
+.main-navBar-navBar {
+    background: var(--spice-glass) !important;
+    backdrop-filter: blur(16px) saturate(1.2);
+    border-right: 1px solid var(--spice-glow);
+}
+
+.main-rootlist-rootlist {
+    background: transparent;
+}
+
+/* ─── Glassy top bar ─── */
+.main-topBar-topbarContainer {
+    background: var(--spice-glass-alt) !important;
+    backdrop-filter: blur(20px) saturate(1.2);
+    border-bottom: 1px solid var(--spice-glow);
+}
+
+.main-topBar-background {
+    background: transparent !important;
+}
+
+/* ─── Glassy player bar ─── */
+.Root__now-playing-bar {
+    background: var(--spice-glass) !important;
+    backdrop-filter: blur(16px) saturate(1.2);
+    border-top: 1px solid var(--spice-glow);
+}
+
+/* ─── Main content area ─── */
+.main-view-container {
+    background: var(--spice-main);
+}
+
+.main-bacground-background {
+    background: transparent !important;
+}
+
+/* ─── Cards ─── */
+.main-card-card {
+    background: var(--spice-glass-alt) !important;
+    backdrop-filter: blur(8px);
+    border: 1px solid var(--spice-glow);
+    transition: all 200ms ease;
+}
+
+.main-card-card:hover {
+    background: rgba(28, 26, 34, 0.96) !important;
+    border-color: var(--spice-glow-strong);
+    transform: translateY(-2px);
+}
+
+/* ─── Playlist/Album headers ─── */
+.main-entityHeader-overlay {
+    background: linear-gradient(180deg, transparent 0%, var(--spice-main) 100%);
+}
+
+.main-entityHeader-withBackgroundImage {
+    background: var(--spice-main);
+}
+
+/* ─── Buttons ─── */
+.main-playButton-button {
+    background: var(--spice-button) !important;
+    color: var(--spice-main) !important;
+    border-radius: 50%;
+    transition: all 200ms ease;
+}
+
+.main-playButton-button:hover {
+    background: var(--spice-button-active) !important;
+    transform: scale(1.05);
+}
+
+.control-button {
+    color: var(--spice-subtext);
+    transition: color 200ms ease;
+}
+
+.control-button:hover {
+    color: var(--spice-text);
+}
+
+/* ─── Progress bar / Seekbar ─── */
+.playback-bar {
+    --bg-color: var(--spice-button-disabled);
+    --fg-color: var(--spice-button);
+}
+
+.x-progressBar-progressBarBg {
+    background-color: var(--spice-button-disabled) !important;
+}
+
+.x-progressBar-progressBar {
+    background-color: var(--spice-button) !important;
+}
+
+/* ─── Track list ─── */
+.main-trackList-trackListRow {
+    border-radius: 6px;
+    transition: background 150ms ease;
+}
+
+.main-trackList-trackListRow:hover {
+    background: var(--spice-glow);
+}
+
+.main-trackList-trackListRow.main-trackList-active {
+    background: var(--spice-glow-strong);
+}
+
+.main-trackList-rowTitle {
+    color: var(--spice-text);
+}
+
+.main-trackList-rowSubtitle {
+    color: var(--spice-subtext);
+}
+
+/* ─── Sidebar playlists ─── */
+.main-rootlist-rootlistItem {
+    border-radius: 6px;
+    transition: background 150ms ease;
+}
+
+.main-rootlist-rootlistItem:hover {
+    background: var(--spice-glow);
+}
+
+.main-rootlist-rootlistItemActive {
+    background: var(--spice-glow-strong);
+}
+
+/* ─── Search bar ─── */
+.main-search-searchInput {
+    background: var(--spice-glass-alt) !important;
+    border-radius: var(--spice-roundness);
+    border: 1px solid var(--spice-glow);
+    color: var(--spice-text);
+}
+
+.main-search-searchInput:focus {
+    border-color: var(--spice-button);
+}
+
+/* ─── Library header ─── */
+.main-yourLibraryX-header {
+    background: transparent;
+}
+
+/* ─── Context menus ─── */
+.main-contextMenu-menu {
+    background: var(--spice-glass-alt);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--spice-glow);
+    border-radius: var(--spice-roundness);
+}
+
+.main-contextMenu-menuItem {
+    border-radius: 6px;
+    transition: background 150ms ease;
+}
+
+.main-contextMenu-menuItem:hover {
+    background: var(--spice-glow);
+}
+
+/* ─── Dropdowns ─── */
+.main-dropDown-dropDown {
+    background: var(--spice-glass-alt);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--spice-glow);
+    border-radius: var(--spice-roundness);
+    color: var(--spice-text);
+}
+
+/* ─── Scrollbar ─── */
+.os-scrollbar-handle {
+    background: var(--spice-button) !important;
+    opacity: 0.4;
+    border-radius: 10px;
+}
+
+.os-scrollbar-handle:hover {
+    opacity: 0.7;
+}
+
+/* ─── Heart/Like button ─── */
+.main-addButton-button {
+    color: var(--spice-button);
+}
+
+.main-addButton-button:hover {
+    color: var(--spice-button-active);
+}
+
+/* ─── Active tab ─── */
+.main-navBar-navBarItemActive {
+    background: var(--spice-glow-strong);
+    border-radius: 6px;
+}
+
+/* ─── Header navigation arrows ─── */
+.main-topBar-historyButtons button {
+    background: var(--spice-glass-alt);
+    border-radius: 50%;
+    color: var(--spice-text);
+}
+
+/* ─── What's new feed ─── */
+.main-feed-feed {
+    background: transparent;
+}
