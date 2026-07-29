@@ -1,17 +1,17 @@
 #!/usr/bin/env bash
-# D̷E̷D̷S̷E̷C̷ Palette Menu — Presets + Visual Picker + Save
+# LOTUS Palette Menu — Presets + Visual Picker + Save
 
 set -euo pipefail
 
-PALETTE="$HOME/.config/dedsec-palette/colors.conf"
-APPLY="$HOME/.config/dedsec-palette/apply-colors.sh"
-MENU_THEME="$HOME/.config/rofi/themes/dedsec-palette.rasi"
-PRESETS_DIR="$HOME/.config/dedsec-palette/presets"
+PALETTE="$HOME/.config/lotus-palette/colors.conf"
+APPLY="$HOME/.config/lotus-palette/apply-colors.sh"
+MENU_THEME="$HOME/.config/rofi/themes/lotus-palette.rasi"
+PRESETS_DIR="$HOME/.config/lotus-palette/presets"
 
 # ── Built-in Presets ───────────────────────────────────────────
-preset_dedsec() {
+preset_lotus() {
     cat > "$PALETTE" << 'EOF'
-# D̷E̷D̷S̷E̷C̷ Palette — DedSec Purple
+# LOTUS Palette — Lotus Purple
 primary=#B44AFF
 primary_dim=#7B2FBE
 primary_dark=#4a1d80
@@ -55,7 +55,7 @@ EOF
 
 preset_red() {
     cat > "$PALETTE" << 'EOF'
-# D̷E̷D̷S̷E̷C̷ Palette — Blood Red
+# LOTUS Palette — Blood Red
 primary=#FF2244
 primary_dim=#AA1133
 primary_dark=#660022
@@ -99,7 +99,7 @@ EOF
 
 preset_green() {
     cat > "$PALETTE" << 'EOF'
-# D̷E̷D̷S̷E̷C̷ Palette — Matrix Green
+# LOTUS Palette — Matrix Green
 primary=#00FF66
 primary_dim=#00AA44
 primary_dark=#004422
@@ -143,7 +143,7 @@ EOF
 
 preset_cyan() {
     cat > "$PALETTE" << 'EOF'
-# D̷E̷D̷S̷E̷C̷ Palette — Neon Cyan
+# LOTUS Palette — Neon Cyan
 primary=#00DDFF
 primary_dim=#0099BB
 primary_dark=#004466
@@ -187,7 +187,7 @@ EOF
 
 preset_orange() {
     cat > "$PALETTE" << 'EOF'
-# D̷E̷D̷S̷E̷C̷ Palette — Amber Hack
+# LOTUS Palette — Amber Hack
 primary=#FF8800
 primary_dim=#AA5500
 primary_dark=#553300
@@ -231,7 +231,7 @@ EOF
 
 preset_pink() {
     cat > "$PALETTE" << 'EOF'
-# D̷E̷D̷S̷E̷C̷ Palette — Synthwave
+# LOTUS Palette — Synthwave
 primary=#FF44CC
 primary_dim=#AA2288
 primary_dark=#551144
@@ -275,7 +275,7 @@ EOF
 
 preset_mono() {
     cat > "$PALETTE" << 'EOF'
-# D̷E̷D̷S̷E̷C̷ Palette — Monochrome (Light Purple)
+# LOTUS Palette — Monochrome (Light Purple)
 primary=#C4A8E2
 primary_dim=#8C7AA6
 primary_dark=#383048
@@ -319,7 +319,7 @@ EOF
 
 preset_solarized() {
     cat > "$PALETTE" << 'EOF'
-# D̷E̷D̷S̷E̷C̷ Palette — Solarized
+# LOTUS Palette — Solarized
 primary=#6C71C4
 primary_dim=#586E75
 primary_dark=#073642
@@ -434,8 +434,8 @@ chosen=$(printf '%s\n' \
     "  Edit Color" \
     "  Randomize" \
     "  Save Current as Preset" \
-    "  Reset to DedSec" \
-    | rofi -dmenu -p "  D̷E̷D̷S̷E̷C̷" -config "$MENU_THEME" -no-custom 2>/dev/null)
+    "  Reset to Lotus" \
+    | rofi -dmenu -p "  LOTUS" -config "$MENU_THEME" -no-custom 2>/dev/null)
 
 if [[ -z "$chosen" ]]; then
     exit 0
@@ -446,7 +446,7 @@ chosen=$(echo "$chosen" | xargs)
 case "$chosen" in
     *Presets)
         preset_list=()
-        preset_list+=(" DedSec Purple")
+        preset_list+=(" Lotus Purple")
         preset_list+=(" Blood Red")
         preset_list+=(" Matrix Green")
         preset_list+=(" Neon Cyan")
@@ -471,7 +471,7 @@ case "$chosen" in
         preset_choice=$(echo "$preset_choice" | xargs)
 
         case "$preset_choice" in
-            *DedSec*)    preset_dedsec ;;
+            *Lotus*)    preset_lotus ;;
             *Red*)       preset_red ;;
             *Green*)     preset_green ;;
             *Cyan*)      preset_cyan ;;
@@ -605,7 +605,7 @@ case "$chosen" in
         ;;
 
     *Randomize)
-        python3 "$HOME/.config/dedsec-palette/generate.py" > "$PALETTE"
+        python3 "$HOME/.config/lotus-palette/generate.py" > "$PALETTE"
         bash "$APPLY"
         notify-send "Randomized" "New palette generated"
         ;;
@@ -615,8 +615,8 @@ case "$chosen" in
         ;;
 
     *Reset*)
-        preset_dedsec
+        preset_lotus
         bash "$APPLY"
-        notify-send "Reset" "DedSec Purple palette restored"
+        notify-send "Reset" "Lotus Purple palette restored"
         ;;
 esac

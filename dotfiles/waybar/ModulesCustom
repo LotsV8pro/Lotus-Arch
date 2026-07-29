@@ -133,7 +133,7 @@
 	"tooltip-format": "Left Click: Rofi Menu\nMiddle Click: Wallpaper Menu\nRight Click: Waybar Layout Menu",
 },
 
-// ── D̷E̷D̷S̷E̷C̷ Launcher (Arch logo) ─────────────────────────────
+// ── LOTUS Launcher (Arch logo) ─────────────────────────────
 "custom/launcher": {
 	"format": " {}",
 	"on-click": "pkill rofi || rofi -show drun -modi run,drun,filebrowser,window",
@@ -142,7 +142,7 @@
 	"tooltip-format": "Left Click: App Launcher\nRight Click: Waybar Layout",
 },
 
-// ── D̷E̷D̷S̷E̷C̷ Updates Counter ──────────────────────────────────
+// ── LOTUS Updates Counter ──────────────────────────────────
 "custom/updates": {
 	"format": " {}",
 	"exec": "checkupdates 2>/dev/null | wc -l || echo 0",
@@ -153,7 +153,7 @@
 	"tooltip-format": "Left Click: Update System\nPending updates: {}",
 },
 
-// ── D̷E̷D̷S̷E̷C̷ Notification Bell ───────────────────────────────
+// ── LOTUS Notification Bell ───────────────────────────────
 "custom/notification": {
 	"tooltip": true,
 	"tooltip-format": "Left Click: Notification Center\nRight Click: Do Not Disturb",

@@ -21,9 +21,9 @@ local user_configs_dir = os.getenv("HOME") .. "/.config/hypr/UserConfigs"
 -- E.g.
 -- hl.bind(mainMod .. " + Z", hl.dsp.exec_cmd("APPNAME"), { description = "My z app" })
 
--- DEDSEC Palette Menu
+-- LOTUS Palette Menu
 hl.unbind(mainMod .. " + P")
-hl.bind(mainMod .. " + P", hl.dsp.exec_cmd("bash ~/.config/dedsec-palette/palette-menu.sh"), { description = "Palette color editor" })
+hl.bind(mainMod .. " + P", hl.dsp.exec_cmd("bash ~/.config/lotus-palette/palette-menu.sh"), { description = "Palette color editor" })
 
 -- Preset Manager (save/load/delete full desktop presets)
 hl.bind(mainMod .. " + CTRL + P", hl.dsp.exec_cmd("bash " .. scripts_dir .. "/PresetManager.sh"), { description = "Preset Manager - Save/Load themes" })

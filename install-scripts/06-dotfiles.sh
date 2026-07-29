@@ -79,7 +79,7 @@ fi
 # ── Make scripts executable ──
 chmod +x "$HOME/.config/hypr/scripts/"*.sh 2>/dev/null || true
 chmod +x "$HOME/.config/hypr/UserScripts/"*.sh 2>/dev/null || true
-chmod +x "$HOME/.config/dedsec-palette/"*.sh 2>/dev/null || true
+chmod +x "$HOME/.config/lotus-palette/"*.sh 2>/dev/null || true
 chmod +x "$HOME/.config/waybar/scripts/"*.sh 2>/dev/null || true
 chmod +x "$HOME/.config/hypr/initial-boot.sh" 2>/dev/null || true
 chmod +x "$HOME/.config/hypr/auto_link_obs.sh" 2>/dev/null || true

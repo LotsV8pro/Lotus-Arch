@@ -32,7 +32,7 @@ echo "╠═══════════════════════�
 echo "║                                          ║"
 echo "║  1. Reboot your system                   ║"
 echo "║  2. Select Hyprland in SDDM              ║"
-echo "║  3. Enjoy your DedSec desktop!           ║"
+echo "║  3. Enjoy your Lotus desktop!           ║"
 echo "║                                          ║"
 echo "║  Keybinds: SUPER + H                     ║"
 echo "║  Palette:  SUPER + P                     ║"

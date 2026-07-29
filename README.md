@@ -1,13 +1,13 @@
 # Lotus-Arch
 
-Arch Linux + Hyprland (Lua-only config) — purple DedSec theme with NVIDIA RTX 4070 optimization.
+Arch Linux + Hyprland (Lua-only config) — purple Lotus theme with NVIDIA RTX 4070 optimization.
 
 **Pure `.lua` Hyprland config** — no legacy `.conf` files. Requires Hyprland 0.55+.
 
 ## What's Inside
 
 - **Hyprland Lua config** — All settings, keybinds, animations, decorations, window rules in `.lua`
-- **Purple DedSec theme** — Monochrome purple palette across Hyprland, Waybar, Rofi, Kitty
+- **Purple Lotus theme** — Monochrome purple palette across Hyprland, Waybar, Rofi, Kitty
 - **Preset system** — Save/load/delete full desktop themes with `SUPER+CTRL+P`
 - **Wallpaper browser** — Folder-based browser with `SUPER+W`
 - **Controller support** — Xbox/ROG Raikiri controller for app launch and Steam Big Picture
