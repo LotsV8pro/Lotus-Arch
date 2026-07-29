@@ -1,0 +1,450 @@
+/**
+ * @name Lotus Purple
+ * @description Purple glassmorphism theme matching the Lotus Arch system aesthetic
+ * @author Lotus
+ * @version 1.0.0
+ * @source https://github.com/LotsV8pro/Lotus-Arch
+ */
+
+/* ─── CSS Variable Overrides ─── */
+:root {
+  --bg: #141218;
+  --bg-alt: #1C1A22;
+  --bg-light: #282430;
+  --primary: #C4A8E2;
+  --primary-dim: #8C7AA6;
+  --primary-dark: #383048;
+  --primary-light: #D8D0E8;
+  --fg: #D8D0E8;
+  --fg-dim: #887898;
+  --border: #383048;
+  --border-light: #504860;
+
+  --brand-experiment: var(--primary);
+  --brand-experiment-560: var(--primary-dim);
+  --brand-experiment-600: var(--primary-dim);
+  --brand-experiment-hover: var(--primary-light);
+}
+
+/* ─── App Background ─── */
+.appMount__1a4b1,
+.app__2de3a,
+.bg__1f0a2 {
+  background: var(--bg) !important;
+}
+
+.platform-win .app__2de3a {
+  background: var(--bg) !important;
+}
+
+/* ─── Sidebar ─── */
+.sidebar__1d5c0 {
+  background: var(--bg-alt) !important;
+}
+
+/* ─── Channel List ─── */
+.container__6234a {
+  background: var(--bg-alt) !important;
+}
+
+.scrollerInner__0a27c {
+  background: transparent !important;
+}
+
+/* ─── Channel Items ─── */
+.content__3ea7f {
+  color: var(--fg-dim) !important;
+}
+
+.content__3ea7f:hover {
+  color: var(--fg) !important;
+  background: rgba(196, 168, 226, 0.08) !important;
+  border-radius: 6px;
+}
+
+.selected__0696c .content__3ea7f {
+  background: rgba(196, 168, 226, 0.15) !important;
+  color: var(--primary-light) !important;
+  border-radius: 6px;
+}
+
+/* ─── Chat Area ─── */
+.chat__28d73,
+.chatContent__4c232 {
+  background: var(--bg) !important;
+}
+
+.messagesWrapper_ea2aa2 {
+  background: transparent !important;
+}
+
+.scroller__6da6f {
+  background: transparent !important;
+}
+
+/* ─── Message Container ─── */
+.message_d1a34e {
+  background: transparent !important;
+}
+
+.message_d1a34e:hover {
+  background: rgba(196, 168, 226, 0.03) !important;
+}
+
+/* ─── Message Input ─── */
+.channelTextArea__2170d {
+  background: var(--bg-alt) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 10px !important;
+}
+
+.channelTextArea__2170d:focus-within {
+  border-color: var(--primary-dim) !important;
+}
+
+.scrollableContainer__97dd2 {
+  background: transparent !important;
+}
+
+/* ─── Members List ─── */
+.members__3333a {
+  background: var(--bg-alt) !important;
+}
+
+.membersGroup__740fe {
+  color: var(--primary-dim) !important;
+}
+
+/* ─── User Popout / Profile ─── */
+.userPopout__3ff0f {
+  background: var(--bg-alt) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 12px !important;
+}
+
+.bodyInnerWrapper__6b44b {
+  background: transparent !important;
+}
+
+/* ─── Header / Top Bar ─── */
+.container__749f0 {
+  background: var(--bg-alt) !important;
+  border-bottom: 1px solid var(--border) !important;
+}
+
+.toolbar__8b8e2 {
+  background: transparent !important;
+}
+
+/* ─── Title / Channel Name ─── */
+.title__21139 {
+  color: var(--fg) !important;
+}
+
+/* ─── Mentions / Unread Badges ─── */
+.numberBadge__8092a,
+.numberBadge__2d0f7 {
+  background: var(--primary) !important;
+  color: var(--bg) !important;
+}
+
+/* ─── Buttons ─── */
+.lookFilled__4ab3a {
+  background: var(--primary) !important;
+  color: var(--bg) !important;
+}
+
+.lookFilled__4ab3a:hover {
+  background: var(--primary-dim) !important;
+}
+
+.lookOutlined__4ab3a {
+  border-color: var(--primary) !important;
+  color: var(--primary) !important;
+}
+
+/* ─── Links ─── */
+.anchor__3343f {
+  color: var(--primary) !important;
+}
+
+.anchor__3343f:hover {
+  color: var(--primary-light) !important;
+}
+
+/* ─── Scrollbar ─── */
+.scrollbar__25c6d {
+  background: transparent !important;
+}
+
+.scrollbar__25c6d .track__0c176 {
+  background: transparent !important;
+}
+
+.scrollbar__25c6d .thumb__0c176 {
+  background: var(--primary-dim) !important;
+  border-radius: 10px !important;
+  opacity: 0.4;
+}
+
+/* ─── User Area (Voice Panel) ─── */
+.panels__7c610 {
+  background: var(--bg-alt) !important;
+  border-top: 1px solid var(--border) !important;
+}
+
+.container_ce628c {
+  background: transparent !important;
+}
+
+/* ─── Guild List ─── */
+.guilds__8d63c {
+  background: var(--bg) !important;
+}
+
+.scroller__5d472 {
+  background: transparent !important;
+}
+
+/* ─── Guild Icons ─── */
+.wrapper__4bd52 {
+  border-radius: 12px !important;
+  transition: border-radius 200ms ease;
+}
+
+.wrapper__4bd52:hover {
+  border-radius: 8px !important;
+}
+
+/* ─── Home Button ─── */
+.homeIcon__3f3d3 {
+  color: var(--primary) !important;
+}
+
+.childWrapper__4b0fc {
+  background: var(--bg-alt) !important;
+  color: var(--primary) !important;
+}
+
+/* ─── Search Bar ─── */
+.search__5ad7d {
+  background: var(--bg-alt) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 10px !important;
+}
+
+.search__5ad7d:focus-within {
+  border-color: var(--primary-dim) !important;
+}
+
+/* ─── Modals ─── */
+.root__7f0f5 {
+  background: var(--bg-alt) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 14px !important;
+}
+
+.footer_d9b8f1 {
+  background: var(--bg) !important;
+  border-top: 1px solid var(--border) !important;
+  border-radius: 0 0 14px 14px !important;
+}
+
+/* ─── Input Fields ─── */
+.input__3b4f6 {
+  background: var(--bg) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 8px !important;
+  color: var(--fg) !important;
+}
+
+.input__3b4f6:focus {
+  border-color: var(--primary-dim) !important;
+}
+
+/* ─── Context Menus ─── */
+.contextMenu__1469b {
+  background: var(--bg-alt) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 12px !important;
+}
+
+.item__71ef5 {
+  color: var(--fg) !important;
+  border-radius: 6px !important;
+}
+
+.item__71ef5:hover {
+  background: rgba(196, 168, 226, 0.12) !important;
+  color: var(--primary-light) !important;
+}
+
+/* ─── Code Blocks ─── */
+.codeBlock__4b6a9 {
+  background: var(--bg) !important;
+  border: 1px solid var(--border) !important;
+}
+
+/* ─── Embeds ─── */
+.embed__3e1f4 {
+  background: var(--bg-alt) !important;
+  border-left: 4px solid var(--primary-dim) !important;
+  border-radius: 8px !important;
+}
+
+/* ─── Reactions ─── */
+.reaction__2c0c8 {
+  background: rgba(196, 168, 226, 0.1) !important;
+  border: 1px solid transparent !important;
+  border-radius: 8px !important;
+}
+
+.reaction__2c0c8:hover {
+  border-color: var(--primary-dim) !important;
+}
+
+.reactionCount__02ebf {
+  color: var(--fg-dim) !important;
+}
+
+/* ─── Mentions ─── */
+.mentioned__1b36b {
+  background: rgba(196, 168, 226, 0.06) !important;
+  border-left: 3px solid var(--primary) !important;
+}
+
+/* ─── Spoiler ─── */
+.spoiler__260d7 {
+  background: var(--bg-light) !important;
+}
+
+/* ─── Dividers ─── */
+.divider__0a0a0 {
+  border-color: var(--border) !important;
+}
+
+/* ─── Sliders / Toggles ─── */
+.container__0a0a0 {
+  background: var(--border) !important;
+}
+
+.container__0a0a0[style*="background"] {
+  background: var(--primary) !important;
+}
+
+/* ─── Notice Bar ─── */
+.notice__6a4d8 {
+  background: var(--bg-light) !important;
+  color: var(--fg) !important;
+}
+
+/* ─── Loading Screen ─── */
+.loading__64a8f {
+  background: var(--bg) !important;
+}
+
+/* ─── Friends List ─── */
+.peopleColumn__0a0a0 {
+  background: transparent !important;
+}
+
+/* ─── Settings Sidebar ─── */
+.sidebarScrollable__4b3a0 {
+  background: var(--bg-alt) !important;
+}
+
+.contentColumn__4b3a0 {
+  background: var(--bg) !important;
+}
+
+/* ─── Mentions & Timestamps ─── */
+.timestamp__27d4b {
+  color: var(--fg-dim) !important;
+}
+
+/* ─── Username Colors ─── */
+.username__27d4b {
+  color: var(--primary-light) !important;
+}
+
+/* ─── Bot Tag ─── */
+.botTag__4b3a0 {
+  background: var(--primary-dim) !important;
+  color: var(--bg) !important;
+}
+
+/* ─── Voice States ─── */
+.voiceState__0a0a0 {
+  color: var(--fg-dim) !important;
+}
+
+.voiceState__0a0a0:hover {
+  color: var(--fg) !important;
+}
+
+/* ─── Call / Video Chat ─── */
+.videoWrapper__0a0a0 {
+  background: var(--bg) !important;
+}
+
+.root__6a4d8 {
+  background: var(--bg) !important;
+}
+
+/* ─── Activity / Game Status ─── */
+.activity__0a0a0 {
+  color: var(--fg-dim) !important;
+}
+
+/* ─── Spotify Status in Discord ─── */
+.spotifySection__0a0a0 {
+  background: rgba(196, 168, 226, 0.06) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 10px !important;
+}
+
+/* ─── Tooltips ─── */
+.tooltip__4b3a0 {
+  background: var(--bg-alt) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 8px !important;
+  color: var(--fg) !important;
+}
+
+/* ─── New Messages Bar ─── */
+.newMessagesBar__6a4d8 {
+  background: var(--primary-dark) !important;
+  border-radius: 10px !important;
+  color: var(--primary-light) !important;
+}
+
+/* ─── Unread Channel Indicator ─── */
+.unread__6a4d8 {
+  color: var(--primary) !important;
+}
+
+.mention__6a4d8 {
+  color: var(--primary) !important;
+}
+
+/* ─── Threads ─── */
+.container__4b3a0 {
+  background: var(--bg-alt) !important;
+}
+
+/* ─── Forum / Channel Grid ─── */
+.forum__0a0a0 {
+  background: transparent !important;
+}
+
+/* ─── Glassy Panel Effects ─── */
+.container__749f0,
+.panels__7c610 {
+  backdrop-filter: blur(8px);
+}
+
+/* ─── Selection highlight ─── */
+::selection {
+  background-color: rgba(196, 168, 226, 0.3) !important;
+  color: var(--fg) !important;
+}
