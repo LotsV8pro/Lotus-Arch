@@ -191,4 +191,37 @@ if confirm "Install Lotus Discord theme (Vencord)"; then
   fi
 fi
 
-echo "[09] User packages and themes restored."
+# ── Audio setup: virtual mic + loop hole + Arctis services ──
+echo ""
+echo "  --- Audio pipeline setup ---"
+
+SERVICES=(
+  "virtual-mic.service:OBS Virtual Microphone (loopback from OBS virtual sink)"
+  "arctis-manager.service:Arctis Sound Manager daemon"
+  "arctis-gui.service:Arctis Sound Manager system tray"
+  "arctis-video-router.service:Arctis Media Router (route browser audio to Arctis_Media)"
+  "auto-link-obs.service:Auto-link Arctis Game/Media audio to OBS virtual sink"
+)
+
+for entry in "${SERVICES[@]}"; do
+  svc="${entry%%:*}"
+  desc="${entry#*:}"
+  if confirm "$desc"; then
+    systemctl --user enable "$svc" 2>/dev/null || true
+    systemctl --user start "$svc" 2>/dev/null || true
+    echo "    enabled ✓"
+  fi
+done
+
+# Deploy HRIR file for HeSuVi virtual surround
+if confirm "HeSuVi 7.1 Virtual Surround (HRIR convolution)"; then
+  HRIR_SRC="$SCRIPT_DIR/../dotfiles/.local/share/pipewire/hrir_hesuvi/hrir.wav"
+  HRIR_DST="$HOME/.local/share/pipewire/hrir_hesuvi/hrir.wav"
+  if [[ -f "$HRIR_SRC" ]]; then
+    mkdir -p "$(dirname "$HRIR_DST")"
+    cp "$HRIR_SRC" "$HRIR_DST"
+    echo "    ✓ HRIR file deployed"
+  fi
+fi
+
+echo "[09] User packages, themes, and audio services restored."

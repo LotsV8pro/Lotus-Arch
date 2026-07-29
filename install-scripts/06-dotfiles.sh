@@ -76,6 +76,15 @@ if [[ -d "$DOTFILES/.local/bin" ]]; then
     chmod +x "$HOME/.local/bin/"* 2>/dev/null || true
 fi
 
+# ── Local share files (HRIR, icons, etc) ──
+for share_dir in "$DOTFILES/.local/share/"*/; do
+    [[ ! -d "$share_dir" ]] && continue
+    name="$(basename "$share_dir")"
+    echo "  → .local/share/$name..."
+    mkdir -p "$HOME/.local/share/$name"
+    cp -r "$share_dir"* "$HOME/.local/share/$name/" 2>/dev/null || true
+done
+
 # ── Make scripts executable ──
 chmod +x "$HOME/.config/hypr/scripts/"*.sh 2>/dev/null || true
 chmod +x "$HOME/.config/hypr/UserScripts/"*.sh 2>/dev/null || true

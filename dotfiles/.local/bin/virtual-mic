@@ -1,0 +1,5 @@
+#!/bin/bash
+pw-loopback -n "OBS_Virtual_Mic" \
+  -i 'media.class=Audio/Sink node.name=obs_virtual_sink node.description="OBS_Virtual_Sink"' \
+  -o 'media.class=Audio/Source node.name=obs_virtual_source node.description="OBS_Virtual_Microphone"'
+
