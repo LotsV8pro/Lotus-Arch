@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""D̷E̷D̷S̷E̷C̷ Color Generator — Maximum harmonious palette from color theory."""
+"""LOTUS Color Generator — Maximum harmonious palette from color theory."""
 
 import random
 
@@ -145,7 +145,7 @@ ALL_KEYS = [
 
 
 def format_palette(palette, name="Randomized"):
-    lines = [f"# D̷E̷D̷S̷E̷C̷ Palette — {name}"]
+    lines = [f"# LOTUS Palette — {name}"]
     for key in ALL_KEYS:
         lines.append(f"{key}={palette[key]}")
     return "\n".join(lines) + "\n"

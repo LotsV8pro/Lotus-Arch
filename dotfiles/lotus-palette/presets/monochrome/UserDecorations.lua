@@ -1,4 +1,4 @@
--- D̷E̷D̷S̷E̷C̷ Decorations
+-- LOTUS Decorations
 
 -- General settings
 hl.config({

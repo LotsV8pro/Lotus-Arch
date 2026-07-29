@@ -1,4 +1,4 @@
-/* D̷E̷D̷S̷E̷C̷ Rofi — Purple / Modern */
+/* LOTUS Rofi — Purple / Modern */
 
 configuration {
     modi:                       "drun,run,filebrowser,window";

@@ -3,7 +3,7 @@
 
 export ZSH="$HOME/.oh-my-zsh"
 
-ZSH_THEME="dedsec"
+ZSH_THEME="lotus"
 
 plugins=(
     git
@@ -22,7 +22,7 @@ source $ZSH/oh-my-zsh.sh
 #pokemon-colorscripts --no-title -s -r #without fastfetch
 #pokemon-colorscripts --no-title -s -r | fastfetch -c $HOME/.config/fastfetch/config-pokemon.jsonc --logo-type file-raw --logo-height 10 --logo-width 5 --logo -
 
-# fetch - DedSec spinning skull (infinite)
+# fetch - Lotus spinning skull (infinite)
 if command -v fetch &>/dev/null; then
     fetch --infinite
 else

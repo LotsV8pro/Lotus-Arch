@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
-# D̷E̷D̷S̷E̷C̷ Preset Manager — Save / Load / Delete full desktop presets
+# LOTUS Preset Manager — Save / Load / Delete full desktop presets
 # Saves: palette, waybar style, waybar layout, wallpaper, decorations
 
 set -euo pipefail
 
-PRESETS_DIR="$HOME/.config/dedsec-palette/presets"
-PALETTE="$HOME/.config/dedsec-palette/colors.conf"
+PRESETS_DIR="$HOME/.config/lotus-palette/presets"
+PALETTE="$HOME/.config/lotus-palette/colors.conf"
 WAYBAR_STYLE="$HOME/.config/waybar/style.css"
 WAYBAR_CONFIG="$HOME/.config/waybar/config"
-ROFI_THEME="$HOME/.config/rofi/themes/dedsec-palette.rasi"
-MENU_THEME="$HOME/.config/rofi/themes/dedsec-palette.rasi"
+ROFI_THEME="$HOME/.config/rofi/themes/lotus-palette.rasi"
+MENU_THEME="$HOME/.config/rofi/themes/lotus-palette.rasi"
 
 mkdir -p "$PRESETS_DIR"
 
@@ -56,7 +56,7 @@ load_preset() {
     # 1. Apply palette
     if [[ -f "$preset_dir/colors.conf" ]]; then
         cp "$preset_dir/colors.conf" "$PALETTE"
-        bash "$HOME/.config/dedsec-palette/apply-colors.sh" &>/dev/null
+        bash "$HOME/.config/lotus-palette/apply-colors.sh" &>/dev/null
     fi
 
     # 2. Restore waybar style

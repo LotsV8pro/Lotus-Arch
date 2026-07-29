@@ -1,4 +1,4 @@
-# D̷E̷D̷S̷E̷C̷ Theme — Ghostty
+# LOTUS Theme — Ghostty
 
 adjust-cell-height = 10%
 background-blur-radius = 60
@@ -15,7 +15,7 @@ quick-terminal-position = center
 shell-integration = detect
 shell-integration-features = cursor,sudo
 term = xterm-256color
-title = D̷E̷D̷S̷E̷C̷ Terminal
+title = LOTUS Terminal
 unfocused-split-opacity = 0.5
 wait-after-command = false
 window-height = 32

@@ -35,7 +35,7 @@ if [ -d "$FASTFETCH_DIR" ] && [ "$(ls -A "$FASTFETCH_DIR")" ]; then
         "separator": " 󰁔 "
     },
     "modules": [
-        { "type": "custom", "format": " [!] DEDSEC_SYS_OVERRIDE [!]" },
+        { "type": "custom", "format": " [!] LOTUS_SYS_OVERRIDE [!]" },
         { "type": "custom", "format": "----------------------------------------" },
         { "type": "title", "key": " 󰌽 TARGET", "keyColor": "red" },
         { "type": "os", "key": " 󰍹 KERNEL", "keyColor": "magenta" },
