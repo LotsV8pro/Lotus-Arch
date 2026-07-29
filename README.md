@@ -49,14 +49,6 @@ Lotus Arch is a complete **Arch Linux desktop environment** built on Hyprland wi
 
 ---
 
-## ◈ Screenshots
-
-<p align="center">
-  <i>— screenshots needed —</i>
-</p>
-
----
-
 ## ◈ Audio Pipeline
 
 Lotus Arch includes a complete **streaming/gaming audio pipeline** designed around the SteelSeries Arctis Nova 5 headset and OBS Studio.
@@ -262,16 +254,6 @@ The repo captures your current package state at install time:
 | Flatpak | 2 |
 
 Lists are stored in `packages/{pacman,aur,flatpak}.txt` and restored on fresh installs with **per-app granularity** — no unwanted bulk installs.
-
----
-
-## ◈ Gallery
-
-> Screenshots of the desktop, audio pipeline, OBS setup, and theme details would go here.
-
-<p align="center">
-  <sub>— send a PR or open an issue to contribute screenshots —</sub>
-</p>
 
 ---
 
