@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-# D̷E̷D̷S̷E̷C̷ Palette — Apply Colors
-# Reads ~/.config/dedsec-palette/colors.conf and updates all theme files
+# LOTUS Palette — Apply Colors
+# Reads ~/.config/lotus-palette/colors.conf and updates all theme files
 
 set -euo pipefail
 
-PALETTE="$HOME/.config/dedsec-palette/colors.conf"
+PALETTE="$HOME/.config/lotus-palette/colors.conf"
 
 if [[ ! -f "$PALETTE" ]]; then
     echo "Palette not found: $PALETTE"
@@ -18,10 +18,10 @@ source "$PALETTE"
 strip() { echo "${1#\#}"; }
 
 # ── 1. Waybar CSS ─────────────────────────────────────────────
-WAYBAR_CSS="$HOME/.config/waybar/style/[Dark] DedSec Purple.css"
+WAYBAR_CSS="$HOME/.config/waybar/style/[Dark] Lotus Purple.css"
 
 cat > "$WAYBAR_CSS" << CSS
-/* D̷E̷D̷S̷E̷C̷ — Waybar (Flat Purple) */
+/* LOTUS — Waybar (Flat Purple) */
 
 @define-color purple ${primary};
 @define-color purple-dim ${primary_dim};
@@ -204,7 +204,7 @@ tooltip label {
 CSS
 
 # ── 1b. Waybar Pill Style (Floating + HyprGlass) ──────────────
-WAYBAR_PILL="$HOME/.config/waybar/style/[Dark] DedSec Pill.css"
+WAYBAR_PILL="$HOME/.config/waybar/style/[Dark] Lotus Pill.css"
 
 # Extract RGB components from hex for rgba()
 hex_to_rgb() {
@@ -215,7 +215,7 @@ read -r BGR BGG BGB <<< "$(hex_to_rgb "$bg")"
 read -r ALT_R ALT_G ALT_B <<< "$(hex_to_rgb "$bg_alt")"
 
 cat > "$WAYBAR_PILL" << PILL
-/* D̷E̷D̷S̷E̷C̷ — Waybar Floating Pill Style (HyprGlass ready) */
+/* LOTUS — Waybar Floating Pill Style (HyprGlass ready) */
 
 @define-color purple ${primary};
 @define-color purple-dim ${primary_dim};
@@ -373,7 +373,7 @@ WAYBAR_MONO="$HOME/.config/waybar/style/[Black & White] Monochrome.css"
 
 cat > "$WAYBAR_MONO" << MONO
 /* M̷O̷N̷O̷C̷H̷R̷O̷M̷E̷ — Minimalistic Floating Pill (Dynamic Island) */
-/* Colors auto-generated from dedsec palette — do not edit manually */
+/* Colors auto-generated from lotus palette — do not edit manually */
 
 @define-color primary ${primary};
 @define-color primary-dim ${primary_dim};
@@ -601,45 +601,45 @@ GTK_CSS="$HOME/.config/gtk-3.0/gtk.css"
 read -r PR PRG PRB <<< "$(hex_to_rgb "$primary")"
 
 cat > "$GTK_CSS" << 'GTKCSS'
-/* D̷E̷D̷S̷E̷C̷ — GTK3 Thunar Theme (Pill / Rounded) */
+/* LOTUS — GTK3 Thunar Theme (Pill / Rounded) */
 GTKCSS
 
 cat >> "$GTK_CSS" << GTK
-@define-color dedsec-purple    ${primary};
-@define-color dedsec-purple-dim ${primary_dim};
-@define-color dedsec-purple-dark ${primary_dark};
-@define-color dedsec-bg        ${bg};
-@define-color dedsec-bg-alt    ${bg_alt};
-@define-color dedsec-bg-light  ${bg_light};
-@define-color dedsec-fg        ${fg};
-@define-color dedsec-fg-dim    ${fg_dim};
-@define-color dedsec-border    ${border};
-@define-color dedsec-red       ${red};
-@define-color dedsec-green     ${green};
-@define-color dedsec-cyan      ${cyan};
+@define-color lotus-purple    ${primary};
+@define-color lotus-purple-dim ${primary_dim};
+@define-color lotus-purple-dark ${primary_dark};
+@define-color lotus-bg        ${bg};
+@define-color lotus-bg-alt    ${bg_alt};
+@define-color lotus-bg-light  ${bg_light};
+@define-color lotus-fg        ${fg};
+@define-color lotus-fg-dim    ${fg_dim};
+@define-color lotus-border    ${border};
+@define-color lotus-red       ${red};
+@define-color lotus-green     ${green};
+@define-color lotus-cyan      ${cyan};
 GTK
 
 cat >> "$GTK_CSS" << GTKCSS2
 
 .thunar .view, .thunar iconview, .thunar .thunar-wallpaper,
 .thunar scrolledwindow, .thunar {
-    background-color: @dedsec-bg; color: @dedsec-fg;
+    background-color: @lotus-bg; color: @lotus-fg;
 }
 
 .thunar headerbar, .thunar .titlebar {
-    background-color: @dedsec-bg-alt; border-bottom: 1px solid @dedsec-border;
+    background-color: @lotus-bg-alt; border-bottom: 1px solid @lotus-border;
     border-radius: 0; padding: 4px 8px; min-height: 38px;
 }
-.thunar headerbar title, .thunar headerbar label { color: @dedsec-fg; font-weight: bold; }
+.thunar headerbar title, .thunar headerbar label { color: @lotus-fg; font-weight: bold; }
 
 .thunar .sidebar {
-    background-color: @dedsec-bg-alt; border-right: 1px solid @dedsec-border; padding: 6px;
+    background-color: @lotus-bg-alt; border-right: 1px solid @lotus-border; padding: 6px;
 }
 .thunar .sidebar .view, .thunar .sidebar treeview {
-    background-color: transparent; color: @dedsec-fg; border: none; outline: none; font-weight: bold;
+    background-color: transparent; color: @lotus-fg; border: none; outline: none; font-weight: bold;
 }
 .thunar .sidebar .sidebar-label {
-    color: @dedsec-fg-dim; font-size: 0.85em; font-weight: bold; padding: 8px 12px 4px 12px; letter-spacing: 1px;
+    color: @lotus-fg-dim; font-size: 0.85em; font-weight: bold; padding: 8px 12px 4px 12px; letter-spacing: 1px;
 }
 .thunar .sidebar row, .thunar .sidebar treeview row {
     padding: 2px 4px; margin: 1px 4px; border-radius: 12px; min-height: 32px; transition: all 200ms ease;
@@ -648,47 +648,47 @@ cat >> "$GTK_CSS" << GTKCSS2
     background-color: rgba(${PR}, ${PRG}, ${PRB}, 0.12); border-radius: 12px;
 }
 .thunar .sidebar row:selected, .thunar .sidebar treeview row:selected {
-    background-color: rgba(${PR}, ${PRG}, ${PRB}, 0.25); color: @dedsec-purple; border-radius: 12px;
+    background-color: rgba(${PR}, ${PRG}, ${PRB}, 0.25); color: @lotus-purple; border-radius: 12px;
     border: 1px solid rgba(${PR}, ${PRG}, ${PRB}, 0.3);
 }
-.thunar .sidebar row:selected label, .thunar .sidebar treeview row:selected label { color: @dedsec-purple; font-weight: bold; }
-.thunar .sidebar row:selected image, .thunar .sidebar treeview row:selected image { color: @dedsec-purple; }
-.thunar .sidebar row image, .thunar .sidebar treeview row image { color: @dedsec-fg-dim; padding-right: 8px; }
+.thunar .sidebar row:selected label, .thunar .sidebar treeview row:selected label { color: @lotus-purple; font-weight: bold; }
+.thunar .sidebar row:selected image, .thunar .sidebar treeview row:selected image { color: @lotus-purple; }
+.thunar .sidebar row image, .thunar .sidebar treeview row image { color: @lotus-fg-dim; padding-right: 8px; }
 
 .thunar toolbar, .thunar .toolbar {
-    background-color: @dedsec-bg-alt; border-bottom: 1px solid @dedsec-border; padding: 4px 8px; border-radius: 0;
+    background-color: @lotus-bg-alt; border-bottom: 1px solid @lotus-border; padding: 4px 8px; border-radius: 0;
 }
 .thunar toolbar button, .thunar .toolbar button {
-    background-color: transparent; color: @dedsec-fg; border: 1px solid transparent;
+    background-color: transparent; color: @lotus-fg; border: 1px solid transparent;
     border-radius: 12px; padding: 4px 10px; min-width: 32px; min-height: 32px; transition: all 200ms ease;
 }
 .thunar toolbar button:hover, .thunar .toolbar button:hover {
-    background-color: rgba(${PR}, ${PRG}, ${PRB}, 0.15); border-color: @dedsec-border; color: @dedsec-purple;
+    background-color: rgba(${PR}, ${PRG}, ${PRB}, 0.15); border-color: @lotus-border; color: @lotus-purple;
 }
 
 .thunar .path-bar button {
-    background-color: rgba(${ALT_R}, ${ALT_G}, ${ALT_B}, 0.6); color: @dedsec-fg;
-    border: 1px solid @dedsec-border; border-radius: 12px; padding: 4px 14px; margin: 2px 2px; min-height: 28px;
+    background-color: rgba(${ALT_R}, ${ALT_G}, ${ALT_B}, 0.6); color: @lotus-fg;
+    border: 1px solid @lotus-border; border-radius: 12px; padding: 4px 14px; margin: 2px 2px; min-height: 28px;
     transition: all 200ms ease;
 }
 .thunar .path-bar button:hover {
-    background-color: rgba(${PR}, ${PRG}, ${PRB}, 0.2); border-color: @dedsec-purple-dim; color: @dedsec-purple;
+    background-color: rgba(${PR}, ${PRG}, ${PRB}, 0.2); border-color: @lotus-purple-dim; color: @lotus-purple;
 }
 .thunar .path-bar button:checked, .thunar .path-bar button:last-child {
-    background-color: rgba(${PR}, ${PRG}, ${PRB}, 0.25); color: @dedsec-purple; border-color: @dedsec-purple;
+    background-color: rgba(${PR}, ${PRG}, ${PRB}, 0.25); color: @lotus-purple; border-color: @lotus-purple;
 }
 
 .thunar .search-bar entry, .thunar entry.search {
-    background-color: @dedsec-bg; color: @dedsec-fg; border: 1px solid @dedsec-border;
-    border-radius: 16px; padding: 4px 14px; min-height: 30px; caret-color: @dedsec-purple;
+    background-color: @lotus-bg; color: @lotus-fg; border: 1px solid @lotus-border;
+    border-radius: 16px; padding: 4px 14px; min-height: 30px; caret-color: @lotus-purple;
 }
 .thunar .search-bar entry:focus, .thunar entry.search:focus {
-    border-color: @dedsec-purple; box-shadow: 0 0 0 2px rgba(${PR}, ${PRG}, ${PRB}, 0.2);
+    border-color: @lotus-purple; box-shadow: 0 0 0 2px rgba(${PR}, ${PRG}, ${PRB}, 0.2);
 }
 
 .thunar .view header button, .thunar GtkTreeViewHeaderButton {
-    background-color: @dedsec-bg-alt; color: @dedsec-fg-dim;
-    border-bottom: 1px solid @dedsec-border; border-right: 1px solid @dedsec-border;
+    background-color: @lotus-bg-alt; color: @lotus-fg-dim;
+    border-bottom: 1px solid @lotus-border; border-right: 1px solid @lotus-border;
     border-radius: 0; padding: 6px 12px; font-weight: bold; font-size: 0.9em;
 }
 
@@ -699,10 +699,10 @@ cat >> "$GTK_CSS" << GTKCSS2
     background-color: rgba(${PR}, ${PRG}, ${PRB}, 0.10); border-radius: 10px;
 }
 .thunar .view row:selected, .thunar iconview cell:selected {
-    background-color: rgba(${PR}, ${PRG}, ${PRB}, 0.22); color: @dedsec-purple; border-radius: 10px;
+    background-color: rgba(${PR}, ${PRG}, ${PRB}, 0.22); color: @lotus-purple; border-radius: 10px;
     border: 1px solid rgba(${PR}, ${PRG}, ${PRB}, 0.3);
 }
-.thunar .view row:selected label, .thunar iconview cell:selected label { color: @dedsec-purple; font-weight: bold; }
+.thunar .view row:selected label, .thunar iconview cell:selected label { color: @lotus-purple; font-weight: bold; }
 
 .thunar scrollbar, .thunar scrolledwindow scrollbar { background-color: transparent; border: none; }
 .thunar scrollbar slider, .thunar scrolledwindow scrollbar slider {
@@ -714,93 +714,93 @@ cat >> "$GTK_CSS" << GTKCSS2
 }
 
 .thunar .statusbar, .thunar statusbar {
-    background-color: @dedsec-bg-alt; border-top: 1px solid @dedsec-border;
-    color: @dedsec-fg-dim; padding: 4px 12px; font-size: 0.85em;
+    background-color: @lotus-bg-alt; border-top: 1px solid @lotus-border;
+    color: @lotus-fg-dim; padding: 4px 12px; font-size: 0.85em;
 }
 
 .thunar button {
-    color: @dedsec-fg; border-radius: 12px; padding: 4px 14px; min-height: 30px; transition: all 200ms ease;
+    color: @lotus-fg; border-radius: 12px; padding: 4px 14px; min-height: 30px; transition: all 200ms ease;
 }
-.thunar button:hover { background-color: rgba(${PR}, ${PRG}, ${PRB}, 0.15); color: @dedsec-purple; }
+.thunar button:hover { background-color: rgba(${PR}, ${PRG}, ${PRB}, 0.15); color: @lotus-purple; }
 .thunar button:active { background-color: rgba(${PR}, ${PRG}, ${PRB}, 0.25); }
 .thunar button.suggested-action {
-    background-color: rgba(${PR}, ${PRG}, ${PRB}, 0.3); color: @dedsec-purple;
-    border: 1px solid @dedsec-purple-dim; border-radius: 12px;
+    background-color: rgba(${PR}, ${PRG}, ${PRB}, 0.3); color: @lotus-purple;
+    border: 1px solid @lotus-purple-dim; border-radius: 12px;
 }
 .thunar button.suggested-action:hover {
-    background-color: rgba(${PR}, ${PRG}, ${PRB}, 0.45); border-color: @dedsec-purple;
+    background-color: rgba(${PR}, ${PRG}, ${PRB}, 0.45); border-color: @lotus-purple;
 }
 
 .thunar entry, .thunar spinbutton {
-    background-color: @dedsec-bg; color: @dedsec-fg; border: 1px solid @dedsec-border;
-    border-radius: 12px; padding: 4px 12px; min-height: 30px; caret-color: @dedsec-purple;
+    background-color: @lotus-bg; color: @lotus-fg; border: 1px solid @lotus-border;
+    border-radius: 12px; padding: 4px 12px; min-height: 30px; caret-color: @lotus-purple;
 }
 .thunar entry:focus, .thunar spinbutton:focus {
-    border-color: @dedsec-purple; box-shadow: 0 0 0 2px rgba(${PR}, ${PRG}, ${PRB}, 0.2);
+    border-color: @lotus-purple; box-shadow: 0 0 0 2px rgba(${PR}, ${PRG}, ${PRB}, 0.2);
 }
 .thunar entry selection, .thunar spinbutton selection {
-    background-color: rgba(${PR}, ${PRG}, ${PRB}, 0.35); color: @dedsec-fg;
+    background-color: rgba(${PR}, ${PRG}, ${PRB}, 0.35); color: @lotus-fg;
 }
 
 .thunar .context-menu, .thunar menu, .thunar popupmenu, .thunar popover {
-    background-color: @dedsec-bg-alt; border: 1px solid @dedsec-border;
+    background-color: @lotus-bg-alt; border: 1px solid @lotus-border;
     border-radius: 12px; padding: 6px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
 }
 .thunar .context-menu menuitem, .thunar menu menuitem {
-    color: @dedsec-fg; border-radius: 8px; padding: 6px 16px; min-height: 30px; transition: all 150ms ease;
+    color: @lotus-fg; border-radius: 8px; padding: 6px 16px; min-height: 30px; transition: all 150ms ease;
 }
 .thunar .context-menu menuitem:hover, .thunar menu menuitem:hover {
-    background-color: rgba(${PR}, ${PRG}, ${PRB}, 0.15); color: @dedsec-purple;
+    background-color: rgba(${PR}, ${PRG}, ${PRB}, 0.15); color: @lotus-purple;
 }
-.thunar .context-menu menuitem:disabled, .thunar menu menuitem:disabled { color: @dedsec-fg-dim; opacity: 0.5; }
+.thunar .context-menu menuitem:disabled, .thunar menu menuitem:disabled { color: @lotus-fg-dim; opacity: 0.5; }
 .thunar .context-menu separator, .thunar menu separator {
-    background-color: @dedsec-border; margin: 4px 8px; min-height: 1px;
+    background-color: @lotus-border; margin: 4px 8px; min-height: 1px;
 }
 
 .thunar notebook > header tab {
-    background-color: transparent; color: @dedsec-fg-dim; border: none;
+    background-color: transparent; color: @lotus-fg-dim; border: none;
     border-bottom: 2px solid transparent; border-radius: 8px 8px 0 0; padding: 6px 16px; min-height: 32px;
 }
-.thunar notebook > header tab:hover { color: @dedsec-fg; background-color: rgba(${PR}, ${PRG}, ${PRB}, 0.08); }
+.thunar notebook > header tab:hover { color: @lotus-fg; background-color: rgba(${PR}, ${PRG}, ${PRB}, 0.08); }
 .thunar notebook > header tab:checked {
-    color: @dedsec-purple; border-bottom-color: @dedsec-purple; background-color: rgba(${PR}, ${PRG}, ${PRB}, 0.12);
+    color: @lotus-purple; border-bottom-color: @lotus-purple; background-color: rgba(${PR}, ${PRG}, ${PRB}, 0.12);
 }
 
 .thunar tooltip, .thunar GtkTooltip {
-    background-color: @dedsec-bg-alt; color: @dedsec-fg;
-    border: 1px solid @dedsec-border; border-radius: 10px; padding: 6px 10px;
+    background-color: @lotus-bg-alt; color: @lotus-fg;
+    border: 1px solid @lotus-border; border-radius: 10px; padding: 6px 10px;
 }
 
 .thunar progressbar trough, .thunar .progressbar trough {
-    background-color: @dedsec-bg-light; border-radius: 10px; min-height: 8px;
+    background-color: @lotus-bg-light; border-radius: 10px; min-height: 8px;
 }
 .thunar progressbar progress, .thunar .progressbar progress {
-    background-color: @dedsec-purple; border-radius: 10px; min-height: 8px;
+    background-color: @lotus-purple; border-radius: 10px; min-height: 8px;
 }
 
 .thunar checkbutton check, .thunar radiobutton radio {
-    background-color: @dedsec-bg; border: 2px solid @dedsec-border; border-radius: 6px; min-width: 18px; min-height: 18px;
+    background-color: @lotus-bg; border: 2px solid @lotus-border; border-radius: 6px; min-width: 18px; min-height: 18px;
 }
 .thunar checkbutton check:checked, .thunar radiobutton radio:checked {
-    background-color: @dedsec-purple; border-color: @dedsec-purple; color: @dedsec-bg;
+    background-color: @lotus-purple; border-color: @lotus-purple; color: @lotus-bg;
 }
 
 .thunar switch {
-    background-color: @dedsec-bg-light; border-radius: 20px; padding: 2px; min-width: 48px; min-height: 26px;
+    background-color: @lotus-bg-light; border-radius: 20px; padding: 2px; min-width: 48px; min-height: 26px;
 }
 .thunar switch:checked { background-color: rgba(${PR}, ${PRG}, ${PRB}, 0.4); }
 .thunar switch slider {
-    background-color: @dedsec-fg-dim; border-radius: 20px; min-width: 22px; min-height: 22px;
+    background-color: @lotus-fg-dim; border-radius: 20px; min-width: 22px; min-height: 22px;
 }
-.thunar switch:checked slider { background-color: @dedsec-purple; }
+.thunar switch:checked slider { background-color: @lotus-purple; }
 GTKCSS2
 
 # ── 2. Rofi Theme ─────────────────────────────────────────────
-ROFI_THEME="$HOME/.config/rofi/themes/dedsec.rasi"
+ROFI_THEME="$HOME/.config/rofi/themes/lotus.rasi"
 BG_EE="${bg}ee"
 
 cat > "$ROFI_THEME" << ROSI
-/* D̷E̷D̷S̷E̷C̷ Rofi — Purple / Modern */
+/* LOTUS Rofi — Purple / Modern */
 
 configuration {
     modi:                       "drun,run,filebrowser,window";
@@ -1005,10 +1005,10 @@ error-message {
 ROSI
 
 # ── 3. Kitty Terminal ──────────────────────────────────────────
-KITTY="$HOME/.config/kitty/kitty-dedsec.conf"
+KITTY="$HOME/.config/kitty/kitty-lotus.conf"
 
 cat > "$KITTY" << KITTY
-# D̷E̷D̷S̷E̷C̷ Terminal Theme — Kitty
+# LOTUS Terminal Theme — Kitty
 
 foreground           ${fg}
 background           ${bg}
@@ -1057,7 +1057,7 @@ KITTY
 GHOSTTY="$HOME/.config/ghostty/config"
 
 cat > "$GHOSTTY" << GHOSTTY
-# D̷E̷D̷S̷E̷C̷ Theme — Ghostty
+# LOTUS Theme — Ghostty
 
 adjust-cell-height = 10%
 background-blur-radius = 60
@@ -1074,7 +1074,7 @@ quick-terminal-position = center
 shell-integration = detect
 shell-integration-features = cursor,sudo
 term = xterm-256color
-title = D̷E̷D̷S̷E̷C̷ Terminal
+title = LOTUS Terminal
 unfocused-split-opacity = 0.5
 wait-after-command = false
 window-height = 32
@@ -1119,7 +1119,7 @@ GHOSTTY
 DECOR="$HOME/.config/hypr/UserConfigs/UserDecorations.lua"
 
 cat > "$DECOR" << DECOR
--- D̷E̷D̷S̷E̷C̷ Decorations
+-- LOTUS Decorations
 
 -- General settings
 hl.config({
@@ -1196,7 +1196,7 @@ DECOR
 DECOR_CONF="$HOME/.config/hypr/UserConfigs/UserDecorations.conf"
 
 cat > "$DECOR_CONF" << DECORCONF
-# D̷E̷D̷S̷E̷C̷ Decorations
+# LOTUS Decorations
 
 general {
   border_size = 2
@@ -1258,7 +1258,7 @@ DECORCONF
 HYPR_COLORS="$HOME/.config/hypr/wallust/wallust-hyprland.conf"
 
 cat > "$HYPR_COLORS" << HYPR
-# D̷E̷D̷S̷E̷C̷ Hyprland Colors
+# LOTUS Hyprland Colors
 
 \$background = rgb($(strip ${bg}))
 \$foreground = rgb($(strip ${fg}))
@@ -1281,11 +1281,11 @@ cat > "$HYPR_COLORS" << HYPR
 HYPR
 
 # ── 6. Rofi Palette Menu Theme ──────────────────────────────────
-ROFI_PALETTE="$HOME/.config/rofi/themes/dedsec-palette.rasi"
+ROFI_PALETTE="$HOME/.config/rofi/themes/lotus-palette.rasi"
 BG_EE_PALETTE="${bg}ee"
 
 cat > "$ROFI_PALETTE" << ROSIPAL
-/* D̷E̷D̷S̷E̷C̷ — Compact Palette Menu (auto-generated) */
+/* LOTUS — Compact Palette Menu (auto-generated) */
 
 configuration {
     modi:               "drun";
