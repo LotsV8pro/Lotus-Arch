@@ -4,22 +4,30 @@
 set -euo pipefail
 
 echo "[09] Restoring user packages and themes..."
+echo "  (press Enter to accept, or type n/N to skip each)"
+echo ""
 
 # ── 1. Restore official packages ──
-echo "  → Restoring official packages..."
-if [[ -f "$SCRIPT_DIR/../packages/pacman.txt" ]]; then
+echo -n "  Restore saved official packages (146 packages)? [Y/n]: "
+read -r pac_ans
+if [[ ! "$pac_ans" =~ ^[Nn] ]] && [[ -f "$SCRIPT_DIR/../packages/pacman.txt" ]]; then
+  echo "  → Restoring official packages..."
   sudo pacman -S --noconfirm --needed - < "$SCRIPT_DIR/../packages/pacman.txt" 2>&1 | tail -3 || true
 fi
 
 # ── 2. Restore AUR packages ──
-echo "  → Restoring AUR packages..."
-if [[ -f "$SCRIPT_DIR/../packages/aur.txt" ]]; then
+echo -n "  Restore saved AUR packages (16 packages)? [Y/n]: "
+read -r aur_ans
+if [[ ! "$aur_ans" =~ ^[Nn] ]] && [[ -f "$SCRIPT_DIR/../packages/aur.txt" ]]; then
+  echo "  → Restoring AUR packages..."
   yay -S --noconfirm --needed - < "$SCRIPT_DIR/../packages/aur.txt" 2>&1 | tail -3 || true
 fi
 
 # ── 3. Restore Flatpaks ──
-echo "  → Restoring Flatpak apps..."
-if [[ -f "$SCRIPT_DIR/../packages/flatpak.txt" ]]; then
+echo -n "  Restore saved Flatpak apps (2 packages)? [Y/n]: "
+read -r flat_ans
+if [[ ! "$flat_ans" =~ ^[Nn] ]] && [[ -f "$SCRIPT_DIR/../packages/flatpak.txt" ]]; then
+  echo "  → Restoring Flatpak apps..."
   while IFS= read -r app; do
     [[ -z "$app" ]] && continue
     flatpak install --noninteractive -y "$app" 2>&1 | tail -1 || true
