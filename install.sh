@@ -154,6 +154,7 @@ main() {
     run_phase 6 "06-dotfiles.sh"    "Deploy Dotfiles"
     run_phase 7 "08-plugins.sh"     "Hyprland Plugins (HyprGlass)"
     run_phase 8 "07-cleanup.sh"     "Final Cleanup"
+    run_phase 9 "09-user-apps.sh"   "Restore User Apps & Themes"
 
     echo ""
     echo -e "${GREEN}═══════════════════════════════════════════${NC}"
