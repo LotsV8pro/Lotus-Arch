@@ -17,8 +17,8 @@ systemctl --user enable pipewire.service 2>/dev/null || true
 systemctl --user enable pipewire-pulse.service 2>/dev/null || true
 systemctl --user enable wireplumber.service 2>/dev/null || true
 
-# Power
-sudo systemctl enable power-profiles-daemon.service 2>/dev/null || true
+# Power (optional — Phase 10 masks this if CPU tweaks are applied)
+# sudo systemctl enable power-profiles-daemon.service 2>/dev/null || true
 
 # ZRAM
 sudo systemctl enable systemd-zram-setup@zram0.service 2>/dev/null || true
