@@ -1,0 +1,2 @@
+# Increase NVMe read-ahead for better game asset loading
+ACTION=="add|change", KERNEL=="nvme[0-9]*n[0-9]*", ATTR{queue/read_ahead_kb}="512"
