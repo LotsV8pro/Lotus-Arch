@@ -1,0 +1,11 @@
+[Unit]
+Description=NVIDIA GPU power limit and memory OC
+After=multi-user.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/bash /usr/local/bin/gpu-tweaks.sh
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
