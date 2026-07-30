@@ -40,6 +40,7 @@ Lotus Arch is a complete **Arch Linux desktop environment** built on Hyprland wi
 | **Preset System** | Save/load/delete full desktop themes with `SUPER + CTRL + P` |
 | **Palette Editor** | Visual color picker with `SUPER + P` — change every color instantly |
 | **NVIDIA Optimized** | RTX 4070 tuned — open-dkms drivers, Wayland-native GPU acceleration |
+| **Performance Tweaks** | Optional GPU undervolt/OC, fan curve, CPU governor, sysctl, NVMe tuning |
 | **Gaming Ready** | Steam, Lutris, MangoHud, Gamemode, Gamescope, VRR support |
 | **Controller Support** | Xbox / ROG Raikiri — launch apps and Steam Big Picture |
 | **Wallpaper Browser** | Folder-based browser with `SUPER + W` — 22 wallpaper collections |
@@ -150,7 +151,25 @@ Phase 8:  Final Cleanup        — Cache cleanup, directory setup
 Phase 9:  Restore User Apps    — Per-app prompts (Discord, Steam, Spotify, OBS…)
                                 + Audio services (virtual mic, loop hole, Arctis)
                                 + Spicetify Lotus theme + Discord Lotus theme
+Phase 10: Performance Tweaks   — Optional: GPU undervolt/OC, fan curve, CPU governor,
+                                sysctl tuning, NVMe read-ahead, GRUB C-state limits
 ```
+
+### Performance Tweaks (Phase 10)
+
+Phase 10 is optional and asks about each tweak individually. Applied tweaks persist across reboots:
+
+| Tweak | What it does |
+|---|---|
+| **GPU power limit** | Caps RTX 4070 at 160W — loses ~2% perf but runs cooler and more stable |
+| **GPU core OC** | +130 MHz core offset (via Coolbits) — safe, stable on 4070 |
+| **GPU mem OC** | +1000 MHz on GDDR6X — free bandwidth, typical headroom is +1500 |
+| **GPU fan curve** | Dynamic 30-100% based on temperature, keeps card under 65°C |
+| **CPU governor** | Sets `performance` governor and `min_perf_pct=50` at boot |
+| **CPU C-states** | Limits deep sleep (C6+) via GRUB — reduces wakeup latency micro-stutters |
+| **sysctl** | `swappiness=5`, lower dirty ratios, autogroup off, NUMA balancing off |
+| **NVMe read-ahead** | 512 KB (up from 128 KB) — improves game asset loading |
+| **Coolbits** | Enables NVIDIA OC/fan control in X config |
 
 ### Requirements
 
