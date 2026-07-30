@@ -61,6 +61,19 @@ apply_cpu() {
         sudo install -m 644 "$PERF_DIR/systemd/performance-governor.service" /etc/systemd/system/performance-governor.service
         sudo systemctl enable cpu-tweaks.service 2>/dev/null || true
         sudo systemctl enable performance-governor.service 2>/dev/null || true
+
+        # Mask power-profiles-daemon — it overrides the governor
+        sudo systemctl stop power-profiles-daemon.service 2>/dev/null || true
+        sudo systemctl mask power-profiles-daemon.service 2>/dev/null || true
+
+        # Remove conflicting user-level service
+        rm -f "$HOME/.config/systemd/user/performance-governor.service" 2>/dev/null || true
+        systemctl --user daemon-reload 2>/dev/null || true
+
+        # Apply immediately
+        sudo cpupower frequency-set -g performance 2>/dev/null || true
+        echo 50 | sudo tee /sys/devices/system/cpu/intel_pstate/min_perf_pct > /dev/null 2>&1 || true
+
         echo "      ✓ CPU tweaks enabled"
     else
         echo "      Skipped."
