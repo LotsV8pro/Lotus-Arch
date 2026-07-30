@@ -1,0 +1,11 @@
+[Unit]
+Description=CPU performance tweaks
+After=multi-user.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/bash /usr/local/bin/cpu-tweaks.sh
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

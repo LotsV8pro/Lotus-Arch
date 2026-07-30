@@ -141,6 +141,7 @@ main() {
     echo "  ◈ Phase 5 — ZSH + Oh-My-ZSH [Y/n]"
     echo "  ◈ Phase 7 — HyprGlass plugin [Y/n]"
     echo "  ◈ Phase 9 — Restore saved user packages [Y/n]"
+    echo "  ◈ Phase 10 — Performance tweaks (GPU/CPU/RAM/NVMe) [Y/n]"
     echo ""
     echo "  Then dotfiles deployed with auto-backup."
     echo ""
@@ -167,12 +168,19 @@ main() {
     run_phase 8 "07-cleanup.sh"     "Final Cleanup"
     run_phase 9 "09-user-apps.sh"   "Restore User Apps & Themes"
 
+    # Phase 10 is optional — run after dotfiles deploy
+    print_phase "PHASE 10: Performance Optimization"
+    echo "  Optional system tweaks for gaming: GPU OC, CPU tuning, sysctl, NVMe, GRUB."
+    echo ""
+    run_phase 10 "10-performance.sh" "Performance Tweaks"
+
     echo ""
     echo -e "${GREEN}═══════════════════════════════════════════${NC}"
     echo -e "${GREEN}  Installation Complete!${NC}"
     echo -e "${GREEN}═══════════════════════════════════════════${NC}"
     echo ""
     echo -e "  ${CYAN}Reboot to start Hyprland via SDDM.${NC}"
+    echo -e "  ${CYAN}If you applied performance tweaks, a reboot is required.${NC}"
     echo -e "  ${CYAN}Log: $LOG_FILE${NC}"
     echo ""
 }
