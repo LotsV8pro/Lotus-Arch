@@ -21,6 +21,7 @@ AUR_PACKAGES=(
     "ttf-victor-mono:Victor Mono Font"
     "gtk-engine-murrine:Murrine GTK Engine"
     "arctis-sound-manager:Arctis Sound Manager"
+    "obs-pipewire-audio-capture-git:OBS PipeWire Audio Capture"
     "quickshell:Quick Shell"
     "zram-generator:ZRAM Generator"
 )

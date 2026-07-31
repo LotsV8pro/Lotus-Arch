@@ -11,11 +11,11 @@
   "margin-left": 10,
   "margin-right": 10,
 
-  "modules-left": ["clock#gar", "backlight#gar", "battery#gar", "custom/updater", "tray"],
+  "modules-left": ["clock#gar", "battery#gar", "tray"],
 
   "modules-center": ["hyprland/workspaces#gar"],
 
-  "modules-right": ["pulseaudio#gar"],
+  "modules-right": ["custom/updater", "pulseaudio#gar"],
 
 
   // =========================================================================
@@ -26,21 +26,48 @@
     "disable-scroll": true,
     "all-outputs": false,
     "active-only": false,
-    "format": "{icon}",
+    "format": "{icon} {windows}",
+    "format-window-separator": " ",
+    "window-rewrite-default": " ",
+    "window-rewrite-group-threshold": 2,
+    "window-rewrite-group-format": "{icon}",
     "persistent_workspaces": {
       "*": 5
     },
     "format-icons": {
-      "1": "一",
-      "2": "二",
-      "3": "三",
-      "4": "四",
-      "5": "五",
-      "6": "六",
-      "7": "七",
-      "8": "八",
-      "9": "九",
-      "10": "十"
+      "1": "",
+      "2": "",
+      "3": "",
+      "4": "",
+      "5": "",
+      "6": "",
+      "7": "",
+      "8": "",
+      "9": "",
+      "10": ""
+    },
+    "window-rewrite": {
+      "class<zen|zen-alpha>": "󰰷 ",
+      "class<kitty|konsole|[Aa]lacritty>": " ",
+      "class<discord|vesktop|WebCord>": " ",
+      "class<com.obsproject.Studio>": " ",
+      "class<steam>": " ",
+      "class<thunar|nemo>": "󰝰 ",
+      "class<spotify>": " ",
+      "class<mpv>": " ",
+      "class<xarchiver>": " ",
+      "class<net.lutris.Lutris>": " ",
+      "class<protontricks|winetricks>": " ",
+      "class<gnome-system-monitor|org.gnome.SystemMonitor>": " ",
+      "class<nvidia-settings>": " ",
+      "class<openrgb|org.openrgb.OpenRGB>": " ",
+      "class<Vial|vial>": " ",
+      "class<org.freedesktop.Piper>": " ",
+      "class<com.leinardi.gwe>": " ",
+      "class<ArctisManager>": " ",
+      "class<org.rncbc.qpwgraph>": " ",
+      "class<swappy>": " ",
+      "class<steam_app_.*|Wuthering Waves|WutheringWaves|helldivers2|Helldivers2|Warframe|Soulframe>": " "
     }
   },
 
@@ -55,7 +82,7 @@
   },
 
   "tray#gar": {
-    "icon-size": 15,
+    "icon-size": 14,
     "spacing": 10
   },
 

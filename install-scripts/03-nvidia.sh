@@ -24,6 +24,7 @@ if ! grep -q "nvidia" /etc/mkinitcpio.conf 2>/dev/null; then
 fi
 
 # Create nvidia.conf for Hyprland env
+sudo mkdir -p /etc/environment.d
 sudo tee /etc/environment.d/nvidia.conf >/dev/null << 'EOF'
 LIBVA_DRIVER_NAME=nvidia
 __GLX_VENDOR_LIBRARY_NAME=nvidia
