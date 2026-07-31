@@ -59,6 +59,7 @@ window#waybar.empty #window {
 #battery,
 #bluetooth,
 #custom-swaync,
+#custom-updater,
 #tray,
 #cpu,
 #memory,
@@ -68,8 +69,8 @@ window#waybar.empty #window {
     background-color: rgba(28, 26, 34, 0.88);
     color: @fg;
     border-radius: 20px;
-    padding: 6px 20px;
-    margin: 6px 4px;
+    padding: 4px 20px;
+    margin: 4px 4px;
     border: 1px solid rgba(20, 18, 24, 0.15);
     transition: all 200ms ease;
 }
@@ -84,6 +85,7 @@ window#waybar.empty #window {
 #battery:hover,
 #bluetooth:hover,
 #custom-swaync:hover,
+#custom-updater:hover,
 #cpu:hover,
 #memory:hover,
 #temperature:hover,
@@ -97,25 +99,25 @@ window#waybar.empty #window {
 #custom-menu {
     color: @primary-light;
     font-size: 1.15em;
-    padding: 6px 18px;
+    padding: 4px 18px;
 }
 
 #clock {
     color: @primary-light;
     font-size: 1.05em;
     font-weight: 700;
-    padding: 6px 22px;
+    padding: 4px 22px;
 }
 
 #mpris {
     color: @primary;
     min-width: 100px;
-    padding: 6px 18px;
+    padding: 4px 18px;
 }
 
 #workspaces {
     color: @fg-dim;
-    padding: 6px 12px;
+    padding: 4px 12px;
 }
 
 #pulseaudio             { color: @teal; }
@@ -161,7 +163,8 @@ window#waybar.empty #window {
     border: none;
     border-radius: 12px;
     min-width: 20px;
-    margin: 2px 1px;
+    margin: 1px 1px;
+    font-size: 16px;
     transition: all 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
@@ -169,7 +172,7 @@ window#waybar.empty #window {
     color: @bg;
     background-color: @primary-light;
     border-radius: 12px;
-    min-width: 30px;
+    min-width: 40px;
 }
 
 #workspaces button:hover {
