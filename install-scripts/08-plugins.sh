@@ -23,6 +23,6 @@ fi
 echo "  → Installing HyprGlass plugin..."
 sudo hyprpm add https://github.com/hyprnux/hyprglass 2>&1 | tail -5 || true
 sudo hyprpm enable hyprglass 2>&1 | tail -5 || true
-hyprpm reload -n 2>&1 | tail -3 || true
+pgrep -x Hyprland && hyprpm reload -n 2>&1 | tail -3 || true
 
 echo "[08] Plugins installed."
