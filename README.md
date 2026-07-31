@@ -162,8 +162,8 @@ Phase 10 is optional and asks about each tweak individually. Applied tweaks pers
 | Tweak | What it does |
 |---|---|
 | **GPU power limit** | Caps RTX 4070 at 160W — loses ~2% perf but runs cooler and more stable |
-| **GPU core OC** | +130 MHz core offset (via Coolbits) — safe, stable on 4070 |
-| **GPU mem OC** | +1000 MHz on GDDR6X — free bandwidth, typical headroom is +1500 |
+| **GPU core OC** | +150 MHz core offset (via Coolbits) — safe, stable on 4070 |
+| **GPU mem OC** | +1500 MHz on GDDR6X — free bandwidth, typical headroom is +1500 |
 | **GPU fan curve** | Dynamic 30-100% based on temperature, keeps card under 65°C |
 | **CPU governor** | Sets `performance` governor and `min_perf_pct=50` at boot |
 | **CPU C-states** | Limits deep sleep (C6+) via GRUB — reduces wakeup latency micro-stutters |

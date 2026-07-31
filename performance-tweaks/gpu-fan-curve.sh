@@ -7,7 +7,7 @@ GPU=0
 DISPLAY=${DISPLAY:-:1}
 
 # Apply core OC (needs display + root — service runs as root)
-/usr/bin/nvidia-settings -c "$DISPLAY" -a "[gpu:${GPU}]/GPUGraphicsClockOffsetAllPerformanceLevels=130" > /dev/null 2>&1
+/usr/bin/nvidia-settings -c "$DISPLAY" -a "[gpu:${GPU}]/GPUGraphicsClockOffsetAllPerformanceLevels=150" > /dev/null 2>&1
 
 enable_fan_control() {
     /usr/bin/nvidia-settings -c "$DISPLAY" -a "[gpu:${GPU}]/GPUFanControlState=1" > /dev/null 2>&1
