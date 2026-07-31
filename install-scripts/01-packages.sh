@@ -56,7 +56,7 @@ DM=( sddm )
 # ── Screenshot / Recording ──
 SCREENSHOT=(
     grim slurp swappy
-    obs-studio obs-studio-plugin-browser obs-pipewire-audio-capture-git
+    obs-studio obs-studio-plugin-browser
 )
 
 # ── Theming ──
@@ -101,7 +101,7 @@ BLUETOOTH=(
 
 # ── Network ──
 NETWORK=(
-    networkmanager network-manager-applet nm-connection-manager
+    networkmanager network-manager-applet
     wpa_supplicant
 )
 
