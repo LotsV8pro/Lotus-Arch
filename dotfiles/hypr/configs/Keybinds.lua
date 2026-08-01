@@ -23,8 +23,8 @@ hl.bind(mainMod .. " + Return", hl.dsp.exec_cmd("$term"))
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd("$files"))
 
 -- FEATURES / EXTRAS
--- Reload Hyprland config
-hl.bind(mainMod .. " + T", hl.dsp.exec_cmd("hyprctl reload"))
+-- Reload Hyprland config (also restores OBS PipeWire capture, which a reload breaks)
+hl.bind(mainMod .. " + T", hl.dsp.exec_cmd(scripts_dir .. "/ReloadConfig.sh"))
 
 -- Help / cheat sheet
 hl.bind(mainMod .. " + H", hl.dsp.exec_cmd(scripts_dir .. "/KeyHints.sh"))

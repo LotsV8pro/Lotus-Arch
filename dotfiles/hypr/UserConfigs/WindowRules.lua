@@ -7,9 +7,9 @@
 -- Default workspaces (DP-2: 1-5, HDMI-A-1: 6-10)
 hl.window_rule({ match = { class = "^(asm-gui)$" }, workspace = "special:silent" })
 hl.window_rule({ match = { class = "^(discord)$" }, workspace = "6" })
-hl.window_rule({ match = { class = "^(com%.obsproject%.Studio)$" }, workspace = "7" })
+hl.window_rule({ match = { class = "^(com\\.obsproject\\.Studio)$" }, workspace = "7" })
 hl.window_rule({ match = { title = "^(Arctis Sound Manager)$" }, workspace = "7" })
-hl.window_rule({ match = { class = "^(org%.rncbc%.qpwgraph)$" }, workspace = "7" })
+hl.window_rule({ match = { class = "^(org\\.rncbc\\.qpwgraph)$" }, workspace = "7" })
 hl.window_rule({ match = { class = "^(zen|zen-alpha)$" }, workspace = "2" })
 hl.window_rule({ match = { class = "^([Ss]team)$" }, workspace = "1" })
 -- Games on 1 (main monitor) - detected by Steam appid class, no gamescope wrapper
@@ -30,6 +30,8 @@ hl.window_rule({ match = { class = "^(vesktop)$" }, workspace = "6" })
 hl.window_rule({ match = { class = "^(net.lutris.Lutris|protontricks|winetricks)$" }, workspace = "8" })
 -- WS9: System monitors
 hl.window_rule({ match = { class = "^(gnome-system-monitor|org.gnome.SystemMonitor|nvidia-settings)$" }, workspace = "9" })
+-- WS9: nvtop/btop launched as `kitty --title nvtop/btop` (class is kitty)
+hl.window_rule({ match = { title = "^(nvtop|btop)$" }, workspace = "9" })
 -- WS10: Hardware/gear settings
 hl.window_rule({ match = { class = "^(openrgb|org.openrgb.OpenRGB|Vial|vial|org.freedesktop.Piper|com.leinardi.gwe)$" }, workspace = "10" })
 

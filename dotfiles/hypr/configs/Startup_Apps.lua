@@ -9,7 +9,6 @@ hl.exec_cmd("swww-daemon --format xrgb")
 -- Startup & Environment
 hl.exec_cmd("dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP")
 hl.exec_cmd("systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP")
-hl.exec_cmd("systemctl --user restart xdg-desktop-portal-hyprland xdg-desktop-portal")
 
 hl.exec_cmd(scripts_dir .. "/Dropterminal.sh kitty")
 hl.exec_cmd("pkill -x hyprpolkitagent 2>/dev/null; " .. scripts_dir .. "/Polkit.sh")
