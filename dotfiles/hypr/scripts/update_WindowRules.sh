@@ -51,7 +51,7 @@ if [ "$SMALLEST" = "$REQUIRED_VER" ]; then
   if command -v hyprctl &>/dev/null; then
     if hyprctl instances &>/dev/null; then
       echo "Reloading Hyprland..."
-      hyprctl reload
+      "$HOME/.config/hypr/scripts/ReloadConfig.sh"
     fi
   fi
 else

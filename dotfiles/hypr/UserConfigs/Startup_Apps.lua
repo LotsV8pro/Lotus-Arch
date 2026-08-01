@@ -7,6 +7,6 @@ hl.on("hyprland.start", function()
     hl.exec_cmd(os.getenv("HOME") .. "/.local/bin/fix-portal.sh")
 
     -- Auto-start apps
-    hl.exec_cmd("pkill -x asm-gui 2>/dev/null; /usr/bin/asm-gui --systray &")
+    hl.exec_cmd("pkill -x asm-gui 2>/dev/null; sleep 3 && /usr/bin/asm-gui")
 end)
 
