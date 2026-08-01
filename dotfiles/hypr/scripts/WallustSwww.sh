@@ -133,3 +133,6 @@ if command -v waybar-msg >/dev/null 2>&1; then
 elif pidof waybar >/dev/null; then
   killall -SIGUSR2 waybar 2>/dev/null || true
 fi
+
+# Sync the pixie SDDM login background with the current wallpaper
+nohup "$HOME/.config/hypr/scripts/SyncSddmWallpaper.sh" "$passed_path" >/dev/null 2>&1 &
