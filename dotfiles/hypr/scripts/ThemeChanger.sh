@@ -114,7 +114,7 @@ if wallust theme -- "${choice}"; then
 
   # Reload Hyprland so new border colors from wallust-hyprland.conf take effect
   if command -v hyprctl >/dev/null 2>&1; then
-    hyprctl reload >/dev/null 2>&1 || true
+    "$HOME/.config/hypr/scripts/ReloadConfig.sh" >/dev/null 2>&1 || true
   fi
 
   # Refresh bars/menus after files are ready

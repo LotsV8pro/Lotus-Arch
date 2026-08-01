@@ -49,7 +49,7 @@ toggle_rainbow_borders() {
         if mv "$rainbow_script" "$disabled_sh_bak"; then
             status="disabled"
             if command -v hyprctl &>/dev/null; then
-                hyprctl reload >/dev/null 2>&1 || true
+                "$HOME/.config/hypr/scripts/ReloadConfig.sh" >/dev/null 2>&1 || true
             fi
         fi
     elif [[ -f "$disabled_sh_bak" ]]; then
@@ -119,7 +119,7 @@ rainbow_borders_menu() {
             fi
             current="disabled"
             if command -v hyprctl &>/dev/null; then
-                hyprctl reload >/dev/null 2>&1 || true
+                "$HOME/.config/hypr/scripts/ReloadConfig.sh" >/dev/null 2>&1 || true
             fi
             ;;
         "Wallust Color"|"Original Rainbow"|"Gradient Flow")
