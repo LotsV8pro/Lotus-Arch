@@ -18,6 +18,7 @@
 
   "hyprland/workspaces#gar": {
     "disable-scroll": true,
+    "tooltip": false,
     "all-outputs": false,
     "active-only": false,
     "format": "<span size='larger'>{icon} {windows}</span>",
