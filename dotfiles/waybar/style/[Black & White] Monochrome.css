@@ -78,7 +78,6 @@ window#waybar.empty #window {
 #mpris:hover,
 #custom-weather:hover,
 #clock:hover,
-#workspaces:hover,
 #pulseaudio:hover,
 #network:hover,
 #battery:hover,
@@ -157,12 +156,16 @@ window#waybar.empty #window {
 #workspaces button {
     padding: 0px 8px;
     color: @fg-dim;
-    background-color: transparent;
+    background: none;
     border: none;
     border-radius: 12px;
     min-width: 20px;
     margin: 2px 1px;
-    transition: all 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    text-shadow: none;
+    box-shadow: none;
+    transition: none;
+    -gtk-icon-shadow: none;
+    -gtk-icon-effect: none;
 }
 
 #workspaces button.active {
@@ -174,7 +177,7 @@ window#waybar.empty #window {
 
 #workspaces button:hover {
     color: @bg;
-    background-color: @primary-dim;
+    background: @primary-light;
 }
 
 #workspaces button.urgent {
