@@ -1,15 +1,30 @@
 #!/usr/bin/env python3
 """
-Restart OBS PipeWire screen capture source via obs-websocket.
-Uses only built-in Python modules (socket, ssl, json, hashlib, base64, struct).
+Check the OBS PipeWire screen-capture source via obs-websocket and report
+whether OBS needs a restart to bring the capture back.
+
+This intentionally does NOT remove/recreate the source: recreating a
+pipewire-screen-capture-source does not re-establish the PipeWire screencast
+session (the log then shows "PipeWire initialized" but never a new
+"Screencast session created"), and it destroys a working capture in the
+process. The only reliable recovery is restarting OBS with the portal stack
+already healthy.
+
+Exit codes (interpreted by PortalHyprland.sh):
+  0  capture is healthy
+  2  capture present but not rendering -> restart OBS
+  3  pipewire-screen-capture-source kind not registered -> OBS started too early, restart OBS
+  4  capture source missing -> restart OBS (the scene should provide it)
+  5  OBS is streaming/recording; restart refused to avoid interruption
+  1  connection / auth error (OBS not running or websocket disabled)
 """
 import socket
-import ssl
 import json
 import hashlib
 import base64
 import struct
 import os
+import subprocess
 import sys
 import time
 
@@ -17,6 +32,14 @@ OBS_WS_HOST = "127.0.0.1"
 OBS_WS_PORT = 4455
 OBS_WS_PASSWORD = "***REMOVED***"
 SOURCE_NAME = "Screen Capture (PipeWire)"
+PIPE_KIND = "pipewire-screen-capture-source"
+
+EXIT_HEALTHY = 0
+EXIT_ERROR = 1
+EXIT_DEAD = 2
+EXIT_PLUGIN_MISSING = 3
+EXIT_SOURCE_MISSING = 4
+EXIT_REFUSED = 5
 
 
 class WebSocket:
@@ -52,7 +75,8 @@ class WebSocket:
         expected = base64.b64encode(
             hashlib.sha1((key + "258EAFA5-E914-47DA-95CA-C5AB0DC85B11").encode()).digest()
         ).decode()
-        if expected not in response.decode():
+        headers, _, _ = response.partition(b"\r\n\r\n")
+        if expected not in headers.decode(errors="replace"):
             raise ConnectionError("WebSocket handshake failed")
 
     def send(self, data):
@@ -119,7 +143,23 @@ def sha256(s):
     return hashlib.sha256(s.encode()).digest()
 
 
-def restart_obs_capture():
+def pipewire_obs_node_running():
+    """Return True if OBS's screencast node is running in PipeWire, False if
+    absent, or None if pw-dump is unavailable (probe unknown)."""
+    try:
+        out = subprocess.run(["pw-dump"], capture_output=True, timeout=10).stdout
+        data = json.loads(out)
+    except Exception:
+        return None
+    for o in data:
+        if o.get("type") == "PipeWire:Interface:Node":
+            props = o.get("info", {}).get("props", {})
+            if props.get("node.name") == "obs":
+                return o["info"]["state"] == "running"
+    return False
+
+
+def check_obs_capture():
     ws = WebSocket()
     try:
         ws.connect(OBS_WS_HOST, OBS_WS_PORT)
@@ -127,138 +167,99 @@ def restart_obs_capture():
         hello = ws.recv()
         if hello is None or hello.get("op") != 0:
             print("Failed to receive Hello")
-            return False
+            return EXIT_ERROR
 
         challenge = hello.get("d", {}).get("authentication", {}).get("challenge", "")
         salt = hello.get("d", {}).get("authentication", {}).get("salt", "")
+        auth_payload = ""
         if challenge:
             secret = base64.b64encode(sha256(OBS_WS_PASSWORD + salt)).decode()
             auth_payload = base64.b64encode(sha256(secret + challenge)).decode()
-        else:
-            auth_payload = ""
 
-        identify = {
-            "op": 1,
-            "d": {
-                "rpcVersion": 1,
-            }
-        }
-        if auth_payload:
-            identify["d"]["authentication"] = auth_payload
-        ws.send(identify)
-
+        ws.send({"op": 1, "d": {"rpcVersion": 1, "authentication": auth_payload}})
         identified = ws.recv()
         if identified is None or identified.get("op") != 2:
             print("Authentication failed")
-            return False
+            return EXIT_ERROR
 
         req_id = 0
 
         def send_request(req_type, req_data=None):
             nonlocal req_id
             req_id += 1
-            msg = {
+            ws.send({
                 "op": 6,
                 "d": {
                     "requestType": req_type,
                     "requestId": str(req_id),
-                    "requestData": req_data or {}
-                }
-            }
-            ws.send(msg)
-            resp = ws.recv()
-            return resp.get("d", {}) if resp else {}
+                    "requestData": req_data or {},
+                },
+            })
+            while True:
+                resp = ws.recv()
+                if resp is None:
+                    return {}, None
+                d = resp.get("d", {})
+                if resp.get("op") == 7 and d.get("requestId") == str(req_id):
+                    return d, d.get("requestStatus", {}).get("code")
 
-        sources_resp = send_request("GetInputList")
-        inputs = sources_resp.get("responseData", {}).get("inputs", [])
+        # Refuse to suggest a restart while streaming/recording.
+        rec, _ = send_request("GetRecordStatus")
+        busy = bool(rec.get("responseData", {}).get("recordingActive", False))
+        if not busy:
+            stream, _ = send_request("GetStreamStatus")
+            busy = bool(stream.get("responseData", {}).get("outputActive", False))
+
+        kinds, _ = send_request("GetInputKindList")
+        registered = set(kinds.get("responseData", {}).get("inputKinds", []))
+        if PIPE_KIND not in registered:
+            print(f"{PIPE_KIND} kind not registered (OBS started before the portal/plugin was ready)")
+            return EXIT_REFUSED if busy else EXIT_PLUGIN_MISSING
+
+        inputs, _ = send_request("GetInputList")
         target = None
-        for inp in inputs:
-            if inp.get("inputName") == SOURCE_NAME or "PipeWire" in inp.get("inputName", "") or "pipewire" in inp.get("inputKind", ""):
+        for inp in inputs.get("responseData", {}).get("inputs", []):
+            if inp.get("inputName") == SOURCE_NAME or inp.get("inputKind") == PIPE_KIND:
                 target = inp
                 break
 
         if not target:
-            for inp in inputs:
-                if "pipewire" in inp.get("inputKind", "").lower():
-                    target = inp
-                    break
+            print(f"Capture source '{SOURCE_NAME}' not found")
+            return EXIT_REFUSED if busy else EXIT_SOURCE_MISSING
 
-        if not target:
-            print(f"Source '{SOURCE_NAME}' not found")
-            return False
+        uuid = target.get("inputUuid", "")
 
-        uuid = target.get("inputUuid") or target.get("inputName")
-        kind = target.get("inputKind", "")
-
-        input_name = target["inputName"]
-        input_uuid = target.get("inputUuid", input_name)
-
-        settings_resp = send_request("GetInputSettings", {"inputUuid": input_uuid})
-        settings = settings_resp.get("responseData", {}).get("inputSettings", {})
-
-        if not settings:
-            settings = {}
-
-        kind = target.get("inputKind", "")
-
-        scene_resp = send_request("GetCurrentProgramScene")
-        scene_uuid = scene_resp.get("responseData", {}).get("currentProgramSceneUuid", "")
-
-        items_resp = send_request("GetSceneItemList", {"sceneUuid": scene_uuid})
-        items = items_resp.get("responseData", {}).get("sceneItems", [])
-
-        item = None
-        for i in items:
-            if i.get("sourceUuid") == input_uuid or i.get("sourceName") == input_name:
-                item = i
+        # A healthy capture has a running 'obs' node in PipeWire. When the
+        # screencast session is dead the node disappears; the screenshot probe
+        # alone is unreliable because OBS keeps rendering a stale cached frame.
+        dead = True
+        for _ in range(3):
+            node_ok = pipewire_obs_node_running()
+            if node_ok is None:
+                shot, code = send_request(
+                    "GetSourceScreenshot",
+                    {"sourceUuid": uuid, "imageFormat": "png", "width": 320, "height": 180},
+                )
+                if code == 100 and shot.get("responseData", {}).get("imageData"):
+                    node_ok = True
+            if node_ok:
+                dead = False
                 break
+            time.sleep(1)
 
-        old_item_id = item.get("sceneItemId", 0) if item else None
-        old_transform = item.get("transform", {}) if item else {}
+        if dead:
+            print("Capture source is not rendering (PipeWire session dead); OBS restart needed")
+            return EXIT_REFUSED if busy else EXIT_DEAD
 
-        if old_item_id:
-            send_request("RemoveSceneItem", {
-                "sceneUuid": scene_uuid,
-                "sceneItemId": old_item_id
-            })
-
-        send_request("RemoveInput", {
-            "inputUuid": input_uuid
-        })
-
-        time.sleep(0.5)
-
-        create_resp = send_request("CreateInput", {
-            "sceneUuid": scene_uuid,
-            "inputName": input_name,
-            "inputKind": kind,
-            "inputSettings": settings,
-            "sceneItemEnabled": True
-        })
-
-        new_uuid = create_resp.get("responseData", {}).get("inputUuid", "")
-
-        if old_transform and new_uuid:
-            items2_resp = send_request("GetSceneItemList", {"sceneUuid": scene_uuid})
-            for i2 in items2_resp.get("responseData", {}).get("sceneItems", []):
-                if i2.get("sourceUuid") == new_uuid:
-                    send_request("SetSceneItemTransform", {
-                        "sceneUuid": scene_uuid,
-                        "sceneItemId": i2["sceneItemId"],
-                        "transform": old_transform
-                    })
-                    break
-
-        print(f"Restarted capture source: {input_name}")
-        return True
+        print("Capture source is healthy")
+        return EXIT_HEALTHY
 
     except Exception as e:
         print(f"Error: {e}")
-        return False
+        return EXIT_ERROR
     finally:
         ws.close()
 
 
 if __name__ == "__main__":
-    success = restart_obs_capture()
-    sys.exit(0 if success else 1)
+    sys.exit(check_obs_capture())
