@@ -49,6 +49,11 @@ hl.window_rule({ match = { class = "^(Warframe)$" }, no_blur = true, no_shadow =
 hl.layer_rule({ match = { namespace = "waybar" }, blur = true })
 hl.layer_rule({ match = { namespace = "waybar" }, ignore_alpha = 0.05 })
 
+-- Wlogout power menu: native blur = frosted "menu opened" backdrop.
+-- The buttons get a palette-glass look from the generated wlogout style.css
+-- (HyprGlass layer glass does not render on these XR24 no-alpha monitors).
+hl.layer_rule({ match = { namespace = "logout_dialog" }, blur = true })
+
 -- Spotify — enable Hyprglass glass effect (see through the background)
 hl.window_rule({
     name = "Spotify-Hyprglass",
