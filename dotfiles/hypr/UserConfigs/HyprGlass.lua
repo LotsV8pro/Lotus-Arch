@@ -1,30 +1,27 @@
--- HyprGlass.lua - Liquid Glass effect for Waybar
--- Requires: hyprpm add https://github.com/hyprnux/hyprglass && hyprpm enable hyprglass
--- If version mismatch: sudo rm -rf /var/cache/hyprpm/lots/HyprGlass && hyprpm add https://github.com/hyprnux/hyprglass && hyprpm enable hyprglass
-
 if hl.plugin.hyprglass then
     local hg = hl.plugin.hyprglass
 
     hg.config({
+        enabled = true,
         default_theme = "dark",
-        default_preset = "clear",
-        tint_color = 0x8899aa22,
+        default_preset = "glass",            -- Changed from "clear" to "liquid" or "glass"
+        tint_color = 0x00000000,
 
-        blur_strength = 2.2,
-        blur_iterations = 3,
-        refraction_strength = 0.55,
-        chromatic_aberration = 0.3,
-        fresnel_strength = 0.5,
+        blur_strength = 0.3,                 -- Increased blur (was 2.2)
+        blur_iterations = 3,                 -- Extra blur pass (was 3)
+        refraction_strength = 0.55,          -- Stronger edge warping (was 0.55)
+        chromatic_aberration = 0.3,          -- Stronger RGB color splitting (was 0.3)
+        fresnel_strength = 0.5,              -- Stronger edge highlight reflection (was 0.5)
         specular_strength = 0.75,
-        edge_thickness = 0.05,
-        lens_distortion = 0.3,
+        edge_thickness = 0.05,               -- Thickens refraction borders (was 0.05)
+        lens_distortion = 0.3,              -- Stronger center fisheye/bend effect (was 0.3)
 
         dark = {
-            brightness = 0.82,
+            brightness = 1,
             contrast = 0.90,
             saturation = 0.80,
             vibrancy = 0.15,
-            adaptive_dim = 0.4,
+            adaptive_dim = 0.0,
         },
 
         light = {
@@ -36,6 +33,17 @@ if hl.plugin.hyprglass then
         },
 
         layers = { enabled = true },
+    })
+
+    hg.preset("glass", {
+        blur_strength = 0.,                 -- Increased blur (was 2.2)
+        blur_iterations = 0,                 -- Extra blur pass (was 3)
+        refraction_strength = 1,          -- Stronger edge warping (was 0.55)
+        chromatic_aberration = 0.6,          -- Stronger RGB color splitting (was 0.3)
+        fresnel_strength = 0.6,              -- Stronger edge highlight reflection (was 0.5)
+        specular_strength = 0.75,
+        edge_thickness = 0.08,               -- Thickens refraction borders (was 0.05)
+        lens_distortion = 0.5,              -- Stronger center fisheye/bend effect (was 0.3)
     })
 
     hg.layer("waybar", { preset = "subtle", mask_threshold = 0.05 })

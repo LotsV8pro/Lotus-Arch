@@ -1428,9 +1428,122 @@ textbox {
 }
 ROSIPAL
 
+# ── 6b. Wlogout Power Menu (palette-colored icons) ─────────────
+WLOGOUT_CSS="$HOME/.config/wlogout/style.css"
+WLOGOUT_ICONS="$HOME/.config/wlogout/icons"
+
+read -r WL_R WL_G WL_B   <<< "$(hex_to_rgb "$bg")"
+read -r WL_AR WL_AG WL_AB <<< "$(hex_to_rgb "$bg_alt")"
+read -r WL_PR WL_PG WL_PB <<< "$(hex_to_rgb "$primary")"
+read -r WL_BR WL_BG WL_BB <<< "$(hex_to_rgb "$border")"
+read -r WL_FR WL_FG WL_FB <<< "$(hex_to_rgb "$fg")"
+
+# Render an inline SVG (24x24 viewBox) to a 512x512 PNG in the given color
+wlogout_icon() {
+    local name="$1" color="$2" body="$3" tmp="$WLOGOUT_ICONS/.tmp.svg"
+    printf '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="512" height="512">%s</svg>' "$body" > "$tmp"
+    if command -v rsvg-convert >/dev/null; then
+        rsvg-convert -w 512 -h 512 -o "$WLOGOUT_ICONS/$name.png" "$tmp"
+    else
+        convert -background none -size 512x512 "$tmp" "$WLOGOUT_ICONS/$name.png"
+    fi
+    rm -f "$tmp"
+}
+
+wlogout_icon_body() { # $1=color  $2=kind  -> prints SVG inner XML (thin line style)
+    local c="$1"
+    local sw='stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"'
+    case "$2" in
+        lock)      printf '<rect x="3" y="11" width="18" height="11" rx="2" ry="2" fill="none" stroke="%s" %s/><path d="M7 11V7a5 5 0 0 1 10 0v4" fill="none" stroke="%s" %s/>' "$c" "$sw" "$c" "$sw" ;;
+        logout)    printf '<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" fill="none" stroke="%s" %s/><path d="M16 17l5-5-5-5" fill="none" stroke="%s" %s/><path d="M21 12H9" fill="none" stroke="%s" %s/>' "$c" "$sw" "$c" "$sw" "$c" "$sw" ;;
+        power)     printf '<path d="M12 2v10" fill="none" stroke="%s" %s/><path d="M18.4 6.6a9 9 0 1 1-12.77.04" fill="none" stroke="%s" %s/>' "$c" "$sw" "$c" "$sw" ;;
+        restart)   printf '<path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" fill="none" stroke="%s" %s/><path d="M21 3v5h-5" fill="none" stroke="%s" %s/>' "$c" "$sw" "$c" "$sw" ;;
+        sleep)     printf '<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" fill="none" stroke="%s" %s/>' "$c" "$sw" ;;
+        hibernate) printf '<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" fill="none" stroke="%s" %s/><path d="M15 10.5h-3l3 3h-3" fill="none" stroke="%s" %s/>' "$c" "$sw" "$c" "$sw" ;;
+    esac
+}
+
+for wl_kind in lock logout power restart sleep hibernate; do
+    wlogout_icon "$wl_kind"        "$primary_dim" "$(wlogout_icon_body "$primary_dim" "$wl_kind")"
+    wlogout_icon "$wl_kind-hover"  "$fg"          "$(wlogout_icon_body "$fg" "$wl_kind")"
+done
+
+# Remove stale icons not referenced by the generated CSS
+rm -f "$WLOGOUT_ICONS"/moon_865813.png "$WLOGOUT_ICONS"/sleep2.png "$WLOGOUT_ICONS"/hibernate-hover1.png
+
+cat > "$WLOGOUT_CSS" << WLOGOUTCSS
+/* LOTUS — Wlogout Power Menu (auto-generated from lotus-palette/colors.conf) */
+
+window {
+    font-family: "JetBrainsMono Nerd Font";
+    font-size: 14pt;
+    color: ${fg};
+    background-color: transparent;
+}
+
+button {
+    background-repeat: no-repeat;
+    background-position: center 30%;
+    background-size: 96px 96px;
+    background-color: rgba(${WL_AR}, ${WL_AG}, ${WL_AB}, 0.50);
+    color: ${fg};
+    border: 1px solid rgba(${WL_BR}, ${WL_BG}, ${WL_BB}, 0.50);
+    border-top: 2px solid rgba(${WL_FR}, ${WL_FG}, ${WL_FB}, 0.28);
+    border-radius: 26px;
+    min-width: 200px;
+    min-height: 200px;
+    padding: 130px 0 0 0;
+    margin: 150px 50px;
+    box-shadow: inset 0 12px 20px -10px rgba(${WL_FR}, ${WL_FG}, ${WL_FB}, 0.22), inset 0 -16px 22px -12px rgba(0, 0, 0, 0.65);
+    outline-style: none;
+    text-shadow: none;
+    transition: all 0.25s cubic-bezier(.55, 0.0, .28, 1.682), background-color 0.25s ease-in-out, border-color 0.25s ease-in-out;
+}
+
+button:hover {
+    background-color: rgba(${WL_PR}, ${WL_PG}, ${WL_PB}, 0.45);
+    border-color: ${primary_dim};
+    border-top: 2px solid rgba(${WL_FR}, ${WL_FG}, ${WL_FB}, 0.45);
+    background-size: 96px 96px;
+    box-shadow: inset 0 12px 20px -10px rgba(${WL_FR}, ${WL_FG}, ${WL_FB}, 0.35), inset 0 -16px 22px -12px rgba(0, 0, 0, 0.50);
+    color: ${primary_dim};
+    margin: 150px 50px;
+}
+
+button label {
+    color: ${fg};
+    font-size: 16px;
+    font-weight: 600;
+    text-shadow: none;
+}
+
+#lock         { background-image: image(url("./icons/lock.png")); }
+#lock:hover   { background-image: image(url("./icons/lock-hover.png")); }
+#logout       { background-image: image(url("./icons/logout.png")); }
+#logout:hover { background-image: image(url("./icons/logout-hover.png")); }
+#suspend      { background-image: image(url("./icons/sleep.png")); }
+#suspend:hover{ background-image: image(url("./icons/sleep-hover.png")); }
+#shutdown     { background-image: image(url("./icons/power.png")); }
+#shutdown:hover { background-image: image(url("./icons/power-hover.png")); }
+#reboot       { background-image: image(url("./icons/restart.png")); }
+#reboot:hover { background-image: image(url("./icons/restart-hover.png")); }
+#hibernate    { background-image: image(url("./icons/hibernate.png")); }
+#hibernate:hover { background-image: image(url("./icons/hibernate-hover.png")); }
+WLOGOUTCSS
+
 # ── 7. Reload Everything ───────────────────────────────────────
-killall waybar 2>/dev/null || true
-sleep 0.3
-hyprctl reload 2>/dev/null || true
+# Apply color-only decoration changes without full Hyprland reload
+# (full reload breaks OBS PipeWire screen capture)
+hyprctl keyword general:col.active_border "rgba($(strip ${primary})cc) rgba($(strip ${primary_dim})cc) 135deg" 2>/dev/null || true
+hyprctl keyword general:col.inactive_border "rgba($(strip ${primary})22) rgba($(strip ${primary_dim})22) 135deg" 2>/dev/null || true
+hyprctl keyword decoration:shadow:color "rgba($(strip ${primary})30)" 2>/dev/null || true
+hyprctl keyword decoration:shadow:color_inactive "rgba($(strip ${primary_dim})15)" 2>/dev/null || true
+hyprctl keyword group:col.border_active "rgba($(strip ${primary})cc)" 2>/dev/null || true
+hyprctl keyword group:col.border_inactive "rgba($(strip ${primary_dim})33)" 2>/dev/null || true
+hyprctl keyword group:groupbar:col.active "rgba($(strip ${primary})cc)" 2>/dev/null || true
+hyprctl keyword group:groupbar:col.inactive "rgba($(strip ${primary_dim})33)" 2>/dev/null || true
+
+# Reload waybar in-place (SIGUSR2 = re-read config/CSS)
+killall -SIGUSR2 waybar 2>/dev/null || true
 
 echo "Palette applied!"
