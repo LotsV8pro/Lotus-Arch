@@ -16,13 +16,13 @@ if ! command -v git &>/dev/null; then
 fi
 
 # Clone or update
-REPO_DIR="$HOME/Arch-Lotus"
+REPO_DIR="$HOME/Lotus-Arch"
 if [[ -d "$REPO_DIR" ]]; then
     echo "[i] Updating existing clone..."
     cd "$REPO_DIR" && git pull
 else
     echo "[i] Cloning repository..."
-    git clone https://github.com/LotsV8pro/Arch-Lotus.git "$REPO_DIR"
+    git clone https://github.com/LotsV8pro/Lotus-Arch.git "$REPO_DIR"
     cd "$REPO_DIR"
 fi
 
