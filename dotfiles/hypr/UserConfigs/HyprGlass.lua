@@ -47,4 +47,8 @@ if hl.plugin.hyprglass then
     })
 
     hg.layer("waybar", { preset = "subtle", mask_threshold = 0.05 })
+
+    -- Wlogout power menu: full-surface glass instead of native blur.
+    -- mask_threshold 0 so the glass applies across the transparent layer.
+    hg.layer("logout_dialog", { preset = "glass", mask_threshold = 0 })
 end
