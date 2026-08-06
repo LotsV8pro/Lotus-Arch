@@ -6,6 +6,9 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("sleep 1 && hyprpm reload -n && hyprctl reload")
     hl.exec_cmd(os.getenv("HOME") .. "/.config/hypr/scripts/PortalHyprland.sh")
 
+    -- Wallpaper watcher: auto-sync lock screen blur + SDDM bg on wallpaper change
+    hl.exec_cmd(os.getenv("HOME") .. "/.config/hypr/scripts/WatchWallpaper.sh &")
+
     -- Auto-start apps
     hl.exec_cmd("pkill -x asm-gui 2>/dev/null; sleep 3 && /usr/bin/asm-gui")
 end)
