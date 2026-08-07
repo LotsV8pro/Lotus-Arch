@@ -55,6 +55,8 @@ no-effects() {
     notify-send -u low -i "$iDIR/note.png" "No wallpaper" "effects applied"
     # copying wallpaper for rofi menu
     cp "$wallpaper_current" "$wallpaper_output"
+    # Sync the pixie SDDM login background with the current wallpaper
+    nohup "$SCRIPTSDIR/SyncSddmWallpaper.sh" "$wallpaper_current" >/dev/null 2>&1 &
 }
 
 # Function to run rofi menu
@@ -90,6 +92,8 @@ main() {
             sleep 1
             # Refresh rofi, waybar, wallust palettes
             "${SCRIPTSDIR}/Refresh.sh"
+            # Sync the pixie SDDM login background with the applied effect
+            nohup "$SCRIPTSDIR/SyncSddmWallpaper.sh" "$wallpaper_output" >/dev/null 2>&1 &
             notify-send -u low -i "$iDIR/note.png" "$choice" "effects applied"
         else
             echo "Effect '$choice' not recognized."

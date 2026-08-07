@@ -136,3 +136,6 @@ fi
 
 # Sync the pixie SDDM login background with the current wallpaper
 nohup "$HOME/.config/hypr/scripts/SyncSddmWallpaper.sh" "$passed_path" >/dev/null 2>&1 &
+
+# Persist the current per-monitor wallpapers so they are restored on next boot
+"$HOME/.config/hypr/scripts/WallpaperState.sh" save >/dev/null 2>&1 || true

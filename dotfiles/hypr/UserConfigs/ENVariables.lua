@@ -16,17 +16,18 @@
 -- hl.env("GDK_SCALE", "1")
 -- hl.env("QT_SCALE_FACTOR", "1")
 
--- NVIDIA
--- This is from Hyprland Wiki. Below will be activated nvidia gpu detected
+-- NVIDIA (ACTIVADO)
 -- See hyprland wiki https://wiki.hyprland.org/Nvidia/#environment-variables
+hl.env("LIBVA_DRIVER_NAME", "nvidia")
+hl.env("__GLX_VENDOR_LIBRARY_NAME", "nvidia")
+hl.env("NVD_BACKEND", "direct")
+hl.env("GBM_BACKEND", "nvidia-drm")
+hl.env("GSK_RENDERER", "ngl")
 
--- hl.env("LIBVA_DRIVER_NAME", "nvidia")
--- hl.env("__GLX_VENDOR_LIBRARY_NAME", "nvidia")
--- hl.env("NVD_BACKEND", "direct")
--- hl.env("GSK_RENDERER", "ngl")
+-- Electron / Wayland Fix (Para Vesktop, Discord, VS Code, etc.)
+hl.env("ELECTRON_OZONE_PLATFORM_HINT", "auto")
 
 -- additional ENV's for nvidia. Caution, activate with care
--- hl.env("GBM_BACKEND", "nvidia-drm")
 -- hl.env("__GL_GSYNC_ALLOWED", "1") -- adaptive Vsync
 -- hl.env("__NV_PRIME_RENDER_OFFLOAD", "1")
 -- hl.env("__VK_LAYER_NV_optimus", "NVIDIA_only")
@@ -48,3 +49,11 @@
 -- hl.env("AQ_DRM_DEVICES", "/dev/dri/card1:/dev/dri/card0") -- Set an explicit list of DRM devices (GPUs) to use.
 -- hl.env("AQ_MGPU_NO_EXPLICIT", "1") -- Disables explicit syncing on mgpu buffers
 -- hl.env("AQ_NO_MODIFIERS", "1") -- Disables modifiers for DRM buffers
+
+-- MangoHud overlay
+hl.env("MANGOHUD", "1")
+
+-- XDG Desktop Portal environment variables
+hl.env("XDG_CURRENT_DESKTOP", "Hyprland")
+hl.env("XDG_SESSION_TYPE", "wayland")
+hl.env("XDG_SESSION_DESKTOP", "Hyprland")
