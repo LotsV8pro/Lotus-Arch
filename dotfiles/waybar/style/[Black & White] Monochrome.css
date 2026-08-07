@@ -64,7 +64,8 @@ window#waybar.empty #window {
 #memory,
 #temperature,
 #custom-powerprofiles,
-#idle_inhibitor {
+#idle_inhibitor,
+#custom-updater {
     background-color: rgba(28, 26, 34, 0.88);
     color: @fg;
     border-radius: 20px;
@@ -78,6 +79,7 @@ window#waybar.empty #window {
 #mpris:hover,
 #custom-weather:hover,
 #clock:hover,
+#workspaces:hover,
 #pulseaudio:hover,
 #network:hover,
 #battery:hover,
@@ -87,7 +89,8 @@ window#waybar.empty #window {
 #memory:hover,
 #temperature:hover,
 #custom-powerprofiles:hover,
-#idle_inhibitor:hover {
+#idle_inhibitor:hover,
+#custom-updater:hover {
     background-color: rgba(28, 26, 34, 0.92);
     border-color: rgba(28, 26, 34, 0.3);
 }
@@ -145,6 +148,7 @@ window#waybar.empty #window {
 #temperature            { color: @primary; }
 #temperature.critical   { color: @primary-light; }
 #custom-swaync          { color: @lavender; }
+#custom-updater         { color: @green; }
 #custom-weather         { color: @cyan; }
 #custom-powerprofiles   { color: @teal; }
 #idle_inhibitor         { color: @fg-dim; }
@@ -156,28 +160,30 @@ window#waybar.empty #window {
 #workspaces button {
     padding: 0px 8px;
     color: @fg-dim;
-    background: none;
+    background-color: transparent;
+    background-image: none;
     border: none;
     border-radius: 12px;
     min-width: 20px;
     margin: 2px 1px;
-    text-shadow: none;
-    box-shadow: none;
-    transition: none;
-    -gtk-icon-shadow: none;
-    -gtk-icon-effect: none;
+    transition: all 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 #workspaces button.active {
     color: @bg;
     background-color: @primary-light;
+    background-image: none;
     border-radius: 12px;
     min-width: 30px;
 }
 
-#workspaces button:hover {
+#workspaces button:hover,
+#workspaces button.workspace-hover,
+#workspaces button.active:hover,
+#workspaces button.active.workspace-hover {
     color: @bg;
-    background: @primary-light;
+    background-color: @primary-light;
+    background-image: none;
 }
 
 #workspaces button.urgent {
