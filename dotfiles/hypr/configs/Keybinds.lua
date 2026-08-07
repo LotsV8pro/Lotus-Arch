@@ -103,7 +103,7 @@ hl.bind(mainMod .. " + SHIFT + E", hl.dsp.exec_cmd(scripts_dir .. "/Quick_Settin
 hl.bind("CTRL + ALT + W", hl.dsp.exec_cmd(user_scripts_dir .. "/WallpaperRandom.sh"))
 
 -- Toggle active window opacity
-hl.bind(mainMod .. " + CTRL + O", hl.dsp.window.set_prop({ prop = "active opaque", value = "toggle" }))
+hl.bind(mainMod .. " + CTRL + O", hl.dsp.window.set_prop({ prop = "opaque", value = "toggle" }))
 
 -- Search keybinds
 hl.bind(mainMod .. " + SHIFT + K", hl.dsp.exec_cmd(scripts_dir .. "/KeyBinds.sh"))
@@ -199,10 +199,10 @@ hl.bind("ALT + Print", hl.dsp.exec_cmd(scripts_dir .. "/ScreenShot.sh --active")
 hl.bind(mainMod .. " + SHIFT + S", hl.dsp.exec_cmd(scripts_dir .. "/ScreenShot.sh --swappy"))
 
 -- Resize windows
-hl.bind(mainMod .. " + SHIFT + left", hl.dsp.window.resize({ x = -50, y = 0 }))
-hl.bind(mainMod .. " + SHIFT + right", hl.dsp.window.resize({ x = 50, y = 0 }))
-hl.bind(mainMod .. " + SHIFT + up", hl.dsp.window.resize({ x = 0, y = -50 }))
-hl.bind(mainMod .. " + SHIFT + down", hl.dsp.window.resize({ x = 0, y = 50 }))
+hl.bind(mainMod .. " + SHIFT + left", hl.dsp.window.resize({ x = -50, y = 0, relative = true }))
+hl.bind(mainMod .. " + SHIFT + right", hl.dsp.window.resize({ x = 50, y = 0, relative = true }))
+hl.bind(mainMod .. " + SHIFT + up", hl.dsp.window.resize({ x = 0, y = -50, relative = true }))
+hl.bind(mainMod .. " + SHIFT + down", hl.dsp.window.resize({ x = 0, y = 50, relative = true }))
 
 -- Move windows
 hl.bind(mainMod .. " + CTRL + left", hl.dsp.window.move({ direction = "left" }))

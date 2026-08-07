@@ -6,6 +6,11 @@ local user_scripts_dir = os.getenv("HOME") .. "/.config/hypr/UserScripts"
 -- Wallpaper stuff
 hl.exec_cmd("swww-daemon --format xrgb")
 
+-- Restore the last-used per-monitor wallpapers once the compositor is up
+hl.on("hyprland.start", function()
+    hl.exec_cmd("sleep 2 && " .. scripts_dir .. "/WallpaperState.sh restore")
+end)
+
 -- Startup & Environment
 hl.exec_cmd("dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP")
 hl.exec_cmd("systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP")
