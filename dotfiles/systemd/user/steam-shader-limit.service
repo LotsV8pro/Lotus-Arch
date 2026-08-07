@@ -1,0 +1,11 @@
+[Unit]
+Description=Limit Steam shader compiler CPU usage to 50%
+
+[Service]
+Type=simple
+ExecStart=@HOME@/.local/bin/limit-steam-shader.sh
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=default.target
