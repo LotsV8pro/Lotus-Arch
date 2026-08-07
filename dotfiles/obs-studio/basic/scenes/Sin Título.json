@@ -2,9 +2,9 @@
     "name": "Sin Título",
     "sources": [
         {
-            "prev_ver": 536936450,
+            "prev_ver": 537001985,
             "name": "Screen Capture (PipeWire)",
-            "uuid": "a11ef0de-51bd-4785-bfad-8cad014ad15d",
+            "uuid": "84600194-8869-4ed1-b18c-cad15bce66a1",
             "id": "pipewire-screen-capture-source",
             "versioned_id": "pipewire-screen-capture-source",
             "settings": {
@@ -28,18 +28,18 @@
             "private_settings": {}
         },
         {
-            "prev_ver": 536936450,
+            "prev_ver": 537001985,
             "name": "Apex",
             "uuid": "a82ec607-86c0-4490-8317-81d0f32da720",
             "id": "scene",
             "versioned_id": "scene",
             "settings": {
-                "id_counter": 44,
+                "id_counter": 57,
                 "custom_size": false,
                 "items": [
                     {
                         "name": "Screen Capture (PipeWire)",
-                        "source_uuid": "a11ef0de-51bd-4785-bfad-8cad014ad15d",
+                        "source_uuid": "84600194-8869-4ed1-b18c-cad15bce66a1",
                         "visible": true,
                         "locked": false,
                         "rot": 0.0,
@@ -55,7 +55,7 @@
                         "crop_top": 0,
                         "crop_right": 0,
                         "crop_bottom": 0,
-                        "id": 30,
+                        "id": 57,
                         "group_item_backup": false,
                         "pos": {
                             "x": 0.0,
@@ -85,10 +85,10 @@
                         "blend_method": "default",
                         "blend_type": "normal",
                         "show_transition": {
-                            "duration": 300
+                            "duration": 0
                         },
                         "hide_transition": {
-                            "duration": 300
+                            "duration": 0
                         },
                         "private_settings": {}
                     }
@@ -107,8 +107,8 @@
             "push-to-talk-delay": 0,
             "hotkeys": {
                 "OBSBasic.SelectScene": [],
-                "libobs.show_scene_item.30": [],
-                "libobs.hide_scene_item.30": []
+                "libobs.show_scene_item.57": [],
+                "libobs.hide_scene_item.57": []
             },
             "deinterlace_mode": 0,
             "deinterlace_field_order": 0,
@@ -127,13 +127,13 @@
     "current_program_scene": "Apex",
     "canvases": [],
     "current_transition": "Fade",
-    "transition_duration": 300,
+    "transition_duration": 550,
     "transitions": [],
     "quick_transitions": [],
     "saved_projectors": [],
     "preview_locked": false,
     "scaling_enabled": false,
-    "scaling_level": -19,
+    "scaling_level": -13,
     "scaling_off_x": 0.0,
     "scaling_off_y": 0.0,
     "virtual-camera": {

@@ -1,0 +1,9 @@
+/* LOTUS — Wlogout glass-only layer (secondary monitors, no buttons) */
+
+window {
+    background-color: transparent;
+}
+
+button {
+    opacity: 0;
+}

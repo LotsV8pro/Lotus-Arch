@@ -1,0 +1,2 @@
+HDMI-A-1	/home/lots/Pictures/wallpapers/Nord/nord-3.png
+DP-2	/home/lots/Pictures/wallpapers/Nord/nord-3.png

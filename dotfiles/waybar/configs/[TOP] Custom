@@ -26,7 +26,7 @@
     "disable-scroll": true,
     "all-outputs": false,
     "active-only": false,
-    "format": "{icon} {windows}",
+    "format": "<span size='larger'>{icon} {windows}</span>",
     "format-window-separator": " ",
     "window-rewrite-default": " ",
     "window-rewrite-group-threshold": 2,
@@ -50,7 +50,7 @@
       "class<zen|zen-alpha>": "󰰷 ",
       "class<kitty|konsole|[Aa]lacritty>": " ",
       "class<discord|vesktop|WebCord>": " ",
-      "class<com.obsproject.Studio>": " ",
+      "class<com.obsproject.Studio>": "󰑩 ",
       "class<steam>": " ",
       "class<thunar|nemo>": "󰝰 ",
       "class<spotify>": " ",
@@ -73,7 +73,20 @@
 
   "clock#gar": {
     "format": "{:%a %d | %H:%M}",
-    "format-alt": "{:%A, %d %B, %Y (%R)}"
+    "format-alt": "{:%A, %d %B, %Y (%R)}",
+    "tooltip-format": "{calendar}",
+    "calendar": {
+      "mode": "month",
+      "mode-mon-col": 3,
+      "weeks-pos": "right",
+      "format": {
+        "months": "<span color='#ffcc66'><b>{}</b></span>",
+        "days": "<b>{}</b>",
+        "weeks": "{}",
+        "weekdays": "{}",
+        "today": "<span color='#ff6699'><b><u>{}</u></b></span>"
+      }
+    }
   },
 
   "hyprland/window#gar": {

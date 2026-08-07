@@ -191,3 +191,10 @@ hl.window_rule({
     center = true,
     size = { "monitor_w*0.26", "monitor_h*0.18" },
 })
+-- Force opacity on Discord / Vesktop so Hyprglass can process it
+hl.window_rule({
+    name = "Discord-Hyprglass",
+    match = { class = "^(discord|vesktop|WebCord|VencordDesktop)$" },
+    opacity = "0.75 0.75",
+    tag = "+hyprglass_enabled",
+})
