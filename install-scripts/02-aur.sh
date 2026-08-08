@@ -22,6 +22,7 @@ AUR_PACKAGES=(
     "gtk-engine-murrine:Murrine GTK Engine"
     "arctis-sound-manager:Arctis Sound Manager"
     "obs-pipewire-audio-capture-git:OBS PipeWire Audio Capture"
+    "wallust:Wallust (dynamic wallpaper colors — theme requires it)"
     "quickshell:Quick Shell"
     "zram-generator:ZRAM Generator"
 )
