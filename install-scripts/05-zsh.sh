@@ -30,11 +30,6 @@ if [[ ! -d "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting" ]]; then
     git clone https://github.com/zsh-users/zsh-syntax-highlighting "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting" 2>/dev/null
 fi
 
-# zsh-completions
-if [[ ! -d "$ZSH_CUSTOM/plugins/zsh-completions" ]]; then
-    git clone https://github.com/zsh-users/zsh-completions "$ZSH_CUSTOM/plugins/zsh-completions" 2>/dev/null
-fi
-
 # Set zsh as default shell
 chsh -s /bin/zsh 2>/dev/null || true
 

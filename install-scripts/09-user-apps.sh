@@ -33,7 +33,6 @@ NOTABLE_APPS=(
   "fastfetch:Fastfetch (system info)"
   "cava:Cava (audio visualizer)"
   "neovim:Neovim (text editor)"
-  "code:Visual Studio Code"
   "openrgb:OpenRGB (RGB control)"
   "arctis-sound-manager:Arctis Sound Manager"
   "linux-wallpaperengine-bin:Wallpaper Engine"

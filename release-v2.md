@@ -66,4 +66,4 @@ The previous v1.0.0–v1.3.3 releases leaked real data. **They have been deleted
 ## 🧪 CI + package-list sync
 
 - **`.github/workflows/security-scan.yml`**: gitleaks + `tools/scan-secrets.sh` run on every push/PR and auto-block the repo on a leak.
-- **`tools/regenerate-package-lists.sh`** re-exports `packages/*.txt` from the live machine; lists regenerated to match exactly what is installed (kitty over ghostty, `waybar-git` over `waybar`, linux-zen, NTFS/Strace/Clang tooling, etc.).
+- **`tools/regenerate-package-lists.sh`** re-exports `packages/*.txt` from the live machine; lists regenerated to match exactly what is installed (kitty over ghostty, `waybar-git` over `waybar`, NTFS/Strace/Clang tooling, etc.). Only the **`linux`** kernel is kept (the booted kernel); the unused `linux-zen` fallback was dropped.

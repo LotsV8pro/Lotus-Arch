@@ -139,12 +139,12 @@ chmod +x install.sh
 The installer runs **10 phases** interactively:
 
 ```
-Phase 0:  System Preparation   — multilib, keyring, mirrors
-Phase 1:  Core Packages        — 20 interactive categories (DE, gaming, dev, etc.)
-Phase 2:  AUR Packages         — 16 interactive per-package prompts
+Phase 0:  System Preparation   — multilib, mirrors, system update
+Phase 1:  Core Packages        — 21 interactive categories (DE, gaming, dev, etc.)
+Phase 2:  AUR Packages         — 17 interactive per-package prompts
 Phase 3:  NVIDIA Drivers       — open-dkms stack (RTX 4070 optimized)
 Phase 4:  Enable Services      — SDDM, PipeWire, Bluetooth, NetworkManager
-Phase 5:  ZSH Shell            — Oh-My-ZSH + powerlevel10k + plugins
+Phase 5:  ZSH Shell            — Oh-My-ZSH + custom lotus theme + plugins
 Phase 6:  Deploy Dotfiles      — All configs (backup originals first)
 Phase 7:  Hyprland Plugins     — HyprGlass liquid glass plugin
 Phase 8:  Final Cleanup        — Cache cleanup, directory setup
@@ -226,7 +226,7 @@ Applied tweaks persist across reboots (GRUB C-states apply to both profiles):
 │   ├── wallust/               # Wallust color templates
 │   ├── Monitor_Profiles/      # Saved monitor layouts
 │   ├── auto_link_obs.sh       # Loop hole — routes Arctis to OBS
-│   └── monitors.conf          # nwg-displays output
+│   └── monitors.lua           # nwg-displays output
 ├── pipewire/
 │   └── filter-chain.conf.d/   # Sonar EQ profiles + 7.1 virtual surround
 ├── systemd/user/              # Audio service units
@@ -295,7 +295,7 @@ Lotus Arch includes a **Preset Manager** (`SUPER + CTRL + P`) that can save and 
 - Rofi theme
 - GTK overrides
 
-Built-in presets: `Monochrome`, `Shrek`, `White Monochrome`, `Yellowstone`.
+Built-in presets: `Lotus`, `Monochrome`, `Pixel`, `Shrek`, `White Monochrome`, `Yellowstone`.
 
 ---
 
@@ -320,8 +320,8 @@ The repo captures your current package state at install time:
 
 | Source | Count |
 |---|---|
-| Official (pacman) | 147 |
-| AUR (yay) | 17 |
+| Official (pacman) | 158 |
+| AUR (yay) | 21 |
 | Flatpak | 2 |
 
 Lists are stored in `packages/{pacman,aur,flatpak}.txt` and restored on fresh installs with **per-app granularity** — no unwanted bulk installs.

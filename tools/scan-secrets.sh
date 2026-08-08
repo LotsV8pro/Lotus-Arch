@@ -66,6 +66,16 @@ while IFS= read -r f; do
     FAILED=1
 done < <(rg -l "/home/lots" "$SCAN_ROOT" --hidden -g '!.git' 2>/dev/null || true)
 
+echo "── Personal symlinks ──"
+while IFS= read -r f; do
+    [[ -z "$f" ]] && continue
+    target="$(readlink "$f")"
+    if [[ "$target" == /* ]] && [[ "$target" != *"/dotfiles-backup/"* ]]; then
+        echo "  [!] $f is an absolute symlink -> $target (machine-specific)"
+        FAILED=1
+    fi
+done < <(find "$SCAN_ROOT" -path '*/\.git' -prune -o -type l -print 2>/dev/null)
+
 if [[ "$FAILED" -eq 0 ]]; then
     echo "  OK — no secrets or personal data found."
 else
