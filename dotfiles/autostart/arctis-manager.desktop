@@ -6,4 +6,5 @@ Exec=sh -c "sleep 3 && /usr/bin/asm-gui --systray"
 Icon=arctis-manager
 Terminal=false
 Categories=AudioVideo;Audio;Utility;
-X-GNOME-Autostart-enabled=true
+Hidden=true
+X-GNOME-Autostart-enabled=false
