@@ -1,0 +1,11 @@
+[Unit]
+Description=AMD GPU dynamic fan curve
+After=graphical.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/bash /usr/local/bin/gpu-fan-curve.sh
+Restart=on-failure
+
+[Install]
+WantedBy=graphical.target

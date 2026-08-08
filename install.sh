@@ -20,7 +20,7 @@
 
 set -euo pipefail
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+export SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 LOG_FILE="$SCRIPT_DIR/install.log"
 exec > >(tee -a "$LOG_FILE") 2>&1
 
@@ -142,6 +142,7 @@ main() {
     echo "  ◈ Phase 7 — HyprGlass plugin [Y/n]"
     echo "  ◈ Phase 9 — Restore saved user packages [Y/n]"
     echo "  ◈ Phase 10 — Performance tweaks (GPU/CPU/RAM/NVMe) [Y/n]"
+    echo "              → selectable profile: NVIDIA+Intel or AMD (each tweak optional)"
     echo ""
     echo "  Then dotfiles deployed with auto-backup."
     echo ""

@@ -151,13 +151,20 @@ Phase 8:  Final Cleanup        — Cache cleanup, directory setup
 Phase 9:  Restore User Apps    — Per-app prompts (Discord, Steam, Spotify, OBS…)
                                 + Audio services (virtual mic, loop hole, Arctis)
                                 + Spicetify Lotus theme + Discord Lotus theme
-Phase 10: Performance Tweaks   — Optional: GPU undervolt/OC, fan curve, CPU governor,
-                                sysctl tuning, NVMe read-ahead, GRUB C-state limits
+Phase 10: Performance Tweaks   — Selectable profile (NVIDIA+Intel / AMD). Optional:
+                                GPU OC/fan curve, CPU governor, sysctl, NVMe, GRUB C-states
 ```
 
 ### Performance Tweaks (Phase 10)
 
-Phase 10 is optional and asks about each tweak individually. Applied tweaks persist across reboots:
+Phase 10 is optional, asks about each tweak individually, and starts by asking you to pick your **hardware profile**:
+
+| Profile | GPU tweaks | CPU tweaks |
+|---|---|---|
+| **NVIDIA + Intel** | RTX 4070 tuned — 160W power limit, +150 core / +1500 mem OC (nvidia-smi), Coolbits X config, dynamic fan curve | `intel_pstate` min perf 50% + performance governor |
+| **AMD** | amdgpu DPM forced to high, hwmon fan curve, optional `ppfeaturemask` for CoreCtrl OC | `amd_pstate` EPP=performance + performance governor |
+
+Applied tweaks persist across reboots (GRUB C-states apply to both profiles):
 
 | Tweak | What it does |
 |---|---|
@@ -165,20 +172,26 @@ Phase 10 is optional and asks about each tweak individually. Applied tweaks pers
 | **GPU core OC** | +150 MHz core offset (via Coolbits) — safe, stable on 4070 |
 | **GPU mem OC** | +1500 MHz on GDDR6X — free bandwidth, typical headroom is +1500 |
 | **GPU fan curve** | Dynamic 30-100% based on temperature, keeps card under 65°C |
-| **CPU governor** | Sets `performance` governor and `min_perf_pct=50` at boot |
+| **AMD GPU perf** | Forces highest DPM performance level + 3D workload profile |
+| **CPU governor** | Sets `performance` governor (Intel pstate + AMD pstate) at boot |
 | **CPU C-states** | Limits deep sleep (C6+) via GRUB — reduces wakeup latency micro-stutters |
 | **sysctl** | `swappiness=5`, lower dirty ratios, autogroup off, NUMA balancing off |
 | **NVMe read-ahead** | 512 KB (up from 128 KB) — improves game asset loading |
-| **Coolbits** | Enables NVIDIA OC/fan control in X config |
+| **NVIDIA Coolbits** | Enables NVIDIA OC/fan control in X config |
+| **AMD ppfeaturemask** | Optional — enables amdgpu overclocking/undervolt in CoreCtrl |
 
 ### Requirements
 
 - **OS:** Arch Linux
-- **Compositor:** Hyprland 0.55+
-- **GPU:** NVIDIA (optimized for RTX 4070) or Intel
-- **Audio:** PipeWire + WirePlumber (Arctis Nova 5 recommended)
+- **Compositor:** Hyprland 0.55+ (Lua config)
+- **GPU:** NVIDIA (optimized for RTX 4070) or AMD / Intel — Phase 10 lets you pick your profile
+- **Audio:** PipeWire + WirePlumber (Arctis Nova 5 recommended for the full audio pipeline)
 - **Terminal:** Ghostty (default) or Kitty
-- **Depends on:** Waybar, Rofi, swaync, wlogout, swww, nwg-displays
+- **Depends on:** Waybar, Rofi, swaync, wlogout, `awww` (wallpaper daemon — the scripts call `swww`, which is symlinked to `awww` automatically during install since `swww` is deprecated), wallust
+
+> **Portable:** the repo was captured on user `lots` (NVIDIA RTX 4070 + i7-13700KF + dual monitor). The installer
+> rewrites every hardcoded `@HOME@` path to your own home at deploy time, ships a starter wallpaper set, and
+> the Arctis audio services / OBS pipeline are optional (per-app prompts) — so it works on any hardware/username.
 
 ---
 
@@ -211,8 +224,31 @@ Phase 10 is optional and asks about each tweak individually. Applied tweaks pers
 ├── bin/
 │   ├── virtual-mic            # OBS virtual mic loopback
 │   ├── steam-gamescope.sh     # Steam Gamescope wrapper
-│   └── limit-steam-shader.sh  # Steam shader cache limiter
+│   ├── limit-steam-shader.sh  # Steam shader cache limiter
+│   └── cpulimit               # CPU limiter for shader processes
 └── share/pipewire/hrir_hesuvi/  # HeSuVi HRIR convolution file
+```
+
+### Performance Tweaks (Phase 10)
+
+```
+performance-tweaks/
+├── common/                    # Works for every hardware profile
+│   ├── 99-performance.conf    # sysctl
+│   ├── 99-nvme-performance.rules
+│   ├── grub-cmdline.sh        # C-state kernel params (intel/amd)
+│   ├── cpu-tweaks.sh          # Intel pstate / AMD pstate EPP
+│   └── systemd/               # cpu-tweaks + performance-governor services
+├── nvidia/                    # NVIDIA + Intel profile (RTX 4070 tuned)
+│   ├── 10-nvidia.conf         # Coolbits X config
+│   ├── gpu-tweaks.sh          # 160W power limit + mem OC (nvidia-smi)
+│   ├── gpu-fan-curve.sh       # Dynamic fan curve + core OC
+│   └── systemd/
+└── amd/                       # AMD profile
+    ├── 50-amdgpu.conf         # ppfeaturemask (optional OC via CoreCtrl)
+    ├── gpu-tweaks.sh          # DPM high + 3D workload profile
+    ├── gpu-fan-curve.sh       # hwmon-based dynamic fan curve
+    └── systemd/
 ```
 
 ---
@@ -268,8 +304,8 @@ The repo captures your current package state at install time:
 
 | Source | Count |
 |---|---|
-| Official (pacman) | 146 |
-| AUR (yay) | 16 |
+| Official (pacman) | 147 |
+| AUR (yay) | 17 |
 | Flatpak | 2 |
 
 Lists are stored in `packages/{pacman,aur,flatpak}.txt` and restored on fresh installs with **per-app granularity** — no unwanted bulk installs.

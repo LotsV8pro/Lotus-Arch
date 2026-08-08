@@ -85,6 +85,44 @@ for share_dir in "$DOTFILES/.local/share/"*/; do
     cp -r "$share_dir"* "$HOME/.local/share/$name/" 2>/dev/null || true
 done
 
+# ── Rewrite any hardcoded @HOME@ paths to the current user's home ──
+# The repo was captured on user "lots"; make every deployed config target the
+# real home directory so it works for any username.
+echo "  → rewriting legacy @HOME@ paths..."
+find "$HOME/.config" -path "$HOME/.config/dotfiles-backup" -prune -o -type f -exec grep -Il . {} + 2>/dev/null | while IFS= read -r f; do
+    sed -i "s|@HOME@|$HOME|g" "$f" 2>/dev/null || true
+done
+sed -i "s|@HOME@|$HOME|g" "$HOME/.local/bin/"* 2>/dev/null || true
+sed -i "s|@HOME@|$HOME|g" "$HOME/.zshrc" "$HOME/.zshenv" 2>/dev/null || true
+
+# ── swww → awww compatibility symlinks ──
+# swww is deprecated; awww (extra repo) is its successor. The configs still
+# call `swww`/`swww-daemon`, so expose them as symlinks to awww.
+echo "  → linking swww compatibility binaries..."
+if command -v awww &>/dev/null && command -v awww-daemon &>/dev/null; then
+    sudo ln -sf /usr/bin/awww /usr/bin/swww 2>/dev/null || true
+    sudo ln -sf /usr/bin/awww-daemon /usr/bin/swww-daemon 2>/dev/null || true
+fi
+
+# ── Seed starter wallpapers if the user has none ──
+echo "  → seeding starter wallpapers..."
+WP_DIR="$HOME/Pictures/wallpapers"
+mkdir -p "$WP_DIR"
+if [[ -d "$SCRIPT_DIR/../wallpapers" ]]; then
+    if ! find "$WP_DIR" -type f \( -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.webp' -o -iname '*.gif' \) 2>/dev/null | grep -q .; then
+        cp -rn "$SCRIPT_DIR/../wallpapers/"* "$WP_DIR/" 2>/dev/null || true
+    fi
+fi
+
+# Seed a default wallpaper so initial-boot.sh (wallust + swww) has something
+if [[ ! -f "$HOME/.config/hypr/wallpaper_effects/.wallpaper_current" ]]; then
+    first_wp="$(find "$WP_DIR" -type f \( -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' \) 2>/dev/null | head -1)"
+    if [[ -n "$first_wp" ]]; then
+        mkdir -p "$HOME/.config/hypr/wallpaper_effects"
+        cp "$first_wp" "$HOME/.config/hypr/wallpaper_effects/.wallpaper_current" 2>/dev/null || true
+    fi
+fi
+
 # ── Make scripts executable ──
 chmod +x "$HOME/.config/hypr/scripts/"*.sh 2>/dev/null || true
 chmod +x "$HOME/.config/hypr/UserScripts/"*.sh 2>/dev/null || true
