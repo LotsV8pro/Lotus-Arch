@@ -3,6 +3,6 @@
   "auth_required": true,
   "first_load": false,
   "server_enabled": true,
-  "server_password": "***REMOVED***",
+  "server_password": "",
   "server_port": 4455
 }

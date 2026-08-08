@@ -42,5 +42,12 @@ Structure reorganized into `performance-tweaks/{common,nvidia,amd}` — common t
 
 - `limit-steam-shader.sh` + `cpulimit` binary (used by `steam-shader-limit.service`).
 - Starter wallpapers: `wallpapers/Blobs And Waves/` + `wallpapers/Dracula/`.
+- `wireplumber/wireplumber.conf.d/50-lotus-audio.conf` — no audio device suspension (fixes crackle/latency).
+- `lotus-sounds/` — Lotus theme sound effects (`generate.sh` + mp3s).
+
+## 🔐 Privacy hardening (follow-up)
+
+- **`spotify/prefs`: purged `connect.mdns_devices`** — the file leaked your LAN IP (`192.168.x.x`), **public IP** and Chromecast hostname/device metadata. Now `"[]"`.
+- `arctis-manager.desktop` → `Hidden=true`: `asm-gui` was started twice (autostart **and** `arctis-gui.service`) on the live system; the file that was being backed up on your machine is now correctly disabled in the repo.
 
 > Hardware-specific bits (dual-monitor layout `DP-2`+`HDMI-A-1`, Arctis Nova audio pipeline, peripheral tools) are kept but optional — every prompt can be answered `n` on machines that don't match.
