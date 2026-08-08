@@ -1,6 +1,0 @@
--- Startup_Apps.lua - User startup commands
--- Converted from UserConfigs/Startup_Apps.conf
-
--- Commands and Apps to be executed at launch
-hl.exec_once("sleep 3 hl.exec_cmd("sleep 3 && asm-gui")hl.exec_cmd("sleep 3 && asm-gui") asm-gui")
-hl.exec_cmd(os.getenv("HOME") .. "/.config/hypr/auto_link_obs.sh")
