@@ -17,6 +17,8 @@ backup_and_copy() {
     if [[ -e "$dst" ]]; then
         mkdir -p "$BACKUP_DIR"
         cp -r "$dst" "$BACKUP_DIR/" 2>/dev/null || true
+        # True mirror: replace dst entirely so re-syncs don't nest src inside dst
+        rm -rf "$dst"
     fi
 
     mkdir -p "$(dirname "$dst")"
