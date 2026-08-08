@@ -1,4 +1,20 @@
-# Lotus Arch v2.0.0 — Portable, Replicable System
+# Lotus Arch — Release Notes
+
+## 🚀 v2.0.1 — Working Release
+
+Full re-review of the repo, its docs and the live system — everything fixed, mirrored onto the machine and pushed:
+
+- **Deploy fix (`install-scripts/06-dotfiles.sh`)**: re-running the deploy used to **nest** a config into itself (`cp -r src dst` where `dst` was an existing directory, creating `~/.config/<name>/<name>/`). Now it's a **true mirror** — automatic backup first, then replace. Re-syncs are safe to run repeatedly.
+- **Kernel**: only the booted **`linux`** kernel is kept; the unused `linux-zen` fallback was dropped from the package lists.
+- **Broken refs fixed**: Waybar modules pointed at scripts that don't exist (`Kool_Quick_Settings.sh`→`Quick_Settings.sh`, `KooLsDotsUpdate.sh`→`DotsUpdate.sh`, `Wallpaper.sh swww`→`WallpaperEffects.sh`); `09-user-apps.sh` referenced a package not in the lists (`code`); the `zsh-completions` plugin didn't exist and was removed.
+- **New `lotus.zsh-theme`** (Oh-My-Zsh) so `ZSH_THEME="lotus"` resolves instead of falling back.
+- **`sddm_wallpaper.sh`** used `$iDIR` before it was defined — moved above first use.
+- **Phase 10 prompts corrected** (+1500 core / +150 mem OC) to match the actual tuning scripts.
+- **Waybar symlinks** (`config`, `style.css`) are now **relative** instead of absolute machine paths; the absolute `rofi/.current_wallpaper` symlink was removed from the repo and gitignored.
+- **`scan-secrets.sh`** now also flags **absolute personal symlinks** in the working tree.
+- **Docs synced**: README phase/preset/count tables, `monitors.lua` (not `monitors.conf`), and this changelog.
+
+## 📦 v2.0.0 — Portable, Replicable System
 
 Full overhaul so the repo can be cloned and installed on **any Arch machine** (any username, NVIDIA *or* AMD, optional peripherals), plus all detected issues patched.
 
@@ -59,7 +75,7 @@ The previous v1.0.0–v1.3.3 releases leaked real data. **They have been deleted
 - **`obs-studio/plugin_config/obs-browser/`** (a full Chrome profile: **Cookies**, **Login Data** = saved passwords, History) — removed from all history.
 - **`spotify/Users/`** (account id, autologin **encrypted credentials**, local-files tracking, LAN + **public IP** and Chromecast hostname from `connect.mdns_devices`) — removed from all history; prefs purged.
 - **OBS WebSocket password** and **TMDB API key** — hardcoded values scrubbed from all history; the OBS script now reads the password from OBS's own config at runtime, and `movie-tui` re-prompts for the API key.
-- Old **v1.x tags and releases deleted**; only `v2.0.0` exists (pointing to the rewritten history).
+- Old **v1.x tags and releases deleted**; only the rewritten-history releases exist (`v2.0.0`, latest is `v2.0.1`).
 
 > ⚠️ **If you ever reused the old OBS WebSocket password / TMDB key / Spotify password elsewhere, rotate them.** The released artifacts were drafts after 2026-08-07 23:14 but the repo was public beforehand.
 
