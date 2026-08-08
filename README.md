@@ -4,6 +4,7 @@
   <img src="https://img.shields.io/badge/NVIDIA_RTX_4070-141218?style=for-the-badge&logo=nvidia&logoColor=C4A8E2"/>
   <img src="https://img.shields.io/badge/Lua_Config-141218?style=for-the-badge&logo=lua&logoColor=C4A8E2"/>
   <img src="https://img.shields.io/badge/Purple_Lotus-141218?style=for-the-badge&logo=codeforces&logoColor=C4A8E2"/>
+  <img src="https://img.shields.io/github/v/release/LotsV8pro/Lotus-Arch?style=for-the-badge&color=141218"/>
 </p>
 
 <h1 align="center">◈ LOTUS ARCH ◈</h1>
@@ -198,7 +199,7 @@ Applied tweaks persist across reboots (GRUB C-states apply to both profiles):
 | Script | Purpose |
 |---|---|
 | `tools/scan-secrets.sh` | Scans the working tree for credentials / personal data (passwords, API keys, browser DBs, `Cookies`, `@HOME@`). Run before committing — exit 1 flags anything suspicious. |
-| `tools/deploy-dotfiles.sh` | Quick re-sync: deploys only Phase 6 (dotfiles) with auto-backup, without reinstalling. Use after editing configs in the repo. |
+| `tools/deploy-dotfiles.sh` | Quick re-sync: deploys only Phase 6 (dotfiles) with auto-backup, without reinstalling. Replaces existing configs in place (true mirror — safe to re-run anytime). Use after editing configs in the repo. |
 | `tools/regenerate-package-lists.sh` | Re-export `packages/*.txt` from the current machine (`pacman -Qqe` + `yay -Qqm` + `flatpak`) so the repo always mirrors exactly what is installed. Run it after adding/removing packages. |
 
 > 🛡️ **CI:** `.github/workflows/security-scan.yml` runs **gitleaks** (known secret patterns) plus the repo-specific
@@ -206,8 +207,8 @@ Applied tweaks persist across reboots (GRUB C-states apply to both profiles):
 
 > 🔐 **Security:** this repo had a full history rewrite to scrub leaked credentials (Chrome `Cookies`/`Login Data` from
 > the OBS browser source, Spotify autologin credentials, OBS WebSocket password, TMDB API key, LAN/public IPs).
-> Old v1.x releases and tags were deleted — only `v2.0.0` exists. Live secrets were replaced with runtime lookups
-> (OBS reads its own config) or empty values re-entered on first use.
+> Old v1.x releases and tags were deleted — the latest release is **v2.0.1 — Working Release**. Live secrets were
+> replaced with runtime lookups (OBS reads its own config) or empty values re-entered on first use.
 
 ---
 
