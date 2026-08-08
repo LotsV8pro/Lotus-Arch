@@ -30,9 +30,24 @@ import time
 
 OBS_WS_HOST = "127.0.0.1"
 OBS_WS_PORT = 4455
-OBS_WS_PASSWORD = "***REMOVED***"
 SOURCE_NAME = "Screen Capture (PipeWire)"
 PIPE_KIND = "pipewire-screen-capture-source"
+
+
+def load_obs_ws_password():
+    """Read the OBS WebSocket password from OBS's own config (single source
+    of truth) so no credential is hardcoded. Returns "" when auth is off."""
+    try:
+        cfg = os.path.expanduser(
+            "~/.config/obs-studio/plugin_config/obs-websocket/config.json"
+        )
+        with open(cfg) as f:
+            return json.load(f).get("server_password", "")
+    except Exception:
+        return ""
+
+
+OBS_WS_PASSWORD = load_obs_ws_password()
 
 EXIT_HEALTHY = 0
 EXIT_ERROR = 1
