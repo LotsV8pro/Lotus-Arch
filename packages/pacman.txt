@@ -55,8 +55,6 @@ libva-nvidia-driver
 linux
 linux-firmware
 linux-headers
-linux-zen
-linux-zen-headers
 loupe
 lsd
 lutris
