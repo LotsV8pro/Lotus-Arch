@@ -160,6 +160,7 @@ confirm() {
 
 CATEGORIES=(
     "HYPR:Hyprland Core (hyprland, hyprlock, hypridle, portals)"
+    "GRAPHICS:Graphics (mesa, vulkan-tools, NVIDIA/Intel drivers)"
     "BAR:Waybar Status Bar"
     "LAUNCHER:Rofi App Launcher"
     "TERMINAL:Kitty Terminal"
@@ -188,6 +189,7 @@ for entry in "${CATEGORIES[@]}"; do
     if confirm "$desc"; then
         case "$name" in
             HYPR)       SELECTED+=("${HYPR[@]}") ;;
+            GRAPHICS)   SELECTED+=("${GRAPHICS[@]}") ;;
             BAR)        SELECTED+=("${BAR[@]}") ;;
             LAUNCHER)   SELECTED+=("${LAUNCHER[@]}") ;;
             TERMINAL)   SELECTED+=("${TERMINAL[@]}") ;;

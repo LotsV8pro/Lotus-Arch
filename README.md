@@ -193,6 +193,18 @@ Applied tweaks persist across reboots (GRUB C-states apply to both profiles):
 > rewrites every hardcoded `/home/lots` path to your own home at deploy time, ships a starter wallpaper set, and
 > the Arctis audio services / OBS pipeline are optional (per-app prompts) — so it works on any hardware/username.
 
+### Tools (`tools/`)
+
+| Script | Purpose |
+|---|---|
+| `tools/scan-secrets.sh` | Scans the working tree for credentials / personal data (passwords, API keys, browser DBs, `Cookies`, `/home/lots`). Run before committing — exit 1 flags anything suspicious. |
+| `tools/deploy-dotfiles.sh` | Quick re-sync: deploys only Phase 6 (dotfiles) with auto-backup, without reinstalling. Use after editing configs in the repo. |
+
+> 🔐 **Security:** this repo had a full history rewrite to scrub leaked credentials (Chrome `Cookies`/`Login Data` from
+> the OBS browser source, Spotify autologin credentials, OBS WebSocket password, TMDB API key, LAN/public IPs).
+> Old v1.x releases and tags were deleted — only `v2.0.0` exists. Live secrets were replaced with runtime lookups
+> (OBS reads its own config) or empty values re-entered on first use.
+
 ---
 
 ## ◈ Structure
