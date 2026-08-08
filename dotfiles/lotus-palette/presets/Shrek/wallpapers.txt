@@ -1,2 +1,2 @@
-/home/lots/Pictures/wallpapers/Shitpost/super-shrek-bros.jpg
-/home/lots/Pictures/wallpapers/Shitpost/windows-shrek.png
+$HOME/Pictures/wallpapers/Shitpost/super-shrek-bros.jpg
+$HOME/Pictures/wallpapers/Shitpost/windows-shrek.png

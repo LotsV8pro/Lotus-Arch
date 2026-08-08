@@ -1,2 +1,2 @@
-/home/lots/Pictures/wallpapers/Monochrome/mono.png
-/home/lots/Pictures/wallpapers/Monochrome/mono.png
+$HOME/Pictures/wallpapers/Monochrome/mono.png
+$HOME/Pictures/wallpapers/Monochrome/mono.png

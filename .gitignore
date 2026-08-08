@@ -1,1 +1,22 @@
+# GitHub CLI config (personal)
 dotfiles/gh/
+
+# Installer log
+install.log
+
+# Backup snapshots / dotfile backups
+**/dotfiles-backup/
+**/.conf-backup-*/
+
+# Wallpaper state / current image caches (machine-specific)
+**/wallpaper_effects/.wallpaper_current
+**/wallpaper_effects/.wallpaper_modified
+**/wallpaper_effects/.wallpapers_state
+
+# OBS browser source cache (Chrome profile — regenerated)
+dotfiles/obs-studio/plugin_config/obs-browser/
+
+# App runtime backups / logs
+*.backup.*
+*.bak
+**/*.backup

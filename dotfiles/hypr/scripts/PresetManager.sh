@@ -141,6 +141,9 @@ load_preset() {
                 wp="$mon"
                 mon=""
             fi
+            # Expand portable $HOME / ~ prefixes (shipped presets use $HOME)
+            wp="${wp/#\$HOME/$HOME}"
+            wp="${wp/#\~\//$HOME/}"
             if [[ -f "$wp" ]]; then
                 if [[ -n "$mon" ]]; then
                     swww img -o "$mon" "$wp" $SWWW_PARAMS 2>/dev/null &

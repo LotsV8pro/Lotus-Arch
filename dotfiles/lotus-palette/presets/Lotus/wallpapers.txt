@@ -1,2 +1,2 @@
-/home/lots/Pictures/wallpapers/Linkin Park/Hybrid Theory Cover Art.png
-/home/lots/Pictures/wallpapers/Nord/nord-1.png
+$HOME/Pictures/wallpapers/Linkin Park/Hybrid Theory Cover Art.png
+$HOME/Pictures/wallpapers/Nord/nord-1.png
