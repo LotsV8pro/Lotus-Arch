@@ -12,6 +12,7 @@ install.log
 **/wallpaper_effects/.wallpaper_current
 **/wallpaper_effects/.wallpaper_modified
 **/wallpaper_effects/.wallpapers_state
+dotfiles/rofi/.current_wallpaper
 
 # OBS browser source cache (Chrome profile — regenerated)
 dotfiles/obs-studio/plugin_config/obs-browser/

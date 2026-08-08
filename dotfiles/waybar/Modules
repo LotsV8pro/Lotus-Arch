@@ -508,8 +508,8 @@
 
 	"custom/cycle_wall": {
 		"format": " ",
-		"on-click": "~/.config/hypr/scripts/WallpaperSelect.sh",
-		"on-click-right": "~/.config/hypr/scripts/Wallpaper.sh swww",
+		"on-click": "~/.config/hypr/UserScripts/WallpaperSelect.sh",
+		"on-click-right": "~/.config/hypr/UserScripts/WallpaperEffects.sh",
 		"on-click-middle": "~/.config/hypr/scripts/WaybarStyles.sh",
 		"tooltip": true,
 		"tooltip-format": "Change wallpaper or style"
@@ -525,7 +525,7 @@
 		"format": "",
 		"on-click": "~/.config/hypr/scripts/DarkLight.sh",
 		"on-click-right": "~/.config/hypr/scripts/WaybarStyles.sh",
-		"on-click-middle": "~/.config/hypr/scripts/Wallpaper.sh swww",
+		"on-click-middle": "~/.config/hypr/UserScripts/WallpaperEffects.sh",
 		"tooltip": false
 	},
 
@@ -539,7 +539,7 @@
 		"format": "",
 		"tooltip": false,
 		"on-click": "pkill rofi || rofi -show drun -modi run,drun,filebrowser",
-		"on-click-middle": "~/.config/hypr/scripts/WallpaperSelect.sh",
+		"on-click-middle": "~/.config/hypr/UserScripts/WallpaperSelect.sh",
 		"on-click-right": "~/.config/hypr/scripts/WaybarLayout.sh"
 	},
 
@@ -578,7 +578,7 @@
 		"format-alt-click": "click",
 		"interval": 3600,
 		"return-type": "json",
-		"exec": "~/.config/hypr/scripts/Weather.sh",
+		"exec": "~/.config/hypr/UserScripts/Weather.sh",
 		"exec-if": "ping wttr.in -c1",
 		"tooltip": true
 	},
