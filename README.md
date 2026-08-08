@@ -35,7 +35,7 @@ Lotus Arch is a complete **Arch Linux desktop environment** built on Hyprland wi
 | | |
 |---|---|
 | **Pure Lua** | 100% Hyprland Lua config — all settings, keybinds, animations, window rules |
-| **Purple Lotus Theme** | Monochrome purple palette across Hyprland, Waybar, Rofi, Kitty, Ghostty |
+| **Purple Lotus Theme** | Monochrome purple palette across Hyprland, Waybar, Rofi, Kitty |
 | **HyprGlass** | Apple-style liquid glass effect with per-window control |
 | **Preset System** | Save/load/delete full desktop themes with `SUPER + CTRL + P` |
 | **Palette Editor** | Visual color picker with `SUPER + P` — change every color instantly |
@@ -97,7 +97,7 @@ The `virtual-mic` script creates a permanent `pw-loopback` from the OBS virtual 
 
 | Keybind | Action |
 |---|---|
-| `SUPER + Return` | Terminal (Ghostty) |
+| `SUPER + Return` | Terminal (Kitty) |
 | `SUPER + E` | File Manager (Thunar) |
 | `SUPER + W` | Wallpaper Select |
 | `SUPER + P` | Palette Color Editor |
@@ -186,7 +186,7 @@ Applied tweaks persist across reboots (GRUB C-states apply to both profiles):
 - **Compositor:** Hyprland 0.55+ (Lua config)
 - **GPU:** NVIDIA (optimized for RTX 4070) or AMD / Intel — Phase 10 lets you pick your profile
 - **Audio:** PipeWire + WirePlumber (Arctis Nova 5 recommended for the full audio pipeline)
-- **Terminal:** Ghostty (default) or Kitty
+- **Terminal:** Kitty (the configs default to `$term = kitty`; ghostty configs ship as an optional extra in `dotfiles/ghostty/`)
 - **Depends on:** Waybar, Rofi, swaync, wlogout, `awww` (wallpaper daemon — the scripts call `swww`, which is symlinked to `awww` automatically during install since `swww` is deprecated), wallust
 
 > **Portable:** the repo was captured on user `lots` (NVIDIA RTX 4070 + i7-13700KF + dual monitor). The installer
@@ -199,6 +199,10 @@ Applied tweaks persist across reboots (GRUB C-states apply to both profiles):
 |---|---|
 | `tools/scan-secrets.sh` | Scans the working tree for credentials / personal data (passwords, API keys, browser DBs, `Cookies`, `/home/lots`). Run before committing — exit 1 flags anything suspicious. |
 | `tools/deploy-dotfiles.sh` | Quick re-sync: deploys only Phase 6 (dotfiles) with auto-backup, without reinstalling. Use after editing configs in the repo. |
+| `tools/regenerate-package-lists.sh` | Re-export `packages/*.txt` from the current machine (`pacman -Qqe` + `yay -Qqm` + `flatpak`) so the repo always mirrors exactly what is installed. Run it after adding/removing packages. |
+
+> 🛡️ **CI:** `.github/workflows/security-scan.yml` runs **gitleaks** (known secret patterns) plus the repo-specific
+> `tools/scan-secrets.sh` on every push and PR — the repo is auto-blocked if anything leaks.
 
 > 🔐 **Security:** this repo had a full history rewrite to scrub leaked credentials (Chrome `Cookies`/`Login Data` from
 > the OBS browser source, Spotify autologin credentials, OBS WebSocket password, TMDB API key, LAN/public IPs).
@@ -287,7 +291,7 @@ Lotus Arch includes a **Preset Manager** (`SUPER + CTRL + P`) that can save and 
 - Colors (all 39 palette tokens)
 - Waybar style and layout
 - Hyprland decorations (borders, shadows, blur)
-- Terminal colors (Kitty / Ghostty)
+- Terminal colors (Kitty)
 - Rofi theme
 - GTK overrides
 
@@ -305,7 +309,7 @@ Lotus Arch is part of a **unified desktop ecosystem** with matching themes for a
 | **Spotify** (Spicetify) | Lotus Purple | [lotus-spotify](https://github.com/LotsV8pro/lotus-spotify) |
 | **Waybar** | Lotus Pill / Lotus Purple | — *(included)* |
 | **Rofi** | Lotus Purple | — *(included)* |
-| **Kitty / Ghostty** | Lotus Terminal | — *(included)* |
+| **Kitty** | Lotus Terminal | — *(included)* |
 | **GTK / Thunar** | Lotus Purple Pill | — *(included)* |
 
 ---
