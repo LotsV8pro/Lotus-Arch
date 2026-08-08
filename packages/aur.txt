@@ -10,6 +10,7 @@ spotify
 ttf-victor-mono
 vesktop-bin
 vial-appimage
+wallust
 wlogout
 yay-bin
 yay-bin-debug

@@ -32,6 +32,7 @@ grim
 grub
 gvfs
 gvfs-mtp
+ghostty
 hypridle
 hyprland
 hyprlock

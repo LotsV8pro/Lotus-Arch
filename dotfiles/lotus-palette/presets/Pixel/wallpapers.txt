@@ -1,2 +1,2 @@
-@HOME@/Pictures/wallpapers/Pixelart/image13.png
-@HOME@/Pictures/wallpapers/Gruv/gruv-pixel-III.png
+$HOME/Pictures/wallpapers/Pixelart/image13.png
+$HOME/Pictures/wallpapers/Gruv/gruv-pixel-III.png
