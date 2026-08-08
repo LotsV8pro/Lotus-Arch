@@ -51,3 +51,14 @@ Structure reorganized into `performance-tweaks/{common,nvidia,amd}` — common t
 - `arctis-manager.desktop` → `Hidden=true`: `asm-gui` was started twice (autostart **and** `arctis-gui.service`) on the live system; the file that was being backed up on your machine is now correctly disabled in the repo.
 
 > Hardware-specific bits (dual-monitor layout `DP-2`+`HDMI-A-1`, Arctis Nova audio pipeline, peripheral tools) are kept but optional — every prompt can be answered `n` on machines that don't match.
+
+## 🧹 Full security cleanup (this release supersedes v1.x entirely)
+
+The previous v1.0.0–v1.3.3 releases leaked real data. **They have been deleted from GitHub** (not just hidden) and the **git history was rewritten** to scrub them completely, so nothing sensitive remains reachable:
+
+- **`obs-studio/plugin_config/obs-browser/`** (a full Chrome profile: **Cookies**, **Login Data** = saved passwords, History) — removed from all history.
+- **`spotify/Users/`** (account id, autologin **encrypted credentials**, local-files tracking, LAN + **public IP** and Chromecast hostname from `connect.mdns_devices`) — removed from all history; prefs purged.
+- **OBS WebSocket password** and **TMDB API key** — hardcoded values scrubbed from all history; the OBS script now reads the password from OBS's own config at runtime, and `movie-tui` re-prompts for the API key.
+- Old **v1.x tags and releases deleted**; only `v2.0.0` exists (pointing to the rewritten history).
+
+> ⚠️ **If you ever reused the old OBS WebSocket password / TMDB key / Spotify password elsewhere, rotate them.** The released artifacts were drafts after 2026-08-07 23:14 but the repo was public beforehand.
