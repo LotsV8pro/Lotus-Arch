@@ -10,6 +10,9 @@ wallDIR="$PICTURES_DIR/wallpapers"
 SCRIPTSDIR="$HOME/.config/hypr/scripts"
 wallpaper_current="$HOME/.config/hypr/wallpaper_effects/.wallpaper_current"
 wallpaper_modified="$HOME/.config/hypr/wallpaper_effects/.wallpaper_modified"
+# Directory for swaync
+iDIR="$HOME/.config/swaync/images"
+iDIRi="$HOME/.config/swaync/icons"
 # Resolve SDDM themes directory (standard paths and NixOS path)
 sddm_themes_dir="/usr/share/sddm/themes"
 if [ ! -d "$sddm_themes_dir" ] && [ -d "/run/current-system/sw/share/sddm/themes" ]; then
@@ -24,10 +27,6 @@ if [[ ! -f "$rofi_wallust" ]]; then
     notify-send -i "$iDIR/error.png" "SDDM" "Wallust colors file not found ($rofi_wallust). Aborting."
     exit 1
 fi
-
-# Directory for swaync
-iDIR="$HOME/.config/swaync/images"
-iDIRi="$HOME/.config/swaync/icons"
 
 # Parse arguments
 mode="effects" # default

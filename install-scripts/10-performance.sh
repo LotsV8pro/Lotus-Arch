@@ -39,7 +39,7 @@ apply_gpu_power() {
             echo "      Skipped."
         fi
     else
-        echo -n "    GPU power limit (160W) + memory OC (+1000 MHz)? [Y/n]: "
+        echo -n "    GPU power limit (160W) + memory OC (+1500 MHz)? [Y/n]: "
         read -r ans
         if [[ ! "$ans" =~ ^[Nn] ]]; then
             sudo install -m 755 "$PERF_DIR/nvidia/gpu-tweaks.sh" /usr/local/bin/gpu-tweaks.sh
@@ -56,7 +56,7 @@ apply_gpu_fan() {
     if [[ "$PROFILE" == "amd" ]]; then
         echo -n "    AMD GPU core OC + dynamic fan curve? [Y/n]: "
     else
-        echo -n "    GPU core OC (+130 MHz) + dynamic fan curve? [Y/n]: "
+        echo -n "    GPU core OC (+150 MHz) + dynamic fan curve? [Y/n]: "
     fi
     read -r ans
     if [[ ! "$ans" =~ ^[Nn] ]]; then
