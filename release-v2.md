@@ -1,5 +1,11 @@
 # Lotus Arch — Release Notes
 
+## 🚀 v2.0.2 — Power menu (CTRL+ALT+P) fixes
+
+- **Power menu follows the monitor you open it on** (`dotfiles/hypr/scripts/Wlogout.sh`): the target monitor is now detected by the **cursor position** instead of keyboard focus, so opening it on the secondary display no longer lands on the primary one.
+- **Buttons scale to fit the target resolution**: for screens below 1440p the button CSS is generated at 75% scale (and side margins adjusted) so the 6-button grid no longer renders outside the screen on a 1080p monitor.
+- **Dismiss closes everything**: dismissing the menu (ESC or backdrop click) on any monitor now closes the HyprGlass effect on **all** monitors via a watchdog — no more stray glass left on the other screen.
+
 ## 🚀 v2.0.1 — Working Release
 
 Full re-review of the repo, its docs and the live system — everything fixed, mirrored onto the machine and pushed:
