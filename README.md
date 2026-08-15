@@ -207,7 +207,7 @@ Applied tweaks persist across reboots (GRUB C-states apply to both profiles):
 
 > 🔐 **Security:** this repo had a full history rewrite to scrub leaked credentials (Chrome `Cookies`/`Login Data` from
 > the OBS browser source, Spotify autologin credentials, OBS WebSocket password, TMDB API key, LAN/public IPs).
-> Old v1.x releases and tags were deleted — the latest release is **v2.0.1 — Working Release**. Live secrets were
+> Old v1.x releases and tags were deleted — the latest release is **v2.0.3 — GPU overclock + dual-monitor layout tweaks**. Live secrets were
 > replaced with runtime lookups (OBS reads its own config) or empty values re-entered on first use.
 
 ---

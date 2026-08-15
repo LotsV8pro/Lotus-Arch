@@ -1,8 +1,11 @@
 #!/bin/bash
-# Apply NVIDIA GPU tweaks at boot
+# Apply NVIDIA GPU tweaks at boot (mirrors MSI Afterburner Preset 1)
 
-# Set power limit to 160W (safe undervolt, minimal perf loss)
-/usr/bin/nvidia-smi -pl 160
+# Power limit 216W (108% of 200W default = max)
+/usr/bin/nvidia-smi -pl 216
 
-# Memory overclock +1500 MHz (safe for GDDR6X on RTX 4070)
-/usr/bin/nvidia-smi -lmc 1500
+# Memory clock +1500 MHz over 10501 MHz max (lock absolute)
+/usr/bin/nvidia-smi -lmc 12001
+
+# Core clock: replicate VF curve ceiling (3255 MHz max)
+/usr/bin/nvidia-smi -lgc 3255
