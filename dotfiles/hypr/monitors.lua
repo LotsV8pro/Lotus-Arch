@@ -15,5 +15,5 @@ end
 
 -- Main monitor: DP-2 NSL 1440p 144Hz VRR 10-bit
 hl.monitor({ output = "DP-2", mode = "2560x1440@165", position = "0x0", scale = 1, bitdepth = 10, vrr = 2 })
--- Secondary monitor: HDMI-A-1 aligned to bottom
-hl.monitor({ output = "HDMI-A-1", mode = "1920x1080@60", position = "2560x360", scale = 1 })
+-- Secondary monitor: HDMI-A-1 aligned to bottom, now on the LEFT
+hl.monitor({ output = "HDMI-A-1", mode = "1920x1080@60", position = "-1920x360", scale = 1 })
