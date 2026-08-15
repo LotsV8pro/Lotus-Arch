@@ -1,5 +1,11 @@
 # Lotus Arch — Release Notes
 
+## 🚀 v2.0.3 — GPU overclock + dual-monitor layout tweaks
+
+- **NVIDIA GPU overclock now matches MSI Afterburner Preset 1** (`performance-tweaks/nvidia/gpu-tweaks.sh`): power limit raised from 160 W (undervolt) to **216 W** (108% of the 200 W default = hardware max), memory clock fixed at the card's real ceiling **10501 MHz** (was wrongly locked to 1500 MHz — a massive underclock), and the core clock locked to its **3255 MHz** VF-curve ceiling (chip sustains ~2985 MHz). Verified live via `nvidia-smi`.
+- **Secondary monitor moved to the left** (`dotfiles/hypr/monitors.lua`): HDMI-A-1 is now positioned at `-1920x360` (left of the primary) instead of `2560x360` (right), aligned to the bottom, 1080p@60 — workspaces 6–10 follow it.
+- **Waybar workspace icons swapped**: workspace 5 shows the gear `` and workspace 10 the headphone `` (config and `configs/[TOP] Lotus`).
+
 ## 🚀 v2.0.2 — Power menu (CTRL+ALT+P) fixes
 
 - **Power menu follows the monitor you open it on** (`dotfiles/hypr/scripts/Wlogout.sh`): the target monitor is now detected by the **cursor position** instead of keyboard focus, so opening it on the secondary display no longer lands on the primary one.
