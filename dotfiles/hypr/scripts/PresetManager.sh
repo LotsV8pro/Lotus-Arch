@@ -17,7 +17,7 @@ mkdir -p "$PRESETS_DIR"
 # Extra quickshell shells = any running "qs -c <cfg>" except the overview overlay
 list_extra_qs() {
     local out
-    out=$(pgrep -ax qs 2>/dev/null | awk '$2=="-c" {print $4}' | grep -vx overview) || true
+    out=$(pgrep -ax qs 2>/dev/null | awk '$3=="-c" {print $4}' | grep -vx overview) || true
     echo "$out"
 }
 
