@@ -68,8 +68,9 @@ hl.bind(mainMod .. " + CTRL + F", hl.dsp.window.fullscreen({ mode = "maximized",
 -- Float current window
 hl.bind(mainMod .. " + SPACE", hl.dsp.window.float({ action = "toggle" }))
 
--- Float all windows
-hl.bind(mainMod .. " + ALT + SPACE", hl.dsp.exec_cmd("hyprctl dispatch workspaceopt allfloat"))
+-- Float all windows on the active workspace
+-- (classic `workspaceopt allfloat` has no Lua-API equivalent; script emulates it)
+hl.bind(mainMod .. " + ALT + SPACE", hl.dsp.exec_cmd(scripts_dir .. "/FloatAll.sh"))
 
 -- DropDown terminal
 hl.bind(mainMod .. " + SHIFT + Return", hl.dsp.exec_cmd(scripts_dir .. "/Dropterminal.sh $term"))
@@ -124,14 +125,14 @@ hl.bind(mainMod .. " + SHIFT + O", hl.dsp.exec_cmd(user_scripts_dir .. "/ZshChan
 hl.bind(mainMod .. " + ALT + C", hl.dsp.exec_cmd(user_scripts_dir .. "/RofiCalc.sh"))
 
 -- Move current workspaces to monitors (left right up or down)
-hl.bind(mainMod .. " + CTRL + F9", hl.dsp.exec_cmd("hyprctl dispatch movecurrentworkspacetomonitor l"))
-hl.bind(mainMod .. " + CTRL + F10", hl.dsp.exec_cmd("hyprctl dispatch movecurrentworkspacetomonitor r"))
-hl.bind(mainMod .. " + CTRL + F11", hl.dsp.exec_cmd("hyprctl dispatch movecurrentworkspacetomonitor u"))
-hl.bind(mainMod .. " + CTRL + F12", hl.dsp.exec_cmd("hyprctl dispatch movecurrentworkspacetomonitor d"))
+hl.bind(mainMod .. " + CTRL + F9", hl.dsp.workspace.move({ monitor = "l" }))
+hl.bind(mainMod .. " + CTRL + F10", hl.dsp.workspace.move({ monitor = "r" }))
+hl.bind(mainMod .. " + CTRL + F11", hl.dsp.workspace.move({ monitor = "u" }))
+hl.bind(mainMod .. " + CTRL + F12", hl.dsp.workspace.move({ monitor = "d" }))
 
 -- SYSTEM
 -- Exit Hyprland
-hl.bind("CTRL + ALT + Delete", hl.dsp.exec_cmd("hyprctl dispatch exit 0"))
+hl.bind("CTRL + ALT + Delete", hl.dsp.exit())
 
 -- Close active window
 hl.bind(mainMod .. " + Q", hl.dsp.window.close())
@@ -161,7 +162,7 @@ hl.bind(mainMod .. " + SHIFT + I", hl.dsp.layout("togglesplit"))
 hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
 
 -- Works on either layout (Master or Dwindle)
-hl.bind(mainMod .. " + M", hl.dsp.exec_cmd("hyprctl dispatch splitratio 0.3"))
+hl.bind(mainMod .. " + M", hl.dsp.layout("splitratio", 0.3))
 
 -- Layout aware keybinds initialization
 hl.dsp.exec_cmd(scripts_dir .. "/ChangeLayout.sh init")
@@ -220,9 +221,10 @@ hl.bind(mainMod .. " + ALT + down", hl.dsp.window.swap({ direction = "down" }))
 hl.bind(mainMod .. " + G", hl.dsp.group.toggle())
 
 -- Navigate within a group
-hl.bind(mainMod .. " + Tab", hl.dsp.group.next())
+-- NOTE: SUPER+Tab / SUPER+SHIFT+Tab are used for workspace switching below;
+--       group cycling lives on CTRL+Tab combos to avoid double-bound keys
+hl.bind(mainMod .. " + CTRL + SHIFT + Tab", hl.dsp.group.next())
 hl.bind(mainMod .. " + CTRL + Tab", hl.dsp.group.prev())
-hl.bind(mainMod .. " + SHIFT + Tab", hl.dsp.group.prev())
 
 -- Move window into/out of group
 hl.bind(mainMod .. " + CTRL + K", hl.dsp.window.move({ into_group = "left" }))

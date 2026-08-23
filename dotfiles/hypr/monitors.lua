@@ -1,7 +1,5 @@
--- Generated monitor layout (owned by resolution-switcher.sh - survives reloads)
-pcall(dofile, (os.getenv("HOME") or "") .. "/.config/hypr/modules/monitors-state.lua")
-
--- Hotplug fallback: any monitor without a rule above comes up at preferred mode
+-- Monitor layout & persistent workspace rules (hand-maintained)
+-- Hotplug fallback: any monitor without a rule below comes up at preferred mode
 hl.monitor({ output = "", mode = "preferred", position = "auto", scale = 1 })
 
 -- DP-2 gets 1-5, HDMI-A-1 gets 6-10
