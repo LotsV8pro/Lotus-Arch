@@ -212,21 +212,28 @@ load_preset() {
     [[ -f "$preset_dir/UserDecorations.lua" ]] && cp "$preset_dir/UserDecorations.lua" "$HOME/.config/hypr/UserConfigs/UserDecorations.lua"
     [[ -f "$preset_dir/UserAnimations.lua" ]] && cp "$preset_dir/UserAnimations.lua" "$HOME/.config/hypr/UserConfigs/UserAnimations.lua"
 
-    # Apply border/shadow colors via hyprctl keyword (no full reload - that would break OBS PipeWire capture)
+    # Apply border/shadow colors live (no full reload - that would break OBS PipeWire capture)
+    # Dual-form: `keyword` works on classic roots, `eval hl.config` on Lua roots —
+    # the wrong form for the current root just errors harmlessly.
     if [[ -f "$preset_dir/colors.conf" ]]; then
         local p
         p="$preset_dir/colors.conf"
-        local pc; pc=$(grep '^primary ' "$p" | head -1 | awk '{print $2}' | sed 's/^#//')
-        local pd; pd=$(grep '^primary_dim ' "$p" | head -1 | awk '{print $2}' | sed 's/^#//')
+        local pc; pc=$(awk -F= '$1=="primary"{print $2}' "$p" | head -1 | tr -d '# ')
+        local pd; pd=$(awk -F= '$1=="primary_dim"{print $2}' "$p" | head -1 | tr -d '# ')
         if [[ -n "$pc" && -n "$pd" ]]; then
-            hyprctl keyword general:col.active_border "rgba(${pc}cc) rgba(${pd}cc) 135deg" 2>/dev/null || true
-            hyprctl keyword general:col.inactive_border "rgba(${pc}22) rgba(${pd}22) 135deg" 2>/dev/null || true
-            hyprctl keyword decoration:shadow:color "rgba(${pc}30)" 2>/dev/null || true
-            hyprctl keyword decoration:shadow:color_inactive "rgba(${pd}15)" 2>/dev/null || true
-            hyprctl keyword group:col.border_active "rgba(${pc}cc)" 2>/dev/null || true
-            hyprctl keyword group:col.border_inactive "rgba(${pd}33)" 2>/dev/null || true
-            hyprctl keyword group:groupbar:col.active "rgba(${pc}cc)" 2>/dev/null || true
-            hyprctl keyword group:groupbar:col.inactive "rgba(${pd}33)" 2>/dev/null || true
+            # classic root
+            hyprctl keyword general:col.active_border "rgba(${pc}cc) rgba(${pd}cc) 135deg" >/dev/null 2>&1 || true
+            hyprctl keyword general:col.inactive_border "rgba(${pc}22) rgba(${pd}22) 135deg" >/dev/null 2>&1 || true
+            hyprctl keyword decoration:shadow:color "rgba(${pc}30)" >/dev/null 2>&1 || true
+            hyprctl keyword decoration:shadow:color_inactive "rgba(${pd}15)" >/dev/null 2>&1 || true
+            hyprctl keyword group:col.border_active "rgba(${pc}cc)" >/dev/null 2>&1 || true
+            hyprctl keyword group:col.border_inactive "rgba(${pd}33)" >/dev/null 2>&1 || true
+            hyprctl keyword group:groupbar:col.active "rgba(${pc}cc)" >/dev/null 2>&1 || true
+            hyprctl keyword group:groupbar:col.inactive "rgba(${pd}33)" >/dev/null 2>&1 || true
+            # lua root
+            hyprctl eval "hl.config({ general = { col = { active_border = { colors = { 'rgba(${pc}cc)', 'rgba(${pd}cc)' }, angle = 135 }, inactive_border = { colors = { 'rgba(${pc}22)', 'rgba(${pd}22)' }, angle = 135 } } } })" >/dev/null 2>&1 || true
+            hyprctl eval "hl.config({ decoration = { shadow = { color = 'rgba(${pc}30)', color_inactive = 'rgba(${pd}15)' } } })" >/dev/null 2>&1 || true
+            hyprctl eval "hl.config({ group = { col = { border_active = 'rgba(${pc}cc)', border_inactive = 'rgba(${pd}33)' }, groupbar = { col = { active = 'rgba(${pc}cc)', inactive = 'rgba(${pd}33)' } } } })" >/dev/null 2>&1 || true
         fi
     fi
 
