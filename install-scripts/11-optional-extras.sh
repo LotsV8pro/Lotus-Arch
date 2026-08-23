@@ -70,8 +70,12 @@ install_persona() {
     fc-cache -f >/dev/null 2>&1 || true
 
     # Register it as a Preset Manager preset (kills waybar, starts the persona shell)
+    # and give it its own P3R-blue palette so loading it re-themes the WHOLE
+    # desktop (waybar/rofi/borders + the persona shell itself) to match
     mkdir -p "$PRESETS_DIR/Persona"
     printf 'waybar=no\nqs=Persona-Quickshell\n' > "$PRESETS_DIR/Persona/shell-state.txt"
+    [[ -f "$DOTFILES/lotus-palette/persona-palette.conf" ]] && \
+        cp "$DOTFILES/lotus-palette/persona-palette.conf" "$PRESETS_DIR/Persona/colors.conf"
 
     # Theme it with the current LOTUS palette instead of upstream blue
     bash "$HOME/.config/hypr/scripts/PersonaPalette.sh" >/dev/null 2>&1 || true
