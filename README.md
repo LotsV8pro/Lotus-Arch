@@ -297,7 +297,7 @@ Lotus Arch includes a **Preset Manager** (`SUPER + CTRL + P`) that can save and 
 - GTK overrides
 - Shell/bar state (waybar on/off, extra Quickshell shells)
 
-The **Lotus** preset ships by default. The extra presets (`Monochrome`, `Pixel`, `Shrek`, `White Monochrome`) are **optional** — choose them during install (Phase 11).
+The **Lotus** preset ships by default. The extra presets (`Monochrome`, `Pixel`, `White Monochrome`) are **optional** — choose them during install (Phase 11).
 
 > ℹ️ `Yellowstone.conf` is a legacy leftover and not loadable as a preset.
 
