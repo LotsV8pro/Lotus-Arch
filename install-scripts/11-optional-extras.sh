@@ -73,6 +73,9 @@ install_persona() {
     mkdir -p "$PRESETS_DIR/Persona"
     printf 'waybar=no\nqs=Persona-Quickshell\n' > "$PRESETS_DIR/Persona/shell-state.txt"
 
+    # Theme it with the current LOTUS palette instead of upstream blue
+    bash "$HOME/.config/hypr/scripts/PersonaPalette.sh" >/dev/null 2>&1 || true
+
     echo -e "${GREEN}[✓]${NC} Persona theme installed"
     echo -e "     Load it via ${CYAN}SUPER+CTRL+P → Load Preset → Persona${NC}"
     echo -e "     App drawer: ${CYAN}SUPER+R${NC} (only while Persona is active)"
