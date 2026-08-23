@@ -78,13 +78,14 @@ save_preset() {
     echo "$(basename "$(readlink -f "$WAYBAR_CONFIG")")" > "$dir/waybar-layout-name.txt"
 
     # 4. Wallpaper (current swww image per monitor, saved as "monitor<TAB>path")
+    # Paths are stored with a portable $HOME prefix (expanded again on restore)
     swww query 2>/dev/null | awk '
         /^: / && /scale:/ { mon=$2; gsub(":", "", mon) }
         /currently displaying: image:/ && mon != "" {
             sub(/^.*image: /, "")
             print mon "\t" $0
             mon = ""
-        }' > "$dir/wallpapers.txt" || true
+        }' | sed "s|^${HOME}|\$HOME|g" > "$dir/wallpapers.txt" || true
 
     # 5. UserDecorations.lua
     cp "$HOME/.config/hypr/UserConfigs/UserDecorations.lua" "$dir/UserDecorations.lua" 2>/dev/null || true
