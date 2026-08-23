@@ -295,8 +295,37 @@ Lotus Arch includes a **Preset Manager** (`SUPER + CTRL + P`) that can save and 
 - Terminal colors (Kitty)
 - Rofi theme
 - GTK overrides
+- Shell/bar state (waybar on/off, extra Quickshell shells)
 
-Built-in presets: `Lotus`, `Monochrome`, `Pixel`, `Shrek`, `White Monochrome`, `Yellowstone`.
+The **Lotus** preset ships by default. The extra presets (`Monochrome`, `Pixel`, `Shrek`, `White Monochrome`) are **optional** — choose them during install (Phase 11).
+
+> ℹ️ `Yellowstone.conf` is a legacy leftover and not loadable as a preset.
+
+### Persona 3 Reload Theme (optional)
+
+An optional full-shell alternative: an animated Persona 3 Reload desktop powered by Quickshell (wallpaper engine with shaders, capsule media bar, clock, app drawer via `SUPER + R`, OSDs). Loading its preset switches waybar off; loading any other preset brings everything back.
+
+Enable it during install (Phase 11) — it clones upstream, applies Lotus-Arch patches (desktop fixes: battery widget removal, calendar/font bugfixes, cava plugin dependency stripped) and registers it as a `Persona` preset.
+
+---
+
+## ◈ Credits
+
+### Persona 3 Reload Quickshell theme
+
+The optional Persona theme is a patched checkout of **[Persona-Quickshell](https://github.com/Yujonpradhananga/Persona-Quickshell)** by **Yujon Pradhananga** ([@Yujonpradhananga](https://github.com/Yujonpradhananga)) — MIT licensed. All credit for the theme itself goes to him and the artists he credits:
+
+| Asset / feature | Creator |
+|---|---|
+| Persona-Quickshell shell (QML) | [Yujon Pradhananga](https://github.com/Yujonpradhananga/Persona-Quickshell) |
+| Greyscale shader | [@snes19xx](https://github.com/snes19xx) ([surface-dots](https://github.com/snes19xx/surface-dots)) |
+| Media player album-art implementation | [@Rexcrazy804](https://github.com/Rexcrazy804) ([Zaphkiel](https://github.com/Rexcrazy804/Zaphkiel)) |
+| Persona 3 website reference | [@blairxu13](https://github.com/blairxu13) ([persona3-website](https://github.com/blairxu13/persona3-website)) |
+| Album cover SVG | Squirrel-Modeller |
+| P3R wallpaper | [Steam Workshop #3151551777](https://steamcommunity.com/sharedfiles/filedetails/?id=3151551777) |
+| Montserrat font | [JulietaUla](https://github.com/JulietaUla/Montserrat) (OFL) |
+| Bebas Neue font | [dharma type](https://github.com/dharmatype/Bebas-Neue) (OFL) |
+| Material Symbols Rounded | Google (Apache-2.0) |
 
 ---
 

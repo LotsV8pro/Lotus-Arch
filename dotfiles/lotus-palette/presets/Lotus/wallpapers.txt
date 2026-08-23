@@ -1,2 +1,2 @@
-$HOME/Pictures/wallpapers/Linkin Park/Hybrid Theory Cover Art.png
-$HOME/Pictures/wallpapers/Nord/nord-1.png
+HDMI-A-1	@HOME@/Pictures/wallpapers/Nord/nord-1.png
+DP-2	@HOME@/Pictures/wallpapers/Nord/nord-1.png
