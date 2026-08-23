@@ -28,6 +28,9 @@ hl.bind(mainMod .. " + P", hl.dsp.exec_cmd("bash ~/.config/lotus-palette/palette
 -- Preset Manager (save/load/delete full desktop presets)
 hl.bind(mainMod .. " + CTRL + P", hl.dsp.exec_cmd("bash " .. scripts_dir .. "/PresetManager.sh"), { description = "Preset Manager - Save/Load themes" })
 
+-- Persona Quickshell app drawer (fails silently when Persona shell isn't running)
+hl.bind(mainMod .. " + R", hl.dsp.exec_cmd("qs -c Persona-Quickshell ipc call searchapp toggle"), { description = "Persona app drawer" })
+
 -- For passthrough keyboard into a VM
 -- hl.bind(mainMod .. " + ALT + P", hl.dsp.submap("passthru"))
 -- hl.bind(mainMod .. " + ALT + P", hl.dsp.submap("reset"))
