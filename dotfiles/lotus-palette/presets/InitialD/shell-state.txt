@@ -1,2 +1,0 @@
-waybar=no
-qs=Persona-Quickshell
