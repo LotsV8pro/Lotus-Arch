@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # LOTUS Preset Manager — Save / Load / Delete full desktop presets
-# Saves: palette, waybar style, waybar layout, wallpaper, decorations
+# Saves: palette, waybar style, waybar layout, wallpaper, decorations, shell/bar state
 
 set -euo pipefail
 
@@ -12,6 +12,49 @@ ROFI_THEME="$HOME/.config/rofi/themes/lotus-palette.rasi"
 MENU_THEME="$HOME/.config/rofi/themes/lotus-palette.rasi"
 
 mkdir -p "$PRESETS_DIR"
+
+# ── Shell/bar state helpers ────────────────────────────────────
+# Extra quickshell shells = any running "qs -c <cfg>" except the overview overlay
+list_extra_qs() {
+    local out
+    out=$(pgrep -ax qs 2>/dev/null | awk '$2=="-c" {print $4}' | grep -vx overview) || true
+    echo "$out"
+}
+
+# Converge waybar + extra quickshell shells to a preset's shell-state.txt
+# (missing file / missing keys = defaults: waybar on, no extra shells)
+apply_shell_state() {
+    local state_file="$1"
+    local want_waybar="yes"
+    if [[ -f "$state_file" ]]; then
+        want_waybar=$(grep '^waybar=' "$state_file" | tail -1 | cut -d= -f2- || true)
+        [[ -z "$want_waybar" ]] && want_waybar="yes"
+    fi
+
+    if [[ "$want_waybar" == "no" ]]; then
+        pkill -x waybar 2>/dev/null || true
+    else
+        pgrep -x waybar >/dev/null 2>&1 || { setsid -f waybar >/dev/null 2>&1 || true; }
+    fi
+
+    # Stop extra quickshell shells this preset doesn't want (exact cmdline match)
+    local cur want keep wanted_qs
+    wanted_qs=$(grep '^qs=' "$state_file" 2>/dev/null | cut -d= -f2- || true)
+    while read -r cur; do
+        [[ -z "$cur" ]] && continue
+        keep=false
+        while read -r want; do
+            [[ "$want" == "$cur" ]] && keep=true
+        done <<< "$wanted_qs"
+        [[ "$keep" == "false" ]] && pkill -xf "qs -c $cur" 2>/dev/null || true
+    done <<< "$(list_extra_qs)"
+
+    # Launch wanted ones that aren't running yet
+    while read -r want; do
+        [[ -z "$want" ]] && continue
+        pgrep -xf "qs -c $want" >/dev/null 2>&1 || { setsid -f qs -c "$want" >/dev/null 2>&1 || true; }
+    done <<< "$wanted_qs"
+}
 
 # ── Save current state to a preset ─────────────────────────────
 save_preset() {
@@ -48,6 +91,12 @@ save_preset() {
 
     # 6. UserAnimations.lua
     cp "$HOME/.config/hypr/UserConfigs/UserAnimations.lua" "$dir/UserAnimations.lua" 2>/dev/null || true
+
+    # 7. Shell/bar state (waybar + extra quickshell shells)
+    {
+        if pgrep -x waybar >/dev/null 2>&1; then echo "waybar=yes"; else echo "waybar=no"; fi
+        list_extra_qs | sed 's/^/qs=/'
+    } > "$dir/shell-state.txt"
 
     notify-send "Preset Saved" "$name" -i dialog-save
     echo "$name"
@@ -181,7 +230,10 @@ load_preset() {
         fi
     fi
 
-    notify-send "Preset Loaded" "$name" "(decor/anim apply on next restart)" -i dialog-ok
+    # 6. Converge shell/bar state (waybar on/off + extra quickshell shells)
+    apply_shell_state "$preset_dir/shell-state.txt"
+
+    notify-send "Preset Loaded" "$name (decor/anim apply on next restart)" -i dialog-ok
 }
 
 # ── Delete a preset ────────────────────────────────────────────
