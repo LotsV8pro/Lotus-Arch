@@ -1,6 +1,6 @@
 #!/bin/bash
 # Phase 11: Optional desktop extras
-# - Extra look presets (monochrome, Pixel, Shrek, White_monochrome)
+# - Extra look presets (monochrome, Pixel, White_monochrome)
 # - Persona 3 Reload Quickshell theme (optional full-shell alternative)
 #
 # Both are OPTIONAL. The base install ships only the Lotus preset.
@@ -81,7 +81,7 @@ install_persona() {
 echo "[11] Optional desktop extras..."
 
 if [[ -d "$DOTFILES/lotus-palette/presets-optional" ]]; then
-    if ask "  Install extra look presets? (monochrome, Pixel, Shrek, White_monochrome)"; then
+    if ask "  Install extra look presets? (monochrome, Pixel, White_monochrome)"; then
         install_extra_presets
     else
         echo "  Skipped extra presets (Lotus stays the only preset)"
