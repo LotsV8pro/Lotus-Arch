@@ -216,8 +216,7 @@ while ((SECONDS < END_TIME)); do
 
     if ((MATCH)) && [[ -z "${SEEN[$ADDR]-}" ]]; then
       echo "Placing window $ADDR (pid $PID, class $CLASS) → WS $TARGET_WS" >>"$LOGFILE"
-      hyprctl dispatch movetoworkspacesilent \
-        "$TARGET_WS,address:$ADDR" >>"$LOGFILE" 2>&1 || true
+      hyprctl dispatch "hl.dsp.window.move({ workspace = '$TARGET_WS', window = 'address:$ADDR', follow = false })" >>"$LOGFILE" 2>&1 || true
       SEEN[$ADDR]=1
     fi
   done < <(hyprctl clients -j | jq -r '.[] | [.pid, .address, .class] | @tsv')
