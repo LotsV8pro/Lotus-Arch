@@ -303,7 +303,7 @@ The **Lotus** preset ships by default. The extra presets (`Monochrome`, `Pixel`,
 
 ### Persona 3 Reload Theme (optional)
 
-An optional full-shell alternative: an animated Persona 3 Reload desktop powered by Quickshell (wallpaper engine with shaders, capsule media bar, clock, app drawer via `SUPER + R`, OSDs). Loading its preset switches waybar off; loading any other preset brings everything back.
+An optional full-shell alternative: an animated Persona 3 Reload desktop powered by Quickshell (wallpaper engine with shaders, capsule media bar, clock, app drawer via `SUPER + R`, OSDs). Loading its preset switches waybar off **and re-themes the entire system to Persona's signature blue** (waybar, rofi, kitty, borders, GTK); loading any other preset restores that preset's look and brings everything back.
 
 Enable it during install (Phase 11) — it clones upstream, applies Lotus-Arch patches (desktop fixes: battery widget removal, calendar/font bugfixes, cava plugin dependency stripped) and registers it as a `Persona` preset.
 
