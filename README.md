@@ -311,6 +311,14 @@ Enable it during install (Phase 11) — it clones upstream, applies Lotus-Arch p
 
 ## ◈ Credits
 
+### JaKooLit — Hyprland base
+
+The Hyprland configuration architecture (configs / UserConfigs / UserScripts layout, script collection, theming pipeline) started as a conversion of **[JaKooLit's Arch-Hyprland](https://github.com/JaKooLit/Arch-Hyprland)** dots, later rewritten for Hyprland's native Lua config. Huge thanks to [@JaKooLit](https://github.com/JaKooLit) — much of the desktop plumbing traces back to that project.
+
+### Quickshell Overview
+
+`dotfiles/quickshell/overview/` is **[quickshell-overview](https://github.com/Shanu-Kumawat/quickshell-overview)** by **[@Shanu-Kumawat](https://github.com/Shanu-Kumawat)** (GPL-3.0), vendored unmodified apart from user keybind integration. The license notice lives in [dotfiles/quickshell/overview/NOTICE.md](dotfiles/quickshell/overview/NOTICE.md).
+
 ### Persona 3 Reload Quickshell theme
 
 The optional Persona theme is a patched checkout of **[Persona-Quickshell](https://github.com/Yujonpradhananga/Persona-Quickshell)** by **Yujon Pradhananga** ([@Yujonpradhananga](https://github.com/Yujonpradhananga)) — MIT licensed. All credit for the theme itself goes to him and the artists he credits:
@@ -326,6 +334,14 @@ The optional Persona theme is a patched checkout of **[Persona-Quickshell](https
 | Montserrat font | [JulietaUla](https://github.com/JulietaUla/Montserrat) (OFL) |
 | Bebas Neue font | [dharma type](https://github.com/dharmatype/Bebas-Neue) (OFL) |
 | Material Symbols Rounded | Google (Apache-2.0) |
+
+### Also with thanks
+
+- **[ML4W / Stephan Raabe](https://gitlab.com/stephan-raabe/dotfiles)** — several waybar styles (`ML4W Glass`, `ML4W starter`, …)
+- **[end-4](https://github.com/end-4/dots-hyprland)** — the `END-4` animation preset
+- **Kiran George ([@SherLock707](https://github.com/SherLock707))** — the dropdown terminal script
+- **[@wnkz](https://github.com/wnkz)** — monoglow_z kitty theme
+- **Catppuccin, Rosé Pine, Everforest, Nord & DedSec** communities — palette-derived themes and wallpapers throughout `waybar/`, `kitty/` and `wallpapers/`
 
 ---
 
