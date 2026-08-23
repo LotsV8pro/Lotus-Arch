@@ -1,0 +1,2 @@
+HDMI-A-1	$HOME/Pictures/wallpapers/Crimson/crimson-Evangeleon.png
+DP-2	$HOME/Pictures/wallpapers/Crimson/crimson-Evangeleon.png
