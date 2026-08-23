@@ -1546,4 +1546,7 @@ hyprctl keyword group:groupbar:col.inactive "rgba($(strip ${primary_dim})33)" 2>
 # Reload waybar in-place (SIGUSR2 = re-read config/CSS)
 killall -SIGUSR2 waybar 2>/dev/null || true
 
+# Sync the Persona 3 Reload shell with this palette (no-op if not installed)
+bash "$HOME/.config/hypr/scripts/PersonaPalette.sh" >/dev/null 2>&1 || true
+
 echo "Palette applied!"
