@@ -85,7 +85,7 @@ save_preset() {
             sub(/^.*image: /, "")
             print mon "\t" $0
             mon = ""
-        }' | sed "s|^${HOME}|\$HOME|g" > "$dir/wallpapers.txt" || true
+        }' | sed "s|${HOME}|\$HOME|g" > "$dir/wallpapers.txt" || true
 
     # 5. UserDecorations.lua
     cp "$HOME/.config/hypr/UserConfigs/UserDecorations.lua" "$dir/UserDecorations.lua" 2>/dev/null || true
