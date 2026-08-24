@@ -2,9 +2,8 @@
 Type=Application
 Name=Arctis Sound Manager
 Comment=Headset audio control (autostart)
-Exec=sh -c "sleep 3 && /usr/bin/asm-gui --systray"
+Exec=/usr/bin/asm-gui --systray
 Icon=arctis-manager
 Terminal=false
 Categories=AudioVideo;Audio;Utility;
-Hidden=true
-X-GNOME-Autostart-enabled=false
+X-GNOME-Autostart-enabled=true

@@ -1,0 +1,6 @@
+# Lotus-Arch: allow the desktop to sync the GRUB theme to the current
+# wallpaper without a password prompt (called by WallustSwww.sh /
+# WatchWallpaper.sh as: sudo -n /usr/local/bin/grub-theme-sync.sh)
+# Install with:  sudo cp performance-tweaks/common/sudoers.d/grub-theme-sync /etc/sudoers.d/
+#                sudo chmod 440 /etc/sudoers.d/grub-theme-sync
+ALL ALL=(root) NOPASSWD: /usr/local/bin/grub-theme-sync.sh

@@ -1,6 +1,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/Arch_Linux-141218?style=for-the-badge&logo=arch-linux&logoColor=C4A8E2"/>
   <img src="https://img.shields.io/badge/Hyprland-141218?style=for-the-badge&logo=hyprland&logoColor=C4A8E2"/>
+  <img src="https://img.shields.io/badge/Niri_%2B_iNiR-141218?style=for-the-badge&logo=niri&logoColor=C4A8E2"/>
   <img src="https://img.shields.io/badge/NVIDIA_RTX_4070-141218?style=for-the-badge&logo=nvidia&logoColor=C4A8E2"/>
   <img src="https://img.shields.io/badge/Lua_Config-141218?style=for-the-badge&logo=lua&logoColor=C4A8E2"/>
   <img src="https://img.shields.io/badge/Purple_Lotus-141218?style=for-the-badge&logo=codeforces&logoColor=C4A8E2"/>
@@ -10,7 +11,7 @@
 <h1 align="center">◈ LOTUS ARCH ◈</h1>
 
 <p align="center">
-  <b>Arch Linux + Hyprland (Lua-only) — Purple Lotus Desktop Environment</b><br>
+  <b>Arch Linux — Hyprland and/or Niri + iNiR — Purple Lotus Desktop Environment</b><br>
   <sub>Purple glassmorphism · NVIDIA optimized · Arctis Nova 5 audio · Preset-ready</sub>
 </p>
 
@@ -29,19 +30,25 @@
 
 ## ◈ Overview
 
-Lotus Arch is a complete **Arch Linux desktop environment** built on Hyprland with a pure Lua configuration — no legacy `.conf` files. It features a cohesive **purple glassmorphism** aesthetic, NVIDIA RTX 4070 optimization, a full **Arctis Nova 5 audio pipeline**, and a built-in preset system for saving/loading entire desktop themes.
+Lotus Arch is a complete **Arch Linux desktop environment** with a choice of two sessions — pick at install time, or install **both** and switch from the SDDM login screen:
+
+- **Hyprland** — tiling compositor with a pure Lua configuration (no legacy `.conf` files), waybar, rofi.
+- **Niri + iNiR** *(optional)* — scrollable-tiling compositor paired with the [iNiR](https://github.com/snowarch/iNiR) Quickshell shell: overview, app drawer, clipboard manager, lock screen, media/wallpaper tools.
+
+Both sessions share the same foundation: cohesive **purple glassmorphism** aesthetic, NVIDIA RTX 4070 optimization, full **Arctis Nova 5 audio pipeline**, and a built-in preset system for saving/loading entire desktop themes.
 
 ### ✦ Features
 
 | | |
 |---|---|
-| **Pure Lua** | 100% Hyprland Lua config — all settings, keybinds, animations, window rules |
-| **Purple Lotus Theme** | Monochrome purple palette across Hyprland, Waybar, Rofi, Kitty |
-| **HyprGlass** | Apple-style liquid glass effect with per-window control |
+| **Two Sessions** | Hyprland (Lua config) and/or Niri + iNiR — your choice at install |
+| **Purple Lotus Theme** | Monochrome purple palette across the shell, Waybar, Rofi, Kitty |
+| **HyprGlass** | Apple-style liquid glass effect with per-window control (Hyprland) |
 | **Preset System** | Save/load/delete full desktop themes with `SUPER + CTRL + P` |
 | **Palette Editor** | Visual color picker with `SUPER + P` — change every color instantly |
 | **NVIDIA Optimized** | RTX 4070 tuned — open-dkms drivers, Wayland-native GPU acceleration |
 | **Performance Tweaks** | Optional GPU undervolt/OC, fan curve, CPU governor, sysctl, NVMe tuning |
+| **GRUB Sync** | GRUB theme background + menu colors follow your wallpaper automatically |
 | **Gaming Ready** | Steam, Lutris, MangoHud, Gamemode, Gamescope, VRR support |
 | **Controller Support** | Xbox / ROG Raikiri — launch apps and Steam Big Picture |
 | **Wallpaper Browser** | Folder-based browser with `SUPER + W` — 22 wallpaper collections |
@@ -96,6 +103,8 @@ The `virtual-mic` script creates a permanent `pw-loopback` from the OBS virtual 
 
 ## ◈ Keybindings
 
+### Hyprland
+
 | Keybind | Action |
 |---|---|
 | `SUPER + Return` | Terminal (Kitty) |
@@ -115,6 +124,22 @@ The `virtual-mic` script creates a permanent `pw-loopback` from the OBS virtual 
 | `SUPER + Arrows` | Move Focus |
 | `SUPER + 1-5` | Switch Workspace |
 | `SUPER + SHIFT + 1-5` | Move to Workspace |
+
+### Niri (iNiR)
+
+| Keybind | Action |
+|---|---|
+| `Mod + T / Return` | Terminal (via iNiR) |
+| `Mod + D` | iNiR Overview |
+| `Mod + V` | Clipboard Manager |
+| `Super + G` | Quick Overlay |
+| `Mod + Comma` | iNiR Settings |
+| `Mod + /` | Cheatsheet |
+| `Mod + Shift + S` | Region Screenshot |
+| `Mod + Shift + X` | Region OCR |
+| `Ctrl + Alt + T` | Wallpaper Selector |
+| `Mod + Q` | Close Window |
+| `XF86 Audio/Brightness` | Volume / Brightness control |
 
 ---
 
@@ -137,23 +162,35 @@ chmod +x install.sh
 
 ### What gets installed
 
-The installer runs **10 phases** interactively:
+The installer first asks for your **session**:
+
+```
+  1) Hyprland            — tiling compositor, Lua config, waybar
+  2) Niri + iNiR shell   — scrollable tiling + full Quickshell desktop (optional)
+  3) Both                — install both, pick at the SDDM login screen
+```
+
+Then it runs **13 phases** interactively:
 
 ```
 Phase 0:  System Preparation   — multilib, mirrors, system update
-Phase 1:  Core Packages        — 21 interactive categories (DE, gaming, dev, etc.)
+Phase 1:  Core Packages        — interactive categories incl. Hyprland / Niri per session choice
 Phase 2:  AUR Packages         — 17 interactive per-package prompts
 Phase 3:  NVIDIA Drivers       — open-dkms stack (RTX 4070 optimized)
 Phase 4:  Enable Services      — SDDM, PipeWire, Bluetooth, NetworkManager
 Phase 5:  ZSH Shell            — Oh-My-ZSH + custom lotus theme + plugins
 Phase 6:  Deploy Dotfiles      — All configs (backup originals first)
+Phase 12: iNiR Shell           — only if Niri was chosen; clones upstream iNiR,
+                                 overlays Lotus configs, wires the session
+Phase 11: Optional Extras      — extra presets, GPU tuning pack, GT Racing
+                                 wallpapers (~82 MB), movie-tui config
 Phase 7:  Hyprland Plugins     — HyprGlass liquid glass plugin
 Phase 8:  Final Cleanup        — Cache cleanup, directory setup
 Phase 9:  Restore User Apps    — Per-app prompts (Discord, Steam, Spotify, OBS…)
-                                + Audio services (virtual mic, loop hole, Arctis)
-                                + Spicetify Lotus theme + Discord Lotus theme
+                                 + Audio services (virtual mic, loop hole, Arctis)
+                                 + Spicetify Lotus theme + Discord Lotus theme
 Phase 10: Performance Tweaks   — Selectable profile (NVIDIA+Intel / AMD). Optional:
-                                GPU OC/fan curve, CPU governor, sysctl, NVMe, GRUB C-states
+                                 GPU OC/fan curve, CPU governor, sysctl, NVMe, GRUB C-states
 ```
 
 ### Performance Tweaks (Phase 10)
@@ -184,11 +221,12 @@ Applied tweaks persist across reboots (GRUB C-states apply to both profiles):
 ### Requirements
 
 - **OS:** Arch Linux
-- **Compositor:** Hyprland 0.55+ (Lua config)
+- **Compositor:** Hyprland 0.55+ (Lua config) and/or Niri + iNiR (optional session)
 - **GPU:** NVIDIA (optimized for RTX 4070) or AMD / Intel — Phase 10 lets you pick your profile
 - **Audio:** PipeWire + WirePlumber (Arctis Nova 5 recommended for the full audio pipeline)
 - **Terminal:** Kitty (the configs default to `$term = kitty`; ghostty configs ship as an optional extra in `dotfiles/ghostty/`)
 - **Depends on:** Waybar, Rofi, swaync, wlogout, `awww` (wallpaper daemon — the scripts call `swww`, which is symlinked to `awww` automatically during install since `swww` is deprecated), wallust
+- **Niri session only:** quickshell + iNiR ([github.com/snowarch/iNiR](https://github.com/snowarch/iNiR) — installed automatically by Phase 12)
 
 > **Portable:** the repo was captured on user `lots` (NVIDIA RTX 4070 + i7-13700KF + dual monitor). The installer
 > rewrites every hardcoded `@HOME@` path to your own home at deploy time, ships a starter wallpaper set, and
@@ -201,6 +239,7 @@ Applied tweaks persist across reboots (GRUB C-states apply to both profiles):
 | `tools/scan-secrets.sh` | Scans the working tree for credentials / personal data (passwords, API keys, browser DBs, `Cookies`, `@HOME@`). Run before committing — exit 1 flags anything suspicious. |
 | `tools/deploy-dotfiles.sh` | Quick re-sync: deploys only Phase 6 (dotfiles) with auto-backup, without reinstalling. Replaces existing configs in place (true mirror — safe to re-run anytime). Use after editing configs in the repo. |
 | `tools/regenerate-package-lists.sh` | Re-export `packages/*.txt` from the current machine (`pacman -Qqe` + `yay -Qqm` + `flatpak`) so the repo always mirrors exactly what is installed. Run it after adding/removing packages. |
+| `tools/grub-theme-sync.sh` | Syncs the GRUB theme background + menu colors to the current wallpaper / wallust palette. Installed to `/usr/local/bin` and triggered automatically on wallpaper change (needs the passwordless sudoers snippet in `performance-tweaks/common/sudoers.d/`). |
 
 > 🛡️ **CI:** `.github/workflows/security-scan.yml` runs **gitleaks** (known secret patterns) plus the repo-specific
 > `tools/scan-secrets.sh` on every push and PR — the repo is auto-blocked if anything leaks.
@@ -216,33 +255,47 @@ Applied tweaks persist across reboots (GRUB C-states apply to both profiles):
 
 ```
 .config/
-├── hypr/                      # Main Hyprland Lua config
-│   ├── hyprland.lua           # Entry point (requires all modules)
-│   ├── configs/               # Base configuration modules
-│   ├── UserConfigs/           # User overrides (survive updates)
-│   ├── scripts/               # Utility scripts
-│   ├── UserScripts/           # User scripts
-│   ├── animations/            # Animation presets
-│   ├── wallpaper_effects/     # Wallpaper effects
-│   ├── wallust/               # Wallust color templates
-│   ├── Monitor_Profiles/      # Saved monitor layouts
-│   ├── auto_link_obs.sh       # Loop hole — routes Arctis to OBS
-│   └── monitors.lua           # nwg-displays output
+├── hypr/                        # Hyprland session — main Lua config
+│   ├── hyprland.lua             # Entry point (requires all modules)
+│   ├── configs/                 # Base configuration modules
+│   ├── UserConfigs/             # User overrides (survive updates)
+│   ├── scripts/                 # Utility scripts (palette, wallpaper, GRUB sync hooks)
+│   ├── UserScripts/             # User scripts
+│   ├── animations/              # Animation presets
+│   ├── wallpaper_effects/       # Wallpaper effects
+│   ├── wallust/                 # Wallust color templates
+│   ├── Monitor_Profiles/        # Saved monitor layouts
+│   ├── auto_link_obs.sh         # Loop hole — routes Arctis to OBS
+│   └── monitors.lua             # nwg-displays output
+├── niri/                        # Niri session — modular KDL config
+│   ├── config.kdl               # Entry point (includes config.d/*)
+│   └── config.d/                # 10-input … 90-user-overrides modules
+├── inir/                        # iNiR shell user config (AI models, prefs)
+├── quickshell/
+│   ├── lotus-shell/             # Lotus Quickshell bar/shell variant
+│   └── overview/                # Overview plugin bits
 ├── pipewire/
-│   └── filter-chain.conf.d/   # Sonar EQ profiles + 7.1 virtual surround
-├── systemd/user/              # Audio service units
+│   └── filter-chain.conf.d/     # Sonar EQ profiles + 7.1 virtual surround
+├── systemd/user/                # Audio & session service units
 │   ├── virtual-mic.service
 │   ├── auto-link-obs.service
 │   ├── arctis-manager.service
 │   ├── arctis-gui.service
-│   └── arctis-video-router.service
-└── spicetify/Themes/Lotus/    # Spicetify Lotus theme
+│   ├── arctis-video-router.service
+│   ├── steam-shader-limit.service
+│   └── inir.service             # iNiR shell session unit (Niri)
+├── lotus-palette/               # Preset engine + palette tools
+└── spicetify/Themes/Lotus/      # Spicetify Lotus theme
+optional/                        # Opt-in extras (Phase 11) — work on BOTH sessions
+├── gpu/                         # GWE fan/OC profiles + vkSumi color grading
+└── movie-tui/                   # movie-tui config (add your own TMDB key)
+wallpapers/GT Racing/            # GT Racing car wallpaper pack (~82 MB, opt-in copy)
 .local/
 ├── bin/
-│   ├── virtual-mic            # OBS virtual mic loopback
-│   ├── steam-gamescope.sh     # Steam Gamescope wrapper
-│   ├── limit-steam-shader.sh  # Steam shader cache limiter
-│   └── cpulimit               # CPU limiter for shader processes
+│   ├── virtual-mic              # OBS virtual mic loopback
+│   ├── steam-gamescope.sh       # Steam Gamescope wrapper
+│   ├── limit-steam-shader.sh    # Steam shader cache limiter
+│   └── cpulimit                 # CPU limiter for shader processes
 └── share/pipewire/hrir_hesuvi/  # HeSuVi HRIR convolution file
 ```
 
@@ -301,11 +354,9 @@ The **Lotus** preset ships by default. The extra presets (`Monochrome`, `Pixel`,
 
 > ℹ️ `Yellowstone.conf` is a legacy leftover and not loadable as a preset.
 
-### Persona 3 Reload Theme (optional)
+### Niri + iNiR session (optional)
 
-An optional full-shell alternative: an animated Persona 3 Reload desktop powered by Quickshell (wallpaper engine with shaders, capsule media bar, clock, app drawer via `SUPER + R`, OSDs). Loading its preset switches waybar off **and re-themes the entire system to Persona's signature blue** (waybar, rofi, kitty, borders, GTK); loading any other preset restores that preset's look and brings everything back.
-
-Enable it during install (Phase 11) — it clones upstream, applies Lotus-Arch patches (desktop fixes: battery widget removal, calendar/font bugfixes, cava plugin dependency stripped) and registers it as a `Persona` preset.
+Pick `Niri` at install (or choose **Both**) to get the scrollable-tiling **[Niri](https://github.com/YaLTeu/niri)** compositor driven by the **[iNiR](https://github.com/snowarch/iNiR)** Quickshell shell — overview, app drawer, clipboard manager, screenshot/OCR region tools, lock screen, media & wallpaper browser. Lotus-Arch ships a modular KDL config (`dotfiles/niri/config.d/`) with iNiR keybinds, plus the user config overlay in `dotfiles/inir/`. Phase 12 clones upstream iNiR, applies the Lotus configs on top and wires the systemd session unit.
 
 ---
 
@@ -319,21 +370,10 @@ The Hyprland configuration architecture (configs / UserConfigs / UserScripts lay
 
 `dotfiles/quickshell/overview/` is **[quickshell-overview](https://github.com/Shanu-Kumawat/quickshell-overview)** by **[@Shanu-Kumawat](https://github.com/Shanu-Kumawat)** (GPL-3.0), vendored unmodified apart from user keybind integration. The license notice lives in [dotfiles/quickshell/overview/NOTICE.md](dotfiles/quickshell/overview/NOTICE.md).
 
-### Persona 3 Reload Quickshell theme
+### Niri + iNiR
 
-The optional Persona theme is a patched checkout of **[Persona-Quickshell](https://github.com/Yujonpradhananga/Persona-Quickshell)** by **Yujon Pradhananga** ([@Yujonpradhananga](https://github.com/Yujonpradhananga)) — MIT licensed. All credit for the theme itself goes to him and the artists he credits:
-
-| Asset / feature | Creator |
-|---|---|
-| Persona-Quickshell shell (QML) | [Yujon Pradhananga](https://github.com/Yujonpradhananga/Persona-Quickshell) |
-| Greyscale shader | [@snes19xx](https://github.com/snes19xx) ([surface-dots](https://github.com/snes19xx/surface-dots)) |
-| Media player album-art implementation | [@Rexcrazy804](https://github.com/Rexcrazy804) ([Zaphkiel](https://github.com/Rexcrazy804/Zaphkiel)) |
-| Persona 3 website reference | [@blairxu13](https://github.com/blairxu13) ([persona3-website](https://github.com/blairxu13/persona3-website)) |
-| Album cover SVG | Squirrel-Modeller |
-| P3R wallpaper | [Steam Workshop #3151551777](https://steamcommunity.com/sharedfiles/filedetails/?id=3151551777) |
-| Montserrat font | [JulietaUla](https://github.com/JulietaUla/Montserrat) (OFL) |
-| Bebas Neue font | [dharma type](https://github.com/dharmatype/Bebas-Neue) (OFL) |
-| Material Symbols Rounded | Google (Apache-2.0) |
+- **[Niri](https://github.com/YaLTeu/niri)** by **[@YaLTeu](https://github.com/YaLTeu)** — the scrollable-tiling compositor (GPL-3.0)
+- **[iNiR](https://github.com/snowarch/iNiR)** by **[@snowarch](https://github.com/snowarch)** — the Quickshell desktop shell installed by Phase 12
 
 ### Also with thanks
 

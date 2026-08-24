@@ -14,6 +14,20 @@ HYPR=(
     uwsm
 )
 
+# ── Niri Session (optional alternative to Hyprland) ──
+NIRI=(
+    niri
+    xdg-desktop-portal-gnome xdg-desktop-portal-gtk
+    xdg-user-dirs xdg-utils
+    quickshell
+    brightnessctl
+    swaybg
+    fuzzel
+)
+
+# iNiR shell (Quickshell-based, optional) — cloned from upstream in Phase 12.
+# Requires: quickshell (above).
+
 # ── Graphics / NVIDIA ──
 GRAPHICS=(
     mesa libva-nvidia-driver vulkan-tools
@@ -158,8 +172,24 @@ confirm() {
     [[ "$ans" =~ ^[Nn] ]] && return 1 || return 0
 }
 
+# Session-aware confirm: pre-answers based on $LOTUS_SESSION (hypr|niri|both).
+# Still interactive — the default just changes.
+SESSION="${LOTUS_SESSION:-hypr}"
+confirm_session() { # <category> <desc>
+    local cat="$1" desc="$2" def="Y"
+    case "$cat" in
+        HYPR) [[ "$SESSION" == "niri" ]] && def="N" ;;
+        NIRI) [[ "$SESSION" != "niri" && "$SESSION" != "both" ]] && def="N" ;;
+    esac
+    echo -e -n "\n  Install $desc? [y/n] (default: $def): "
+    read -r ans
+    ans="${ans:-$def}"
+    [[ "$ans" =~ ^[Yy] ]]
+}
+
 CATEGORIES=(
     "HYPR:Hyprland Core (hyprland, hyprlock, hypridle, portals)"
+    "NIRI:Niri Session + Quickshell (iNiR shell installed in Phase 12) [optional]"
     "GRAPHICS:Graphics (mesa, vulkan-tools, NVIDIA/Intel drivers)"
     "BAR:Waybar Status Bar"
     "LAUNCHER:Rofi App Launcher"
@@ -186,9 +216,13 @@ SELECTED=()
 for entry in "${CATEGORIES[@]}"; do
     name="${entry%%:*}"
     desc="${entry#*:}"
-    if confirm "$desc"; then
-        case "$name" in
-            HYPR)       SELECTED+=("${HYPR[@]}") ;;
+    case "$name" in
+        HYPR|NIRI) confirm_session "$name" "$desc" || continue ;;
+        *)         confirm "$desc" || continue ;;
+    esac
+    case "$name" in
+        HYPR)       SELECTED+=("${HYPR[@]}") ;;
+        NIRI)       SELECTED+=("${NIRI[@]}") ;;
             GRAPHICS)   SELECTED+=("${GRAPHICS[@]}") ;;
             BAR)        SELECTED+=("${BAR[@]}") ;;
             LAUNCHER)   SELECTED+=("${LAUNCHER[@]}") ;;
@@ -210,7 +244,6 @@ for entry in "${CATEGORIES[@]}"; do
             LIBS32)     SELECTED+=("${LIBS32[@]}") ;;
             DEV)        SELECTED+=("${DEV[@]}") ;;
         esac
-    fi
 done
 
 # Filter valid packages
