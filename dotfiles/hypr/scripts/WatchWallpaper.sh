@@ -14,7 +14,6 @@ while true; do
         last="$current"
         sleep 1
         [[ -n "$current" ]] && "$SYNC" >/dev/null 2>&1 &
-        [[ -n "$current" ]] && sudo -n /usr/local/bin/grub-theme-sync.sh >/dev/null 2>&1 &
     fi
     sleep 3
 done
