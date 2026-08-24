@@ -10,6 +10,14 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 DOTFILES="$SCRIPT_DIR/../dotfiles"
 BACKUP_DIR="$HOME/.config/dotfiles-backup/$(date +%Y%m%d_%H%M%S)"
 
+# ── Install-time choices (set by install.sh, overridable via env) ────────────
+#   LOTUS_SESSION   hypr | niri | both     (default: hypr)
+#   LOTUS_AUDIO     arctis | basic         (default: arctis)
+#   LOTUS_STREAMING yes | no               (default: yes)
+SESSION="${LOTUS_SESSION:-hypr}"
+AUDIO_MODE="${LOTUS_AUDIO:-arctis}"
+STREAMING="${LOTUS_STREAMING:-yes}"
+
 backup_and_copy() {
     local src="$1"
     local dst="$2"
@@ -43,6 +51,44 @@ for dir in "$DOTFILES"/*/; do
 
     echo "  → $name"
     backup_and_copy "$dir" "$HOME/.config/$name"
+
+    # ── Session-aware pruning ──
+    # On a Niri-only install, Hyprland's compositor config is dead weight.
+    # Shared pieces (scripts, wallust templates, wallpaper effects) stay —
+    # the palette engine and wallpaper tooling depend on them in both sessions.
+    if [[ "$name" == "hypr" && "$SESSION" == "niri" ]]; then
+        echo "    ↳ niri session: pruning Hyprland-only compositor config"
+        for sub in hyprland.lua monitors.lua configs UserConfigs UserScripts animations Monitor_Profiles; do
+            rm -rf "$HOME/.config/hypr/$sub"
+        done
+    fi
+
+    # ── Audio gating: strip the Arctis/Sonar pipeline on basic audio ──
+    if [[ "$AUDIO_MODE" != "arctis" ]]; then
+        case "$name" in
+            pipewire)
+                rm -f "$HOME/.config/pipewire/filter-chain.conf.d/"sonar-*.conf \
+                      "$HOME/.config/pipewire/filter-chain.conf.d/"sink-virtual-surround*.conf
+                [[ -d "$HOME/.config/pipewire/filter-chain.conf.d" ]] \
+                    && find "$HOME/.config/pipewire/filter-chain.conf.d" -maxdepth 0 -empty -delete 2>/dev/null || true ;;
+            wireplumber)
+                rm -f "$HOME/.config/wireplumber/wireplumber.conf.d/50-arctis.conf" ;;
+        esac
+    fi
+
+    # ── Streaming gating: no OBS configs / stream units unless opted in ──
+    if [[ "$STREAMING" != "yes" ]]; then
+        [[ "$name" == "obs-studio" ]] && rm -rf "$HOME/.config/obs-studio"
+    fi
+
+    # Arctis units follow the audio choice; streaming units the stream choice
+    if [[ "$name" == "systemd" ]]; then
+        [[ "$AUDIO_MODE" != "arctis" ]] && \
+            rm -f "$HOME/.config/systemd/user/"arctis-*.service
+        [[ "$STREAMING" != "yes" ]] && \
+            rm -f "$HOME/.config/systemd/user/"virtual-mic.service \
+                  "$HOME/.config/systemd/user/"auto-link-obs.service
+    fi
 done
 
 # Copy top-level dotfiles
@@ -82,6 +128,8 @@ fi
 for share_dir in "$DOTFILES/.local/share/"*/; do
     [[ ! -d "$share_dir" ]] && continue
     name="$(basename "$share_dir")"
+    # HeSuVi HRIR convolution data is Arctis-pipeline-only
+    [[ "$name" == "pipewire" && "$AUDIO_MODE" != "arctis" ]] && continue
     echo "  → .local/share/$name..."
     mkdir -p "$HOME/.local/share/$name"
     cp -r "$share_dir"* "$HOME/.local/share/$name/" 2>/dev/null || true

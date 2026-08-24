@@ -26,14 +26,4 @@ sudo systemctl enable systemd-zram-setup@zram0.service 2>/dev/null || true
 # Polkit for GUI auth
 sudo systemctl enable polkit.service 2>/dev/null || true
 
-# GRUB theme sync (wallpaper → GRUB background/colors)
-if [[ -f "$SCRIPT_DIR/../tools/grub-theme-sync.sh" ]]; then
-    echo "[04] Installing GRUB theme sync..."
-    sudo install -m 755 "$SCRIPT_DIR/../tools/grub-theme-sync.sh" /usr/local/bin/grub-theme-sync.sh
-    if [[ -f "$SCRIPT_DIR/../performance-tweaks/common/sudoers.d/grub-theme-sync" ]] \
-       && [[ ! -f /etc/sudoers.d/grub-theme-sync ]]; then
-        sudo install -m 440 "$SCRIPT_DIR/../performance-tweaks/common/sudoers.d/grub-theme-sync" /etc/sudoers.d/grub-theme-sync
-    fi
-fi
-
 echo "[04] Services enabled."
