@@ -1,186 +1,124 @@
-/* LOTUS — GTK3 Thunar Theme (Pill / Rounded) */
-@define-color lotus-purple    #C4A8E2;
-@define-color lotus-purple-dim #8C7AA6;
-@define-color lotus-purple-dark #383048;
-@define-color lotus-bg        #141218;
-@define-color lotus-bg-alt    #1C1A22;
-@define-color lotus-bg-light  #282430;
-@define-color lotus-fg        #D8D0E8;
-@define-color lotus-fg-dim    #887898;
-@define-color lotus-border    #383048;
-@define-color lotus-red       #C8B8C8;
-@define-color lotus-green     #C0D0C0;
-@define-color lotus-cyan      #B8C0D0;
+/*
+ * GTK Colors - Generated with iNiR theming
+ * This file is overwritten when you change wallpaper
+ */
 
-.thunar .view, .thunar iconview, .thunar .thunar-wallpaper,
-.thunar scrolledwindow, .thunar {
-    background-color: @lotus-bg; color: @lotus-fg;
-}
+@define-color accent_color #e9b8db;
+@define-color accent_fg_color #4c2045;
+@define-color accent_bg_color #e9b8db;
 
-.thunar headerbar, .thunar .titlebar {
-    background-color: @lotus-bg-alt; border-bottom: 1px solid @lotus-border;
-    border-radius: 0; padding: 4px 8px; min-height: 38px;
-}
-.thunar headerbar title, .thunar headerbar label { color: @lotus-fg; font-weight: bold; }
+@define-color window_bg_color #1a1418;
+@define-color window_fg_color #eddfe6;
 
-.thunar .sidebar {
-    background-color: @lotus-bg-alt; border-right: 1px solid @lotus-border; padding: 6px;
-}
-.thunar .sidebar .view, .thunar .sidebar treeview {
-    background-color: transparent; color: @lotus-fg; border: none; outline: none; font-weight: bold;
-}
-.thunar .sidebar .sidebar-label {
-    color: @lotus-fg-dim; font-size: 0.85em; font-weight: bold; padding: 8px 12px 4px 12px; letter-spacing: 1px;
-}
-.thunar .sidebar row, .thunar .sidebar treeview row {
-    padding: 2px 4px; margin: 1px 4px; border-radius: 12px; min-height: 32px; transition: all 200ms ease;
-}
-.thunar .sidebar row:hover, .thunar .sidebar treeview row:hover {
-    background-color: rgba(196, 168, 226, 0.12); border-radius: 12px;
-}
-.thunar .sidebar row:selected, .thunar .sidebar treeview row:selected {
-    background-color: rgba(196, 168, 226, 0.25); color: @lotus-purple; border-radius: 12px;
-    border: 1px solid rgba(196, 168, 226, 0.3);
-}
-.thunar .sidebar row:selected label, .thunar .sidebar treeview row:selected label { color: @lotus-purple; font-weight: bold; }
-.thunar .sidebar row:selected image, .thunar .sidebar treeview row:selected image { color: @lotus-purple; }
-.thunar .sidebar row image, .thunar .sidebar treeview row image { color: @lotus-fg-dim; padding-right: 8px; }
+@define-color headerbar_bg_color #1a1418;
+@define-color headerbar_fg_color #eddfe6;
 
-.thunar toolbar, .thunar .toolbar {
-    background-color: @lotus-bg-alt; border-bottom: 1px solid @lotus-border; padding: 4px 8px; border-radius: 0;
-}
-.thunar toolbar button, .thunar .toolbar button {
-    background-color: transparent; color: @lotus-fg; border: 1px solid transparent;
-    border-radius: 12px; padding: 4px 10px; min-width: 32px; min-height: 32px; transition: all 200ms ease;
-}
-.thunar toolbar button:hover, .thunar .toolbar button:hover {
-    background-color: rgba(196, 168, 226, 0.15); border-color: @lotus-border; color: @lotus-purple;
+@define-color popover_bg_color #251e23;
+@define-color popover_fg_color #eddfe6;
+
+@define-color view_bg_color #1a1418;
+@define-color view_fg_color #eddfe6;
+
+@define-color card_bg_color #211a1f;
+@define-color card_fg_color #eddfe6;
+
+@define-color sidebar_bg_color #1a1418;
+@define-color sidebar_fg_color #eddfe6;
+@define-color sidebar_border_color #1a1418;
+@define-color sidebar_backdrop_color #1a1418;
+
+headerbar {
+    background-color: #1a1418;
+    box-shadow: none;
+    border-bottom: none;
 }
 
-.thunar .path-bar button {
-    background-color: rgba(28, 26, 34, 0.6); color: @lotus-fg;
-    border: 1px solid @lotus-border; border-radius: 12px; padding: 4px 14px; margin: 2px 2px; min-height: 28px;
-    transition: all 200ms ease;
-}
-.thunar .path-bar button:hover {
-    background-color: rgba(196, 168, 226, 0.2); border-color: @lotus-purple-dim; color: @lotus-purple;
-}
-.thunar .path-bar button:checked, .thunar .path-bar button:last-child {
-    background-color: rgba(196, 168, 226, 0.25); color: @lotus-purple; border-color: @lotus-purple;
+headerbar separator {
+    background-color: transparent;
 }
 
-.thunar .search-bar entry, .thunar entry.search {
-    background-color: @lotus-bg; color: @lotus-fg; border: 1px solid @lotus-border;
-    border-radius: 16px; padding: 4px 14px; min-height: 30px; caret-color: @lotus-purple;
-}
-.thunar .search-bar entry:focus, .thunar entry.search:focus {
-    border-color: @lotus-purple; box-shadow: 0 0 0 2px rgba(196, 168, 226, 0.2);
-}
-
-.thunar .view header button, .thunar GtkTreeViewHeaderButton {
-    background-color: @lotus-bg-alt; color: @lotus-fg-dim;
-    border-bottom: 1px solid @lotus-border; border-right: 1px solid @lotus-border;
-    border-radius: 0; padding: 6px 12px; font-weight: bold; font-size: 0.9em;
+.nautilus-window .sidebar,
+.nautilus-window sidebar,
+placessidebar,
+placessidebar list {
+    background-color: #1a1418;
+    color: #eddfe6;
+    border-right: none;
 }
 
-.thunar .view row, .thunar iconview cell {
-    padding: 4px 8px; margin: 1px 6px; border-radius: 10px; min-height: 34px; transition: all 150ms ease;
-}
-.thunar .view row:hover, .thunar iconview cell:hover {
-    background-color: rgba(196, 168, 226, 0.10); border-radius: 10px;
-}
-.thunar .view row:selected, .thunar iconview cell:selected {
-    background-color: rgba(196, 168, 226, 0.22); color: @lotus-purple; border-radius: 10px;
-    border: 1px solid rgba(196, 168, 226, 0.3);
-}
-.thunar .view row:selected label, .thunar iconview cell:selected label { color: @lotus-purple; font-weight: bold; }
-
-.thunar scrollbar, .thunar scrolledwindow scrollbar { background-color: transparent; border: none; }
-.thunar scrollbar slider, .thunar scrolledwindow scrollbar slider {
-    background-color: rgba(196, 168, 226, 0.25); border: none; border-radius: 20px;
-    min-width: 6px; min-height: 40px; margin: 4px 2px; transition: all 200ms ease;
-}
-.thunar scrollbar slider:hover, .thunar scrolledwindow scrollbar slider:hover {
-    background-color: rgba(196, 168, 226, 0.45); min-width: 8px;
+placessidebar row {
+    background-color: transparent;
+    color: #eddfe6;
 }
 
-.thunar .statusbar, .thunar statusbar {
-    background-color: @lotus-bg-alt; border-top: 1px solid @lotus-border;
-    color: @lotus-fg-dim; padding: 4px 12px; font-size: 0.85em;
+placessidebar row:hover {
+    background-color: #3D3039;
 }
 
-.thunar button {
-    color: @lotus-fg; border-radius: 12px; padding: 4px 14px; min-height: 30px; transition: all 200ms ease;
-}
-.thunar button:hover { background-color: rgba(196, 168, 226, 0.15); color: @lotus-purple; }
-.thunar button:active { background-color: rgba(196, 168, 226, 0.25); }
-.thunar button.suggested-action {
-    background-color: rgba(196, 168, 226, 0.3); color: @lotus-purple;
-    border: 1px solid @lotus-purple-dim; border-radius: 12px;
-}
-.thunar button.suggested-action:hover {
-    background-color: rgba(196, 168, 226, 0.45); border-color: @lotus-purple;
+placessidebar row:selected,
+placessidebar row:selected:hover {
+    background-color: #50424c;
+    color: #eddfe6;
 }
 
-.thunar entry, .thunar spinbutton {
-    background-color: @lotus-bg; color: @lotus-fg; border: 1px solid @lotus-border;
-    border-radius: 12px; padding: 4px 12px; min-height: 30px; caret-color: @lotus-purple;
-}
-.thunar entry:focus, .thunar spinbutton:focus {
-    border-color: @lotus-purple; box-shadow: 0 0 0 2px rgba(196, 168, 226, 0.2);
-}
-.thunar entry selection, .thunar spinbutton selection {
-    background-color: rgba(196, 168, 226, 0.35); color: @lotus-fg;
+placessidebar image {
+    color: inherit;
 }
 
-.thunar .context-menu, .thunar menu, .thunar popupmenu, .thunar popover {
-    background-color: @lotus-bg-alt; border: 1px solid @lotus-border;
-    border-radius: 12px; padding: 6px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-}
-.thunar .context-menu menuitem, .thunar menu menuitem {
-    color: @lotus-fg; border-radius: 8px; padding: 6px 16px; min-height: 30px; transition: all 150ms ease;
-}
-.thunar .context-menu menuitem:hover, .thunar menu menuitem:hover {
-    background-color: rgba(196, 168, 226, 0.15); color: @lotus-purple;
-}
-.thunar .context-menu menuitem:disabled, .thunar menu menuitem:disabled { color: @lotus-fg-dim; opacity: 0.5; }
-.thunar .context-menu separator, .thunar menu separator {
-    background-color: @lotus-border; margin: 4px 8px; min-height: 1px;
+.view {
+    background-color: #1a1418;
 }
 
-.thunar notebook > header tab {
-    background-color: transparent; color: @lotus-fg-dim; border: none;
-    border-bottom: 2px solid transparent; border-radius: 8px 8px 0 0; padding: 6px 16px; min-height: 32px;
-}
-.thunar notebook > header tab:hover { color: @lotus-fg; background-color: rgba(196, 168, 226, 0.08); }
-.thunar notebook > header tab:checked {
-    color: @lotus-purple; border-bottom-color: @lotus-purple; background-color: rgba(196, 168, 226, 0.12);
+separator.sidebar {
+    background-color: transparent;
+    min-width: 0;
 }
 
-.thunar tooltip, .thunar GtkTooltip {
-    background-color: @lotus-bg-alt; color: @lotus-fg;
-    border: 1px solid @lotus-border; border-radius: 10px; padding: 6px 10px;
+/* Context menus and popovers */
+popover,
+popover.background {
+    background-color: #251e23;
+    color: #eddfe6;
 }
 
-.thunar progressbar trough, .thunar .progressbar trough {
-    background-color: @lotus-bg-light; border-radius: 10px; min-height: 8px;
-}
-.thunar progressbar progress, .thunar .progressbar progress {
-    background-color: @lotus-purple; border-radius: 10px; min-height: 8px;
-}
-
-.thunar checkbutton check, .thunar radiobutton radio {
-    background-color: @lotus-bg; border: 2px solid @lotus-border; border-radius: 6px; min-width: 18px; min-height: 18px;
-}
-.thunar checkbutton check:checked, .thunar radiobutton radio:checked {
-    background-color: @lotus-purple; border-color: @lotus-purple; color: @lotus-bg;
+menu,
+.context-menu,
+.popup {
+    background-color: #251e23;
+    color: #eddfe6;
 }
 
-.thunar switch {
-    background-color: @lotus-bg-light; border-radius: 20px; padding: 2px; min-width: 48px; min-height: 26px;
+menuitem {
+    color: #eddfe6;
 }
-.thunar switch:checked { background-color: rgba(196, 168, 226, 0.4); }
-.thunar switch slider {
-    background-color: @lotus-fg-dim; border-radius: 20px; min-width: 22px; min-height: 22px;
+
+menuitem:hover,
+menuitem:selected {
+    background-color: #3D3039;
 }
-.thunar switch:checked slider { background-color: @lotus-purple; }
+
+menuitem:active,
+menuitem:selected:active {
+    background-color: #50424c;
+    color: #eddfe6;
+}
+
+button:hover {
+    background-color: #3D3039;
+}
+
+button:active {
+    background-color: #50424c;
+    color: #eddfe6;
+}
+
+entry:focus,
+textview:focus,
+spinbutton:focus {
+    border-color: alpha(#e9b8db, 0.60);
+    box-shadow: 0 0 0 1px alpha(#e9b8db, 0.25) inset;
+}
+
+menu separator {
+    background-color: alpha(#eddfe6, 0.12);
+}
