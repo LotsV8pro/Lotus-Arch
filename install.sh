@@ -24,6 +24,42 @@ export SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 LOG_FILE="$SCRIPT_DIR/install.log"
 exec > >(tee -a "$LOG_FILE") 2>&1
 
+# ── CLI presets (unattended) ─────────────────────────────────────────────────
+#   ./install.sh --preset minimal   lean Hyprland-only setup, no prompts
+#   ./install.sh --preset full      everything on, both sessions, no prompts
+#   Optional overrides:
+#     --session hypr|niri|both      (default: minimal→hypr, full→both)
+#     --audio arctis|basic          (default: full→arctis, minimal→basic)
+#     --streaming yes|no            (default: full→yes,  minimal→no)
+PRESET=""
+for arg in "$@"; do
+    case "$arg" in
+        --preset=*)    PRESET="${arg#*=}" ;;
+        --preset)      PRESET="full" ;;
+        --minimal)     PRESET="minimal" ;;
+        --session=*)   export LOTUS_SESSION="${arg#*=}" ;;
+        --audio=*)     export LOTUS_AUDIO="${arg#*=}" ;;
+        --streaming=*) export LOTUS_STREAMING="${arg#*=}" ;;
+        -h|--help)
+            sed -n '2,20p' "${BASH_SOURCE[0]}"; exit 0 ;;
+    esac
+done
+if [[ -n "$PRESET" ]]; then
+    case "$PRESET" in
+        minimal)
+            export LOTUS_UNATTENDED="minimal"
+            export LOTUS_SESSION="${LOTUS_SESSION:-hypr}"
+            export LOTUS_AUDIO="${LOTUS_AUDIO:-basic}"
+            export LOTUS_STREAMING="${LOTUS_STREAMING:-no}" ;;
+        full)
+            export LOTUS_UNATTENDED="full"
+            export LOTUS_SESSION="${LOTUS_SESSION:-both}"
+            export LOTUS_AUDIO="${LOTUS_AUDIO:-arctis}"
+            export LOTUS_STREAMING="${LOTUS_STREAMING:-yes}" ;;
+        *) echo "Unknown preset: $PRESET (use minimal|full)"; exit 1 ;;
+    esac
+fi
+
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
@@ -124,6 +160,10 @@ main() {
     check_network
 
     echo -e "${CYAN}Lotus Arch Installer — Interactive Selection${NC}"
+    if [[ -n "${LOTUS_UNATTENDED:-}" ]]; then
+        echo ""
+        echo -e "${CYAN}Unattended preset: ${LOTUS_UNATTENDED} (session: ${LOTUS_SESSION}, audio: ${LOTUS_AUDIO:-arctis}, streaming: ${LOTUS_STREAMING:-yes})${NC}"
+    fi
     echo ""
     echo "  You will be asked about each component:"
     echo ""
@@ -158,29 +198,48 @@ main() {
     echo -e "${YELLOW}  ⚠  Reboot required after installation.${NC}"
     echo -e "${YELLOW}  ⚠  Your existing configs will be backed up.${NC}"
     echo ""
-    read -p "Continue? [y/N]: " confirm
-    if [[ "$confirm" != "y" && "$confirm" != "Y" ]]; then
-        echo "Cancelled."
-        exit 0
+    if [[ -z "${LOTUS_UNATTENDED:-}" ]]; then
+        read -p "Continue? [y/N]: " confirm
+        if [[ "$confirm" != "y" && "$confirm" != "Y" ]]; then
+            echo "Cancelled."
+            exit 0
+        fi
     fi
 
     # ── Session choice ──
     # iNiR is OPTIONAL: pick Hyprland only if you don't want it.
-    echo ""
-    echo -e "${CYAN}Choose your desktop session:${NC}"
-    echo ""
-    echo "  1) Hyprland            — tiling compositor, Lua config, waybar"
-    echo "  2) Niri + iNiR shell   — scrollable tiling + full Quickshell desktop"
-    echo "                           (iNiR is OPTIONAL — skip by choosing 1 or 3)"
-    echo "  3) Both                — install both sessions, pick at the SDDM login"
-    echo ""
-    read -p "Session [1/2/3] (default: 1): " sess
-    case "$sess" in
-        2) export LOTUS_SESSION="niri" ;;
-        3) export LOTUS_SESSION="both" ;;
-        *) export LOTUS_SESSION="hypr" ;;
-    esac
+    if [[ -n "${LOTUS_UNATTENDED:-}" ]]; then
+        export LOTUS_SESSION="${LOTUS_SESSION:-hypr}"
+    else
+        echo ""
+        echo -e "${CYAN}Choose your desktop session:${NC}"
+        echo ""
+        echo "  1) Hyprland            — tiling compositor, Lua config, waybar"
+        echo "  2) Niri + iNiR shell   — scrollable tiling + full Quickshell desktop"
+        echo "                           (iNiR is OPTIONAL — skip by choosing 1 or 3)"
+        echo "  3) Both                — install both sessions, pick at the SDDM login"
+        echo ""
+        read -p "Session [1/2/3] (default: 1): " sess
+        case "$sess" in
+            2) export LOTUS_SESSION="niri" ;;
+            3) export LOTUS_SESSION="both" ;;
+            *) export LOTUS_SESSION="hypr" ;;
+        esac
+    fi
     echo -e "  ${GREEN}→ Session: ${LOTUS_SESSION}${NC}"
+
+    # ── Hardware pack choices (drive Phase 2/6/9 gating) ──
+    if [[ -z "${LOTUS_UNATTENDED:-}" ]]; then
+        echo ""
+        echo -e "${CYAN}Hardware packs (applied to BOTH sessions):${NC}"
+        read -p "  Arctis Nova 5 audio pipeline (Sonar EQ, virtual surround)? [Y/n]: " a_ans
+        [[ "$a_ans" =~ ^[Nn] ]] && export LOTUS_AUDIO="basic" || export LOTUS_AUDIO="arctis"
+        read -p "  OBS streaming pack (OBS config, virtual mic, audio router)? [y/N]: " s_ans
+        [[ "$s_ans" =~ ^[Yy] ]] && export LOTUS_STREAMING="yes" || export LOTUS_STREAMING="no"
+    fi
+    export LOTUS_AUDIO="${LOTUS_AUDIO:-arctis}"
+    export LOTUS_STREAMING="${LOTUS_STREAMING:-yes}"
+    echo -e "  ${GREEN}→ Audio: ${LOTUS_AUDIO} · Streaming: ${LOTUS_STREAMING}${NC}"
 
     enable_multilib
     install_yay
