@@ -64,8 +64,7 @@ window#waybar.empty #window {
 #memory,
 #temperature,
 #custom-powerprofiles,
-#idle_inhibitor,
-#custom-updater {
+#idle_inhibitor {
     background-color: rgba(28, 26, 34, 0.88);
     color: @fg;
     border-radius: 20px;
@@ -89,8 +88,7 @@ window#waybar.empty #window {
 #memory:hover,
 #temperature:hover,
 #custom-powerprofiles:hover,
-#idle_inhibitor:hover,
-#custom-updater:hover {
+#idle_inhibitor:hover {
     background-color: rgba(28, 26, 34, 0.92);
     border-color: rgba(28, 26, 34, 0.3);
 }
@@ -148,7 +146,6 @@ window#waybar.empty #window {
 #temperature            { color: @primary; }
 #temperature.critical   { color: @primary-light; }
 #custom-swaync          { color: @lavender; }
-#custom-updater         { color: @green; }
 #custom-weather         { color: @cyan; }
 #custom-powerprofiles   { color: @teal; }
 #idle_inhibitor         { color: @fg-dim; }
@@ -161,7 +158,6 @@ window#waybar.empty #window {
     padding: 0px 8px;
     color: @fg-dim;
     background-color: transparent;
-    background-image: none;
     border: none;
     border-radius: 12px;
     min-width: 20px;
@@ -172,18 +168,13 @@ window#waybar.empty #window {
 #workspaces button.active {
     color: @bg;
     background-color: @primary-light;
-    background-image: none;
     border-radius: 12px;
     min-width: 30px;
 }
 
-#workspaces button:hover,
-#workspaces button.workspace-hover,
-#workspaces button.active:hover,
-#workspaces button.active.workspace-hover {
+#workspaces button:hover {
     color: @bg;
-    background-color: @primary-light;
-    background-image: none;
+    background-color: @primary-dim;
 }
 
 #workspaces button.urgent {
