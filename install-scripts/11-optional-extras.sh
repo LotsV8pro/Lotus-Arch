@@ -1,16 +1,20 @@
 #!/bin/bash
-# Phase 11: Optional desktop extras
+# Phase 11: Optional desktop extras (compositor-agnostic — work on Hyprland AND Niri)
 # - Extra look presets (monochrome, Pixel, White_monochrome)
-# - Persona 3 Reload Quickshell theme (optional full-shell alternative)
+# - GPU tuning pack (GWE profiles, vkSumi, vkBasalt + ReShade shaders)
+# - GT Racing wallpaper pack (~82 MB, copied to ~/Pictures/wallpapers)
+# - movie-tui config
 #
-# Both are OPTIONAL. The base install ships only the Lotus preset.
+# All OPTIONAL. The base install ships only the Lotus preset.
 
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 DOTFILES="$SCRIPT_DIR/../dotfiles"
+OPTIONAL="$SCRIPT_DIR/../optional"
+WALLPAPERS="$SCRIPT_DIR/../wallpapers"
 PRESETS_DIR="$HOME/.config/lotus-palette/presets"
-QS_DIR="$HOME/.config/quickshell"
+PIC_WALLS="$HOME/Pictures/wallpapers"
 
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
@@ -35,70 +39,67 @@ install_extra_presets() {
     echo -e "${GREEN}[✓]${NC} Extra presets installed (switch with SUPER+CTRL+P)"
 }
 
-install_persona() {
-    echo "  → Cloning Persona-Quickshell (Yujonpradhananga)..."
-    git clone --depth 1 https://github.com/Yujonpradhananga/Persona-Quickshell.git \
-        "$QS_DIR/Persona-Quickshell"
-
-    local target="$QS_DIR/Persona-Quickshell"
-    if [[ ! -f "$target/shell.qml" ]]; then
-        echo "[!] Clone failed — skipping Persona theme"
-        return 0
+install_gpu_pack() {
+    echo "  → Installing GPU tuning configs..."
+    if [[ -d "$OPTIONAL/gpu" ]]; then
+        cp -r "$OPTIONAL/gpu/." "$HOME/.config/"
     fi
 
-    # Lotus-Arch patches: desktop fixes (no battery on PCs, calendar/font bugfixes,
-    # cava plugin dependency removed)
-    echo "  → Applying Lotus-Arch patches..."
-    cp -r "$DOTFILES/quickshell/persona-overrides/." "$target/"
-
-    # Remove the cava plugin dependency (visualizer widget stripped from override)
-    rm -f "$target/Widgets/CavaVisualizer.qml"
-
-    # Fonts the upstream repo forgot to ship
-    echo "  → Downloading fonts..."
-    mkdir -p "$target/Assets/fonts" "$HOME/.local/share/fonts"
-    curl -sfLo "$target/Assets/fonts/BebasNeue-Regular.ttf" \
-        "https://github.com/google/fonts/raw/main/ofl/bebasneue/BebasNeue-Regular.ttf"
-    curl -sfLo "$target/Assets/fonts/Montserrat-Light.ttf" \
-        "https://github.com/JulietaUla/Montserrat/raw/master/fonts/ttf/Montserrat-Light.ttf"
-    curl -sfLo "$HOME/.local/share/fonts/MaterialSymbolsRounded.ttf" \
-        "https://github.com/google/material-design-icons/raw/master/variablefont/MaterialSymbolsRounded%5BFILL%2CGRAD%2Copsz%2Cwght%5D.ttf"
-    curl -sfLo "$HOME/.local/share/fonts/Montserrat-Regular.ttf" \
-        "https://github.com/JulietaUla/Montserrat/raw/master/fonts/ttf/Montserrat-Regular.ttf"
-    curl -sfLo "$HOME/.local/share/fonts/Montserrat-Bold.ttf" \
-        "https://github.com/JulietaUla/Montserrat/raw/master/fonts/ttf/Montserrat-Bold.ttf"
-    fc-cache -f >/dev/null 2>&1 || true
-
-    # Register it as a Preset Manager preset (kills waybar, starts the persona shell)
-    # and give it its own P3R-blue palette so loading it re-themes the WHOLE
-    # desktop (waybar/rofi/borders + the persona shell itself) to match
-    mkdir -p "$PRESETS_DIR/Persona"
-    printf 'waybar=no\nqs=Persona-Quickshell\n' > "$PRESETS_DIR/Persona/shell-state.txt"
-    [[ -f "$DOTFILES/lotus-palette/persona-palette.conf" ]] && \
-        cp "$DOTFILES/lotus-palette/persona-palette.conf" "$PRESETS_DIR/Persona/colors.conf"
-
-    # Theme it with the current LOTUS palette instead of upstream blue
-    bash "$HOME/.config/hypr/scripts/PersonaPalette.sh" >/dev/null 2>&1 || true
-
-    echo -e "${GREEN}[✓]${NC} Persona theme installed"
-    echo -e "     Load it via ${CYAN}SUPER+CTRL+P → Load Preset → Persona${NC}"
-    echo -e "     App drawer: ${CYAN}SUPER+R${NC} (only while Persona is active)"
+    # vkBasalt: layer + ReShade shaders (upstream repo, ~60 MB)
+    if ! [[ -d "$HOME/.config/vkBasalt/reshade-shaders" ]]; then
+        echo "  → Cloning reshade-shaders (cdozdil/OptiScaler's vkBasalt preset set)..."
+        mkdir -p "$HOME/.config/vkBasalt"
+        git clone --depth 1 https://github.com/DadSchoorse/vkBasalt.git /tmp/vkbasalt-src 2>/dev/null || true
+        if [[ -d /tmp/vkbasalt-src ]]; then
+            git clone --depth 1 https://github.com/cdozdil/ReShade-shaders.git \
+                "$HOME/.config/vkBasalt/reshade-shaders" 2>/dev/null \
+            || echo -e "${YELLOW}[!]${NC} reshade-shaders clone failed — vkBasalt will use defaults"
+            rm -rf /tmp/vkbasalt-src
+        fi
+    fi
+    echo -e "${GREEN}[✓]${NC} GPU tuning pack installed (MangoHud is part of the base install)"
 }
 
-echo "[11] Optional desktop extras..."
-
-if [[ -d "$DOTFILES/lotus-palette/presets-optional" ]]; then
-    if ask "  Install extra look presets? (monochrome, Pixel, White_monochrome)"; then
-        install_extra_presets
-    else
-        echo "  Skipped extra presets (Lotus stays the only preset)"
+install_gt_wallpapers() {
+    echo "  → Installing GT Racing wallpaper pack (~82 MB)..."
+    if [[ ! -d "$WALLPAPERS/GT Racing" ]]; then
+        echo -e "${YELLOW}[!]${NC} wallpapers/GT Racing not found in repo — skipping"
+        return 0
     fi
+    mkdir -p "$PIC_WALLS"
+    cp -rn "$WALLPAPERS/GT Racing" "$PIC_WALLS/" 2>/dev/null || cp -r "$WALLPAPERS/GT Racing" "$PIC_WALLS/"
+    echo -e "${GREEN}[✓]${NC} GT Racing pack → $PIC_WALLS/GT Racing"
+}
+
+install_movie_tui() {
+    echo "  → Installing movie-tui config..."
+    if [[ -d "$OPTIONAL/movie-tui" ]]; then
+        mkdir -p "$HOME/.config/movie-tui"
+        cp -r "$OPTIONAL/movie-tui/." "$HOME/.config/movie-tui/"
+        echo -e "${GREEN}[✓]${NC} movie-tui config installed (add your TMDB API key inside)"
+    else
+        echo -e "${YELLOW}[!]${NC} optional/movie-tui not found — skipping"
+    fi
+}
+
+echo ""
+echo "── Optional extras ──────────────────────────────"
+
+if ask "  Install extra look presets? (monochrome / Pixel / White_monochrome)"; then
+    install_extra_presets
 fi
 
-if ask "  Install Persona 3 Reload Quickshell theme? (~130 MB clone, replaces waybar when loaded)"; then
-    install_persona
-else
-    echo "  Skipped Persona theme"
+if ask "  Install GPU tuning pack? (GWE fan/OC profiles, vkSumi, vkBasalt)"; then
+    install_gpu_pack
 fi
 
+if ask "  Install GT Racing wallpaper pack? (~82 MB car wallpapers)"; then
+    install_gt_wallpapers
+fi
+
+if ask "  Install movie-tui config? (terminal movie browser — needs a TMDB key)"; then
+    install_movie_tui
+fi
+
+echo ""
 echo "[11] Optional extras done."

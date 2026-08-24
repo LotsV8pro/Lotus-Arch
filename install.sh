@@ -6,9 +6,9 @@
 # ███████╗╚██████╔╝   ██║   ╚██████╔╝███████║
 # ╚══════╝ ╚═════╝    ╚═╝    ╚═════╝ ╚══════╝
 #
-# Lotus-Arch - Hyprland Desktop Installer
+# Lotus-Arch - Desktop Installer
 # NVIDIA RTX 4070 + i7-13700KF optimized
-# Lua-only Hyprland config (HyprGlass plugin ready)
+# Hyprland (Lua config) and/or Niri + iNiR shell — your choice.
 #
 # From minimal Arch to full Lotus-Arch desktop in one script.
 #
@@ -45,7 +45,7 @@ print_banner() {
 
 EOF
     echo -e "${NC}"
-    echo -e "${CYAN}  Arch Linux + Hyprland | Lua Config | NVIDIA Ready${NC}"
+    echo -e "${CYAN}  Arch Linux | Hyprland / Niri + iNiR | NVIDIA Ready${NC}"
     echo -e "${CYAN}  https://github.com/LotsV8pro/Lotus-Arch${NC}"
     echo ""
 }
@@ -127,11 +127,15 @@ main() {
     echo ""
     echo "  You will be asked about each component:"
     echo ""
+    echo "  ◈ Session choice (first question below):"
+    echo "    Hyprland, Niri + iNiR shell, or Both"
+    echo ""
     echo "  ◈ Phase 1 — Core (choose what you want)"
-    echo "    Hyprland, Waybar, Rofi, Kitty, Thunar"
+    echo "    Waybar, Rofi, Kitty, Thunar"
     echo "    PipeWire, SDDM, fonts, dev tools"
     echo "    Gaming (Steam, Lutris, MangoHud, Gamescope)"
     echo "    Media, Bluetooth, Network, and more"
+    echo "    → Hyprland and/or Niri packages per your session choice"
     echo ""
     echo "  ◈ Phase 2 — AUR apps (each prompted)"
     echo "    Discord, Spotify, Zen Browser, GitHub CLI"
@@ -144,7 +148,9 @@ main() {
     echo "  ◈ Phase 10 — Performance tweaks (GPU/CPU/RAM/NVMe) [Y/n]"
     echo "              → selectable profile: NVIDIA+Intel or AMD (each tweak optional)"
     echo "  ◈ Phase 11 — Optional extras [y/N each]"
-    echo "              → extra look presets, Persona 3 Reload Quickshell theme"
+    echo "              → extra look presets, GPU tuning pack,"
+    echo "                GT Racing wallpapers, movie-tui"
+    echo "  ◈ Phase 12 — iNiR shell setup (only if Niri chosen; optional)"
     echo ""
     echo "  Then dotfiles deployed with auto-backup."
     echo "  The Lotus preset is always included; extra presets are optional."
@@ -158,6 +164,24 @@ main() {
         exit 0
     fi
 
+    # ── Session choice ──
+    # iNiR is OPTIONAL: pick Hyprland only if you don't want it.
+    echo ""
+    echo -e "${CYAN}Choose your desktop session:${NC}"
+    echo ""
+    echo "  1) Hyprland            — tiling compositor, Lua config, waybar"
+    echo "  2) Niri + iNiR shell   — scrollable tiling + full Quickshell desktop"
+    echo "                           (iNiR is OPTIONAL — skip by choosing 1 or 3)"
+    echo "  3) Both                — install both sessions, pick at the SDDM login"
+    echo ""
+    read -p "Session [1/2/3] (default: 1): " sess
+    case "$sess" in
+        2) export LOTUS_SESSION="niri" ;;
+        3) export LOTUS_SESSION="both" ;;
+        *) export LOTUS_SESSION="hypr" ;;
+    esac
+    echo -e "  ${GREEN}→ Session: ${LOTUS_SESSION}${NC}"
+
     enable_multilib
     install_yay
 
@@ -168,7 +192,10 @@ main() {
     run_phase 4 "04-services.sh"    "Enable Services"
     run_phase 5 "05-zsh.sh"         "ZSH Shell"
     run_phase 6 "06-dotfiles.sh"    "Deploy Dotfiles"
-    run_phase 11 "11-optional-extras.sh" "Optional Extras (presets / Persona theme)"
+    if [[ "$LOTUS_SESSION" == "niri" || "$LOTUS_SESSION" == "both" ]]; then
+        run_phase 12 "12-niri-inir.sh" "Niri + iNiR Shell (optional session)"
+    fi
+    run_phase 11 "11-optional-extras.sh" "Optional Extras (presets / GPU / wallpapers)"
     run_phase 7 "08-plugins.sh"     "Hyprland Plugins (HyprGlass)"
     run_phase 8 "07-cleanup.sh"     "Final Cleanup"
     run_phase 9 "09-user-apps.sh"   "Restore User Apps & Themes"
@@ -184,7 +211,7 @@ main() {
     echo -e "${GREEN}  Installation Complete!${NC}"
     echo -e "${GREEN}═══════════════════════════════════════════${NC}"
     echo ""
-    echo -e "  ${CYAN}Reboot to start Hyprland via SDDM.${NC}"
+    echo -e "  ${CYAN}Reboot and pick your session (Hyprland / Niri) at SDDM.${NC}"
     echo -e "  ${CYAN}If you applied performance tweaks, a reboot is required.${NC}"
     echo -e "  ${CYAN}Log: $LOG_FILE${NC}"
     echo ""
