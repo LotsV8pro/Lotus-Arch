@@ -166,25 +166,38 @@ DEV=(
 )
 
 # ── Interactive category selection ──
+# Unattended presets: LOTUS_UNATTENDED=full answers yes to everything;
+# LOTUS_UNATTENDED=minimal answers yes only for the lean set below.
+MINIMAL_CATEGORIES=(HYPR NIRI BAR LAUNCHER TERMINAL FILEMANAGER NOTIFY SCREENSHOT FONTS UTILS MEDIA)
 confirm() {
+    if [[ "${LOTUS_UNATTENDED:-}" == "full" ]]; then
+        echo "  Install $1? [auto: yes]"
+        return 0
+    fi
+    if [[ "${LOTUS_UNATTENDED:-}" == "minimal" ]]; then
+        return 1 # replaced by category check below
+    fi
     echo -e -n "\n  Install $1? [Y/n]: "
     read -r ans
     [[ "$ans" =~ ^[Nn] ]] && return 1 || return 0
 }
 
-# Session-aware confirm: pre-answers based on $LOTUS_SESSION (hypr|niri|both).
-# Still interactive — the default just changes.
+# Session-aware confirm: HYPR/NIRI are forced by $LOTUS_SESSION (hypr|niri|both);
+# only in the "both" case does the user get a choice.
 SESSION="${LOTUS_SESSION:-hypr}"
 confirm_session() { # <category> <desc>
-    local cat="$1" desc="$2" def="Y"
-    case "$cat" in
-        HYPR) [[ "$SESSION" == "niri" ]] && def="N" ;;
-        NIRI) [[ "$SESSION" != "niri" && "$SESSION" != "both" ]] && def="N" ;;
+    local cat="$1" desc="$2" ans="Y"
+    case "$cat:$SESSION" in
+        HYPR:niri | NIRI:hypr)
+            return 1 ;;                                   # excluded by session choice
+        HYPR:hypr | NIRI:both | HYPR:both | NIRI:niri)
+            : ;;                                          # forced yes
+        *)                                                # session=both → ask
+            echo -e -n "\n  Install $desc? [Y/n]: "
+            read -r ans
+            [[ "$ans" =~ ^[Nn] ]] && return 1 ;;
     esac
-    echo -e -n "\n  Install $desc? [y/n] (default: $def): "
-    read -r ans
-    ans="${ans:-$def}"
-    [[ "$ans" =~ ^[Yy] ]]
+    return 0
 }
 
 CATEGORIES=(
@@ -196,7 +209,6 @@ CATEGORIES=(
     "TERMINAL:Kitty Terminal"
     "FILEMANAGER:Thunar File Manager"
     "NOTIFY:Swaync Notifications"
-    "AUDIO:PipeWire Audio Stack"
     "DM:SDDM Display Manager"
     "SCREENSHOT:Screenshot & Recording (grim, slurp, OBS)"
     "THEME:Theming Tools (KVantum, qt5ct/6ct, nwg-look)"
@@ -204,7 +216,6 @@ CATEGORIES=(
     "UTILS:System Utilities (fastfetch, btop, neovim, git, etc)"
     "MEDIA:Media Apps (MPV, loupe, ImageMagick)"
     "BLUETOOTH:Bluetooth Support"
-    "NETWORK:NetworkManager Stack"
     "MISC:Misc (wlogout, cliphist, power-profiles, flatpak)"
     "GAMING:Gaming (Steam, Lutris, MangoHud, Gamescope)"
     "HARDWARE:ASUS Hardware Support (asusctl)"
@@ -216,39 +227,52 @@ SELECTED=()
 for entry in "${CATEGORIES[@]}"; do
     name="${entry%%:*}"
     desc="${entry#*:}"
-    case "$name" in
-        HYPR|NIRI) confirm_session "$name" "$desc" || continue ;;
-        *)         confirm "$desc" || continue ;;
-    esac
+    # Unattended minimal preset: only the lean set, plus forced session cats
+    if [[ "${LOTUS_UNATTENDED:-}" == "minimal" ]]; then
+        case "$name" in
+            HYPR) confirm_session "$name" "$desc" || continue ;;
+            NIRI) confirm_session "$name" "$desc" || continue ;;
+            *) [[ " ${MINIMAL_CATEGORIES[*]} " == *" $name "* ]] || continue ;;
+        esac
+    else
+        case "$name" in
+            HYPR|NIRI) confirm_session "$name" "$desc" || continue ;;
+            *)         confirm "$desc" || continue ;;
+        esac
+    fi
     case "$name" in
         HYPR)       SELECTED+=("${HYPR[@]}") ;;
         NIRI)       SELECTED+=("${NIRI[@]}") ;;
-            GRAPHICS)   SELECTED+=("${GRAPHICS[@]}") ;;
-            BAR)        SELECTED+=("${BAR[@]}") ;;
-            LAUNCHER)   SELECTED+=("${LAUNCHER[@]}") ;;
-            TERMINAL)   SELECTED+=("${TERMINAL[@]}") ;;
-            FILEMANAGER) SELECTED+=("${FILEMANAGER[@]}") ;;
-            NOTIFY)     SELECTED+=("${NOTIFY[@]}") ;;
-            AUDIO)      SELECTED+=("${AUDIO[@]}") ;;
-            DM)         SELECTED+=("${DM[@]}") ;;
-            SCREENSHOT) SELECTED+=("${SCREENSHOT[@]}") ;;
-            THEME)      SELECTED+=("${THEME[@]}") ;;
-            FONTS)      SELECTED+=("${FONTS[@]}") ;;
-            UTILS)      SELECTED+=("${UTILS[@]}") ;;
-            MEDIA)      SELECTED+=("${MEDIA[@]}") ;;
-            BLUETOOTH)  SELECTED+=("${BLUETOOTH[@]}") ;;
-            NETWORK)    SELECTED+=("${NETWORK[@]}") ;;
-            MISC)       SELECTED+=("${MISC[@]}") ;;
-            GAMING)     SELECTED+=("${GAMING[@]}" "${LIBS32[@]}") ;;
-            HARDWARE)   SELECTED+=("${HARDWARE[@]}") ;;
-            LIBS32)     SELECTED+=("${LIBS32[@]}") ;;
-            DEV)        SELECTED+=("${DEV[@]}") ;;
-        esac
+        GRAPHICS)   SELECTED+=("${GRAPHICS[@]}") ;;
+        BAR)        SELECTED+=("${BAR[@]}") ;;
+        LAUNCHER)   SELECTED+=("${LAUNCHER[@]}") ;;
+        TERMINAL)   SELECTED+=("${TERMINAL[@]}") ;;
+        FILEMANAGER) SELECTED+=("${FILEMANAGER[@]}") ;;
+        NOTIFY)     SELECTED+=("${NOTIFY[@]}") ;;
+        DM)         SELECTED+=("${DM[@]}") ;;
+        SCREENSHOT) SELECTED+=("${SCREENSHOT[@]}") ;;
+        THEME)      SELECTED+=("${THEME[@]}") ;;
+        FONTS)      SELECTED+=("${FONTS[@]}") ;;
+        UTILS)      SELECTED+=("${UTILS[@]}") ;;
+        MEDIA)      SELECTED+=("${MEDIA[@]}") ;;
+        BLUETOOTH)  SELECTED+=("${BLUETOOTH[@]}") ;;
+        MISC)       SELECTED+=("${MISC[@]}") ;;
+        GAMING)     SELECTED+=("${GAMING[@]}") ;;  # LIBS32 has its own toggle
+        HARDWARE)   SELECTED+=("${HARDWARE[@]}") ;;
+        LIBS32)     SELECTED+=("${LIBS32[@]}") ;;
+        DEV)        SELECTED+=("${DEV[@]}") ;;
+    esac
 done
+
+# ── Mandatory packages (not optional — the desktop breaks without them) ─────
+REQUIRED=(
+    "${AUDIO[@]}"     # PipeWire stack — nothing produces sound without it
+    "${NETWORK[@]}"   # NetworkManager — no network without it
+)
 
 # Filter valid packages
 VALID=()
-for pkg in "${SELECTED[@]}"; do
+for pkg in "${SELECTED[@]}" "${REQUIRED[@]}"; do
     if pacman -Si "$pkg" &>/dev/null; then
         VALID+=("$pkg")
     fi

@@ -25,7 +25,6 @@ All extras work identically on Hyprland **and** Niri:
 
 ### ✦ Desktop updates
 
-- **GRUB theme sync**: new `tools/grub-theme-sync.sh` (+ passwordless sudoers snippet) — wallpaper changes now update the GRUB background and menu colors automatically via hooks in `WallustSwww.sh` / `WatchWallpaper.sh`.
 - **Window rules**: gamescope & Steam-Proton windows pinned to workspace 1 (perf rules: no blur/shadow/animation), media moved WS5 → WS10, hardware tools (OpenRGB/Vial/GWE/Piper) moved to WS5.
 - **Kitty rewritten**: JetBrains Mono 11 pt, beam cursor with trail, wider margins.
 - **Waybar**: new backlight module, updater module relocated left, per-module include dir, refined hover styles.
@@ -34,8 +33,17 @@ All extras work identically on Hyprland **and** Niri:
 - **btop**: auto-generated `ii-auto` theme (+ caelestia extra).
 - **MangoHud / cava / mimeapps / OBS scenes / spicetify** refreshed to match the live system.
 
+### ✦ Installer refinements
+
+- **Hardware-pack gating**: the Arctis/Sonar audio pipeline and the OBS streaming pack are now opt-in at install start — basic installs no longer deploy Sonar EQ filter-chains, HeSuvi surround, Arctis units or OBS configs.
+- **Session-aware dotfile deploy**: a Niri-only install skips Hyprland's compositor config (keeps shared wallust/palette/wallpaper tooling).
+- **Mandatory core**: PipeWire + NetworkManager are always installed (no longer skippable); Hyprland/Niri package groups are forced by your session choice instead of asked twice.
+- **AUR phase grouped** into 5 categories instead of 17 per-package prompts; `[core]` AUR packages (wallust, zram, quickshell…) install unconditionally.
+- **Unattended presets**: `./install.sh --preset minimal|full` (plus `--session`, `--audio`, `--streaming` overrides).
+- **LIBS32 decoupled** from the Gaming group — separate toggles, as labelled.
+
 ### 🔧 Housekeeping
 
-- All hardcoded `/home/lots` paths removed from newly synced configs (secret scanner passes clean).
+- All hardcoded personal home paths removed from newly synced configs (secret scanner passes clean).
 - Package lists regenerated against the current machine (pacman +257 lines incl. niri stack).
 - README updated: dual-session overview, niri keybind table, new structure tree, phase list, credits (Niri/iNiR upstreams).

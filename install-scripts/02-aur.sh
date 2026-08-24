@@ -1,42 +1,83 @@
 #!/bin/bash
-# Phase 2: AUR packages
+# Phase 2: AUR packages — grouped categories (one prompt per group)
+#
+# Groups marked [core] are always installed (the theme/system depends on them).
+# The Arctis and OBS capture groups follow the choices made at install start:
+#   LOTUS_AUDIO=arctis|basic   LOTUS_STREAMING=yes|no
 
 set -euo pipefail
 
 echo "[02] Installing AUR packages..."
 
-echo "  (press Enter to accept, or type n/N to skip each)"
+SESSION="${LOTUS_SESSION:-hypr}"
+AUDIO_MODE="${LOTUS_AUDIO:-arctis}"
+STREAMING="${LOTUS_STREAMING:-yes}"
 
-AUR_PACKAGES=(
-    "zen-browser-bin:Zen Browser (Firefox-based)"
-    "discord:Discord Chat"
-    "spotify:Spotify Music"
-    "github-cli:GitHub CLI (gh)"
-    "yay-bin:Yay AUR Helper (already installed)"
-    "linux-wallpaperengine-bin:Wallpaper Engine"
-    "cava:Terminal Audio Visualizer"
-    "deepcool-digital-linux-git:DeepCool Digital"
-    "openrgb:RGB Lighting Control"
-    "noise-suppression-for-voice:Noise Suppression"
-    "ttf-victor-mono:Victor Mono Font"
-    "gtk-engine-murrine:Murrine GTK Engine"
-    "arctis-sound-manager:Arctis Sound Manager"
-    "obs-pipewire-audio-capture-git:OBS PipeWire Audio Capture"
-    "wallust:Wallust (dynamic wallpaper colors — theme requires it)"
-    "quickshell:Quick Shell"
-    "zram-generator:ZRAM Generator"
+# ── Grouped AUR packages ─────────────────────────────────────────────────────
+# name:desc
+AUR_GROUPS=(
+    "BROWSING:Browsing & Dev (Zen Browser, GitHub CLI)"
+    "CHAT:Chat (Discord)"
+    "MEDIA:Media & Audio tools (Spotify, cava, noise suppression)"
+    "DESKTOP:Desktop extras (Wallpaper Engine, OpenRGB, DeepCool Digital)"
+    "ARCTIS:Arctis Sound Manager (Arctis Nova 5 headset)"
 )
 
-SELECTED=()
-for entry in "${AUR_PACKAGES[@]}"; do
-    pkg="${entry%%:*}"
+# [core] groups — no prompt, always selected
+CORE_PACKAGES=(
+    zram-generator
+    wallust
+    gtk-engine-murrine
+    ttf-victor-mono
+    quickshell
+)
+
+GROUP_PACKAGES=(
+    "BROWSING:zen-browser-bin github-cli"
+    "CHAT:discord"
+    "MEDIA:spotify cava noise-suppression-for-voice"
+    "DESKTOP:linux-wallpaperengine-bin openrgb deepcool-digital-linux-git"
+    "ARCTIS:arctis-sound-manager"
+)
+
+SELECTED=("${CORE_PACKAGES[@]}")
+
+for entry in "${AUR_GROUPS[@]}"; do
+    name="${entry%%:*}"
     desc="${entry#*:}"
-    echo -n "  Install $desc? [Y/n]: "
-    read -r ans
-    if [[ ! "$ans" =~ ^[Nn] ]]; then
-        SELECTED+=("$pkg")
+
+    # Arctis group follows the audio choice from install start
+    if [[ "$name" == "ARCTIS" ]]; then
+        if [[ "$AUDIO_MODE" != "arctis" ]]; then
+            echo "  [skip] $desc — Arctis pipeline not selected"
+            continue
+        fi
+        echo -e -n "\n  Install $desc? [Y/n]: "
+        read -r ans
+        [[ ! "$ans" =~ ^[Nn] ]] && SELECTED+=(arctis-sound-manager)
+        continue
     fi
+
+    if [[ "${LOTUS_UNATTENDED:-}" == "full" ]]; then
+        echo "  Install $desc? [auto: yes]"
+    elif [[ "${LOTUS_UNATTENDED:-}" == "minimal" ]]; then
+        echo "  [skip] $desc — minimal preset"
+        continue
+    else
+        echo -e -n "\n  Install $desc? [Y/n]: "
+        read -r ans
+        [[ "$ans" =~ ^[Nn] ]] && continue
+    fi
+
+    for g in "${GROUP_PACKAGES[@]}"; do
+        [[ "${g%%:*}" == "$name" ]] && SELECTED+=(${g#*:})
+    done
 done
+
+# OBS PipeWire audio capture — part of the streaming pack
+if [[ "$STREAMING" == "yes" && "${LOTUS_UNATTENDED:-}" != "minimal" ]]; then
+    SELECTED+=(obs-pipewire-audio-capture-git)
+fi
 
 VALID=()
 for pkg in "${SELECTED[@]}"; do

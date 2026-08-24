@@ -48,7 +48,6 @@ Both sessions share the same foundation: cohesive **purple glassmorphism** aesth
 | **Palette Editor** | Visual color picker with `SUPER + P` — change every color instantly |
 | **NVIDIA Optimized** | RTX 4070 tuned — open-dkms drivers, Wayland-native GPU acceleration |
 | **Performance Tweaks** | Optional GPU undervolt/OC, fan curve, CPU governor, sysctl, NVMe tuning |
-| **GRUB Sync** | GRUB theme background + menu colors follow your wallpaper automatically |
 | **Gaming Ready** | Steam, Lutris, MangoHud, Gamemode, Gamescope, VRR support |
 | **Controller Support** | Xbox / ROG Raikiri — launch apps and Steam Big Picture |
 | **Wallpaper Browser** | Folder-based browser with `SUPER + W` — 22 wallpaper collections |
@@ -160,6 +159,14 @@ chmod +x install.sh
 ./install.sh
 ```
 
+**Unattended presets** (skip all prompts):
+
+```bash
+./install.sh --preset minimal   # lean Hyprland-only desktop
+./install.sh --preset full      # everything on, both sessions
+./install.sh --session niri --audio basic --streaming no   # targeted overrides
+```
+
 ### What gets installed
 
 The installer first asks for your **session**:
@@ -170,12 +177,14 @@ The installer first asks for your **session**:
   3) Both                — install both, pick at the SDDM login screen
 ```
 
+Two hardware-pack questions follow (Arctis audio pipeline / OBS streaming pack) — they gate which audio configs and services get deployed, in **both** sessions.
+
 Then it runs **13 phases** interactively:
 
 ```
 Phase 0:  System Preparation   — multilib, mirrors, system update
 Phase 1:  Core Packages        — interactive categories incl. Hyprland / Niri per session choice
-Phase 2:  AUR Packages         — 17 interactive per-package prompts
+Phase 2:  AUR Packages         — grouped prompts (Browsing / Chat / Media / Desktop extras)
 Phase 3:  NVIDIA Drivers       — open-dkms stack (RTX 4070 optimized)
 Phase 4:  Enable Services      — SDDM, PipeWire, Bluetooth, NetworkManager
 Phase 5:  ZSH Shell            — Oh-My-ZSH + custom lotus theme + plugins
@@ -239,7 +248,6 @@ Applied tweaks persist across reboots (GRUB C-states apply to both profiles):
 | `tools/scan-secrets.sh` | Scans the working tree for credentials / personal data (passwords, API keys, browser DBs, `Cookies`, `/home/lots`). Run before committing — exit 1 flags anything suspicious. |
 | `tools/deploy-dotfiles.sh` | Quick re-sync: deploys only Phase 6 (dotfiles) with auto-backup, without reinstalling. Replaces existing configs in place (true mirror — safe to re-run anytime). Use after editing configs in the repo. |
 | `tools/regenerate-package-lists.sh` | Re-export `packages/*.txt` from the current machine (`pacman -Qqe` + `yay -Qqm` + `flatpak`) so the repo always mirrors exactly what is installed. Run it after adding/removing packages. |
-| `tools/grub-theme-sync.sh` | Syncs the GRUB theme background + menu colors to the current wallpaper / wallust palette. Installed to `/usr/local/bin` and triggered automatically on wallpaper change (needs the passwordless sudoers snippet in `performance-tweaks/common/sudoers.d/`). |
 
 > 🛡️ **CI:** `.github/workflows/security-scan.yml` runs **gitleaks** (known secret patterns) plus the repo-specific
 > `tools/scan-secrets.sh` on every push and PR — the repo is auto-blocked if anything leaks.
@@ -259,7 +267,7 @@ Applied tweaks persist across reboots (GRUB C-states apply to both profiles):
 │   ├── hyprland.lua             # Entry point (requires all modules)
 │   ├── configs/                 # Base configuration modules
 │   ├── UserConfigs/             # User overrides (survive updates)
-│   ├── scripts/                 # Utility scripts (palette, wallpaper, GRUB sync hooks)
+│   ├── scripts/                 # Utility scripts (palette, wallpaper effects)
 │   ├── UserScripts/             # User scripts
 │   ├── animations/              # Animation presets
 │   ├── wallpaper_effects/       # Wallpaper effects
