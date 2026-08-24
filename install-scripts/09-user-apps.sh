@@ -212,14 +212,16 @@ for entry in "${SERVICES[@]}"; do
   fi
 done
 
-# Deploy HRIR file for HeSuVi virtual surround
-if confirm "HeSuVi 7.1 Virtual Surround (HRIR convolution)"; then
-  HRIR_SRC="$SCRIPT_DIR/../dotfiles/.local/share/pipewire/hrir_hesuvi/hrir.wav"
-  HRIR_DST="$HOME/.local/share/pipewire/hrir_hesuvi/hrir.wav"
-  if [[ -f "$HRIR_SRC" ]]; then
-    mkdir -p "$(dirname "$HRIR_DST")"
-    cp "$HRIR_SRC" "$HRIR_DST"
-    echo "    ✓ HRIR file deployed"
+# Deploy HRIR file for HeSuVi virtual surround (Arctis pipeline only)
+if [[ "${LOTUS_AUDIO:-arctis}" == "arctis" ]]; then
+  if confirm "HeSuVi 7.1 Virtual Surround (HRIR convolution)"; then
+    HRIR_SRC="$SCRIPT_DIR/../dotfiles/.local/share/pipewire/hrir_hesuvi/hrir.wav"
+    HRIR_DST="$HOME/.local/share/pipewire/hrir_hesuvi/hrir.wav"
+    if [[ -f "$HRIR_SRC" ]]; then
+      mkdir -p "$(dirname "$HRIR_DST")"
+      cp "$HRIR_SRC" "$HRIR_DST"
+      echo "    ✓ HRIR file deployed"
+    fi
   fi
 fi
 
