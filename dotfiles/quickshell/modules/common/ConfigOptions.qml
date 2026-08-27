@@ -31,6 +31,8 @@ Singleton {
     property QtObject search: QtObject {
     property bool searchEnabled: false
     property int nonAppResultDelay: 30 // This prevents lagging when typing
+    property string engineBaseUrl: "https://www.google.com/search?q="
+    property var excludedSites: []
     property QtObject prefix: QtObject {
             property string action: "/"
             property string clipboard: ";"
@@ -40,5 +42,9 @@ Singleton {
     
     property QtObject bar: QtObject {
     property bool bottom: false // Instead of top
+    }
+
+    property QtObject apps: QtObject {
+        property string terminal: "kitty"
     }
 }

@@ -249,15 +249,9 @@ Applied tweaks persist across reboots (GRUB C-states apply to both profiles):
 | `tools/deploy-dotfiles.sh` | Quick re-sync: deploys only Phase 6 (dotfiles) with auto-backup, without reinstalling. Replaces existing configs in place (true mirror — safe to re-run anytime). Use after editing configs in the repo. |
 | `tools/regenerate-package-lists.sh` | Re-export `packages/*.txt` from the current machine (`pacman -Qqe` + `yay -Qqm` + `flatpak`) so the repo always mirrors exactly what is installed. Run it after adding/removing packages. |
 
-> 🛡️ **CI:** `.github/workflows/security-scan.yml` runs **gitleaks** (known secret patterns) plus the repo-specific
-> `tools/scan-secrets.sh` on every push and PR — the repo is auto-blocked if anything leaks.
-
-> 🔐 **Security:** this repo had a full history rewrite to scrub leaked credentials (Chrome `Cookies`/`Login Data` from
-> the OBS browser source, Spotify autologin credentials, OBS WebSocket password, TMDB API key, LAN/public IPs).
-> Old v1.x releases and tags were deleted — the latest release is **v2.0.3 — GPU overclock + dual-monitor layout tweaks**. Live secrets were
-> replaced with runtime lookups (OBS reads its own config) or empty values re-entered on first use.
-
 ---
+
+
 
 ## ◈ Structure
 
