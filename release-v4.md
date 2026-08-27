@@ -1,42 +1,43 @@
 # Lotus Arch — Release Notes
 
-## v4.1 — Pill bar system update indicator, font fixes, app corrections
+## v4.2 — Auto-refresh updates, repo cleanup, installer "same as this system"
 
-### Pill bar: system update indicator
+### Auto-refresh update counter
 
-- **Download icon badge** in pill rest mode: a small download glyph appears next to the clock when updates are available, with a colored dot for strongly-advised thresholds.
-- **Hover row icon**: a full-size download icon with a count badge appears in the pill's status row. Clicking it launches `arch-update` (or the configured `apps.update` command).
-- **Soul bead tracking**: the pill's animated bead now follows the cursor to the update icon on hover.
-- **Auto-refresh**: clicking the icon triggers `Updates.refresh()` before launching the update command, so the count stays current.
-- New components: `SystemUpdateIndicator.qml` (bar module), service integration with `Updates.qml`.
-- Installer overlay: `dotfiles/quickshell/modules/pill/`, `modules/bar/`, `services/Updates.qml` are now deployed by `install-scripts/12-niri-inir.sh`.
+- The pill bar's update badge now refreshes **instantly** after any package transaction completes.
+- `Updates.qml` watches `/var/log/pacman.log` (polls mtime) and re-runs `checkupdates` a few seconds after the log changes — whether you updated from the pill, a terminal, pamac, or the AUR helper.
+- No more waiting up to the periodic interval for the counter to drop to zero.
 
-### Font fixes
+### Installer now reproduces this exact system
 
-- **FiraCode Nerd Font**: installed and referenced correctly in `config.json` `iconFont`. Fixes nerd-glyph rendering across the shell.
-- **JetBrainsMono NF**: fixed name typo (`JetBrains Mono NF` → `JetBrainsMono NF`) in both quickshell and iNiR configs.
-- **Open Sans → Noto Sans**: replaced missing `Open Sans` with installed `Noto Sans` for the UI font.
-- **Zen Kaku Gothic New**: installed for kanji glyph rendering in the pill bar clock and media controls. Fixes square/tofu glyphs.
-- **Segoe UI → Noto Sans**: replaced Windows-only `Segoe UI` / `Segoe UI Variable Display` defaults in waffle background clock and common Config.qml with cross-platform `Noto Sans`.
+- **Quickshell is overlaid, never wholesale-replaced.** `install-scripts/06-dotfiles.sh` no longer wipes `~/.config/quickshell/` (which would delete upstream iNiR's modules); it now copies `config.json`, generic `modules/`, `services/` and the `inir/` overlay on top of the upstream install, leaving everything else intact.
+- **Quickshell overlays relocated** under `dotfiles/quickshell/inir/` (mirroring the live `~/.config/quickshell/inir/` path) so the pill bar, bar, waffle and service tweaks land in exactly the right place. `install-scripts/12-niri-inir.sh` deploys the whole `inir/` subtree.
+- **NVIDIA tweaks on both sessions confirmed**: the driver env (`LIBVA_DRIVER_NAME`, `__GLX_VENDOR_LIBRARY_NAME`, `NVD_BACKEND`, `GBM_BACKEND`, shader cache) is present in both the Hyprland Lua config **and** the Niri `config.d/40-environment.kdl`; Phase 10 GPU/CPU tweaks are compositor-agnostic systemd services that apply to either session.
 
-### App corrections
+### Repo cleanup
 
-- **Browser**: replaced `firefox` (not installed) with `zen-browser` across all config references (apps.browser, dock pinnedApps, sidebar quickLaunch).
-- **Editor**: replaced `/usr/bin/code` (not installed) with `/usr/bin/nvim` in sidebar quickLaunch.
-- **Wallpaper path**: fixed broken path (`GT Racing/` → `GT-cars/Porsche/`) to match actual directory structure.
+- Removed stale `release-v2.md` and `release-v3.md` (superseded).
+- Removed `optional/gpu/gwe/gwe.db` (binary hardware-profile settings db).
+- README: removed the outdated "Security / history rewrite / deleted v1 releases" paragraph and the CI secret-scan note — irrelevant to a visitor and no longer accurate. Kept the CI workflow itself (it still protects the repo).
+- Kept the same visual/typographic style throughout.
 
-### Installer updates
+### Pill bar system update indicator (from v4.1)
 
-- `install-scripts/12-niri-inir.sh` now overlays quickshell module overrides (pill, bar, waffle, common, overview, services) on top of upstream iNiR during install.
-- Font config (`quickshell/config.json`) is deployed alongside the iNiR config.
+- **Download icon badge** in pill rest mode when updates are available.
+- **Hover row icon**: full-size download icon with a count badge; click launches `arch-update` (or configured `apps.update`).
+- **Soul bead tracking** on the update icon.
+- Click triggers `Updates.refresh()` before launching.
 
-### Cleanup
+### Font fixes (from v4.1)
 
-- Removed unused `import Quickshell.Hyprland` from `WaffleOSD.qml` (you're on Niri, not Hyprland).
-- Removed debug print statements from `BarContent.qml` EdgeZoneCell.
+- `FiraCode Nerd Font` `iconFont`, `JetBrainsMono NF` typo fix, `Open Sans` → `Noto Sans`, `Zen Kaku Gothic New` installed, `Segoe UI` → `Noto Sans`.
+
+### App corrections (from v4.1)
+
+- `firefox` → `zen-browser`, `/usr/bin/code` → `/usr/bin/nvim`, wallpaper path fixed to `GT-cars/Porsche/`.
 
 ### Notes
 
 - Requires [iNiR](https://github.com/snowarch/iNiR) upstream quickshell shell.
-- `arch-update` (AUR) is installed by the pill bar click action; install it with `yay -S arch-update` if missing.
-- `checkupdates` (from `pacman-contrib`) must be available for the update counter to work.
+- `arch-update` (AUR) is installed by the pill click; `yay -S arch-update` if missing.
+- `checkupdates` (from `pacman-contrib`) must be available for the counter to work.
