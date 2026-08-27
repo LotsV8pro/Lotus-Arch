@@ -71,20 +71,12 @@ mkdir -p "$HOME/.config/inir" "$HOME/.config/niri/config.d"
     cp "$DOTFILES/quickshell/config.json" "$HOME/.config/quickshell/config.json"
 }
 
-# Quickshell module overlays (pill, bar, waffle, common)
-for mod_dir in pill bar waffle common overview; do
-    src="$DOTFILES/quickshell/modules/$mod_dir"
-    [[ -d "$src" ]] && {
-        dest="$HOME/.config/quickshell/inir/modules/$mod_dir"
-        mkdir -p "$dest"
-        cp -r "$src/." "$dest/"
-    }
-done
-
-# Quickshell service overlays (Updates, etc.)
-[[ -d "$DOTFILES/quickshell/services" ]] && {
-    mkdir -p "$HOME/.config/quickshell/inir/services"
-    cp -r "$DOTFILES/quickshell/services/." "$HOME/.config/quickshell/inir/services/"
+# Quickshell iNiR shell overlays — mirror upstream iNiR's layout under
+# ~/.config/quickshell/inir/ (modules + services) so the pill bar update
+# indicator, font fixes and waffle tweaks land in the live shell.
+[[ -d "$DOTFILES/quickshell/inir" ]] && {
+    mkdir -p "$HOME/.config/quickshell/inir"
+    cp -r "$DOTFILES/quickshell/inir/." "$HOME/.config/quickshell/inir/"
 }
 
 # User units (inir.service + helpers) — %h expands to $HOME at load time

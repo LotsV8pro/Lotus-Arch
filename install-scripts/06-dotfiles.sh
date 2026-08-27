@@ -49,6 +49,25 @@ for dir in "$DOTFILES"/*/; do
         .git) continue ;;
     esac
 
+    # ── Quickshell: overlay, never wholesale-replace ──
+    # upstream iNiR owns the bulk of ~/.config/quickshell/inir/ during Phase 12.
+    # A true-mirror rm -rf here would wipe out all upstream shell modules that
+    # Lotus-Arch doesn't vendor. Instead, copy config.json + generic modules/
+    # + services/ + the inir/ overlay files on top, leaving upstream files intact.
+    if [[ "$name" == "quickshell" ]]; then
+        echo "  → quickshell (overlay, preserves upstream iNiR)"
+        [[ -f "$dir/config.json" ]] && {
+            mkdir -p "$HOME/.config/quickshell"; cp "$dir/config.json" "$HOME/.config/quickshell/config.json"
+        }
+        for sub in modules services inir; do
+            [[ -d "$dir/$sub" ]] && {
+                mkdir -p "$HOME/.config/quickshell/$sub"
+                cp -r "$dir/$sub/." "$HOME/.config/quickshell/$sub/"
+            }
+        done
+        continue
+    fi
+
     echo "  → $name"
     backup_and_copy "$dir" "$HOME/.config/$name"
 
