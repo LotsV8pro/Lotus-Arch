@@ -330,7 +330,7 @@
             "terminalGenerationProps": {
                 "forceDarkMode": false,
                 "harmonizeThreshold": 100,
-                "harmony": 0.6,
+                "harmony": 0.4,
                 "termFgBoost": 0.35
             },
             "terminals": {
@@ -378,7 +378,7 @@
     },
     "apps": {
         "bluetooth": "blueman-manager",
-        "browser": "firefox",
+        "browser": "zen-browser",
         "discord": "discord",
         "manageUser": "kcmshell6 kcm_users",
         "network": "nm-connection-editor",
@@ -397,23 +397,23 @@
     },
     "background": {
         "autoWallpaper": {
-            "enable": false,
-            "folder": "",
+            "enable": true,
+            "folder": "~/Pictures/wallpapers/all",
             "generateColors": true,
             "intervalMinutes": 30
         },
         "backdrop": {
-            "auroraOverlayOpacity": 0.38,
-            "blurRadius": 40,
+            "auroraOverlayOpacity": 0.23,
+            "blurRadius": 30,
             "contrast": 0,
-            "dim": 40,
+            "dim": 10,
             "enable": true,
-            "enableAnimatedBlur": false,
-            "enableAnimation": false,
+            "enableAnimatedBlur": true,
+            "enableAnimation": true,
             "hideWallpaper": false,
-            "saturation": 0,
+            "saturation": 0.65,
             "thumbnailPath": "",
-            "useAuroraStyle": false,
+            "useAuroraStyle": true,
             "useMainWallpaper": true,
             "vignetteEnabled": false,
             "vignetteIntensity": 1,
@@ -433,7 +433,7 @@
             "dim": 30,
             "dynamicDim": 20,
             "enableAnimatedBlur": false,
-            "enableBlur": true,
+            "enableBlur": false,
             "ripple": {
                 "charging": true,
                 "enable": false,
@@ -464,7 +464,7 @@
         "parallax": {
             "autoVertical": false,
             "axis": "vertical",
-            "enable": false,
+            "enable": true,
             "enableSidebar": true,
             "enableWorkspace": true,
             "panelShift": 0.15,
@@ -491,19 +491,19 @@
             "enable": true,
             "type": "random"
         },
-        "wallpaperPath": "~/Pictures/Wallpapers/GT Racing/2021-porsche-911-gt3-cup.jpg",
+        "wallpaperPath": "@HOME@/Pictures/Wallpapers/GT-cars/Porsche/wallhaven-0j5985.jpg",
         "wallpapersByMonitor": [
             {
-                "monitor": "DP-2",
-                "path": "~/Pictures/GT-cars/McLaren/wallhaven-w8zkx6.jpg",
+                "monitor": "HDMI-A-1",
+                "path": "@HOME@/Pictures/Wallpapers/GT-cars/McLaren/wallhaven-2k7x29.jpg",
                 "workspaceFirst": 1,
                 "workspaceLast": 4
             },
             {
-                "monitor": "HDMI-A-1",
-                "path": "~/Pictures/GT-cars/Koenigsegg/wallhaven-kwv9mm.jpg",
+                "monitor": "DP-2",
+                "path": "@HOME@/Pictures/Wallpapers/all/wallhaven-w8zkx6.jpg",
                 "workspaceFirst": 1,
-                "workspaceLast": 4
+                "workspaceLast": 6
             }
         ],
         "widgets": {
@@ -653,7 +653,7 @@
                 },
                 "path": "",
                 "placementStrategy": "free",
-                "shape": "Cookie4Sided",
+                "shape": "Square",
                 "size": 220,
                 "sourceMode": "file",
                 "transitionDuration": 450,
@@ -700,16 +700,16 @@
                 "borderOpacity": 0.12,
                 "borderWidth": 0,
                 "colorMode": "auto",
-                "columnGap": 14,
-                "contentHeight": 600,
-                "contentWidth": 330,
+                "columnGap": 12,
+                "contentHeight": 540,
+                "contentWidth": 400,
                 "cornerRadius": -1,
                 "dateSize": 12,
                 "dateText": "7.12 — 8.31",
                 "detailColor": "#D0B996",
                 "detailOpacity": 72,
                 "dim": 10,
-                "enable": false,
+                "enable": true,
                 "fontFamily": "serif",
                 "fontPreset": "mincho",
                 "footerSize": 14,
@@ -718,7 +718,7 @@
                 "latinWeight": 600,
                 "letterSpacing": 2,
                 "locked": false,
-                "mirrorLayout": false,
+                "mirrorLayout": true,
                 "outlineColor": "#000000",
                 "outlineOpacity": 0,
                 "palette": {
@@ -731,11 +731,11 @@
                 "paletteMode": "adaptive",
                 "palettePreset": "adaptive",
                 "placementStrategy": "free",
-                "preset": "exhibition",
+                "preset": "magazine",
                 "primaryColor": "#E7D4B2",
                 "primaryColumns": 2,
                 "primaryOpacity": 100,
-                "primarySize": 72,
+                "primarySize": 56,
                 "primaryText": "夏の記憶",
                 "primaryWeight": 500,
                 "rotateLatin": false,
@@ -747,11 +747,11 @@
                 "sealOpacity": 100,
                 "sealText": "特別展",
                 "secondaryColor": "#CDB48D",
-                "secondaryColumns": 2,
+                "secondaryColumns": 3,
                 "secondaryFontFamily": "",
                 "secondaryLetterSpacing": 1,
                 "secondaryOpacity": 78,
-                "secondarySize": 18,
+                "secondarySize": 16,
                 "secondaryText": "潮風と、あの子と、終わらない夏",
                 "secondaryWeight": 400,
                 "shadowStrength": 35,
@@ -767,8 +767,7 @@
                 "x": 56,
                 "y": 120
             },
-            "layerOrder": [
-            ],
+            "layerOrder": [],
             "mascot": {
                 "anchorWidget": "",
                 "backgroundOpacity": 0.16,
@@ -803,7 +802,7 @@
             "mediaControls": {
                 "colorMode": "auto",
                 "dim": 0,
-                "enable": false,
+                "enable": true,
                 "locked": false,
                 "lyricsExpanded": false,
                 "palette": {
@@ -814,7 +813,7 @@
                     "tertiary": "tertiary"
                 },
                 "placementStrategy": "free",
-                "playerPreset": "full",
+                "playerPreset": "lyricsSplit",
                 "visualizerPosition": "bottom",
                 "visualizerType": "wave",
                 "widgetOpacity": 100,
@@ -887,14 +886,73 @@
                     "output": "DP-2",
                     "widgets": {
                         "clock": {
+                            "locked": true,
                             "placementStrategy": "free",
-                            "x": 1418,
-                            "y": 1220
+                            "x": 1516,
+                            "y": 1097
+                        },
+                        "customImage": {
+                            "placementStrategy": "free",
+                            "x": 120,
+                            "y": 320
+                        },
+                        "imageConverter": {
+                            "placementStrategy": "free",
+                            "x": 108,
+                            "y": 409
+                        },
+                        "japaneseTypography": {
+                            "enable": true,
+                            "locked": true,
+                            "placementStrategy": "free",
+                            "x": 2188,
+                            "y": 105
+                        },
+                        "mediaControls": {
+                            "locked": true,
+                            "placementStrategy": "free",
+                            "x": 44,
+                            "y": 105
+                        },
+                        "newsTicker": {
+                            "enable": false,
+                            "placementStrategy": "free",
+                            "x": 12,
+                            "y": 425
+                        },
+                        "notes": {
+                            "placementStrategy": "free",
+                            "x": 84,
+                            "y": 409
+                        },
+                        "uptime": {
+                            "enable": false,
+                            "placementStrategy": "free",
+                            "x": 84,
+                            "y": 289
+                        },
+                        "userCard": {
+                            "locked": true,
+                            "placementStrategy": "free",
+                            "x": 2252,
+                            "y": 1225
                         },
                         "visualizer": {
+                            "enable": false,
                             "placementStrategy": "free",
                             "x": 60,
                             "y": 400
+                        },
+                        "weather": {
+                            "placementStrategy": "free",
+                            "x": 100,
+                            "y": 200
+                        },
+                        "worldClock": {
+                            "enable": false,
+                            "placementStrategy": "free",
+                            "x": 80,
+                            "y": 200
                         }
                     },
                     "width": 2560
@@ -904,15 +962,84 @@
                     "layoutVersion": 1,
                     "output": "HDMI-A-1",
                     "widgets": {
-                        "clock": {
+                        "calendarUpcoming": {
+                            "enable": true,
+                            "locked": true,
                             "placementStrategy": "free",
-                            "x": 1358,
-                            "y": 860
+                            "x": 1591,
+                            "y": 314
+                        },
+                        "clock": {
+                            "enable": true,
+                            "placementStrategy": "free",
+                            "x": 1677,
+                            "y": 938
+                        },
+                        "customImage": {
+                            "enable": false,
+                            "placementStrategy": "free",
+                            "x": 119,
+                            "y": 762
+                        },
+                        "japaneseTypography": {
+                            "enable": false,
+                            "placementStrategy": "free",
+                            "x": 87,
+                            "y": 250
+                        },
+                        "mascot": {
+                            "enable": false,
+                            "placementStrategy": "free",
+                            "x": 567,
+                            "y": 122
+                        },
+                        "mediaControls": {
+                            "enable": true,
+                            "locked": true,
+                            "placementStrategy": "free",
+                            "x": 108,
+                            "y": 250
+                        },
+                        "newsTicker": {
+                            "enable": false,
+                            "placementStrategy": "free",
+                            "x": 100,
+                            "y": 260
+                        },
+                        "systemMonitor": {
+                            "enable": true,
+                            "locked": true,
+                            "placementStrategy": "free",
+                            "x": 119,
+                            "y": 90
+                        },
+                        "uptime": {
+                            "enable": false,
+                            "placementStrategy": "free",
+                            "x": 471,
+                            "y": 90
+                        },
+                        "userCard": {
+                            "enable": false,
+                            "placementStrategy": "free",
+                            "x": 87,
+                            "y": 562
                         },
                         "visualizer": {
+                            "contentHeight": 48,
+                            "contentWidth": 448,
+                            "enable": true,
+                            "locked": true,
                             "placementStrategy": "free",
-                            "x": 60,
-                            "y": 400
+                            "x": 108,
+                            "y": 506
+                        },
+                        "weather": {
+                            "enable": true,
+                            "locked": true,
+                            "placementStrategy": "free",
+                            "x": 1431,
+                            "y": 90
                         }
                     },
                     "width": 1920
@@ -925,8 +1052,7 @@
                 "pauseWhenWindowsPresent": false,
                 "showPausedEffect": true
             },
-            "screenList": [
-            ],
+            "screenList": [],
             "style": "panel",
             "systemMonitor": {
                 "backgroundOpacity": 0.16,
@@ -939,7 +1065,7 @@
                 "contentWidth": 320,
                 "cornerRadius": -1,
                 "dim": 0,
-                "displayMode": "bars",
+                "displayMode": "rings",
                 "enable": false,
                 "fillOpacity": 0.7,
                 "graphFillOpacity": 0.3,
@@ -960,7 +1086,7 @@
                 "showGpu": true,
                 "showLabels": true,
                 "showMemory": true,
-                "showTemp": false,
+                "showTemp": true,
                 "trackAlpha": 0.08,
                 "useBlur": false,
                 "widgetOpacity": 100,
@@ -1004,7 +1130,7 @@
                 "contentWidth": 280,
                 "cornerRadius": -1,
                 "dim": 0,
-                "enable": false,
+                "enable": true,
                 "locked": false,
                 "palette": {
                     "primary": "primary",
@@ -1013,7 +1139,7 @@
                     "surface": "surface",
                     "tertiary": "tertiary"
                 },
-                "placementStrategy": "free",
+                "placementStrategy": "leastBusy",
                 "showBackground": true,
                 "showBorder": true,
                 "useBlur": false,
@@ -1025,16 +1151,16 @@
             "visualizer": {
                 "accentStrength": 70,
                 "backgroundOpacity": 0.16,
-                "barCount": 48,
-                "barMinHeight": 1,
+                "barCount": 64,
+                "barMinHeight": 2,
                 "barOpacity": 100,
-                "barRadius": 2,
-                "barSpacing": 2,
-                "barsOrigin": "bottom",
+                "barRadius": 1,
+                "barSpacing": 1,
+                "barsOrigin": "top",
                 "borderOpacity": 0.2,
                 "borderWidth": 1,
                 "colorMode": "auto",
-                "contentHeight": 104,
+                "contentHeight": 80,
                 "contentWidth": 304,
                 "cornerRadius": -1,
                 "dim": 0,
@@ -1042,7 +1168,7 @@
                 "edgeSoftness": 28,
                 "enable": false,
                 "fillRatio": 90,
-                "frequencyProfile": "flat",
+                "frequencyProfile": "bass",
                 "lineWidth": 2,
                 "locked": false,
                 "palette": {
@@ -1054,8 +1180,8 @@
                 },
                 "paletteMode": "cava",
                 "placementStrategy": "free",
-                "preset": "default",
-                "showBackground": true,
+                "preset": "dense",
+                "showBackground": false,
                 "showBorder": true,
                 "smoothing": 2,
                 "useBlur": false,
@@ -1091,12 +1217,12 @@
                 "shape": "pill",
                 "showBackground": true,
                 "showBorder": true,
-                "showCondition": false,
+                "showCondition": true,
                 "showIcon": true,
                 "showMetrics": true,
                 "showTemp": true,
                 "size": 200,
-                "style": "pill",
+                "style": "detail",
                 "tempFontWeight": 500,
                 "tempSize": 80,
                 "useBlur": false,
@@ -1137,6 +1263,32 @@
                 "widgetScale": 100,
                 "x": 80,
                 "y": 200
+            },
+            "custom": {
+                "example-widget": {
+                    "enable": false,
+                    "placementStrategy": "free",
+                    "x": 300,
+                    "y": 300,
+                    "widgetScale": 100,
+                    "widgetOpacity": 100,
+                    "colorMode": "auto",
+                    "dim": 0,
+                    "backgroundOpacity": 0.06,
+                    "borderWidth": 1,
+                    "borderOpacity": 0.08,
+                    "cornerRadius": -1,
+                    "fontScale": 100,
+                    "padding": 10,
+                    "showLabels": false,
+                    "spacing": 10,
+                    "surfaceStyle": "pill",
+                    "showBattery": true,
+                    "showNetwork": true,
+                    "showTime": true,
+                    "showVolume": true,
+                    "showWeather": true
+                }
             }
         }
     },
@@ -1213,6 +1365,7 @@
                 "tray",
                 "timer",
                 "shellUpdate",
+                "systemUpdate",
                 "spacer",
                 "weather"
             ],
@@ -1231,12 +1384,9 @@
             "cornerStyle": 3,
             "customLayoutSaved": false,
             "customLayouts": {
-                "leftLayout": [
-                ],
-                "middleLayout": [
-                ],
-                "rightLayout": [
-                ]
+                "leftLayout": [],
+                "middleLayout": [],
+                "rightLayout": []
             },
             "divider": {
                 "spacing": 20,
@@ -1406,7 +1556,7 @@
                 "clipboard": true,
                 "glance": true,
                 "launcher": true,
-                "recorder": false,
+                "recorder": true,
                 "sysmon": true
             },
             "time12h": false,
@@ -1431,8 +1581,7 @@
             "tempWarningThreshold": 80
         },
         "rightScrollAction": "volume",
-        "screenList": [
-        ],
+        "screenList": [],
         "showBackground": true,
         "showScrollHints": true,
         "topLeftIcon": "distro",
@@ -1440,8 +1589,7 @@
             "filterPassive": true,
             "invertPinnedItems": true,
             "monochromeIcons": true,
-            "pinnedItems": [
-            ],
+            "pinnedItems": [],
             "showItemId": false
         },
         "utilButtons": {
@@ -1471,7 +1619,7 @@
             "edgeInset": 0,
             "edgeSoftness": 28,
             "enable": false,
-            "frequencyProfile": "flat",
+            "frequencyProfile": "smile",
             "gap": 2,
             "height": 0.6,
             "lineWidth": 2,
@@ -1484,8 +1632,8 @@
             "pillWingLength": 180,
             "pillWingMode": "bounded",
             "smoothing": 2,
-            "type": "bars",
-            "waveMode": "fill"
+            "type": "wave",
+            "waveMode": "ribbon"
         },
         "weather": {
             "city": "",
@@ -1547,15 +1695,13 @@
         "externalSync": {
             "enable": false,
             "refreshMinutes": 15,
-            "sources": [
-            ]
+            "sources": []
         },
         "showUpcoming": true,
         "upcomingDays": 3
     },
     "clipboard": {
-        "pinned": [
-        ]
+        "pinned": []
     },
     "closeConfirm": {
         "enabled": false
@@ -1620,7 +1766,7 @@
     },
     "dock": {
         "cardStyle": false,
-        "enable": true,
+        "enable": false,
         "enableBlurGlass": false,
         "enableDragReorder": true,
         "height": 60,
@@ -1629,26 +1775,24 @@
         "hoverRegionHeight": 2,
         "hoverToReveal": false,
         "iconSize": 35,
-        "ignoredAppRegexes": [
-        ],
+        "ignoredAppRegexes": [],
         "keepPreviewOnClick": false,
         "maxIndicatorDots": 5,
         "minimizeUnfocused": false,
         "monochromeIcons": true,
         "notificationBadge": true,
         "pinnedApps": [
-            "firefox"
+            "zen-browser"
         ],
         "pinnedOnStartup": true,
         "position": "left",
-        "screenList": [
-        ],
+        "screenList": [],
         "separatePinnedFromRunning": true,
         "showAllWindowDots": true,
         "showBackground": true,
         "showOnDesktop": true,
         "smartIndicator": true,
-        "style": "panel"
+        "style": "island"
     },
     "enabledPanels": [
         "iiBar",
@@ -1867,9 +2011,8 @@
             "systemEvents": true
         },
         "companion": {
-            "contextualPlacement": false,
-            "customLines": [
-            ],
+            "contextualPlacement": true,
+            "customLines": [],
             "edges": {
                 "bottom": true,
                 "left": true,
@@ -1904,14 +2047,14 @@
                 "workspace": true
             },
             "intervalMinutes": 25,
-            "monitor": "primary",
+            "monitor": "focused",
             "musicRequireArtist": true,
             "placement": "peek",
             "size": 150,
             "slideMs": 400,
             "visibleSeconds": 8
         },
-        "enable": false,
+        "enable": true,
         "personality": {
             "commentary": true,
             "enabled": true,
@@ -1952,8 +2095,7 @@
     "media": {
         "filterDuplicatePlayers": true,
         "popupMode": "dock",
-        "screenList": [
-        ]
+        "screenList": []
     },
     "modules": {
         "altSwitcher": false,
@@ -1998,8 +2140,7 @@
             "start": "22:00"
         },
         "scaleOnHover": false,
-        "screenList": [
-        ],
+        "screenList": [],
         "silent": false,
         "timeout": 3000,
         "timeoutCritical": 0,
@@ -2009,8 +2150,7 @@
     },
     "osd": {
         "mediaEnabled": true,
-        "screenList": [
-        ],
+        "screenList": [],
         "timeout": 1000
     },
     "osk": {
@@ -2089,12 +2229,12 @@
         "jsgcThreshold": 300,
         "lowPower": false,
         "memoryMonitoring": true,
-        "memoryWarningNotification": false,
+        "memoryWarningNotification": true,
         "reduceAnimations": false
     },
     "policies": {
-        "ai": 0,
-        "weeb": 0
+        "ai": 1,
+        "weeb": 1
     },
     "powerProfiles": {
         "preferredProfile": "",
@@ -2210,7 +2350,7 @@
     },
     "settingsUi": {
         "categories": "",
-        "easyMode": true,
+        "easyMode": false,
         "overlayAppearance": {
             "backdropBlur": 0,
             "backgroundOpacity": 1,
@@ -2232,7 +2372,7 @@
         },
         "animationType": "slide",
         "animeSchedule": {
-            "enable": false,
+            "enable": true,
             "showNsfw": false,
             "watchSite": ""
         },
@@ -2273,15 +2413,15 @@
         "left": {
             "tabOrder": [
                 "widgets",
-                "wallhaven",
-                "news",
-                "tools",
-                "software",
-                "ai",
                 "translator",
+                "ai",
                 "anime",
                 "animeSchedule",
-                "ytmusic"
+                "wallhaven",
+                "news",
+                "ytmusic",
+                "tools",
+                "software"
             ]
         },
         "news": {
@@ -2297,7 +2437,7 @@
         "quickSliders": {
             "enable": true,
             "showBrightness": true,
-            "showMic": true,
+            "showMic": false,
             "showVolume": true
         },
         "quickToggles": {
@@ -2333,26 +2473,25 @@
                 "quickActions"
             ],
             "enabledWidgets": [
-                "calendar",
-                "todo"
+                "todo",
+                "calendar"
             ],
             "headerBanner": "wallpaper",
             "headerBannerPath": "",
             "headerStyle": "profile",
             "sectionOrder": [
+                "widgets",
                 "system",
                 "sliders",
                 "toggles",
-                "notifications",
-                "widgets"
+                "notifications"
             ],
             "sectionWeights": {
-                "notifications": 1,
-                "widgets": 1
+                "notifications": 0.8,
+                "widgets": 1.2
             }
         },
-        "screenList": [
-        ],
+        "screenList": [],
         "screenTime": {
             "enable": false,
             "pollIntervalSeconds": 5,
@@ -2366,16 +2505,16 @@
                 "width": 460
             },
             "system": {
-                "customHeight": 720,
+                "customHeight": 1369,
                 "sizeMode": "full",
                 "slot": "right",
                 "width": 460
             }
         },
         "software": {
-            "enable": false
+            "enable": true
         },
-        "style": "panel",
+        "style": "island",
         "tools": {
             "enable": false
         },
@@ -2392,7 +2531,7 @@
         "widgets": {
             "context": true,
             "contextShowWeather": true,
-            "controls": false,
+            "controls": true,
             "controlsCard": {
                 "showBluetooth": true,
                 "showDarkMode": true,
@@ -2403,7 +2542,7 @@
                 "showNightLight": true,
                 "showSettings": true
             },
-            "crypto": false,
+            "crypto": true,
             "crypto_settings": {
                 "coins": [
                     "bitcoin",
@@ -2419,7 +2558,7 @@
             },
             "launch": false,
             "media": true,
-            "note": false,
+            "note": true,
             "quickLaunch": [
                 {
                     "cmd": "/usr/bin/nautilus",
@@ -2432,12 +2571,12 @@
                     "name": "Terminal"
                 },
                 {
-                    "cmd": "/usr/bin/firefox",
+                    "cmd": "/usr/bin/zen-browser",
                     "icon": "web",
                     "name": "Browser"
                 },
                 {
-                    "cmd": "/usr/bin/code",
+                    "cmd": "/usr/bin/nvim",
                     "icon": "code",
                     "name": "Code"
                 }
@@ -2447,7 +2586,7 @@
                 "showHeader": true
             },
             "spacing": 8,
-            "status": false,
+            "status": true,
             "statusRings": {
                 "showBattery": true,
                 "showCpu": true,
@@ -2468,52 +2607,43 @@
                 "crypto",
                 "worldclock"
             ],
-            "worldClock": false,
+            "worldClock": true,
             "worldClock_settings": {
                 "highlightLocal": true,
                 "showDate": true,
                 "showSeconds": false,
-                "timezones": [
-                ],
+                "timezones": [],
                 "use24Hour": true
             }
         },
         "ytmusic": {
             "audioQuality": "best",
             "autoConnect": true,
-            "browser": "firefox",
+            "browser": "zen-browser",
             "cache": {
-                "albums": [
-                ],
-                "liked": [
-                ],
-                "playlists": [
-                ]
+                "albums": [],
+                "liked": [],
+                "playlists": []
             },
             "connected": false,
             "cookiesPath": "",
             "enable": false,
             "hideSyncBanner": false,
             "lastLikedSync": "",
-            "liked": [
-            ],
+            "liked": [],
             "normalizeVolume": true,
-            "playlists": [
-            ],
+            "playlists": [],
             "profile": {
                 "avatar": "",
                 "name": "",
                 "url": ""
             },
-            "queue": [
-            ],
-            "recentSearches": [
-            ],
+            "queue": [],
+            "recentSearches": [],
             "repeatMode": 0,
             "resolvedBrowserArg": "",
             "resume": {
-                "activePlaylist": [
-                ],
+                "activePlaylist": [],
                 "activePlaylistSource": "",
                 "artist": "",
                 "currentIndex": -1,
@@ -2567,8 +2697,7 @@
         "filterPassive": true,
         "invertPinnedItems": true,
         "monochromeIcons": true,
-        "pinnedItems": [
-        ],
+        "pinnedItems": [],
         "showItemId": false
     },
     "updates": {
@@ -2721,8 +2850,7 @@
             "notifications": {
                 "showUnreadCount": true
             },
-            "screenList": [
-            ],
+            "screenList": [],
             "searchIconSize": 24,
             "tintTrayIcons": false
         },
@@ -2791,18 +2919,17 @@
             "showWeather": true,
             "weatherHideLocation": false
         },
-        "workspaceNames": {
-        }
+        "workspaceNames": {}
     },
     "wallpaperSelector": {
-        "coverflowView": "gallery",
+        "coverflowView": "skew",
         "selectionTarget": "main",
-        "style": "grid",
+        "style": "coverflow",
         "targetMonitor": "",
         "useSystemFileDialog": false
     },
     "wallpapers": {
-        "directory": ""
+        "directory": "~/Pictures/wallpapers/all"
     },
     "welcomeWizard": {
         "completed": true,
@@ -2810,8 +2937,7 @@
         "skipped": false
     },
     "windows": {
-        "appIdentityRules": [
-        ],
+        "appIdentityRules": [],
         "centerTitle": true,
         "showTitlebar": true
     },
@@ -2821,12 +2947,9 @@
             "wallpaper": true
         },
         "triggerCondition": {
-            "fileKeywords": [
-            ],
-            "linkKeywords": [
-            ],
-            "networkNameKeywords": [
-            ]
+            "fileKeywords": [],
+            "linkKeywords": [],
+            "networkNameKeywords": []
         }
     },
     "workspaceStrip": {
@@ -2843,7 +2966,7 @@
         "showMetadata": true,
         "showPreviews": true,
         "side": "right",
-        "style": "auto",
+        "style": "island",
         "triggerWidth": 6
     }
 }
