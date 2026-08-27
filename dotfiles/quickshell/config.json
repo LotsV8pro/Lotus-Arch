@@ -38,9 +38,9 @@
   },
   "font": {
     "family": {
-      "uiFont": "Open Sans",
-      "iconFont": "FiraConde Nerd Font",
-      "codeFont": "JetBrains Mono NF"
+      "uiFont": "Noto Sans",
+      "iconFont": "FiraCode Nerd Font",
+      "codeFont": "JetBrainsMono NF"
     },
     "pixelSize": {
       "textSmall": 13,
