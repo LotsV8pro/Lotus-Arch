@@ -66,6 +66,27 @@ mkdir -p "$HOME/.config/inir" "$HOME/.config/niri/config.d"
     cp -r "$DOTFILES/quickshell/lotus-shell/." "$HOME/.config/quickshell/lotus-shell/"
 }
 
+# Quickshell font + icon config
+[[ -f "$DOTFILES/quickshell/config.json" ]] && {
+    cp "$DOTFILES/quickshell/config.json" "$HOME/.config/quickshell/config.json"
+}
+
+# Quickshell module overlays (pill, bar, waffle, common)
+for mod_dir in pill bar waffle common overview; do
+    src="$DOTFILES/quickshell/modules/$mod_dir"
+    [[ -d "$src" ]] && {
+        dest="$HOME/.config/quickshell/inir/modules/$mod_dir"
+        mkdir -p "$dest"
+        cp -r "$src/." "$dest/"
+    }
+done
+
+# Quickshell service overlays (Updates, etc.)
+[[ -d "$DOTFILES/quickshell/services" ]] && {
+    mkdir -p "$HOME/.config/quickshell/inir/services"
+    cp -r "$DOTFILES/quickshell/services/." "$HOME/.config/quickshell/inir/services/"
+}
+
 # User units (inir.service + helpers) — %h expands to $HOME at load time
 mkdir -p "$HOME/.config/systemd/user"
 cp "$DOTFILES/systemd/user/"*.service "$HOME/.config/systemd/user/" 2>/dev/null || true
