@@ -17,7 +17,7 @@ Rectangle { // Window
     property var scale
     property var availableWorkspaceWidth
     property var availableWorkspaceHeight
-    property bool restrictToWorkspace: true``
+    property bool restrictToWorkspace: true
     property var sourceMonitor: HyprlandData.monitors.find(m => m.id === windowData?.monitor) || HyprlandData.monitors[0] || { scale: 1.0, x: 0, y: 0, reserved: [0,0,0,0] }
     property real monitorScaleFactor: sourceMonitor?.scale || 1.0
     property real targetScaleFactor: monitorData?.scale || monitorScaleFactor || 1.0

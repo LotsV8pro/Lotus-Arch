@@ -17,4 +17,5 @@ Singleton {
     property string shellConfig: FileUtils.trimFileProtocol(`${Directories.config}/quickshell`)
     property string shellConfigPath: `${Directories.shellConfig}/config.json`
     property string generatedMaterialThemePath: `${Directories.shellConfig}/qml_color.json`
+    property string wallpaperSwitchScriptPath: `${Directories.config}/rofi/scripts/wallpaper_switch.sh`
 }
