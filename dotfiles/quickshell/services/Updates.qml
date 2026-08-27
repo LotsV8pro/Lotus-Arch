@@ -42,6 +42,49 @@ Singleton {
         onTriggered: checkAvailabilityProc.running = true
     }
 
+    // Watch the pacman log so the counter refreshes instantly after any
+    // package transaction completes (from this pill, a terminal, pamac, ...).
+    // We poll the log's mtime because pacman.log is root-owned and Quickshell
+    // has no inotify watcher; a 2s poll of a stat is cheap.
+    property string pacmanLogPath: "/var/log/pacman.log"
+    property string _lastLogMtime: ""
+    property bool _firstCheck: true
+
+    Timer {
+        id: paclogPollTimer
+        interval: 2000
+        repeat: true
+        running: root.available
+        onTriggered: {
+            checkLogStat.running = true
+        }
+    }
+
+    Process {
+        id: checkLogStat
+        running: false
+        command: ["stat", "-c", "%Y", root.pacmanLogPath]
+        stdout: StdioCollector {
+            onStreamFinished: {
+                const m = (text ?? "").trim()
+                if (m.length === 0) return
+                if (!root._firstCheck && m !== root._lastLogMtime) {
+                    print("[Updates] pacman log changed — rechecking")
+                    checkRefreshDebounce.restart()
+                }
+                root._lastLogMtime = m
+                root._firstCheck = false
+            }
+        }
+    }
+
+    Timer {
+        id: checkRefreshDebounce
+        interval: 3000
+        repeat: false
+        onTriggered: root.refresh()
+    }
+
     Component.onCompleted: {
         // If Config is already ready when this singleton is created, start the check immediately
         if (Config.ready) availabilityDefer.start()
