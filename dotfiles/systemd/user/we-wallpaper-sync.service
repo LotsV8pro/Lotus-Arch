@@ -1,0 +1,6 @@
+[Unit]
+Description=Sync Wallpaper Engine videos into the wallpaper selector all/ folder
+
+[Service]
+Type=oneshot
+ExecStart=%h/.local/bin/we-wallpaper-sync.py

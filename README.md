@@ -50,7 +50,7 @@ Both sessions share the same foundation: cohesive **purple glassmorphism** aesth
 | **Performance Tweaks** | Optional GPU undervolt/OC, fan curve, CPU governor, sysctl, NVMe tuning |
 | **Gaming Ready** | Steam, Lutris, MangoHud, Gamemode, Gamescope, VRR support |
 | **Controller Support** | Xbox / ROG Raikiri — launch apps and Steam Big Picture |
-| **Wallpaper Browser** | Folder-based browser with `SUPER + W` — 22 wallpaper collections |
+| **Wallpaper Browser** | Folder-based browser with `SUPER + W` — 22 wallpaper collections, per-color dots (incl. animated), auto-synced Wallpaper Engine wallpapers |
 | **50+ Waybar Themes** | Pill style, floating, glass, monochrome — all Lotus-colored |
 | **OBS Studio Pipeline** | Virtual mic, virtual sink, auto-routing from Arctis headset |
 | **Arctis Nova 5** | Sonar EQ profiles, 7.1 virtual surround, 3-channel routing |
@@ -359,6 +359,20 @@ The **Lotus** preset ships by default. The extra presets (`Monochrome`, `Pixel`,
 ### Niri + iNiR session (optional)
 
 Pick `Niri` at install (or choose **Both**) to get the scrollable-tiling **[Niri](https://github.com/YaLTeu/niri)** compositor driven by the **[iNiR](https://github.com/snowarch/iNiR)** Quickshell shell — overview, app drawer, clipboard manager, screenshot/OCR region tools, lock screen, media & wallpaper browser. Lotus-Arch ships a modular KDL config (`dotfiles/niri/config.d/`) with iNiR keybinds, plus the user config overlay in `dotfiles/inir/`. Phase 12 clones upstream iNiR, applies the Lotus configs on top and wires the systemd session unit.
+
+#### Animated wallpapers & color dots
+
+The Lotus iNiR **wallpaper selector** (`SUPER + W`, the Skew browser) filters your library by **predominant color**. With this release the color dots now also cover **animated wallpapers (video + GIF)** — a representative video frame is sampled (via ffmpeg, so the black fade-in frame is skipped) and classified into the same 11 color families (Red … Pink, Brown, Black, White). Live previews are **on by default** for gifs/videos; press `Escape` or use the toggle button to turn them off, and the choice is remembered.
+
+#### Wallpaper Engine auto-sync (optional, opt-in via Phase 12)
+
+The installer wires a systemd **watch unit** (`we-wallpaper-sync.path`) that watches your Wallpaper Engine workshop cache and keeps a `~/Pictures/Wallpapers/all` folder in sync automatically:
+
+- **Adding** a wallpaper in Wallpaper Engine copies its video(s) into `all/`.
+- **Unsubscribing** removes the matching files again (a manifest tracks what came from WE, so your own files are never touched).
+- Tiny `preview.gif` stubs and 0-byte placeholder files are ignored.
+
+Your personal Wallpaper Engine library is **never bundled into the repo** — only the sync infrastructure ships, so a fresh install builds its own library from whichever wallpapers you're subscribed to. The helper lives at `~/.local/bin/we-wallpaper-sync.py` and can be run manually anytime.
 
 ---
 

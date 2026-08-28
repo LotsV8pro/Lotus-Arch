@@ -35,7 +35,7 @@ Rules (per-pixel HSV sampling):
       beige or earth-tone (gruvbox/coffee etc.) rather than that colour: it
       is labelled Brown (9). Saturated reds/oranges/yellows keep their hue.
 """
-import sys, subprocess, colorsys, json
+import sys, subprocess, colorsys, json, os
 
 SAT_MONO = 0.10  # per-pixel saturation floor: below this a pixel is grayscale
 VAL_MIN = 0.16  # per-pixel brightness floor (excludes near-black)
@@ -70,7 +70,24 @@ HUE_WHITE = 100
 HUE_BLACK = 99
 
 
+VIDEO_EXTS = {".mp4", ".webm", ".mkv", ".avi", ".mov"}
+
+
 def _pixels(path):
+    """Downsample an image (or a representative frame of a video) to raw RGB.
+
+    Videos are decoded with ffmpeg using the `thumbnail` filter, which picks the
+    scene frame closest to the video's overall average. This avoids frame 0,
+    which for most wallpaper loops is a black fade-in and would misclassify the
+    whole video as Black.
+    """
+    if os.path.splitext(path)[1].lower() in VIDEO_EXTS:
+        proc = subprocess.run(
+            ["ffmpeg", "-hide_banner", "-loglevel", "error", "-y", "-i", path,
+             "-vf", f"thumbnail=n=200,scale={RES}:{RES}",
+             "-frames:v", "1", "-f", "rawvideo", "-pix_fmt", "rgb24", "-"],
+            capture_output=True)
+        return proc.stdout
     proc = subprocess.run(
         ["convert", path, "-resize", f"{RES}x{RES}!", "-depth", "8", "rgb:-"],
         capture_output=True)
