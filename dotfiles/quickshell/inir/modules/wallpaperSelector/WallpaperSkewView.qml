@@ -169,7 +169,6 @@ Item {
         for (let i = 0; i < totalCount; i++) {
             if (folderModel.get(i, "fileIsDir") ?? false) continue
             const fname = folderModel.get(i, "fileName") ?? ""
-            if (_mediaKind(fname) === "video") continue
             const fpath = FileUtils.trimFileProtocol(folderModel.get(i, "filePath") ?? "")
             if (fpath.length === 0) continue
             if (!_isPredominant(fpath)) continue
@@ -353,7 +352,7 @@ Item {
     readonly property string activeName: hasImages ? _imgFileName(currentImageIndex) : ""
 
     property bool showKeyboardGuide: false
-    property bool animatePreview: Config.options?.wallpaperSelector?.animatePreview ?? false
+    property bool animatePreview: Config.options?.wallpaperSelector?.animatePreview ?? true
     property bool _initialized: false
     // When true, suppress highlight move animation (snap position instantly)
     property bool _suppressHighlightAnim: true
@@ -700,7 +699,6 @@ Item {
             const isDir = folderModel.get(i, "fileIsDir") ?? false
             if (isDir) continue
             const fname = folderModel.get(i, "fileName") ?? ""
-            if (_mediaKind(fname) === "video") continue // Skip videos for color analysis
             const fpath = FileUtils.trimFileProtocol(folderModel.get(i, "filePath") ?? "")
             if (fpath.length > 0 && _colorsDb[fpath]) continue // Already cached (keyed by path)
             if (fpath.length > 0) queue.push({ name: fname, path: fpath })
