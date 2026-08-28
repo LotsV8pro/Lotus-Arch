@@ -1,14 +1,32 @@
 #!/bin/bash
-# Phase 3: NVIDIA driver setup
+# Phase 3: GPU driver setup, gated by the graphics card selected in install.sh
+# (LOTUS_GPU = nvidia | amd | intel). NVIDIA drivers install only when the user
+# selects an NVIDIA graphics card. The overclock/OC config is a separate
+# opt-in handled by Phase 10 (performance tweaks).
 
 set -euo pipefail
 
-echo -n "  Install NVIDIA drivers (optimized for RTX 4070)? [Y/n]: "
-read -r nvidia_ans
-if [[ "$nvidia_ans" =~ ^[Nn] ]]; then
-    echo "  Skipping NVIDIA setup."
-    exit 0
+GPU="${LOTUS_GPU:-}"
+if [[ -z "$GPU" ]]; then
+    echo -n "  Graphics card [nvidia/amd/intel] (default: nvidia): "
+    read -r gpu_ans
+    GPU="${gpu_ans:-nvidia}"
 fi
+
+case "$GPU" in
+    amd|AMD)
+        echo "[03] Setting up AMD GPU drivers..."
+        sudo pacman -S --needed --noconfirm mesa vulkan-radeon lib32-vulkan-radeon \
+            libva-mesa-driver lib32-libva-mesa-driver 2>/dev/null || true
+        echo "[03] AMD configured."
+        exit 0 ;;
+    intel|INTEL)
+        echo "[03] Integrated Intel graphics — no discrete driver needed."
+        exit 0 ;;
+    nvidia|NVIDIA|*)
+        : # fall through to NVIDIA below
+        ;;
+esac
 
 echo "[03] Setting up NVIDIA..."
 

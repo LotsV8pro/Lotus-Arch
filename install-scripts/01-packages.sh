@@ -28,14 +28,23 @@ NIRI=(
 # iNiR shell (Quickshell-based, optional) — cloned from upstream in Phase 12.
 # Requires: quickshell (above).
 
-# ── Graphics / NVIDIA ──
+# ── Graphics ──
+# Driver set follows the graphics card selected in install.sh (LOTUS_GPU).
+# NVIDIA drivers install only when an NVIDIA card is selected; the OC config
+# itself is a separate opt-in in Phase 10.
 GRAPHICS=(
-    mesa libva-nvidia-driver vulkan-tools
+    mesa libva vulkan-tools
     vulkan-icd-loader lib32-vulkan-icd-loader
-    nvidia-open-dkms nvidia-settings nvidia-utils lib32-nvidia-utils
-    egl-wayland egl-wayland2
     libva libvdpau
 )
+case "${LOTUS_GPU:-nvidia}" in
+    amd|AMD)
+        GRAPHICS+=( vulkan-radeon lib32-vulkan-radeon libva-mesa-driver lib32-libva-mesa-driver ) ;;
+    intel|INTEL)
+        GRAPHICS+=( intel-media-driver vulkan-intel lib32-vulkan-intel ) ;;
+    *)
+        GRAPHICS+=( libva-nvidia-driver nvidia-open-dkms nvidia-settings nvidia-utils lib32-nvidia-utils egl-wayland egl-wayland2 ) ;;
+esac
 
 # ── Waybar ──
 BAR=( waybar )
