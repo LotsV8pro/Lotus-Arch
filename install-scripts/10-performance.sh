@@ -14,12 +14,16 @@ echo "  Select your hardware profile — GPU tweaks differ per vendor:"
 echo "    [1] NVIDIA + Intel   (RTX 4070 OC/fan curve via nvidia-smi, Coolbits)"
 echo "    [2] AMD              (amdgpu perf level, hwmon fan curve, pstate)"
 echo ""
-echo -n "  Hardware profile [1/2/s=SkiP]: "
+DEFAULT_PROFILE="nvidia"
+[[ "${LOTUS_GPU:-}" == "amd" ]] && DEFAULT_PROFILE="amd"
+[[ "${LOTUS_GPU:-}" == "intel" ]] && DEFAULT_PROFILE="intel"
+echo -n "  Hardware profile [1/2/s=SkiP] (default: $DEFAULT_PROFILE): "
 read -r profile
 case "$profile" in
     s|S|n|N) echo "  Skipping performance tweaks."; exit 0 ;;
     2|amd|AMD) PROFILE="amd" ;;
-    *)        PROFILE="intel" ;;
+    1|nvidia|NVIDIA) PROFILE="nvidia" ;;
+    *) PROFILE="$DEFAULT_PROFILE" ;;
 esac
 
 echo "  Using profile: $PROFILE"
