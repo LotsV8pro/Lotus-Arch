@@ -241,13 +241,42 @@ main() {
     export LOTUS_STREAMING="${LOTUS_STREAMING:-yes}"
     echo -e "  ${GREEN}→ Audio: ${LOTUS_AUDIO} · Streaming: ${LOTUS_STREAMING}${NC}"
 
+    # ── Graphics card selection ──
+    # Controls which drivers install (Phase 3) and which overclock profile
+    # Phase 10 offers. Auto-detects when possible; the overclock config itself
+    # is still a separate opt-in inside Phase 10.
+    if command -v lspci &>/dev/null && lspci -nn 2>/dev/null | grep -qiE 'vga.*nvidia|3d.*nvidia'; then
+        DETECTED_GPU="nvidia"
+    elif command -v lspci &>/dev/null && lspci -nn 2>/dev/null | grep -qiE 'vga.*amd|3d.*amd|vga.*advanced micro'; then
+        DETECTED_GPU="amd"
+    else
+        DETECTED_GPU="intel"
+    fi
+    if [[ -z "${LOTUS_UNATTENDED:-}" ]]; then
+        echo ""
+        echo -e "${CYAN}Graphics card (selects which GPU drivers are installed):${NC}"
+        echo "  1) NVIDIA   (nvidia-open-dkms + settings)"
+        echo "  2) AMD      (amdgpu/mesa)"
+        echo "  3) Intel    (integrated only)"
+        read -p "  Graphics [1/2/3] (default: ${DETECTED_GPU}): " gpu_ans
+        case "$gpu_ans" in
+            2|amd|AMD) export LOTUS_GPU="amd" ;;
+            3|intel|Intel) export LOTUS_GPU="intel" ;;
+            1|nvidia|NVIDIA) export LOTUS_GPU="nvidia" ;;
+            *) export LOTUS_GPU="$DETECTED_GPU" ;;
+        esac
+    else
+        export LOTUS_GPU="${LOTUS_GPU:-$DETECTED_GPU}"
+    fi
+    echo -e "  ${GREEN}→ Graphics card: ${LOTUS_GPU}${NC}"
+
     enable_multilib
     install_yay
 
     run_phase 0 "00-system-setup.sh" "System Preparation"
     run_phase 1 "01-packages.sh"    "Core Packages"
     run_phase 2 "02-aur.sh"         "AUR Packages"
-    run_phase 3 "03-nvidia.sh"      "NVIDIA Drivers"
+    run_phase 3 "03-nvidia.sh"      "GPU Drivers"
     run_phase 4 "04-services.sh"    "Enable Services"
     run_phase 5 "05-zsh.sh"         "ZSH Shell"
     run_phase 6 "06-dotfiles.sh"    "Deploy Dotfiles"
