@@ -185,7 +185,9 @@ Then it runs **13 phases** interactively:
 Phase 0:  System Preparation   — multilib, mirrors, system update
 Phase 1:  Core Packages        — interactive categories incl. Hyprland / Niri per session choice
 Phase 2:  AUR Packages         — grouped prompts (Browsing / Chat / Media / Desktop extras)
-Phase 3:  NVIDIA Drivers       — open-dkms stack (RTX 4070 optimized)
+Phase 3:  GPU Drivers          — installs only for the graphics card you
+                                 selected earlier (NVIDIA: open-dkms stack /
+                                 AMD: vulkan-radeon / Intel: integrated)
 Phase 4:  Enable Services      — SDDM, PipeWire, Bluetooth, NetworkManager
 Phase 5:  ZSH Shell            — Oh-My-ZSH + custom lotus theme + plugins
 Phase 6:  Deploy Dotfiles      — All configs (backup originals first)
@@ -204,7 +206,7 @@ Phase 10: Performance Tweaks   — Selectable profile (NVIDIA+Intel / AMD). Opti
 
 ### Performance Tweaks (Phase 10)
 
-Phase 10 is optional, asks about each tweak individually, and starts by asking you to pick your **hardware profile**:
+Phase 10 is optional, asks about each tweak individually, and starts by asking you to pick your **hardware profile** (defaulted to the graphics card you selected earlier). The GPU overclock/OC config only copies when you accept that specific tweak — it is a separate opt-in from the Phase 3 driver install:
 
 | Profile | GPU tweaks | CPU tweaks |
 |---|---|---|
@@ -231,7 +233,7 @@ Applied tweaks persist across reboots (GRUB C-states apply to both profiles):
 
 - **OS:** Arch Linux
 - **Compositor:** Hyprland 0.55+ (Lua config) and/or Niri + iNiR (optional session)
-- **GPU:** NVIDIA (optimized for RTX 4070) or AMD / Intel — Phase 10 lets you pick your profile
+- **GPU:** NVIDIA (optimized for RTX 4070) or AMD / Intel — you select your graphics card during install (gates which drivers Phase 3 installs), and Phase 10 defaults its overclock profile to that choice
 - **Audio:** PipeWire + WirePlumber (Arctis Nova 5 recommended for the full audio pipeline)
 - **Terminal:** Kitty (the configs default to `$term = kitty`; ghostty configs ship as an optional extra in `dotfiles/ghostty/`)
 - **Depends on:** Waybar, Rofi, swaync, wlogout, `awww` (wallpaper daemon — the scripts call `swww`, which is symlinked to `awww` automatically during install since `swww` is deprecated), wallust
