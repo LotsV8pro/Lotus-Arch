@@ -88,6 +88,11 @@ systemctl --user daemon-reload || true
 "$HOME/.local/bin/inir" service enable 2>/dev/null || true
 systemctl --user enable inir.service 2>/dev/null || true
 
+# Wallpaper Engine auto-sync watcher (optional; activates when its workshop
+# cache appears, e.g. after Wallpaper Engine is first run on this machine)
+systemctl --user enable we-wallpaper-sync.path 2>/dev/null || true
+systemctl --user enable we-wallpaper-sync.service 2>/dev/null || true
+
 echo ""
 echo -e "${GREEN}[✓]${NC} Niri + iNiR configured."
 echo -e "     Select ${CYAN}Niri${NC} at the SDDM login screen."

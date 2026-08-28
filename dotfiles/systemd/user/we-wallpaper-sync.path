@@ -1,0 +1,9 @@
+[Unit]
+Description=Watch Wallpaper Engine workshop cache and sync videos
+
+[Path]
+PathChanged=%h/.local/share/Steam/steamapps/workshop/content/431960
+Unit=we-wallpaper-sync.service
+
+[Install]
+WantedBy=default.target
