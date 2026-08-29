@@ -239,9 +239,9 @@ Applied tweaks persist across reboots (GRUB C-states apply to both profiles):
 - **Depends on:** Waybar, Rofi, swaync, wlogout, `awww` (wallpaper daemon — the scripts call `swww`, which is symlinked to `awww` automatically during install since `swww` is deprecated), wallust
 - **Niri session only:** quickshell + iNiR ([github.com/snowarch/iNiR](https://github.com/snowarch/iNiR) — installed automatically by Phase 12)
 
-> **Portable:** the repo was captured on user `lots` (NVIDIA RTX 4070 + i7-13700KF + dual monitor). The installer
-> rewrites every hardcoded `@HOME@` path to your own home at deploy time, ships a starter wallpaper set, and
-> the Arctis audio services / OBS pipeline are optional (per-app prompts) — so it works on any hardware/username.
+> **Portable:** the installer rewrites every reference to the original author's home directory (`@HOME@`) to
+> your own home at deploy time, ships a starter wallpaper set, and keeps optional bits (Arctis audio services, OBS
+> pipeline) behind per-app prompts — so it works on any hardware and username.
 
 ### Tools (`tools/`)
 
@@ -420,7 +420,7 @@ Lotus Arch is part of a **unified desktop ecosystem** with matching themes for a
 
 ## ◈ Packages
 
-The repo captures your current package state at install time:
+The package lists reflect the reference install and are re-exported from it whenever packages change, so a fresh install mirrors the same set:
 
 | Source | Count |
 |---|---|
