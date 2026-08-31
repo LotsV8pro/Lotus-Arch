@@ -161,15 +161,15 @@ for share_dir in "$DOTFILES/.local/share/"*/; do
     cp -r "$share_dir"* "$HOME/.local/share/$name/" 2>/dev/null || true
 done
 
-# ── Rewrite any hardcoded /home/lots paths to the current user's home ──
-# The repo was captured on user "lots"; make every deployed config target the
-# real home directory so it works for any username.
-echo "  → rewriting legacy /home/lots paths..."
+# ── Rewrite any hardcoded home paths to the current user's home ──
+# Configs use the @HOME@ sentinel (and, for live mirrors, legacy /home/lots) so
+# every deployed config targets the real home directory and works for any username.
+echo "  → rewriting @HOME@ / legacy /home/lots paths..."
 find "$HOME/.config" -path "$HOME/.config/dotfiles-backup" -prune -o -type f -exec grep -Il . {} + 2>/dev/null | while IFS= read -r f; do
-    sed -i "s|/home/lots|$HOME|g" "$f" 2>/dev/null || true
+    sed -i -e "s|@HOME@|$HOME|g" -e "s|/home/lots|$HOME|g" "$f" 2>/dev/null || true
 done
-sed -i "s|/home/lots|$HOME|g" "$HOME/.local/bin/"* 2>/dev/null || true
-sed -i "s|/home/lots|$HOME|g" "$HOME/.zshrc" "$HOME/.zshenv" 2>/dev/null || true
+sed -i -e "s|@HOME@|$HOME|g" -e "s|/home/lots|$HOME|g" "$HOME/.local/bin/"* 2>/dev/null || true
+sed -i -e "s|@HOME@|$HOME|g" -e "s|/home/lots|$HOME|g" "$HOME/.zshrc" "$HOME/.zshenv" 2>/dev/null || true
 
 # ── swww → awww compatibility symlinks ──
 # swww is deprecated; awww (extra repo) is its successor. The configs still
