@@ -2,7 +2,7 @@
   <img src="https://img.shields.io/badge/Arch_Linux-141218?style=for-the-badge&logo=arch-linux&logoColor=C4A8E2"/>
   <img src="https://img.shields.io/badge/Hyprland-141218?style=for-the-badge&logo=hyprland&logoColor=C4A8E2"/>
   <img src="https://img.shields.io/badge/Niri_%2B_iNiR-141218?style=for-the-badge&logo=niri&logoColor=C4A8E2"/>
-  <img src="https://img.shields.io/badge/NVIDIA_RTX_4070-141218?style=for-the-badge&logo=nvidia&logoColor=C4A8E2"/>
+  <img src="https://img.shields.io/badge/Any_GPU-141218?style=for-the-badge&logo=nvidia&logoColor=C4A8E2"/>
   <img src="https://img.shields.io/badge/Lua_Config-141218?style=for-the-badge&logo=lua&logoColor=C4A8E2"/>
   <img src="https://img.shields.io/badge/Purple_Lotus-141218?style=for-the-badge&logo=codeforces&logoColor=C4A8E2"/>
   <img src="https://img.shields.io/github/v/release/LotsV8pro/Lotus-Arch?style=for-the-badge&color=141218"/>
@@ -12,7 +12,7 @@
 
 <p align="center">
   <b>Arch Linux — Hyprland and/or Niri + iNiR — Purple Lotus Desktop Environment</b><br>
-  <sub>Purple glassmorphism · NVIDIA optimized · Arctis Nova 5 audio · Preset-ready</sub>
+  <sub>Purple glassmorphism · works on any GPU · optional Arctis Nova 5 audio · Preset-ready</sub>
 </p>
 
 <p align="center">
@@ -35,7 +35,7 @@ Lotus Arch is a complete **Arch Linux desktop environment** with a choice of two
 - **Hyprland** — tiling compositor with a pure Lua configuration (no legacy `.conf` files), waybar, rofi.
 - **Niri + iNiR** *(optional)* — scrollable-tiling compositor paired with the [iNiR](https://github.com/snowarch/iNiR) Quickshell shell: overview, app drawer, clipboard manager, lock screen, media/wallpaper tools.
 
-Both sessions share the same foundation: cohesive **purple glassmorphism** aesthetic, NVIDIA RTX 4070 optimization, full **Arctis Nova 5 audio pipeline**, and a built-in preset system for saving/loading entire desktop themes.
+Both sessions share the same foundation: cohesive **purple glassmorphism** aesthetic, works with **any graphics card** (NVIDIA / AMD / Intel), an audio pipeline built around a **SteelSeries Arctis Nova 5**-style virtual-route setup, and a built-in preset system for saving/loading entire desktop themes. The optional overclock/undervolt tuning is what's specific to one GPU — see [Performance Tweaks](#performance-tweaks-phase-10).
 
 ### ✦ Features
 
@@ -46,7 +46,7 @@ Both sessions share the same foundation: cohesive **purple glassmorphism** aesth
 | **HyprGlass** | Apple-style liquid glass effect with per-window control (Hyprland) |
 | **Preset System** | Save/load/delete full desktop themes with `SUPER + CTRL + P` |
 | **Palette Editor** | Visual color picker with `SUPER + P` — change every color instantly |
-| **NVIDIA Optimized** | RTX 4070 tuned — open-dkms drivers, Wayland-native GPU acceleration |
+| **Any GPU** | Works on **NVIDIA / AMD / Intel** — open-dkms drivers (NVIDIA), Vulkan/radv, Wayland-native acceleration. Optional OC tweaks are RTX 4070-tuned (see below) |
 | **Performance Tweaks** | Optional GPU undervolt/OC, fan curve, CPU governor, sysctl, NVMe tuning |
 | **Gaming Ready** | Steam, Lutris, MangoHud, Gamemode, Gamescope, VRR support |
 | **Controller Support** | Xbox / ROG Raikiri — launch apps and Steam Big Picture |
@@ -288,20 +288,20 @@ Phase 10: Performance Tweaks   — Selectable profile (NVIDIA+Intel / AMD). Opti
 
 ### Performance Tweaks (Phase 10)
 
-Phase 10 is optional, asks about each tweak individually, and starts by asking you to pick your **hardware profile** (defaulted to the graphics card you selected earlier). The GPU overclock/OC config only copies when you accept that specific tweak — it is a separate opt-in from the Phase 3 driver install:
+Phase 10 is **optional and purely additive** — the base desktop works on **any graphics card** without it. It asks about each tweak individually and starts by asking you to pick your **hardware profile** (NVIDIA or AMD, defaulted to the graphics card you selected earlier). Everything here is opt-in, and the **overclock/undervolt numbers below are tuned specifically for an RTX 4070** — running them on a different card is not recommended; skip the OC/undervolt tweaks (or edit the offsets) if you don't have a 4070. The GPU overclock/OC config copies only when you accept that specific tweak — it is a separate opt-in from the Phase 3 driver install:
 
 | Profile | GPU tweaks | CPU tweaks |
 |---|---|---|
-| **NVIDIA + Intel** | RTX 4070 tuned — 160W power limit, +150 core / +1500 mem OC (nvidia-smi), Coolbits X config, dynamic fan curve | `intel_pstate` min perf 50% + performance governor |
+| **NVIDIA** | RTX 4070-tuned example — 160W power limit, +150 core / +1500 mem OC (nvidia-smi), Coolbits X config, dynamic fan curve *(adjust for your model)* | `intel_pstate` min perf 50% + performance governor |
 | **AMD** | amdgpu DPM forced to high, hwmon fan curve, optional `ppfeaturemask` for CoreCtrl OC | `amd_pstate` EPP=performance + performance governor |
 
-Applied tweaks persist across reboots (GRUB C-states apply to both profiles):
+Applied tweaks persist across reboots (GRUB C-states apply to both profiles). **The OC/undervolt figures are for an RTX 4070** — on any other card keep the non-OC tweaks (fan curve, governor, sysctl) and adjust or skip the power-limit/clock offsets:
 
 | Tweak | What it does |
 |---|---|
-| **GPU power limit** | Caps RTX 4070 at 160W — loses ~2% perf but runs cooler and more stable |
-| **GPU core OC** | +150 MHz core offset (via Coolbits) — safe, stable on 4070 |
-| **GPU mem OC** | +1500 MHz on GDDR6X — free bandwidth, typical headroom is +1500 |
+| **GPU power limit** | RTX 4070 example: caps at 160W — loses ~2% perf, runs cooler and more stable *(adjust per GPU)* |
+| **GPU core OC** | RTX 4070 example: +150 MHz core offset (via Coolbits), stable on that card |
+| **GPU mem OC** | RTX 4070 example: +1500 MHz on GDDR6X, typical headroom *(edit for your VRAM)* |
 | **GPU fan curve** | Dynamic 30-100% based on temperature, keeps card under 65°C |
 | **AMD GPU perf** | Forces highest DPM performance level + 3D workload profile |
 | **CPU governor** | Sets `performance` governor (Intel pstate + AMD pstate) at boot |
@@ -315,15 +315,16 @@ Applied tweaks persist across reboots (GRUB C-states apply to both profiles):
 
 - **OS:** Arch Linux
 - **Compositor:** Hyprland 0.55+ (Lua config) and/or Niri + iNiR (optional session)
-- **GPU:** NVIDIA (optimized for RTX 4070) or AMD / Intel — you select your graphics card during install (gates which drivers Phase 3 installs), and Phase 10 defaults its overclock profile to that choice
+- **GPU:** works with **NVIDIA, AMD, or Intel**. You select your graphics card during install (gates which drivers Phase 3 installs). The Phase 10 overclock/undervolt profile ships RTX 4070-tuned example values — the basic desktop needs nothing 4070-specific.
 - **Audio:** PipeWire + WirePlumber (Arctis Nova 5 recommended for the full audio pipeline)
 - **Terminal:** Kitty (the configs default to `$term = kitty`; ghostty configs ship as an optional extra in `dotfiles/ghostty/`)
 - **Depends on:** Waybar, Rofi, swaync, wlogout, `awww` (wallpaper daemon — the scripts call `swww`, which is symlinked to `awww` automatically during install since `swww` is deprecated), wallust
 - **Niri session only:** quickshell + iNiR ([github.com/snowarch/iNiR](https://github.com/snowarch/iNiR) — installed automatically by Phase 12)
 
-> **Portable:** the installer rewrites every reference to the original author's home directory (`@HOME@`) to
-> your own home at deploy time, ships a starter wallpaper set, and keeps optional bits (Arctis audio services, OBS
-> pipeline) behind per-app prompts — so it works on any hardware and username.
+> **Portable:** configs use a `@HOME@` sentinel that the installer rewrites to your real home directory at deploy
+> time (it also rewrites legacy `@HOME@` references from older mirrors), ships a starter wallpaper set, and keeps
+> optional bits (Arctis audio services, OBS pipeline) behind per-app prompts — so it works on any hardware and
+> username.
 
 ### Tools (`tools/`)
 
@@ -400,7 +401,7 @@ performance-tweaks/
 │   ├── grub-cmdline.sh        # C-state kernel params (intel/amd)
 │   ├── cpu-tweaks.sh          # Intel pstate / AMD pstate EPP
 │   └── systemd/               # cpu-tweaks + performance-governor services
-├── nvidia/                    # NVIDIA + Intel profile (RTX 4070 tuned)
+├── nvidia/                    # NVIDIA profile (RTX 4070-tuned example OC values)
 │   ├── 10-nvidia.conf         # Coolbits X config
 │   ├── gpu-tweaks.sh          # 160W power limit + mem OC (nvidia-smi)
 │   ├── gpu-fan-curve.sh       # Dynamic fan curve + core OC
