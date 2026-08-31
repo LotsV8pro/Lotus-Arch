@@ -273,17 +273,17 @@ Phase 3:  GPU Drivers          — installs only for the graphics card you
 Phase 4:  Enable Services      — SDDM, PipeWire, Bluetooth, NetworkManager
 Phase 5:  ZSH Shell            — Oh-My-ZSH + custom lotus theme + plugins
 Phase 6:  Deploy Dotfiles      — All configs (backup originals first)
-Phase 12: iNiR Shell           — only if Niri was chosen; clones upstream iNiR,
-                                 overlays Lotus configs, wires the session
-Phase 11: Optional Extras      — extra presets, GPU tuning pack, GT Racing
-                                 wallpapers (~82 MB), movie-tui config
 Phase 7:  Hyprland Plugins     — HyprGlass liquid glass plugin
 Phase 8:  Final Cleanup        — Cache cleanup, directory setup
 Phase 9:  Restore User Apps    — Per-app prompts (Discord, Steam, Spotify, OBS…)
                                  + Audio services (virtual mic, loop hole, Arctis)
                                  + Spicetify Lotus theme + Discord Lotus theme
-Phase 10: Performance Tweaks   — Selectable profile (NVIDIA+Intel / AMD). Optional:
+Phase 10: Performance Tweaks   — Selectable profile (NVIDIA / AMD). Optional:
                                  GPU OC/fan curve, CPU governor, sysctl, NVMe, GRUB C-states
+Phase 11: Optional Extras      — extra presets, GPU tuning pack, GT Racing
+                                 wallpapers (~82 MB), movie-tui config
+Phase 12: iNiR Shell           — only if Niri was chosen; clones upstream iNiR,
+                                 overlays Lotus configs, wires the session
 ```
 
 ### Performance Tweaks (Phase 10)

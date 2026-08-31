@@ -35,9 +35,15 @@ if ! pacman -Qi nvidia-open-dkms &>/dev/null; then
     sudo pacman -S --needed --noconfirm nvidia-open-dkms dkms linux-headers
 fi
 
-# Ensure nvidia modules are in mkinitcpio
-if ! grep -q "nvidia" /etc/mkinitcpio.conf 2>/dev/null; then
-    sudo sed -i 's/MODULES=(/MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm /' /etc/mkinitcpio.conf
+# Ensure nvidia modules are in mkinitcpio — idempotently rewrite the whole
+# MODULES=(...) array so we never duplicate/greedily corrupt it on re-runs.
+if ! grep -qE '^MODULES=\([^)]*nvidia' /etc/mkinitcpio.conf 2>/dev/null; then
+    if grep -qE '^MODULES=\(' /etc/mkinitcpio.conf; then
+        # Merge into the existing array if it has other modules, else set fresh.
+        sudo sed -i -E 's/^MODULES=\(([^)]*)\)/MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm \1)/' /etc/mkinitcpio.conf
+    else
+        echo 'MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm)' | sudo tee -a /etc/mkinitcpio.conf >/dev/null
+    fi
     sudo mkinitcpio -P 2>/dev/null || true
 fi
 
