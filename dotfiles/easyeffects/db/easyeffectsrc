@@ -1,0 +1,26 @@
+[Audio]
+levelMetersFpsCap=58
+
+[Presets]
+lastLoadedInputPreset=Default
+
+[Spectrum]
+spectrumShape=area
+
+[StreamInputs]
+inputDevice=effect_output.sonar-micro-eq
+mostUsedPresets=Default,Warmer,Current
+plugins=deepfilternet#0,rnnoise#0,speex#0,equalizer#0,compressor#0,exciter#0,stereo_tools#0,limiter#0
+usedPresets=Default:9,Warmer:7,Current:5
+visiblePage=pluginsPage
+visiblePlugin=exciter#0
+
+[StreamOutputs]
+blocklist=Wuthering Waves,spotify,Zen
+outputDevice=effect_input.sonar-output-eq
+
+[Window]
+autostartOnLogin=true
+height=1345
+visiblePage=inputPage
+width=1242

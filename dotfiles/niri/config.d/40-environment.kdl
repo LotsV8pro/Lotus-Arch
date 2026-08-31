@@ -35,10 +35,9 @@ environment {
     ILLOGICAL_IMPULSE_VIRTUAL_ENV "$HOME/.local/state/quickshell/.venv"
 
     // NVIDIA + gaming (ported from Hyprland ENVariables.lua)
-    LIBVA_DRIVER_NAME "nvidia"
+    // NOTE: GBM_BACKEND / LIBVA_DRIVER_NAME / NVD_BACKEND removed 2026-08-25 —
+    // legacy Hyprland-wiki vars, not needed on driver 610 (auto-detected).
     __GLX_VENDOR_LIBRARY_NAME "nvidia"
-    NVD_BACKEND "direct"
-    GBM_BACKEND "nvidia-drm"
     GSK_RENDERER "ngl"
     __GL_GSYNC_ALLOWED "1"
 

@@ -81,3 +81,22 @@ window-rule {
 //     match app-id=r#"^org\.gnome\.Calculator$"#
 //     open-floating true
 // }
+
+// On-demand VRR: variable refresh rate only turns on for windows matched here.
+// Wuthering Waves exposes its X11 window as app-id "steam_app_<id>" (native),
+// or app-id "steam" with title "Wuthering Waves" via Xwayland. Each is a
+// separate rule (match lines within one rule are combined with AND). Forcing
+// open-fullscreen presents the game alone on its output, which enables niri
+// direct scanout -> VRR + the 165Hz target engage.
+window-rule {
+    match app-id="^(gamescope|steam_app_[0-9]+|lutris|heroic|com\\.heroicgameslauncher\\.hgl|mpv|vlc)$"
+
+    variable-refresh-rate true
+    open-fullscreen true
+}
+window-rule {
+    match app-id="steam" title=r#"^Wuthering Waves"#
+
+    variable-refresh-rate true
+    open-fullscreen true
+}

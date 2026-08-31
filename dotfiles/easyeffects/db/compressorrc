@@ -1,0 +1,12 @@
+[sie][Compressor#0]
+attack=5
+makeup=4
+threshold=-18
+
+
+[soe][Compressor#0]
+attack=10
+ratio=2.0
+threshold=-20
+makeup=2
+release=120

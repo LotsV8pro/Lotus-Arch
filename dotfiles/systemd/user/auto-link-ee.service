@@ -1,0 +1,15 @@
+[Unit]
+Description=Auto-bridge EasyEffects master output to physical Arctis PCM
+After=pipewire.service pipewire-pulse.service easyeffects.service
+Wants=pipewire.service
+StartLimitInterval=1min
+StartLimitBurst=5
+
+[Service]
+Type=simple
+ExecStart=%h/.config/hypr/auto_link_ee.sh
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=default.target
