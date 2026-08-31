@@ -498,6 +498,8 @@ Lotus Arch is part of a **unified desktop ecosystem** with matching themes for a
 |---|---|---|
 | **Discord** (Vencord) | Lotus Purple | [lotus-discord](https://github.com/LotsV8pro/lotus-discord) |
 | **Spotify** (Spicetify) | Lotus Purple | [lotus-spotify](https://github.com/LotsV8pro/lotus-spotify) |
+| **EasyEffects mic chain** | deepfilternet→rnnoise→speex→EQ→comp→limit | [lotus-mic-chain](https://github.com/LotsV8pro/lotus-mic-chain) |
+| **Audio router** (PipeWire) | Lotus Purple | [pc-audio-volume-controller](https://github.com/LotsV8pro/pc-audio-volume-controller) |
 | **Waybar** | Lotus Pill / Lotus Purple | — *(included)* |
 | **Rofi** | Lotus Purple | — *(included)* |
 | **Kitty** | Lotus Terminal | — *(included)* |
