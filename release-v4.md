@@ -1,5 +1,32 @@
 # Lotus Arch — Release Notes
 
+## v4.6 — Live audio pipeline sync (EasyEffects + Aux), niri parity, newcomer README
+
+### Audio pipeline now matches the reference machine
+
+Now that the audio stack was rebuilt around **Arctis Nova 5 + OBS + EasyEffects**, the installer and dotfiles have been brought to full parity:
+
+- **EasyEffects OBS virtual-mic chain** — a real mic-processing chain is now shipped: `deepfilternet → rnnoise → speex → 8-band EQ → compressor → limiter`. It takes input from `effect_output.sonar-micro-eq` and routes to the OBS virtual sink. Presets live in `~/.config/easyeffects/db/`, with autoload ones under `~/.local/share/easyeffects/`. New systemd `easyeffects.service` runs it headless (`--service-mode`).
+- **New Aux channel** — a dedicated extra channel with its own HeSuVi 7.1 binaural sink (`sink-virtual-surround-7.1-hesuvi-aux`) plus `sonar-aux-eq`. Media also gets its own surround sink (`hesuvi-media`). `sonar-output-eq.conf` was reworked (18-band "Arctis Output", AUX input feed).
+- **Auto-link EasyEffects → headset** — `auto-link-ee.service` + `~/.config/hypr/auto_link_ee.sh` bridge the EasyEffects master output into the physical Arctis PCM AUX0/AUX1, so the whole desktop plays through the processed chain.
+- **WirePlumber routing priority** — new `51-defaults.conf` pins device suspend/detect priority and playback/a2dp routing so the pipeline behaves identically on a fresh install.
+- **Installer parity** — `06-dotfiles.sh` deploys `easyeffects/`, gates easyeffects + `auto-link-ee` (Arctis-only), and `09-user-apps.sh` now enables `auto-link-ee.service` and `easyeffects.service` alongside the existing audio units.
+
+### niri session parity
+
+Synced the live niri config into the repo so both sessions reproduce the reference machine:
+
+- `numlock` enabled at login.
+- **VRR window rules** — games (gamescope / Steam / Lutris / Heroic / mpv / vlc, incl. Wuthering Waves via Xwayland) get `variable-refresh-rate` + forced fullscreen so the 165Hz direct-scanout path engages.
+- Dropped legacy NVIDIA env caps (`LIBVA_DRIVER_NAME` / `NVD_BACKEND` / `GBM_BACKEND`) not needed on driver 610.
+- `wlsunset` neutral-gamma 1.0 startup for color-accurate monitors.
+
+Monitor layout (Hyprland `monitors.lua`) was already in sync — DP-2 2560x1440@165 + HDMI-A-1 1920x1080@60 on the left.
+
+### Newcomer onboarding
+
+- **"Getting Started — for people who have never used a tiling desktop"** section added to the README: what a compositor is, how Hyprland vs Niri+iNiR differ, first-login walkthrough, "where's my taskbar", a shortcuts mindset, and how to safely change things.
+
 ## v4.5 — Random wallpaper fix + general release notes
 
 ### Random wallpaper no longer "does nothing"
