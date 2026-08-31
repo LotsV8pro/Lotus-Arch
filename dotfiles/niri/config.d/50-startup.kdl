@@ -26,6 +26,11 @@ spawn-at-startup "bash" "-c" "wl-paste --type image --watch cliphist store &"
 // patches this line accordingly (KDE, GNOME, MATE, LXQt, or lxpolkit).
 spawn-at-startup "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
 
+// Color / gamma: fixed neutral gamma 1.0 on both monitors. This leaves the
+// monitors' own hardware gamma (2.2) untouched — no color shifting, suitable
+// for a room with lights always on. Remove if you want default monitor output.
+spawn-at-startup "wlsunset" "-g" "1.0"
+
 // ── iNiR shell ──────────────────────────────────────────────────────────────
 // iNiR is managed by the user systemd service (inir.service).
 // Do not add a compositor startup entry here or you'll get two shells.

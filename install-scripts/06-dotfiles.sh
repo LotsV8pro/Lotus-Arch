@@ -92,6 +92,9 @@ for dir in "$DOTFILES"/*/; do
                     && find "$HOME/.config/pipewire/filter-chain.conf.d" -maxdepth 0 -empty -delete 2>/dev/null || true ;;
             wireplumber)
                 rm -f "$HOME/.config/wireplumber/wireplumber.conf.d/50-arctis.conf" ;;
+            easyeffects)
+                # EasyEffects IS the Arctis OBS virtual-mic chain — skip it on basic audio
+                rm -rf "$HOME/.config/easyeffects" ;;
         esac
     fi
 
@@ -103,7 +106,9 @@ for dir in "$DOTFILES"/*/; do
     # Arctis units follow the audio choice; streaming units the stream choice
     if [[ "$name" == "systemd" ]]; then
         [[ "$AUDIO_MODE" != "arctis" ]] && \
-            rm -f "$HOME/.config/systemd/user/"arctis-*.service
+            rm -f "$HOME/.config/systemd/user/"arctis-*.service \
+                  "$HOME/.config/systemd/user/"auto-link-ee.service \
+                  "$HOME/.config/systemd/user/"easyeffects.service
         [[ "$STREAMING" != "yes" ]] && \
             rm -f "$HOME/.config/systemd/user/"virtual-mic.service \
                   "$HOME/.config/systemd/user/"auto-link-obs.service
@@ -149,6 +154,8 @@ for share_dir in "$DOTFILES/.local/share/"*/; do
     name="$(basename "$share_dir")"
     # HeSuVi HRIR convolution data is Arctis-pipeline-only
     [[ "$name" == "pipewire" && "$AUDIO_MODE" != "arctis" ]] && continue
+    # EasyEffects presets are the Arctis OBS virtual-mic chain — skip on basic audio
+    [[ "$name" == "easyeffects" && "$AUDIO_MODE" != "arctis" ]] && continue
     echo "  → .local/share/$name..."
     mkdir -p "$HOME/.local/share/$name"
     cp -r "$share_dir"* "$HOME/.local/share/$name/" 2>/dev/null || true
