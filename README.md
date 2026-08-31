@@ -57,6 +57,78 @@ Both sessions share the same foundation: cohesive **purple glassmorphism** aesth
 
 ---
 
+## ◈ Getting Started — for people who have never used a tiling desktop
+
+If you're coming from **Windows, macOS, or a normal "click the Start menu" Linux
+desktop**, a lot here will feel unfamiliar at first. That's normal. Keep reading
+before you give up — it takes a couple of days to feel natural, and then it's
+hard to go back.
+
+### What is a "compositor"?
+A normal desktop (GNOME, KDE, Windows) has an always-visible **Start menu /
+taskbar** and windows that you drag around by a title bar. A **compositor** is
+the program that actually draws windows on screen. **Hyprland** and **Niri** are
+two *tiling* compositors: windows are placed automatically next to each other,
+so you almost never drag or resize a window. You control everything with the
+**keyboard**, which after some practice is much faster.
+
+Lotus-Arch lets you pick **either** (or both, switching at the login screen):
+
+| | Hyprland | Niri + iNiR |
+|---|---|---|
+| Tiling style | Classic — windows split into tiles | Scrollable columns |
+| Menu/bar | Waybar + Rofi | iNiR Quickshell (a full "shell" UI) |
+| Feel | Close to a classic WM | More like a phone/tablet launcher |
+| Overlay/poser | Rofi menu | iNiR overview + app drawer |
+
+### What is "iNiR" (the custom shell)?
+[Niri](https://github.com/YaLTeu/niri) is the tiling compositor. **iNiR**
+("in-ir", the shell) is the floating overlay on top of it — the top bar, the app
+grid when you press `MOD+D`, the clipboard picker, lock screen, and wallpaper
+browser. It's built on **Quickshell** (QML). Lotus-Arch ships its own tuned
+version and config overlay on top of upstream iNiR. When you first log in,
+iNiR's bar at the top and its app overview are the most important things you'll
+use.
+
+### First login — what to expect
+1. Pick **Hyprland** or **Niri** at the login (SDDM) screen.
+2. You'll land on a desktop with a purple Lotus look and a bar at the top.
+3. **Find the launcher / app menu.** Everything starts from here:
+   - Hyprland: press `SUPER + M` (power) or use Rofi via `SUPER` menu — Rofi is
+     your app launcher.
+   - Niri: press `MOD + D` for the iNiR overview / app drawer.
+4. Open a terminal if you can (`SUPER + Return` on Hyprland, `MOD + T / Return`
+   on Niri) so you have somewhere to type.
+
+### "Where's my taskbar / window buttons?" — switching windows
+- Hyprland: `SUPER + J / K` cycle windows, `SUPER + 1-5` switch workspaces.
+- Niri: the iNiR bar is on the left; press `MOD + D` to see all open apps at once.
+- There is no minimize — that's the point. Windows are either on screen or on
+  another workspace. Close with `SUPER + Q` (Hyprland) / `MOD + Q` (Niri).
+
+### Cheat-sheet mindset
+- **SUPER / Windows key (Hyprland)** or **Mod (Niri)** is your "menu key" —
+  almost every shortcut starts with it.
+- `SUPER`-based bindings: `Return`=terminal, `E`=files, `W`=wallpapers,
+  `P`=colors, `CTRL+P`=preset manager, `V`=clipboard, `T`=quick settings,
+  `F`=fullscreen, `G`=float.
+- Print/`XF86` media keys control volume, brightness, and screen grab.
+- The **preset manager** (`SUPER + CTRL + P`) and **palette editor** (`SUPER + P`)
+  let you re-color the whole desktop live — this is core to the Lotus experience.
+
+### Changing things safely
+- All configs are plain text files under `~/.config/`. The repo installs them
+  with a timestamped backup, so you can always revert (`~/.config/dotfiles-backup/`).
+- Palette/preset changes live in `~/.config/lotus-palette/`.
+- To reset a single app to factory defaults, remove its folder under
+  `~/.config/` and reload.
+
+> Tip: this is a **keyboard-first** desktop. If you only use the mouse, you'll
+> fight it. Give the shortcuts a chance — a few days of `SUPER + X` and you'll be
+> faster than any Start menu.
+
+---
+
 ## ◈ Audio Pipeline
 
 Lotus Arch includes a complete **streaming/gaming audio pipeline** designed around the SteelSeries Arctis Nova 5 headset and OBS Studio.
@@ -68,8 +140,10 @@ Lotus Arch includes a complete **streaming/gaming audio pipeline** designed arou
 | **Arctis_Game** | Sink | Game audio (routed automatically to OBS) |
 | **Arctis_Chat** | Sink | Chat/voice audio |
 | **Arctis_Media** | Sink | Browser/media audio (routed automatically to OBS) |
+| **Aux** | Sink | Extra channel via own HeSuVi 7.1 surround sink |
 | **OBS Virtual Sink** | Sink | Desktop audio capture for OBS |
 | **OBS Virtual Mic** | Source | Microphone from OBS (VST-processed) back to system |
+| **EasyEffects sink** | Sink | Master EQ / effects output (auto-bridged to the headset) |
 
 ### Systemd Services
 
@@ -77,26 +151,34 @@ Lotus Arch includes a complete **streaming/gaming audio pipeline** designed arou
 |---|---|
 | `virtual-mic.service` | Permanent loopback from OBS virtual sink to virtual mic |
 | `auto-link-obs.service` | Auto-connects Arctis_Game + Arctis_Media monitor outputs to OBS virtual sink |
+| `auto-link-ee.service` | Auto-bridges EasyEffects master output to the physical Arctis PCM |
+| `easyeffects.service` | EasyEffects in service mode (mic processing for the OBS virtual mic) |
 | `arctis-manager.service` | Arctis Sound Manager daemon (Sonar EQ, spatial audio) |
 | `arctis-gui.service` | Arctis system tray for quick switching |
 | `arctis-video-router.service` | Routes browser/media apps to Arctis_Media automatically |
 
 ### Sonar EQ Profiles
 
-Six per-application filter-chain profiles under `~/.config/pipewire/filter-chain.conf.d/`:
+Filter-chain profiles under `~/.config/pipewire/filter-chain.conf.d/`:
 
 | Profile | Target |
 |---|---|
 | `sonar-game-eq.conf` | Arctis_Game sink |
 | `sonar-chat-eq.conf` | Arctis_Chat sink |
 | `sonar-media-eq.conf` | Arctis_Media sink |
-| `sonar-micro-eq.conf` | Microphone EQ (OBS virtual mic) |
-| `sonar-output-eq.conf` | Master output EQ |
+| `sonar-aux-eq.conf` | Aux channel EQ |
+| `sonar-micro-eq.conf` | Microphone EQ (feeds EasyEffects) |
+| `sonar-output-eq.conf` | Master output EQ (18-band "Arctis Output") |
 | `sink-virtual-surround-7.1-hesuvi.conf` | HeSuVi binaural surround (HRIR convolution) |
+| `sink-virtual-surround-7.1-hesuvi-aux.conf` | HeSuVi binaural surround for the Aux channel |
+| `sink-virtual-surround-7.1-hesuvi-media.conf` | HeSuVi binaural surround for media |
+
 
 ### OBS Virtual Microphone
 
 The `virtual-mic` script creates a permanent `pw-loopback` from the OBS virtual sink to the OBS virtual source, so any audio played through the virtual sink (including VST-processed mic from OBS) appears as a system microphone. This enables **discord calls with OBS voice processing**.
+
+Mic processing itself runs through **EasyEffects** (`easyeffects.service`): the chain is deepfilternet → rnnoise → speex → 8-band EQ → compressor → limiter, taking its input from `effect_output.sonar-micro-eq` and routing to the OBS virtual sink. Its preset can be switched live in the EasyEffects GUI.
 
 ---
 
@@ -280,9 +362,14 @@ Applied tweaks persist across reboots (GRUB C-states apply to both profiles):
 │   └── overview/                # Overview plugin bits
 ├── pipewire/
 │   └── filter-chain.conf.d/     # Sonar EQ profiles + 7.1 virtual surround
+├── easyeffects/                 # EasyEffects OBS virtual-mic chain (EQ/denoise)
+├── wireplumber/
+│   └── wireplumber.conf.d/      # Device suspend + routing priority rules
 ├── systemd/user/                # Audio & session service units
 │   ├── virtual-mic.service
 │   ├── auto-link-obs.service
+│   ├── auto-link-ee.service     # bridges EasyEffects master → Arctis PCM
+│   ├── easyeffects.service      # mic processing (service mode)
 │   ├── arctis-manager.service
 │   ├── arctis-gui.service
 │   ├── arctis-video-router.service

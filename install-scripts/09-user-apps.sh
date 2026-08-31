@@ -200,6 +200,8 @@ SERVICES=(
   "arctis-gui.service:Arctis Sound Manager system tray"
   "arctis-video-router.service:Arctis Media Router (route browser audio to Arctis_Media)"
   "auto-link-obs.service:Auto-link Arctis Game/Media audio to OBS virtual sink"
+  "auto-link-ee.service:Auto-bridge EasyEffects master output to Arctis PCM"
+  "easyeffects.service:Easy Effects mic processing (OBS virtual mic EQ)"
 )
 
 for entry in "${SERVICES[@]}"; do
