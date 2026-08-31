@@ -7,7 +7,7 @@
 # ╚══════╝ ╚═════╝    ╚═╝    ╚═════╝ ╚══════╝
 #
 # Lotus-Arch - Desktop Installer
-# NVIDIA RTX 4070 + i7-13700KF optimized
+# Works on any GPU (NVIDIA / AMD / Intel) and any CPU.
 # Hyprland (Lua config) and/or Niri + iNiR shell — your choice.
 #
 # From minimal Arch to full Lotus-Arch desktop in one script.
@@ -81,7 +81,7 @@ print_banner() {
 
 EOF
     echo -e "${NC}"
-    echo -e "${CYAN}  Arch Linux | Hyprland / Niri + iNiR | NVIDIA Ready${NC}"
+    echo -e "${CYAN}  Arch Linux | Hyprland / Niri + iNiR | Any GPU${NC}"
     echo -e "${CYAN}  https://github.com/LotsV8pro/Lotus-Arch${NC}"
     echo ""
 }
@@ -127,14 +127,35 @@ enable_multilib() {
 install_yay() {
     if command -v yay &>/dev/null; then
         print_status "yay already installed"
-    else
-        print_info "Installing yay (AUR helper)..."
-        cd /tmp
-        git clone https://aur.archlinux.org/yay-bin.git
-        cd yay-bin
-        makepkg -si --noconfirm
-        cd "$SCRIPT_DIR"
+        return 0
     fi
+
+    # makepkg needs base-devel + git to build yay from the AUR.
+    if ! command -v makepkg &>/dev/null || ! command -v git &>/dev/null; then
+        print_info "Installing base-devel + git (required to build yay)..."
+        sudo pacman -S --needed --noconfirm base-devel git
+    fi
+
+    print_info "Installing yay (AUR helper)..."
+    local build_dir
+    build_dir="$(mktemp -d /tmp/yay-build.XXXXXX)"
+
+    # Ensure the script dir is writable by the user so the final cd works.
+    if ! git clone https://aur.archlinux.org/yay-bin.git "$build_dir/yay-bin" 2>&1; then
+        print_error "Failed to clone yay-bin"
+        rm -rf "$build_dir"
+        exit 1
+    fi
+
+    # makepkg refuses to run as root; we already enforce a non-root user.
+    (cd "$build_dir/yay-bin" && makepkg -si --noconfirm) || {
+        print_error "yay build/install failed"
+        rm -rf "$build_dir"
+        exit 1
+    }
+
+    rm -rf "$build_dir"
+    cd "$SCRIPT_DIR"
 }
 
 run_phase() {
@@ -280,12 +301,10 @@ main() {
     run_phase 4 "04-services.sh"    "Enable Services"
     run_phase 5 "05-zsh.sh"         "ZSH Shell"
     run_phase 6 "06-dotfiles.sh"    "Deploy Dotfiles"
-    if [[ "$LOTUS_SESSION" == "niri" || "$LOTUS_SESSION" == "both" ]]; then
-        run_phase 12 "12-niri-inir.sh" "Niri + iNiR Shell (optional session)"
-    fi
-    run_phase 11 "11-optional-extras.sh" "Optional Extras (presets / GPU / wallpapers)"
-    run_phase 7 "08-plugins.sh"     "Hyprland Plugins (HyprGlass)"
-    run_phase 8 "07-cleanup.sh"     "Final Cleanup"
+
+    # Phase 7 is optional — runs right after the dotfiles it patches
+    run_phase 7 "07-plugins.sh"     "Hyprland Plugins (HyprGlass)"
+    run_phase 8 "08-cleanup.sh"     "Final Cleanup"
     run_phase 9 "09-user-apps.sh"   "Restore User Apps & Themes"
 
     # Phase 10 is optional — run after dotfiles deploy
@@ -293,6 +312,10 @@ main() {
     echo "  Optional system tweaks for gaming: GPU OC, CPU tuning, sysctl, NVMe, GRUB."
     echo ""
     run_phase 10 "10-performance.sh" "Performance Tweaks"
+    run_phase 11 "11-optional-extras.sh" "Optional Extras (presets / GPU / wallpapers)"
+    if [[ "$LOTUS_SESSION" == "niri" || "$LOTUS_SESSION" == "both" ]]; then
+        run_phase 12 "12-niri-inir.sh" "Niri + iNiR Shell (optional session)"
+    fi
 
     echo ""
     echo -e "${GREEN}═══════════════════════════════════════════${NC}"
