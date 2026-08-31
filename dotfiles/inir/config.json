@@ -491,17 +491,17 @@
             "enable": true,
             "type": "random"
         },
-        "wallpaperPath": "/home/lots/Pictures/Wallpapers/GT-cars/Porsche/wallhaven-0j5985.jpg",
+        "wallpaperPath": "@HOME@/Pictures/Wallpapers/GT-cars/Porsche/wallhaven-0j5985.jpg",
         "wallpapersByMonitor": [
             {
                 "monitor": "HDMI-A-1",
-                "path": "/home/lots/Pictures/Wallpapers/GT-cars/McLaren/wallhaven-2k7x29.jpg",
+                "path": "@HOME@/Pictures/Wallpapers/GT-cars/McLaren/wallhaven-2k7x29.jpg",
                 "workspaceFirst": 1,
                 "workspaceLast": 4
             },
             {
                 "monitor": "DP-2",
-                "path": "/home/lots/Pictures/Wallpapers/all/wallhaven-w8zkx6.jpg",
+                "path": "@HOME@/Pictures/Wallpapers/all/wallhaven-w8zkx6.jpg",
                 "workspaceFirst": 1,
                 "workspaceLast": 6
             }
