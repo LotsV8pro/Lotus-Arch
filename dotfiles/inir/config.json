@@ -492,20 +492,7 @@
             "type": "random"
         },
         "wallpaperPath": "@HOME@/Pictures/Wallpapers/GT-cars/Porsche/wallhaven-0j5985.jpg",
-        "wallpapersByMonitor": [
-            {
-                "monitor": "HDMI-A-1",
-                "path": "@HOME@/Pictures/Wallpapers/GT-cars/McLaren/wallhaven-2k7x29.jpg",
-                "workspaceFirst": 1,
-                "workspaceLast": 4
-            },
-            {
-                "monitor": "DP-2",
-                "path": "@HOME@/Pictures/Wallpapers/all/wallhaven-w8zkx6.jpg",
-                "workspaceFirst": 1,
-                "workspaceLast": 6
-            }
-        ],
+        "wallpapersByMonitor": [ ],
         "widgets": {
             "adaptColorsToWallpaperPosition": false,
             "battery": {
@@ -879,172 +866,7 @@
                 "x": 80,
                 "y": 80
             },
-            "outputOverrides": [
-                {
-                    "height": 1440,
-                    "layoutVersion": 1,
-                    "output": "DP-2",
-                    "widgets": {
-                        "clock": {
-                            "locked": true,
-                            "placementStrategy": "free",
-                            "x": 1516,
-                            "y": 1097
-                        },
-                        "customImage": {
-                            "placementStrategy": "free",
-                            "x": 120,
-                            "y": 320
-                        },
-                        "imageConverter": {
-                            "placementStrategy": "free",
-                            "x": 108,
-                            "y": 409
-                        },
-                        "japaneseTypography": {
-                            "enable": true,
-                            "locked": true,
-                            "placementStrategy": "free",
-                            "x": 2188,
-                            "y": 105
-                        },
-                        "mediaControls": {
-                            "locked": true,
-                            "placementStrategy": "free",
-                            "x": 44,
-                            "y": 105
-                        },
-                        "newsTicker": {
-                            "enable": false,
-                            "placementStrategy": "free",
-                            "x": 12,
-                            "y": 425
-                        },
-                        "notes": {
-                            "placementStrategy": "free",
-                            "x": 84,
-                            "y": 409
-                        },
-                        "uptime": {
-                            "enable": false,
-                            "placementStrategy": "free",
-                            "x": 84,
-                            "y": 289
-                        },
-                        "userCard": {
-                            "locked": true,
-                            "placementStrategy": "free",
-                            "x": 2252,
-                            "y": 1225
-                        },
-                        "visualizer": {
-                            "enable": false,
-                            "placementStrategy": "free",
-                            "x": 60,
-                            "y": 400
-                        },
-                        "weather": {
-                            "placementStrategy": "free",
-                            "x": 100,
-                            "y": 200
-                        },
-                        "worldClock": {
-                            "enable": false,
-                            "placementStrategy": "free",
-                            "x": 80,
-                            "y": 200
-                        }
-                    },
-                    "width": 2560
-                },
-                {
-                    "height": 1080,
-                    "layoutVersion": 1,
-                    "output": "HDMI-A-1",
-                    "widgets": {
-                        "calendarUpcoming": {
-                            "enable": true,
-                            "locked": true,
-                            "placementStrategy": "free",
-                            "x": 1591,
-                            "y": 314
-                        },
-                        "clock": {
-                            "enable": true,
-                            "placementStrategy": "free",
-                            "x": 1677,
-                            "y": 938
-                        },
-                        "customImage": {
-                            "enable": false,
-                            "placementStrategy": "free",
-                            "x": 119,
-                            "y": 762
-                        },
-                        "japaneseTypography": {
-                            "enable": false,
-                            "placementStrategy": "free",
-                            "x": 87,
-                            "y": 250
-                        },
-                        "mascot": {
-                            "enable": false,
-                            "placementStrategy": "free",
-                            "x": 567,
-                            "y": 122
-                        },
-                        "mediaControls": {
-                            "enable": true,
-                            "locked": true,
-                            "placementStrategy": "free",
-                            "x": 108,
-                            "y": 250
-                        },
-                        "newsTicker": {
-                            "enable": false,
-                            "placementStrategy": "free",
-                            "x": 100,
-                            "y": 260
-                        },
-                        "systemMonitor": {
-                            "enable": true,
-                            "locked": true,
-                            "placementStrategy": "free",
-                            "x": 119,
-                            "y": 90
-                        },
-                        "uptime": {
-                            "enable": false,
-                            "placementStrategy": "free",
-                            "x": 471,
-                            "y": 90
-                        },
-                        "userCard": {
-                            "enable": false,
-                            "placementStrategy": "free",
-                            "x": 87,
-                            "y": 562
-                        },
-                        "visualizer": {
-                            "contentHeight": 48,
-                            "contentWidth": 448,
-                            "enable": true,
-                            "locked": true,
-                            "placementStrategy": "free",
-                            "x": 108,
-                            "y": 506
-                        },
-                        "weather": {
-                            "enable": true,
-                            "locked": true,
-                            "placementStrategy": "free",
-                            "x": 1431,
-                            "y": 90
-                        }
-                    },
-                    "width": 1920
-                }
-            ],
+            "outputOverrides": [ ],
             "powerSaving": {
                 "enable": true,
                 "pauseOnFullscreen": true,
@@ -1593,7 +1415,7 @@
             "showItemId": false
         },
         "utilButtons": {
-            "screenCastOutput": "HDMI-A-1",
+            "screenCastOutput": "",
             "showColorPicker": true,
             "showDarkModeToggle": false,
             "showKeyboardLayoutSwitch": false,
@@ -1762,7 +1584,7 @@
         "widthRatio": 0.62
     },
     "display": {
-        "primaryMonitor": "DP-2"
+        "primaryMonitor": ""
     },
     "dock": {
         "cardStyle": false,
