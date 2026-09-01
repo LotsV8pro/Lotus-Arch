@@ -349,78 +349,26 @@ Applied tweaks persist across reboots (GRUB C-states apply to both profiles). **
 
 ## ◈ Structure
 
+A high-level view of the config tree — every entry maps to a `dotfiles/<name>/` folder deployed to `~/.config/<name>/`:
+
 ```
 .config/
-├── hypr/                        # Hyprland session — main Lua config
-│   ├── hyprland.lua             # Entry point (requires all modules)
-│   ├── configs/                 # Base configuration modules
-│   ├── UserConfigs/             # User overrides (survive updates)
-│   ├── scripts/                 # Utility scripts (palette, wallpaper effects)
-│   ├── UserScripts/             # User scripts
-│   ├── animations/              # Animation presets
-│   ├── wallpaper_effects/       # Wallpaper effects
-│   ├── wallust/                 # Wallust color templates
-│   ├── Monitor_Profiles/        # Saved monitor layouts
-│   ├── auto_link_obs.sh         # Loop hole — routes Arctis to OBS
-│   └── monitors.lua             # nwg-displays output
-├── niri/                        # Niri session — modular KDL config
-│   ├── config.kdl               # Entry point (includes config.d/*)
-│   └── config.d/                # 10-input … 90-user-overrides modules
-├── inir/                        # iNiR shell user config (AI models, prefs)
-├── quickshell/
-│   ├── lotus-shell/             # Lotus Quickshell bar/shell variant
-│   └── overview/                # Overview plugin bits
-├── pipewire/
-│   └── filter-chain.conf.d/     # Sonar EQ profiles + 7.1 virtual surround
-├── easyeffects/                 # EasyEffects OBS virtual-mic chain (EQ/denoise)
-├── wireplumber/
-│   └── wireplumber.conf.d/      # Device suspend + routing priority rules
-├── systemd/user/                # Audio & session service units
-│   ├── virtual-mic.service
-│   ├── auto-link-obs.service
-│   ├── auto-link-ee.service     # bridges EasyEffects master → Arctis PCM
-│   ├── easyeffects.service      # mic processing (service mode)
-│   ├── arctis-manager.service
-│   ├── arctis-gui.service
-│   ├── arctis-video-router.service
-│   ├── steam-shader-limit.service
-│   └── inir.service             # iNiR shell session unit (Niri)
-├── lotus-palette/               # Preset engine + palette tools
-└── spicetify/Themes/Lotus/      # Spicetify Lotus theme
-optional/                        # Opt-in extras (Phase 11) — work on BOTH sessions
-├── gpu/                         # GWE fan/OC profiles + vkSumi color grading
-└── movie-tui/                   # movie-tui config (add your own TMDB key)
-wallpapers/GT Racing/            # GT Racing car wallpaper pack (~82 MB, opt-in copy)
-.local/
-├── bin/
-│   ├── virtual-mic              # OBS virtual mic loopback
-│   ├── steam-gamescope.sh       # Steam Gamescope wrapper
-│   ├── limit-steam-shader.sh    # Steam shader cache limiter
-│   └── cpulimit                 # CPU limiter for shader processes
-└── share/pipewire/hrir_hesuvi/  # HeSuVi HRIR convolution file
+├── hypr/                  # Hyprland session (Lua) — entry + configs + UserConfigs + scripts
+├── niri/                  # Niri session (KDL) — config.kdl + config.d/ modules
+├── inir/                  # iNiR shell user config (AI models, prefs)
+├── quickshell/            # iNiR Quickshell shell + overview plugin
+├── pipewire/              # Sonar EQ profiles + 7.1 virtual surround
+├── easyeffects/           # EasyEffects OBS virtual-mic chain (EQ/denoise)
+├── wireplumber/           # Device suspend + routing priority rules
+├── systemd/user/          # Audio & session services (virtual-mic, arctis-*, easyeffects, inir…)
+├── lotus-palette/         # Preset engine + palette tools
+└── spicetify/Themes/Lotus/# Spotify Lotus theme
+optional/                  # Opt-in extras (Phase 11) — GPU tuning pack, movie-tui, GT Racing wallpapers
+performance-tweaks/        # Phase 10 — common/ + nvidia/ or amd/ hardware profiles
+.local/                    # User bins (virtual-mic, steam-gamescope, shader limiter) + HRIR data
 ```
 
-### Performance Tweaks (Phase 10)
-
-```
-performance-tweaks/
-├── common/                    # Works for every hardware profile
-│   ├── 99-performance.conf    # sysctl
-│   ├── 99-nvme-performance.rules
-│   ├── grub-cmdline.sh        # C-state kernel params (intel/amd)
-│   ├── cpu-tweaks.sh          # Intel pstate / AMD pstate EPP
-│   └── systemd/               # cpu-tweaks + performance-governor services
-├── nvidia/                    # NVIDIA profile (RTX 4070-tuned example OC values)
-│   ├── 10-nvidia.conf         # Coolbits X config
-│   ├── gpu-tweaks.sh          # 160W power limit + mem OC (nvidia-smi)
-│   ├── gpu-fan-curve.sh       # Dynamic fan curve + core OC
-│   └── systemd/
-└── amd/                       # AMD profile
-    ├── 50-amdgpu.conf         # ppfeaturemask (optional OC via CoreCtrl)
-    ├── gpu-tweaks.sh          # DPM high + 3D workload profile
-    ├── gpu-fan-curve.sh       # hwmon-based dynamic fan curve
-    └── systemd/
-```
+> The Phase 10 `performance-tweaks/` layout and its RTX 4070-tuned OC values are described under *Install → Performance Tweaks (Phase 10)* above.
 
 ---
 
