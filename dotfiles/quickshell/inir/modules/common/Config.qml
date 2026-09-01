@@ -2201,7 +2201,10 @@ Singleton {
                     property bool showDarkModeToggle: true
                     property bool showPerformanceProfileToggle: false
                     property bool showScreenCast: false
-                    property string screenCastOutput: "HDMI-A-1"
+                    // Portable: empty = cast the primary output. The Lotus reference
+                    // build's value ("HDMI-A-1") lives in inir/config.json, which is
+                    // restored by the optional monitor overlay (see 06-dotfiles.sh).
+                    property string screenCastOutput: ""
                     property bool showNotepad: true
                 }
                 property JsonObject tray: JsonObject {

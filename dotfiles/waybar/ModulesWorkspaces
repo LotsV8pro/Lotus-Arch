@@ -13,9 +13,10 @@
 	"on-scroll-up": "hyprctl dispatch workspace e+1",
 	"on-scroll-down": "hyprctl dispatch workspace e-1",
 	"sort-by-number": true,
+	// Portable: 5 persistent workspaces on every output. The Lotus reference
+	// build maps 5 each to DP-2/HDMI-A-1 via hypr/monitors.lotus.lua.
 	"persistent-workspaces": {
-		"DP-2": 5,
-		"HDMI-A-1": 5
+		"*": 5
 	},
 },
 
