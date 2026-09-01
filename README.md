@@ -325,6 +325,13 @@ Applied tweaks persist across reboots (GRUB C-states apply to both profiles). **
 > time (it also rewrites legacy `@HOME@` references from older mirrors), ships a starter wallpaper set, and keeps
 > optional bits (Arctis audio services, OBS pipeline) behind per-app prompts — so it works on any hardware and
 > username.
+>
+> **Any monitors:** the niri config ships *portable* by default (`monitor.kdl` has no output blocks, so niri
+> auto-detects every display on any machine). The reference build's precise layout (DP-2 @1440p primary +
+> HDMI-A-1 @1080p secondary, custom positions/scales, workspace pinning) is an **optional overlay** in
+> `dotfiles/niri/monitor.lotus.kdl`, applied automatically only when both connectors are physically present (detected
+> via `/sys/class/drm` in `06-dotfiles.sh`). Cloning to a different PC just works — and restoring this machine
+> perfectly is one automatic detection away.
 
 ### Tools (`tools/`)
 
@@ -449,6 +456,8 @@ The **Lotus** preset ships by default. The extra presets (`Monochrome`, `Pixel`,
 ### Niri + iNiR session (optional)
 
 Pick `Niri` at install (or choose **Both**) to get the scrollable-tiling **[Niri](https://github.com/YaLTeu/niri)** compositor driven by the **[iNiR](https://github.com/snowarch/iNiR)** Quickshell shell — overview, app drawer, clipboard manager, screenshot/OCR region tools, lock screen, media & wallpaper browser. Lotus-Arch ships a modular KDL config (`dotfiles/niri/config.d/`) with iNiR keybinds, plus the user config overlay in `dotfiles/inir/`. Phase 12 clones upstream iNiR, applies the Lotus configs on top and wires the systemd session unit.
+
+The niri monitor configuration is portable by default; this machine's exact dual-monitor layout lives in the optional `dotfiles/niri/monitor.lotus.kdl` overlay that activates only when the same outputs are detected (see the Portable note above).
 
 #### Animated wallpapers & color dots
 
