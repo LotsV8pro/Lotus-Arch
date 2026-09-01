@@ -1,0 +1,47 @@
+// Machine-specific monitor layout for the Lotus reference build.
+//
+// Reference desktop:
+//   - DP-2      2560x1440 @ 165 Hz   (primary, right at x=1920)
+//   - HDMI-A-1  1920x1080 @ 60 Hz    (secondary, left at x=0,y=360)
+//
+// This is an OPTIONAL overlay, not a default. The installer (06-dotfiles.sh)
+// activates it only when BOTH output connectors are physically connected
+// (detected via /sys/class/drm), so other PCs keep the portable default from
+// monitor.kdl. You can also apply it manually:
+//   cp ~/.config/niri/monitor.lotus.kdl ~/.config/niri/monitor.kdl
+
+output "DP-2" {
+    mode "2560x1440@164.998"
+    scale 1.0
+    position x=1920 y=0
+    variable-refresh-rate on-demand=true
+}
+
+output "HDMI-A-1" {
+    mode "1920x1080@60.0"
+    scale 1.0
+    position x=0 y=360
+}
+
+// Pin workspaces to monitors: 1-3 on the primary (DP-2), 4-5 on the secondary
+// (HDMI-A-1). Only valid while both outputs are present.
+workspace "1" { open-on-output "DP-2"; }
+workspace "2" { open-on-output "DP-2"; }
+workspace "3" { open-on-output "DP-2"; }
+workspace "4" { open-on-output "HDMI-A-1"; }
+workspace "5" { open-on-output "HDMI-A-1"; }
+
+// Open Discord on the secondary monitor's workspace.
+window-rule {
+    match app-id="discord"
+    match app-id="com.discordapp.Discord"
+    open-on-workspace "4"
+}
+
+// Open Spotify on the secondary monitor's workspace.
+window-rule {
+    match app-id="Spotify"
+    match app-id="spotify"
+    match app-id="com.spotify.Client"
+    open-on-workspace "5"
+}
