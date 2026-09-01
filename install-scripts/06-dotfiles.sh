@@ -116,13 +116,12 @@ for dir in "$DOTFILES"/*/; do
 done
 
 # ── Machine-specific monitor overlay (optional) ──
-# Default niri config is portable (monitor.kdl has no output blocks, so niri
-# auto-detects any display). If this machine has the Lotus reference build's
-# exact output connectors connected, swap in monitor.lotus.kdl to recreate this
-# machine's precise layout/workspace pinning. Other machines keep the portable
-# default — this is what lets a clone work on 'any PC, different specs/monitors'.
-# Detection is compositor-independent (works even mid-install, before any
-# Wayland session): it reads DRM connector status from sysfs.
+# The default niri/Hyprland configs are portable (no output names hardcoded), so
+# a clone works on any machine/display out of the box. If THIS machine has the
+# Lotus reference build's exact output connectors connected, we re-apply its
+# precise layout across niri, Hyprland and the iNiR shell. Detection is
+# compositor-independent (works even mid-install, before any Wayland session):
+# it reads DRM connector status from /sys/class/drm.
 detect_reference_outputs() {
     local dp2="" hdmi=""
     for c in /sys/class/drm/card*-DP-2/status; do
@@ -133,11 +132,38 @@ detect_reference_outputs() {
     done
     [[ -n "$dp2" && -n "$hdmi" ]]
 }
-if [[ -f "$HOME/.config/niri/monitor.lotus.kdl" ]] && detect_reference_outputs; then
-    echo "  → activating Lotus reference monitor overlay (DP-2 + HDMI-A-1 detected)"
-    cp -f "$HOME/.config/niri/monitor.lotus.kdl" "$HOME/.config/niri/monitor.kdl"
+
+if detect_reference_outputs; then
+    echo "  → applying Lotus reference monitor overlay (DP-2 + HDMI-A-1 detected)"
+
+    # Niri: swap the portable monitor.kdl for this machine's exact layout
+    if [[ -f "$HOME/.config/niri/monitor.lotus.kdl" ]]; then
+        cp -f "$HOME/.config/niri/monitor.lotus.kdl" "$HOME/.config/niri/monitor.kdl"
+    fi
+
+    # Hyprland: swap the portable monitors.lua for this machine's layout/workspaces
+    if [[ -f "$HOME/.config/hypr/monitors.lotus.lua" ]]; then
+        cp -f "$HOME/.config/hypr/monitors.lotus.lua" "$HOME/.config/hypr/monitors.lua"
+    fi
+
+    # iNiR shell: merge the machine-specific config.lotus.json into config.json
+    # (restores wallpapersByMonitor, outputOverrides, screenCastOutput, primaryMonitor)
+    if command -v jq >/dev/null 2>&1 \
+       && [[ -f "$HOME/.config/inir/config.lotus.json" ]] \
+       && [[ -f "$HOME/.config/inir/config.json" ]]; then
+        if jq --slurpfile o "$HOME/.config/inir/config.lotus.json" \
+            '.background.wallpapersByMonitor = $o[0].background.wallpapersByMonitor
+             | .background.widgets.outputOverrides = $o[0].background.widgets.outputOverrides
+             | .bar.utilButtons.screenCastOutput = $o[0].bar.utilButtons.screenCastOutput
+             | .display.primaryMonitor = $o[0].display.primaryMonitor' \
+            "$HOME/.config/inir/config.json" > "$HOME/.config/inir/config.json.tmp" 2>/dev/null; then
+            mv -f "$HOME/.config/inir/config.json.tmp" "$HOME/.config/inir/config.json"
+        else
+            rm -f "$HOME/.config/inir/config.json.tmp"
+        fi
+    fi
 else
-    echo "  → portable niri monitor config in use (any display auto-detected)"
+    echo "  → portable monitor configs in use (any display auto-detected)"
 fi
 
 # Copy top-level dotfiles
