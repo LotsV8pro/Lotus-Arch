@@ -326,12 +326,14 @@ Applied tweaks persist across reboots (GRUB C-states apply to both profiles). **
 > optional bits (Arctis audio services, OBS pipeline) behind per-app prompts — so it works on any hardware and
 > username.
 >
-> **Any monitors:** the niri config ships *portable* by default (`monitor.kdl` has no output blocks, so niri
-> auto-detects every display on any machine). The reference build's precise layout (DP-2 @1440p primary +
-> HDMI-A-1 @1080p secondary, custom positions/scales, workspace pinning) is an **optional overlay** in
-> `dotfiles/niri/monitor.lotus.kdl`, applied automatically only when both connectors are physically present (detected
-> via `/sys/class/drm` in `06-dotfiles.sh`). Cloning to a different PC just works — and restoring this machine
-> perfectly is one automatic detection away.
+> **Any monitors:** the compositor configs ship *portable* by default — niri (`monitor.kdl`) and Hyprland
+> (`monitors.lua`) have **no output names hardcoded**, so they auto-detect every display on any machine, and the
+> iNiR shell (`config.json`) ships with empty/inert monitor fields. The reference build's precise layout
+> (DP-2 @1440p primary + HDMI-A-1 @1080p secondary, custom positions/scales, workspace pinning) lives in
+> **optional overlays** — `dotfiles/niri/monitor.lotus.kdl`, `dotfiles/hypr/monitors.lotus.lua`, and
+> `dotfiles/inir/config.lotus.json` — that `06-dotfiles.sh` applies automatically **only when both connectors are
+> physically present** (detected via `/sys/class/drm`, compositor-independent so it works even mid-install).
+> Cloning to a different PC just works — and restoring this machine perfectly is one automatic detection away.
 
 ### Tools (`tools/`)
 
