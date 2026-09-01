@@ -115,6 +115,31 @@ for dir in "$DOTFILES"/*/; do
     fi
 done
 
+# ── Machine-specific monitor overlay (optional) ──
+# Default niri config is portable (monitor.kdl has no output blocks, so niri
+# auto-detects any display). If this machine has the Lotus reference build's
+# exact output connectors connected, swap in monitor.lotus.kdl to recreate this
+# machine's precise layout/workspace pinning. Other machines keep the portable
+# default — this is what lets a clone work on 'any PC, different specs/monitors'.
+# Detection is compositor-independent (works even mid-install, before any
+# Wayland session): it reads DRM connector status from sysfs.
+detect_reference_outputs() {
+    local dp2="" hdmi=""
+    for c in /sys/class/drm/card*-DP-2/status; do
+        [[ "$(cat "$c" 2>/dev/null)" == "connected" ]] && dp2=1
+    done
+    for c in /sys/class/drm/card*-HDMI-A-1/status; do
+        [[ "$(cat "$c" 2>/dev/null)" == "connected" ]] && hdmi=1
+    done
+    [[ -n "$dp2" && -n "$hdmi" ]]
+}
+if [[ -f "$HOME/.config/niri/monitor.lotus.kdl" ]] && detect_reference_outputs; then
+    echo "  → activating Lotus reference monitor overlay (DP-2 + HDMI-A-1 detected)"
+    cp -f "$HOME/.config/niri/monitor.lotus.kdl" "$HOME/.config/niri/monitor.kdl"
+else
+    echo "  → portable niri monitor config in use (any display auto-detected)"
+fi
+
 # Copy top-level dotfiles
 for f in "$DOTFILES"/*; do
     if [[ -f "$f" ]]; then
