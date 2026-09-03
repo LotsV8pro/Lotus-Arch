@@ -1,0 +1,8 @@
+[Unit]
+Description=Sync all Google Calendars + birthdays to local ICS files for inir
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 %h/.config/inir-birthdays/sync-calendars.py
