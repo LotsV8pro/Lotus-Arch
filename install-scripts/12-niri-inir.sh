@@ -79,14 +79,25 @@ mkdir -p "$HOME/.config/inir" "$HOME/.config/niri/config.d"
     cp -r "$DOTFILES/quickshell/inir/." "$HOME/.config/quickshell/inir/"
 }
 
+# Calendar/birthdays sync scripts (Google OAuth — personal, user-provisioned)
+[[ -d "$DOTFILES/inir-birthdays" ]] && {
+    mkdir -p "$HOME/.config/inir-birthdays"
+    cp "$DOTFILES/inir-birthdays/"*.py "$HOME/.config/inir-birthdays/" 2>/dev/null || true
+    chmod +x "$HOME/.config/inir-birthdays/"*.py 2>/dev/null || true
+}
+
 # User units (inir.service + helpers) — %h expands to $HOME at load time
 mkdir -p "$HOME/.config/systemd/user"
 cp "$DOTFILES/systemd/user/"*.service "$HOME/.config/systemd/user/" 2>/dev/null || true
+cp "$DOTFILES/systemd/user/"*.timer  "$HOME/.config/systemd/user/" 2>/dev/null || true
 systemctl --user daemon-reload || true
 
 # ── 4. Wire the session ──────────────────────────────────────────────────────
 "$HOME/.local/bin/inir" service enable 2>/dev/null || true
 systemctl --user enable inir.service 2>/dev/null || true
+
+# Google calendar/birthdays periodic sync (no-ops if the user skipped oauth)
+systemctl --user enable inir-birthdays.timer 2>/dev/null || true
 
 # Wallpaper Engine auto-sync watcher (optional; activates when its workshop
 # cache appears, e.g. after Wallpaper Engine is first run on this machine)
