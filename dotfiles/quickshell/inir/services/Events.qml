@@ -220,7 +220,8 @@ Singleton {
             reminderMinutes: event.reminderMinutes ?? 15,
             recurrence: event.recurrence || "none",
             category: event.category || "general",
-            contactId: contactId || ""
+            contactId: contactId || "",
+            name: event.contactName || ""
         })
         googleOpProc.command = ["/usr/bin/python3", root.googleOpScript,
             "create", payload]
