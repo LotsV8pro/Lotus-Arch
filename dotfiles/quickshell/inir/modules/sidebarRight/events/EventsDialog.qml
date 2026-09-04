@@ -83,15 +83,43 @@ WindowDialog {
         const gid = event.googleEventId || ""
         if (event.category === "birthday" && gid.startsWith("people/")) {
             root.selectedContactId = gid
-            root.contactSearchText = event.title || ""
+            root.contactSearchText = event.contactName || event.title || ""
+            root.eventTitle = root.contactSearchText
         } else {
             root.selectedContactId = ""
             root.contactSearchText = ""
         }
     }
 
+    // For birthdays, "the person" is the local contact name: the linked Google
+    // contact's name if one is chosen, otherwise the typed name. A birthday does
+    // not require linking a Google contact — typing a name is enough to save.
+    function birthdayName(): string {
+        if (root.eventCategory !== "birthday") return ""
+        if (root.selectedContactId !== "") return root.contactSearchText.trim()
+        return root.eventTitle.trim()
+    }
+
+    // Save/display title. Birthdays read "<Name> Birthday"; other categories use
+    // the title exactly as typed.
+    function buildTitle(): string {
+        if (root.eventCategory !== "birthday") return root.eventTitle.trim()
+        const name = root.birthdayName()
+        return name === "" ? Translation.tr("Birthday") : name + " " + Translation.tr("Birthday")
+    }
+
+    // Whether the form has enough to save (a birthday just needs a name).
+    // Bound property reading only reactive fields directly (no function call),
+    // so the Save button re-enables as you type.
+    readonly property bool canSave:
+        root.eventCategory === "birthday"
+            ? (root.selectedContactId !== ""
+                ? root.contactSearchText.trim() !== ""
+                : root.eventTitle.trim() !== "")
+            : root.eventTitle.trim() !== ""
+
     function saveEvent(): bool {
-        if (root.eventTitle.trim() === "") return false
+        if (!root.canSave) return false
 
         let dateTime = new Date(root.eventDate)
         if (root.eventAllDay) {
@@ -104,10 +132,10 @@ WindowDialog {
         }
         const dateTimeIso = dateTime.toISOString()
 
+        const effectiveTitle = root.buildTitle()
+        const personName = root.birthdayName()
+
         if (root.isEditing) {
-            const effectiveTitle = (root.eventCategory === "birthday" && root.selectedContactId !== "")
-                ? (root.contactSearchText !== "" ? root.contactSearchText : root.eventTitle.trim())
-                : root.eventTitle.trim()
             Events.updateEvent(root.editingEvent.id, {
                 title: effectiveTitle,
                 description: root.eventDescription.trim(),
@@ -117,8 +145,8 @@ WindowDialog {
                 priority: root.eventPriority,
                 reminderMinutes: root.reminderMinutes,
                 recurrence: root.recurrence,
-                contactName: root.selectedContactId !== ""
-                    ? root.contactSearchText
+                contactName: root.eventCategory === "birthday"
+                    ? personName
                     : (root.editingEvent.contactName || effectiveTitle),
                 notified: false
             })
@@ -132,7 +160,8 @@ WindowDialog {
                 category: root.eventCategory,
                 priority: root.eventPriority,
                 reminderMinutes: root.reminderMinutes,
-                recurrence: root.recurrence
+                recurrence: root.recurrence,
+                contactName: root.eventCategory === "birthday" ? personName : ""
             }
             if (root.editingEvent.googleEventId) {
                 if (root.syncToGoogle) Events.pushToGoogle(edited)
@@ -140,9 +169,6 @@ WindowDialog {
                 Events.createInGoogle(edited, null, root.selectedContactId)
             }
         } else {
-            const effectiveTitle = (root.eventCategory === "birthday" && root.selectedContactId !== "")
-                ? (root.contactSearchText !== "" ? root.contactSearchText : root.eventTitle.trim())
-                : root.eventTitle.trim()
             const event = Events.addEvent(
                 effectiveTitle,
                 root.eventDescription.trim(),
@@ -152,9 +178,7 @@ WindowDialog {
                 root.reminderMinutes,
                 root.recurrence,
                 root.eventAllDay,
-                root.selectedContactId !== ""
-                    ? root.contactSearchText
-                    : (effectiveTitle || "")
+                root.eventCategory === "birthday" ? personName : (effectiveTitle || "")
             )
             if (root.syncToGoogle) Events.pushToGoogle(event, null, root.selectedContactId)
         }
@@ -212,10 +236,14 @@ WindowDialog {
                     width: parent.width - 16
                     anchors.horizontalCenter: parent.horizontalCenter
                     placeholderText: root.eventCategory === "birthday"
-                        ? Translation.tr("Birthday of (auto-detect by contact)")
+                        ? Translation.tr("Birthday of (e.g. Arnau)")
                         : Translation.tr("Description (optional)")
-                    text: root.eventDescription
-                    onTextChanged: root.eventDescription = text
+                    text: root.eventCategory === "birthday" ? root.eventTitle : root.eventDescription
+                    onTextChanged: {
+                        const v = String(text || "")
+                        if (root.eventCategory === "birthday") root.eventTitle = v
+                        else root.eventDescription = v
+                    }
                 }
             }
 
@@ -599,7 +627,7 @@ WindowDialog {
 
         DialogButton {
             buttonText: root.isEditing ? Translation.tr("Save") : Translation.tr("Add Event")
-            enabled: root.eventTitle.trim() !== ""
+            enabled: root.canSave
             onClicked: {
                 if (root.saveEvent()) {
                     root.resetForm()
