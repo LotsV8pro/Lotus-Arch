@@ -29,7 +29,6 @@ exec > >(tee -a "$LOG_FILE") 2>&1
 #   ./install.sh --preset full      everything on, both sessions, no prompts
 #   Optional overrides:
 #     --session hypr|niri|both      (default: minimal→hypr, full→both)
-#     --audio arctis|basic          (default: full→arctis, minimal→basic)
 #     --streaming yes|no            (default: full→yes,  minimal→no)
 PRESET=""
 for arg in "$@"; do
@@ -38,7 +37,6 @@ for arg in "$@"; do
         --preset)      PRESET="full" ;;
         --minimal)     PRESET="minimal" ;;
         --session=*)   export LOTUS_SESSION="${arg#*=}" ;;
-        --audio=*)     export LOTUS_AUDIO="${arg#*=}" ;;
         --streaming=*) export LOTUS_STREAMING="${arg#*=}" ;;
         -h|--help)
             sed -n '2,20p' "${BASH_SOURCE[0]}"; exit 0 ;;
@@ -49,12 +47,10 @@ if [[ -n "$PRESET" ]]; then
         minimal)
             export LOTUS_UNATTENDED="minimal"
             export LOTUS_SESSION="${LOTUS_SESSION:-hypr}"
-            export LOTUS_AUDIO="${LOTUS_AUDIO:-basic}"
             export LOTUS_STREAMING="${LOTUS_STREAMING:-no}" ;;
         full)
             export LOTUS_UNATTENDED="full"
             export LOTUS_SESSION="${LOTUS_SESSION:-both}"
-            export LOTUS_AUDIO="${LOTUS_AUDIO:-arctis}"
             export LOTUS_STREAMING="${LOTUS_STREAMING:-yes}" ;;
         *) echo "Unknown preset: $PRESET (use minimal|full)"; exit 1 ;;
     esac
@@ -183,7 +179,7 @@ main() {
     echo -e "${CYAN}Lotus Arch Installer — Interactive Selection${NC}"
     if [[ -n "${LOTUS_UNATTENDED:-}" ]]; then
         echo ""
-        echo -e "${CYAN}Unattended preset: ${LOTUS_UNATTENDED} (session: ${LOTUS_SESSION}, audio: ${LOTUS_AUDIO:-arctis}, streaming: ${LOTUS_STREAMING:-yes})${NC}"
+        echo -e "${CYAN}Unattended preset: ${LOTUS_UNATTENDED} (session: ${LOTUS_SESSION}, streaming: ${LOTUS_STREAMING:-yes})${NC}"
     fi
     echo ""
     echo "  You will be asked about each component:"
@@ -249,18 +245,15 @@ main() {
     fi
     echo -e "  ${GREEN}→ Session: ${LOTUS_SESSION}${NC}"
 
-    # ── Hardware pack choices (drive Phase 2/6/9 gating) ──
+    # ── Hardware pack choice (drives Phase 2/6/9 gating) ──
     if [[ -z "${LOTUS_UNATTENDED:-}" ]]; then
         echo ""
         echo -e "${CYAN}Hardware packs (applied to BOTH sessions):${NC}"
-        read -p "  Arctis Nova 5 audio pipeline (Sonar EQ, virtual surround)? [Y/n]: " a_ans
-        [[ "$a_ans" =~ ^[Nn] ]] && export LOTUS_AUDIO="basic" || export LOTUS_AUDIO="arctis"
-        read -p "  OBS streaming pack (OBS config, virtual mic, audio router)? [y/N]: " s_ans
+        read -p "  OBS streaming pack (OBS config, virtual mic)? [y/N]: " s_ans
         [[ "$s_ans" =~ ^[Yy] ]] && export LOTUS_STREAMING="yes" || export LOTUS_STREAMING="no"
     fi
-    export LOTUS_AUDIO="${LOTUS_AUDIO:-arctis}"
     export LOTUS_STREAMING="${LOTUS_STREAMING:-yes}"
-    echo -e "  ${GREEN}→ Audio: ${LOTUS_AUDIO} · Streaming: ${LOTUS_STREAMING}${NC}"
+    echo -e "  ${GREEN}→ Streaming: ${LOTUS_STREAMING}${NC}"
 
     # ── Graphics card selection ──
     # Controls which drivers install (Phase 3) and which overclock profile

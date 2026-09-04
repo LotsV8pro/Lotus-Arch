@@ -1,49 +1,32 @@
-# Audio Pipeline
+# Audio (EasyEffects)
 
-Lotus Arch includes a complete **streaming/gaming audio pipeline** designed around the SteelSeries Arctis Nova 5 headset and OBS Studio.
+Lotus Arch ships a **system-wide audio stack** built on PipeWire + WirePlumber with **EasyEffects** providing the master EQ / effects chain. It works with any sound card or headset — no vendor-specific pipeline required.
 
-## Audio Devices
+## Stack
 
-| Device | Type | Purpose |
-|---|---|---|
-| **Arctis_Game** | Sink | Game audio (routed automatically to OBS) |
-| **Arctis_Chat** | Sink | Chat/voice audio |
-| **Arctis_Media** | Sink | Browser/media audio (routed automatically to OBS) |
-| **Aux** | Sink | Extra channel via own HeSuVi 7.1 surround sink |
-| **OBS Virtual Sink** | Sink | Desktop audio capture for OBS |
-| **OBS Virtual Mic** | Source | Microphone from OBS (VST-processed) back to system |
-| **EasyEffects sink** | Sink | Master EQ / effects output (auto-bridged to the headset) |
+| Layer | Role |
+|---|---|
+| **PipeWire** | Audio server (session + real-time processing) |
+| **WirePlumber** | Device/routing policy (suspension timeouts, device priorities) |
+| **EasyEffects** | Input + output effects chains (EQ, compressor, limiter, noise suppression) |
+| **OBS virtual mic/sink** *(optional streaming)* | Desktop audio capture + processed mic loopback for OBS |
 
-## Systemd Services
+## Systemd services
 
 | Service | Function |
 |---|---|
-| `virtual-mic.service` | Permanent loopback from OBS virtual sink to virtual mic |
-| `auto-link-obs.service` | Auto-connects Arctis_Game + Arctis_Media monitor outputs to OBS virtual sink |
-| `auto-link-ee.service` | Auto-bridges EasyEffects master output to the physical Arctis PCM |
-| `easyeffects.service` | EasyEffects in service mode (mic processing for the OBS virtual mic) |
-| `arctis-manager.service` | Arctis Sound Manager daemon (Sonar EQ, spatial audio) |
-| `arctis-gui.service` | Arctis system tray for quick switching |
-| `arctis-video-router.service` | Routes browser/media apps to Arctis_Media automatically |
+| `easyeffects.service` | EasyEffects in service mode (mic + output processing) |
+| `virtual-mic.service` | Permanent loopback from the OBS virtual sink to a virtual mic source |
 
-## Sonar EQ Profiles
+`easyeffects.service` only ships when the OBS streaming pack is selected in the installer.
 
-Filter-chain profiles under `~/.config/pipewire/filter-chain.conf.d/`:
+## EasyEffects
 
-| Profile | Target |
-|---|---|
-| `sonar-game-eq.conf` | Arctis_Game sink |
-| `sonar-chat-eq.conf` | Arctis_Chat sink |
-| `sonar-media-eq.conf` | Arctis_Media sink |
-| `sonar-aux-eq.conf` | Aux channel EQ |
-| `sonar-micro-eq.conf` | Microphone EQ (feeds EasyEffects) |
-| `sonar-output-eq.conf` | Master output EQ (18-band "Arctis Output") |
-| `sink-virtual-surround-7.1-hesuvi.conf` | HeSuVi binaural surround (HRIR convolution) |
-| `sink-virtual-surround-7.1-hesuvi-aux.conf` | HeSuVi binaural surround for the Aux channel |
-| `sink-virtual-surround-7.1-hesuvi-media.conf` | HeSuVi binaural surround for media |
+- Master input/output EQ & effects chain, live-switchable in the EasyEffects GUI.
+- Headless service mode (`easyeffects.service`) runs the chain without a window.
+- Presets live in `~/.config/easyeffects/db/`, with autoload presets under `~/.local/share/easyeffects/`.
+- The repo ships generic presets configured against the **system default** input/output devices, so they apply to whatever hardware you have — adjust the device in EasyEffects to match your own microphone/speakers.
 
-## OBS Virtual Microphone
+## OBS Virtual Microphone *(optional streaming)*
 
-The `virtual-mic` script creates a permanent `pw-loopback` from the OBS virtual sink to the OBS virtual source, so any audio played through the virtual sink (including VST-processed mic from OBS) appears as a system microphone. This enables **discord calls with OBS voice processing**.
-
-Mic processing itself runs through **EasyEffects** (`easyeffects.service`): the chain is deepfilternet → rnnoise → speex → 8-band EQ → compressor → limiter, taking its input from `effect_output.sonar-micro-eq` and routing to the OBS virtual sink. Its preset can be switched live in the EasyEffects GUI.
+The `virtual-mic` script creates a permanent `pw-loopback` from the OBS virtual sink to the OBS virtual source, so audio played through the virtual sink (including VST-processed mic from OBS) appears as a system microphone — useful for **discord calls with OBS voice processing**. This is part of the optional OBS streaming pack, not a required audio feature.
