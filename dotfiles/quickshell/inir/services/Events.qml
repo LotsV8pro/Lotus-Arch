@@ -373,36 +373,93 @@ Singleton {
     function getEventsForDate(date) {
         const targetDate = new Date(date)
         targetDate.setHours(0, 0, 0, 0)
-        
-        return root.list.filter(event => {
+        const tMonth = targetDate.getMonth()
+        const tDay = targetDate.getDate()
+
+        const exactMatches = []
+        const yearlyMatches = []
+
+        for (const event of root.list) {
+            if (event.notified) continue
             const eventDate = new Date(event.dateTime)
-            eventDate.setHours(0, 0, 0, 0)
-            // Only show non-notified events (upcoming or future)
-            return eventDate.getTime() === targetDate.getTime() && !event.notified
-        })
+
+            if (event.recurrence === "yearly") {
+                if (eventDate.getMonth() === tMonth && eventDate.getDate() === tDay)
+                    yearlyMatches.push(event)
+            } else {
+                const eDate = new Date(eventDate); eDate.setHours(0, 0, 0, 0)
+                if (eDate.getTime() === targetDate.getTime())
+                    exactMatches.push(event)
+            }
+        }
+
+        // For yearly events keep only the earliest to avoid duplicates
+        if (yearlyMatches.length > 1) {
+            yearlyMatches.sort((a, b) => new Date(a.dateTime) - new Date(b.dateTime))
+            return exactMatches.concat([yearlyMatches[0]])
+        }
+        return exactMatches.concat(yearlyMatches)
     }
     
     // Get ALL events for a date (including notified/past) - for history view
     function getAllEventsForDate(date) {
         const targetDate = new Date(date)
         targetDate.setHours(0, 0, 0, 0)
-        
-        return root.list.filter(event => {
+        const tMonth = targetDate.getMonth()
+        const tDay = targetDate.getDate()
+
+        const exactMatches = []
+        const yearlyMatches = []
+
+        for (const event of root.list) {
             const eventDate = new Date(event.dateTime)
-            eventDate.setHours(0, 0, 0, 0)
-            return eventDate.getTime() === targetDate.getTime()
-        })
+
+            if (event.recurrence === "yearly") {
+                if (eventDate.getMonth() === tMonth && eventDate.getDate() === tDay)
+                    yearlyMatches.push(event)
+            } else {
+                const eDate = new Date(eventDate); eDate.setHours(0, 0, 0, 0)
+                if (eDate.getTime() === targetDate.getTime())
+                    exactMatches.push(event)
+            }
+        }
+
+        if (yearlyMatches.length > 1) {
+            yearlyMatches.sort((a, b) => new Date(a.dateTime) - new Date(b.dateTime))
+            return exactMatches.concat([yearlyMatches[0]])
+        }
+        return exactMatches.concat(yearlyMatches)
     }
 
     function getUpcomingEvents(days) {
         const now = new Date()
+        const nowStart = new Date(now); nowStart.setHours(0, 0, 0, 0)
         const future = new Date()
         future.setDate(future.getDate() + (days || 7))
-        
-        return root.list.filter(event => {
+
+        const results = []
+        for (const event of root.list) {
+            if (event.notified) continue
             const eventDate = new Date(event.dateTime)
-            return eventDate >= now && eventDate <= future && !event.notified
-        }).sort((a, b) => new Date(a.dateTime) - new Date(b.dateTime))
+
+            if (event.recurrence === "yearly") {
+                // Find the next occurrence of this month+day within range
+                const eMonth = eventDate.getMonth()
+                const eDay = eventDate.getDate()
+                for (let y = nowStart.getFullYear(); y <= future.getFullYear(); y++) {
+                    const candidate = new Date(y, eMonth, eDay)
+                    if (candidate >= nowStart && candidate <= future) {
+                        results.push(Object.assign({}, event, { dateTime: candidate.toISOString() }))
+                        break
+                    }
+                }
+            } else {
+                if (eventDate >= now && eventDate <= future) {
+                    results.push(event)
+                }
+            }
+        }
+        return results.sort((a, b) => new Date(a.dateTime) - new Date(b.dateTime))
     }
 
     // Remove external (Google CalendarSync) events that are already represented

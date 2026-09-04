@@ -5,10 +5,8 @@
 -- This file will not be modified during dotfiles updates
 
 -- Default workspaces (DP-2: 1-5, HDMI-A-1: 6-10)
-hl.window_rule({ match = { class = "^(asm-gui)$" }, workspace = "special:silent" })
 hl.window_rule({ match = { class = "^(discord)$" }, workspace = "6" })
 hl.window_rule({ match = { class = "^(com\\.obsproject\\.Studio)$" }, workspace = "7" })
-hl.window_rule({ match = { title = "^(Arctis Sound Manager)$" }, workspace = "7" })
 hl.window_rule({ match = { class = "^(org\\.rncbc\\.qpwgraph)$" }, workspace = "7" })
 hl.window_rule({ match = { class = "^(zen|zen-alpha)$" }, workspace = "2" })
 hl.window_rule({ match = { class = "^([Ss]team)$" }, workspace = "1" })

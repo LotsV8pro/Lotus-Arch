@@ -1,5 +1,7 @@
 # Lotus Arch — Release Notes
 
+> **Note:** The Arctis Sound Manager / Sonar / HeSuVi audio pipeline described below was **removed in a later release**. Current releases use a hardware-agnostic **EasyEffects** audio stack (see [docs/AUDIO.md](../AUDIO.md)). These notes are kept as a historical record of v4.
+
 ## v4.6 — Live audio pipeline sync (EasyEffects + Aux), niri parity, newcomer README
 
 ### Audio pipeline now matches the reference build

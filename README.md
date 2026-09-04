@@ -12,7 +12,7 @@
 
 <p align="center">
   <b>Arch Linux — Hyprland and/or Niri + iNiR — Purple Lotus Desktop Environment</b><br>
-  <sub>Purple glassmorphism · works on any GPU · optional Arctis Nova 5 audio · Preset-ready</sub>
+  <sub>Purple glassmorphism · works on any GPU · EasyEffects audio · Preset-ready</sub>
 </p>
 
 ## ✦ Overview
@@ -22,7 +22,7 @@ Lotus Arch is a complete **Arch Linux desktop environment** with a choice of two
 - **Hyprland** — tiling compositor with a pure Lua configuration (no legacy `.conf` files), waybar, rofi.
 - **Niri + iNiR** *(optional)* — scrollable-tiling compositor paired with the [iNiR](https://github.com/snowarch/iNiR) Quickshell shell.
 
-Both share the same foundation: cohesive **purple glassmorphism**, works with **any graphics card** (NVIDIA / AMD / Intel), a built-in **preset system** to save/load entire desktop themes, and an optional streaming audio pipeline around the Arctis Nova 5.
+Both share the same foundation: cohesive **purple glassmorphism**, works with **any graphics card** (NVIDIA / AMD / Intel), a built-in **preset system** to save/load entire desktop themes, and a system-wide **EasyEffects** audio pipeline.
 
 | | |
 |---|---|
@@ -35,7 +35,7 @@ Both share the same foundation: cohesive **purple glassmorphism**, works with **
 | **Gaming Ready** | Steam, Lutris, MangoHud, Gamemode, Gamescope, VRR support |
 | **Wallpaper Browser** | Folder-based browser with `SUPER + W`, per-color dots, WE auto-sync |
 | **50+ Waybar Themes** | Pill style, floating, glass, monochrome — all Lotus-colored |
-| **OBS Pipeline** | Virtual mic/sink + auto-routing from Arctis headset |
+| **Audio** | EasyEffects EQ/effects chain, optional OBS streaming pipeline |
 
 ## ✦ Install
 
@@ -115,7 +115,8 @@ All configs are plain text under `~/.config/` and the installer backs up origina
 | Guide | Contents |
 |---|---|
 | [docs/INSTALLATION.md](docs/INSTALLATION.md) | Install commands, 13 phases, performance tweaks, requirements |
-| [docs/AUDIO.md](docs/AUDIO.md) | Audio devices, services, Sonar EQ, OBS virtual mic |
+| [docs/SETUP.md](docs/SETUP.md) | First-time setup — make the desktop & audio & calendar yours |
+| [docs/AUDIO.md](docs/AUDIO.md) | EasyEffects audio stack, services, OBS virtual mic |
 | [docs/STRUCTURE.md](docs/STRUCTURE.md) | Config tree layout |
 | [docs/THEMES.md](docs/THEMES.md) | Color palette & preset system |
 | [docs/NIRI-INIR.md](docs/NIRI-INIR.md) | Niri/iNiR session, animated wallpapers, WE sync |
