@@ -310,7 +310,10 @@ def run_birthday(op, creds, args):
     try:
         if op == "create":
             data = json.loads(args[1])
-            name = (data.get("summary") or "").strip()
+            # The person's name (from inir's contactName) — never the display
+            # title, which for birthdays is "<Name> Birthday". Fall back to the
+            # summary only for older callers that don't send "name".
+            name = (data.get("name") or data.get("summary") or "").strip()
             month, day = _month_day(data.get("dateTime") or "")
             # If a specific contact ID was provided (from the picker), use it directly.
             contact_id = (data.get("contactId") or "").strip()
