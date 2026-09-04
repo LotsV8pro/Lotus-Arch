@@ -12,10 +12,8 @@ BACKUP_DIR="$HOME/.config/dotfiles-backup/$(date +%Y%m%d_%H%M%S)"
 
 # ── Install-time choices (set by install.sh, overridable via env) ────────────
 #   LOTUS_SESSION   hypr | niri | both     (default: hypr)
-#   LOTUS_AUDIO     arctis | basic         (default: arctis)
 #   LOTUS_STREAMING yes | no               (default: yes)
 SESSION="${LOTUS_SESSION:-hypr}"
-AUDIO_MODE="${LOTUS_AUDIO:-arctis}"
 STREAMING="${LOTUS_STREAMING:-yes}"
 
 backup_and_copy() {
@@ -82,36 +80,15 @@ for dir in "$DOTFILES"/*/; do
         done
     fi
 
-    # ── Audio gating: strip the Arctis/Sonar pipeline on basic audio ──
-    if [[ "$AUDIO_MODE" != "arctis" ]]; then
-        case "$name" in
-            pipewire)
-                rm -f "$HOME/.config/pipewire/filter-chain.conf.d/"sonar-*.conf \
-                      "$HOME/.config/pipewire/filter-chain.conf.d/"sink-virtual-surround*.conf
-                [[ -d "$HOME/.config/pipewire/filter-chain.conf.d" ]] \
-                    && find "$HOME/.config/pipewire/filter-chain.conf.d" -maxdepth 0 -empty -delete 2>/dev/null || true ;;
-            wireplumber)
-                rm -f "$HOME/.config/wireplumber/wireplumber.conf.d/50-arctis.conf" ;;
-            easyeffects)
-                # EasyEffects IS the Arctis OBS virtual-mic chain — skip it on basic audio
-                rm -rf "$HOME/.config/easyeffects" ;;
-        esac
-    fi
-
     # ── Streaming gating: no OBS configs / stream units unless opted in ──
     if [[ "$STREAMING" != "yes" ]]; then
         [[ "$name" == "obs-studio" ]] && rm -rf "$HOME/.config/obs-studio"
     fi
 
-    # Arctis units follow the audio choice; streaming units the stream choice
+    # Streaming units follow the stream choice
     if [[ "$name" == "systemd" ]]; then
-        [[ "$AUDIO_MODE" != "arctis" ]] && \
-            rm -f "$HOME/.config/systemd/user/"arctis-*.service \
-                  "$HOME/.config/systemd/user/"auto-link-ee.service \
-                  "$HOME/.config/systemd/user/"easyeffects.service
         [[ "$STREAMING" != "yes" ]] && \
-            rm -f "$HOME/.config/systemd/user/"virtual-mic.service \
-                  "$HOME/.config/systemd/user/"auto-link-obs.service
+            rm -f "$HOME/.config/systemd/user/"virtual-mic.service
     fi
 done
 
@@ -199,14 +176,10 @@ if [[ -d "$DOTFILES/.local/bin" ]]; then
     chmod +x "$HOME/.local/bin/"* 2>/dev/null || true
 fi
 
-# ── Local share files (HRIR, icons, etc) ──
+# ── Local share files (icons, EasyEffects presets, etc) ──
 for share_dir in "$DOTFILES/.local/share/"*/; do
     [[ ! -d "$share_dir" ]] && continue
     name="$(basename "$share_dir")"
-    # HeSuVi HRIR convolution data is Arctis-pipeline-only
-    [[ "$name" == "pipewire" && "$AUDIO_MODE" != "arctis" ]] && continue
-    # EasyEffects presets are the Arctis OBS virtual-mic chain — skip on basic audio
-    [[ "$name" == "easyeffects" && "$AUDIO_MODE" != "arctis" ]] && continue
     echo "  → .local/share/$name..."
     mkdir -p "$HOME/.local/share/$name"
     cp -r "$share_dir"* "$HOME/.local/share/$name/" 2>/dev/null || true
@@ -256,7 +229,6 @@ chmod +x "$HOME/.config/hypr/UserScripts/"*.sh 2>/dev/null || true
 chmod +x "$HOME/.config/lotus-palette/"*.sh 2>/dev/null || true
 chmod +x "$HOME/.config/waybar/scripts/"*.sh 2>/dev/null || true
 chmod +x "$HOME/.config/hypr/initial-boot.sh" 2>/dev/null || true
-chmod +x "$HOME/.config/hypr/auto_link_obs.sh" 2>/dev/null || true
 
 if [[ -d "$BACKUP_DIR" ]]; then
     echo "  → Old configs backed up to: $BACKUP_DIR"

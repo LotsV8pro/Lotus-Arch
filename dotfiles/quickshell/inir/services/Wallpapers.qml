@@ -779,19 +779,123 @@ Singleton {
         selectProc.select(filePath, darkMode, monitorName, target)
     }
 
-    function randomFromCurrentFolder(darkMode = Appearance.m3colors.darkmode, monitorName = "", target = "") {
-        if (folderModel.count === 0) return
-        // Pick only from actual wallpaper files — the model includes subfolders
-        // (showDirs: true), and selecting a folder just navigates into it, so a
-        // blind pick appears to "do nothing" if it lands on a directory.
+    function _randomCandidateList(): var {
         const candidates = []
         for (let i = 0; i < folderModel.count; i++) {
             if (!folderModel.get(i, "fileIsDir"))
                 candidates.push(folderModel.get(i, "filePath"))
         }
+        return candidates
+    }
+
+    // Random one wallpaper for a single monitor (used when the selector is
+    // opened with an explicit target monitor).
+    function randomForMonitor(monitorName: string, darkMode: bool): void {
+        const candidates = root._randomCandidateList()
+        if (candidates.length === 0 || !monitorName) return
+        const current = Config.options?.background?.wallpapersByMonitor ?? []
+        let avoid = ""
+        for (const entry of current) {
+            if (entry && entry.monitor === monitorName && entry.path)
+                avoid = entry.path
+        }
+        let filePath = candidates[Math.floor(Math.random() * candidates.length)]
+        if (avoid && candidates.length > 1)
+            for (let t = 0; t < 5 && filePath === avoid; ++t)
+                filePath = candidates[Math.floor(Math.random() * candidates.length)]
+        root.apply(filePath, darkMode, monitorName)
+    }
+
+    // "Random" is scoped to the monitor the wallpaper editor was opened on:
+    // if the editor is open on a specific screen (wallpaperSelectorTargetMonitor
+    // is set while it's open), only that screen changes. Otherwise, when no
+    // editor is open, a plain random / auto-cycle acts per screen (each monitor
+    // gets its own independent pick). Videos and GIFs are part of the pool.
+    function randomFromCurrentFolder(darkMode = Appearance.m3colors.darkmode, monitorName = "", target = "") {
+        if (folderModel.count === 0) return
+        const resolvedTarget = root.resolveSelectionTarget(target, monitorName)
+
+        // Monitor the editor is open on (cleared when the editor closes).
+        const editorMonitor = monitorName
+            || GlobalStates.wallpaperSelectorTargetMonitor
+            || (Config.options?.wallpaperSelector?.targetMonitor ?? "")
+
+        if (editorMonitor && resolvedTarget === "main") {
+            root.randomForMonitor(editorMonitor, darkMode)
+            return
+        }
+
+        if (WallpaperListener.multiMonitorEnabled && resolvedTarget === "main") {
+            root.randomPerMonitor(darkMode)
+            return
+        }
+
+        const candidates = root._randomCandidateList()
         if (candidates.length === 0) return
-        const filePath = candidates[Math.floor(Math.random() * candidates.length)]
-        root.select(filePath, darkMode, monitorName, target)
+        root.select(candidates[Math.floor(Math.random() * candidates.length)], darkMode, monitorName, target)
+    }
+
+    // Pick a different random wallpaper for every screen; each screen keeps its
+    // own independent pick (per-monitor). Color theming follows the focused
+    // monitor's new wallpaper.
+    function randomPerMonitor(darkMode: bool): void {
+        const candidates = root._randomCandidateList()
+        if (candidates.length === 0) return
+        const screens = Quickshell.screens
+        if (!screens || screens.length === 0) {
+            root.select(candidates[Math.floor(Math.random() * candidates.length)], darkMode, "", "")
+            return
+        }
+        const currentMonitorPaths = {}
+        const currentMonitorRanges = {}
+        for (const entry of (Config.options?.background?.wallpapersByMonitor ?? [])) {
+            if (!entry || !entry.monitor) continue
+            if (entry.path) currentMonitorPaths[entry.monitor] = entry.path
+            if (entry.workspaceFirst !== undefined || entry.workspaceLast !== undefined)
+                currentMonitorRanges[entry.monitor] = {
+                    workspaceFirst: entry.workspaceFirst,
+                    workspaceLast: entry.workspaceLast
+                }
+        }
+
+        const newMap = []
+        let firstPath = ""
+        function pick(avoid) {
+            let p = candidates[Math.floor(Math.random() * candidates.length)]
+            if (avoid && candidates.length > 1)
+                for (let t = 0; t < 5 && p === avoid; ++t)
+                    p = candidates[Math.floor(Math.random() * candidates.length)]
+            return p
+        }
+        for (const screen of screens) {
+            const monitorName = WallpaperListener.getMonitorName(screen)
+            if (!monitorName) continue
+            const path = pick(currentMonitorPaths[monitorName])
+            if (!firstPath) firstPath = path
+            const range = currentMonitorRanges[monitorName] ?? {}
+            newMap.push({
+                monitor: monitorName,
+                path: path,
+                workspaceFirst: Number.isFinite(Number(range.workspaceFirst)) ? Number(range.workspaceFirst) : 1,
+                workspaceLast: Number.isFinite(Number(range.workspaceLast)) ? Number(range.workspaceLast) : 10
+            })
+        }
+        if (newMap.length === 0) return
+
+        Config.setNestedValue("background.wallpapersByMonitor", newMap)
+        Config.setNestedValue("background.wallpaperPath", firstPath)
+
+        const focused = WallpaperListener.getFocusedMonitor()
+        const primaryEntry = newMap.find(entry => entry.monitor === focused)
+        const primaryPath = primaryEntry ? primaryEntry.path : firstPath
+
+        // Re-run the color pipeline (thumbnails for animated picks) without
+        // changing the applied wallpaper again — the per-monitor map above is
+        // what the desktop actually renders.
+        root._applyInProgress = true
+        _applySuppressTimer.restart()
+        root._queueWallpaperScript(primaryPath, darkMode, true)
+        root.changed()
     }
 
     // Detect workspace range for a monitor (Niri-specific)
@@ -1094,16 +1198,29 @@ Singleton {
     }
 
     function _pickRandomAndApply() {
+        // Auto-cycle acts per screen too: every monitor gets its own random pick.
+        if (WallpaperListener.multiMonitorEnabled) {
+            root.randomPerMonitor(Appearance.m3colors.darkmode)
+            return
+        }
         if (folderModel.count === 0) return
         const currentPath = Config.options?.background?.wallpaperPath ?? ""
+        // Pick only from actual wallpaper files — the model includes subfolders
+        // (showDirs: true), so a blind pick can land on a directory and appear
+        // to do nothing. Videos and GIFs are intentionally part of the pool.
+        const candidates = []
+        for (let i = 0; i < folderModel.count; i++) {
+            if (!folderModel.get(i, "fileIsDir"))
+                candidates.push(folderModel.get(i, "filePath"))
+        }
+        if (candidates.length === 0) return
         let attempts = 0
-        let randomIndex, filePath
+        let filePath
         // Try to pick a different wallpaper than the current one
         do {
-            randomIndex = Math.floor(Math.random() * folderModel.count)
-            filePath = folderModel.get(randomIndex, "filePath")
+            filePath = candidates[Math.floor(Math.random() * candidates.length)]
             attempts++
-        } while (filePath === currentPath && attempts < 5 && folderModel.count > 1)
+        } while (filePath === currentPath && attempts < 5 && candidates.length > 1)
 
         if (!filePath) return
 

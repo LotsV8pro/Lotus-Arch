@@ -34,7 +34,6 @@ NOTABLE_APPS=(
   "cava:Cava (audio visualizer)"
   "neovim:Neovim (text editor)"
   "openrgb:OpenRGB (RGB control)"
-  "arctis-sound-manager:Arctis Sound Manager"
   "linux-wallpaperengine-bin:Wallpaper Engine"
 )
 
@@ -68,7 +67,7 @@ CATEGORIES["Dev Tools"]="neovim nodejs npm python python-pip rust gcc cmake ninj
 CATEGORIES["System Utils"]="fastfetch btop lsd fzf jq ripgrep htop yazi inxi nvtop"
 CATEGORIES["Bluetooth"]="blueman bluez bluez-utils"
 CATEGORIES["Theming"]="kvantum qt5ct qt6ct nwg-look nwg-displays gtk-engine-murrine"
-CATEGORIES["ASUS Hardware"]="asusctl deepcool-digital-linux-git openrgb arctis-sound-manager"
+CATEGORIES["ASUS Hardware"]="asusctl deepcool-digital-linux-git openrgb"
 CATEGORIES["Printing"]="cups system-config-printer"
 
 for cat_name in "${!CATEGORIES[@]}"; do
@@ -190,17 +189,12 @@ if confirm "Install Lotus Discord theme (Vencord)"; then
   fi
 fi
 
-# ── Audio setup: virtual mic + loop hole + Arctis services ──
+# ── Audio setup: EasyEffects + OBS virtual mic ──
 echo ""
 echo "  --- Audio pipeline setup ---"
 
 SERVICES=(
   "virtual-mic.service:OBS Virtual Microphone (loopback from OBS virtual sink)"
-  "arctis-manager.service:Arctis Sound Manager daemon"
-  "arctis-gui.service:Arctis Sound Manager system tray"
-  "arctis-video-router.service:Arctis Media Router (route browser audio to Arctis_Media)"
-  "auto-link-obs.service:Auto-link Arctis Game/Media audio to OBS virtual sink"
-  "auto-link-ee.service:Auto-bridge EasyEffects master output to Arctis PCM"
   "easyeffects.service:Easy Effects mic processing (OBS virtual mic EQ)"
 )
 
@@ -213,18 +207,5 @@ for entry in "${SERVICES[@]}"; do
     echo "    enabled ✓"
   fi
 done
-
-# Deploy HRIR file for HeSuVi virtual surround (Arctis pipeline only)
-if [[ "${LOTUS_AUDIO:-arctis}" == "arctis" ]]; then
-  if confirm "HeSuVi 7.1 Virtual Surround (HRIR convolution)"; then
-    HRIR_SRC="$SCRIPT_DIR/../dotfiles/.local/share/pipewire/hrir_hesuvi/hrir.wav"
-    HRIR_DST="$HOME/.local/share/pipewire/hrir_hesuvi/hrir.wav"
-    if [[ -f "$HRIR_SRC" ]]; then
-      mkdir -p "$(dirname "$HRIR_DST")"
-      cp "$HRIR_SRC" "$HRIR_DST"
-      echo "    ✓ HRIR file deployed"
-    fi
-  fi
-fi
 
 echo "[09] User packages, themes, and audio services restored."

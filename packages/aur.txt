@@ -1,4 +1,3 @@
-arctis-sound-manager
 asusctl
 atlauncher-bin
 caelestia-cli

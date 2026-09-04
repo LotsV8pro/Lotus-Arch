@@ -2,15 +2,14 @@
 # Phase 2: AUR packages — grouped categories (one prompt per group)
 #
 # Groups marked [core] are always installed (the theme/system depends on them).
-# The Arctis and OBS capture groups follow the choices made at install start:
-#   LOTUS_AUDIO=arctis|basic   LOTUS_STREAMING=yes|no
+# The OBS capture group follows the streaming choice made at install start
+# (LOTUS_STREAMING=yes|no).
 
 set -euo pipefail
 
 echo "[02] Installing AUR packages..."
 
 SESSION="${LOTUS_SESSION:-hypr}"
-AUDIO_MODE="${LOTUS_AUDIO:-arctis}"
 STREAMING="${LOTUS_STREAMING:-yes}"
 
 # ── Grouped AUR packages ─────────────────────────────────────────────────────
@@ -20,7 +19,6 @@ AUR_GROUPS=(
     "CHAT:Chat (Discord)"
     "MEDIA:Media & Audio tools (Spotify, cava, noise suppression)"
     "DESKTOP:Desktop extras (Wallpaper Engine, OpenRGB, DeepCool Digital)"
-    "ARCTIS:Arctis Sound Manager (Arctis Nova 5 headset)"
 )
 
 # [core] groups — no prompt, always selected
@@ -37,7 +35,6 @@ GROUP_PACKAGES=(
     "CHAT:discord"
     "MEDIA:spotify cava noise-suppression-for-voice"
     "DESKTOP:linux-wallpaperengine-bin openrgb deepcool-digital-linux-git"
-    "ARCTIS:arctis-sound-manager"
 )
 
 SELECTED=("${CORE_PACKAGES[@]}")
@@ -45,18 +42,6 @@ SELECTED=("${CORE_PACKAGES[@]}")
 for entry in "${AUR_GROUPS[@]}"; do
     name="${entry%%:*}"
     desc="${entry#*:}"
-
-    # Arctis group follows the audio choice from install start
-    if [[ "$name" == "ARCTIS" ]]; then
-        if [[ "$AUDIO_MODE" != "arctis" ]]; then
-            echo "  [skip] $desc — Arctis pipeline not selected"
-            continue
-        fi
-        echo -e -n "\n  Install $desc? [Y/n]: "
-        read -r ans
-        [[ ! "$ans" =~ ^[Nn] ]] && SELECTED+=(arctis-sound-manager)
-        continue
-    fi
 
     if [[ "${LOTUS_UNATTENDED:-}" == "full" ]]; then
         echo "  Install $desc? [auto: yes]"

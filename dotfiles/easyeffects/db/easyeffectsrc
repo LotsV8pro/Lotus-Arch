@@ -8,7 +8,7 @@ lastLoadedInputPreset=Default
 spectrumShape=area
 
 [StreamInputs]
-inputDevice=effect_output.sonar-micro-eq
+inputDevice=
 mostUsedPresets=Default,Warmer,Current
 plugins=deepfilternet#0,rnnoise#0,speex#0,equalizer#0,compressor#0,exciter#0,stereo_tools#0,limiter#0
 usedPresets=Default:9,Warmer:7,Current:5
@@ -17,7 +17,7 @@ visiblePlugin=exciter#0
 
 [StreamOutputs]
 blocklist=Wuthering Waves,spotify,Zen
-outputDevice=effect_input.sonar-output-eq
+outputDevice=
 
 [Window]
 autostartOnLogin=true

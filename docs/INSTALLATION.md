@@ -35,7 +35,7 @@ The installer first asks for your **session**:
   3) Both                — install both, pick at the SDDM login screen
 ```
 
-Two hardware-pack questions follow (Arctis audio pipeline / OBS streaming pack) — they gate which audio configs and services get deployed, in **both** sessions.
+A hardware-pack question follows (OBS streaming pack) — it gates which streaming configs and services get deployed, in **both** sessions.
 
 Then it runs **13 phases** interactively:
 
@@ -52,7 +52,7 @@ Phase 6:  Deploy Dotfiles      — All configs (backup originals first)
 Phase 7:  Hyprland Plugins     — HyprGlass liquid glass plugin
 Phase 8:  Final Cleanup        — Cache cleanup, directory setup
 Phase 9:  Restore User Apps    — Per-app prompts (Discord, Steam, Spotify, OBS…)
-                                 + Audio services (virtual mic, loop hole, Arctis)
+                                 + Audio services (virtual mic, EasyEffects)
                                  + Spicetify Lotus theme + Discord Lotus theme
 Phase 10: Performance Tweaks   — Selectable profile (NVIDIA / AMD). Optional:
                                  GPU OC/fan curve, CPU governor, sysctl, NVMe, GRUB C-states
@@ -96,13 +96,13 @@ The Phase 10 `performance-tweaks/` layout and its RTX 4070-tuned OC values are s
 - **OS:** Arch Linux
 - **Compositor:** Hyprland 0.55+ (Lua config) and/or Niri + iNiR (optional session)
 - **GPU:** works with **NVIDIA, AMD, or Intel**. You select your graphics card during install (gates which drivers Phase 3 installs). The Phase 10 overclock/undervolt profile ships RTX 4070-tuned example values — the basic desktop needs nothing 4070-specific.
-- **Audio:** PipeWire + WirePlumber (Arctis Nova 5 recommended for the full audio pipeline)
+- **Audio:** PipeWire + WirePlumber + EasyEffects (system-wide EQ/effects — works with any sound card)
 - **Terminal:** Kitty (the configs default to `$term = kitty`; ghostty configs ship as an optional extra in `dotfiles/ghostty/`)
 - **Depends on:** Waybar, Rofi, swaync, wlogout, `awww` (wallpaper daemon — the scripts call `swww`, which is symlinked to `awww` automatically during install since `swww` is deprecated), wallust
 - **Niri session only:** quickshell + iNiR ([github.com/snowarch/iNiR](https://github.com/snowarch/iNiR) — installed automatically by Phase 12)
 
 > **Portable:** configs use a `@HOME@` sentinel that the installer rewrites to your real home directory at deploy
-> time, ships a starter wallpaper set, and keeps optional bits (Arctis audio services, OBS pipeline) behind per-app
+> time, ships a starter wallpaper set, and keeps optional bits (OBS streaming pipeline) behind per-app
 > prompts — so it works on any hardware and username.
 >
 > **Any monitors:** the compositor configs ship *portable* by default — niri (`monitor.kdl`) and Hyprland

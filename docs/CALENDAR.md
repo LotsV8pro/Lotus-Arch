@@ -15,6 +15,18 @@ This is a **per-machine, opt-in** feature — **none of this is automatic and no
 | `dotfiles/systemd/user/inir-birthdays.{service,timer}` — 5-min sync timer | your Google account/contact data |
 | `tools/install-calendar.sh` — guided setup | — |
 
+## Birthday & yearly-event matching
+
+The iNiR calendar distinguishes **three kinds of events**, and yearly recurrence is handled specially so that **birthdays and annual events always show up on the right day, every year**:
+
+- **Exact-date events** — an event whose date falls on the date being shown.
+- **Yearly-recurring events** (`recurrence === "yearly"`) — birthdays. Because the stored birth *year* may differ from the current year (e.g. a contact's birth year), a yearly event is matched by **month + day only**, not by the stored year. For each date the shell keeps at most **one** yearly event (the earliest) to avoid duplicates when both a local birthday and the synced "Cumpleaños" Google event exist for the same person.
+- **Upcoming events** — `getUpcomingEvents(days)` finds the *next* occurrence of each yearly event within the lookahead window using the same month+day rule, so a birthday is reported even when its year field is stale.
+
+> **Why young-year birthdays matter:** if a contact's birth year is newer than the current year (or the year field was written differently), matching by *full date* would silently hide the birthday. Matching by **month + day** guarantees the reminder still fires every year regardless of the stored year.
+
+See also [SETUP.md](SETUP.md) for the end-to-end first-time setup with your own personal data.
+
 ## Create your own OAuth (one-time)
 
 Because only **you** own your Google data, the repo can't — and won't — contain a ready-made token. Mint your own in ~5 minutes:
