@@ -62,9 +62,9 @@ while IFS= read -r f; do
     case "$f" in
         *README.md|*06-dotfiles.sh|*tools/scan-secrets.sh|*release-v[0-9]*.md|*/inir/config.json) continue ;;
     esac
-    echo "  [!] $f contains @HOME@"
+    echo "  [!] $f contains /home/lots"
     FAILED=1
-done < <(rg -l "@HOME@" "$SCAN_ROOT" --hidden -g '!.git' 2>/dev/null || true)
+done < <(rg -l "/home/lots" "$SCAN_ROOT" --hidden -g '!.git' 2>/dev/null || true)
 
 echo "── Personal symlinks ──"
 while IFS= read -r f; do
