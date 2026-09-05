@@ -24,7 +24,7 @@ MANIFEST = os.path.join(OUTDIR, "manifest.json")
 CONTACTS_ID = "#contacts@group.v.calendar.google.com"
 CONTACTS_TITLE = "Cumpleaños (Contactos)"
 SELF_UID_RE = re.compile(
-    r"BEGIN:VEVENT.*?UID:[^\n]*BIRTHDAY_self@google\.com[^\n]*.*?END:VEVENT",
+    r"BEGIN:VEVENT(?:(?!BEGIN:VEVENT).)*?UID:[^\n]*BIRTHDAY_self@google\.com(?:(?!BEGIN:VEVENT).)*?END:VEVENT",
     re.S,
 )
 

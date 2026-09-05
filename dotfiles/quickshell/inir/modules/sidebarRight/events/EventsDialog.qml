@@ -13,6 +13,15 @@ WindowDialog {
     id: root
     backgroundHeight: 600
 
+    Component.onCompleted: {
+        Events.birthdayContactCreated.connect((ok, contactId) => {
+            if (ok) {
+                root.resetForm()
+                root.dismiss()
+            }
+        })
+    }
+
     property var editingEvent: null
     property bool isEditing: editingEvent !== null
 
@@ -43,12 +52,6 @@ WindowDialog {
     readonly property color colDropdownBg: Appearance.colors.colLayer1Base
     readonly property color colDropdownText: Appearance.colors.colOnLayer1
     readonly property color colDropdownSubtext: Appearance.colors.colSubtext
-
-    Component.onCompleted: {
-        console.log("[EventsDialog] DEBUG2 bg:", root.colDropdownBg)
-        console.log("[EventsDialog] DEBUG2 text:", root.colDropdownText)
-        console.log("[EventsDialog] DEBUG2 subtext:", root.colDropdownSubtext)
-    }
 
     function resetForm(): void {
         root.editingEvent = null
@@ -169,18 +172,29 @@ WindowDialog {
                 Events.createInGoogle(edited, null, root.selectedContactId)
             }
         } else {
-            const event = Events.addEvent(
-                effectiveTitle,
-                root.eventDescription.trim(),
-                dateTimeIso,
-                root.eventCategory,
-                root.eventPriority,
-                root.reminderMinutes,
-                root.recurrence,
-                root.eventAllDay,
-                root.eventCategory === "birthday" ? personName : (effectiveTitle || "")
-            )
-            if (root.syncToGoogle) Events.pushToGoogle(event, null, root.selectedContactId)
+            if (root.eventCategory === "birthday") {
+                // Birthdays live in Google Contacts (via the "Cumpleaños" calendar),
+                // not as local events. Only the person's name and birthday are sent;
+                // the sync pipeline displays them in the calendar.
+                Events.createBirthdayContact(
+                    personName || root.eventTitle.trim(),
+                    dateTimeIso,
+                    root.selectedContactId
+                )
+            } else {
+                const event = Events.addEvent(
+                    effectiveTitle,
+                    root.eventDescription.trim(),
+                    dateTimeIso,
+                    root.eventCategory,
+                    root.eventPriority,
+                    root.reminderMinutes,
+                    root.recurrence,
+                    root.eventAllDay,
+                    root.eventCategory === "birthday" ? personName : (effectiveTitle || "")
+                )
+                if (root.syncToGoogle) Events.pushToGoogle(event, null, root.selectedContactId)
+            }
         }
         return true
     }
@@ -630,6 +644,11 @@ WindowDialog {
             enabled: root.canSave
             onClicked: {
                 if (root.saveEvent()) {
+                    if (root.eventCategory === "birthday" && !root.isEditing) {
+                        // Birthday is created asynchronously in Google Contacts;
+                        // the dialog closes via birthdayContactCreated.
+                        return
+                    }
                     root.resetForm()
                     root.dismiss()
                 }
