@@ -1520,22 +1520,22 @@
             "sources": [
                 {
                     "id": "cal_00_sync",
-                    "name": "lotsv8proyt@gmail.com",
-                    "url": "file://@HOME@/.config/inir-birthdays/00-lotsv8proyt-gmail-com.ics",
+                    "name": "Google Calendar",
+                    "url": "file://@HOME@/.config/inir-birthdays/00.ics",
                     "color": "#4285F4",
                     "enabled": true
                 },
                 {
                     "id": "cal_01_sync",
                     "name": "Festivos en España",
-                    "url": "file://@HOME@/.config/inir-birthdays/01-festivos-en-espa-a.ics",
+                    "url": "file://@HOME@/.config/inir-birthdays/01.ics",
                     "color": "#EA4335",
                     "enabled": true
                 },
                 {
                     "id": "cal_03_sync",
                     "name": "Cumpleaños (Contactos)",
-                    "url": "file://@HOME@/.config/inir-birthdays/02-cumplea-os-contactos.ics",
+                    "url": "file://@HOME@/.config/inir-birthdays/02.ics",
                     "color": "#34A853",
                     "enabled": true
                 }

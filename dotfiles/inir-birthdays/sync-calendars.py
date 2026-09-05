@@ -147,11 +147,6 @@ def caldav_events(creds, cal_id):
     return None
 
 
-def slugify(title):
-    s = re.sub(r"[^A-Za-z0-9]+", "-", title).strip("-").lower()
-    return s[:24] or "cal"
-
-
 def write_atomic(path, text):
     os.makedirs(OUTDIR, exist_ok=True)
     with tempfile.NamedTemporaryFile(
@@ -226,7 +221,10 @@ def main():
         if cid == CONTACTS_ID:
             ics = SELF_UID_RE.sub("", ics)
         ics = strip_vevents_by_uid(ics, synced_ids, birthday_suffixes)
-        path = os.path.join(OUTDIR, f"{i:02d}-{slugify(title)}.ics")
+        # Portable, non-personal filename (the raw Google title can be a
+        # personal email, so never embed it in the path). The manifest maps
+        # the readable name to this index-based file.
+        path = os.path.join(OUTDIR, f"{i:02d}.ics")
         write_atomic(path, ics)
         manifest.append({
             "name": title,
