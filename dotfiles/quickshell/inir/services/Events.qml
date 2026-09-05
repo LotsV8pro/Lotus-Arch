@@ -138,6 +138,56 @@ Singleton {
             "T" + p(d.getHours()) + ":" + p(d.getMinutes()) + ":" + p(d.getSeconds())
     }
 
+    // ═══ Birthday contact creation (no local event) ═══
+    signal birthdayContactCreated(bool ok, string contactId)
+    Process {
+        id: birthdayContactProc
+        running: false
+        stdout: SplitParser {
+            splitMarker: ""
+            onRead: (data) => { birthdayContactProc._rawOut += data }
+        }
+        property string _rawOut: ""
+        onRunningChanged: { if (running) _rawOut = "" }
+        onExited: (code, status) => {
+            const raw = birthdayContactProc._rawOut.trim()
+            let result = null
+            const lines = raw.split("\n")
+            for (let i = lines.length - 1; i >= 0; i--) {
+                try { result = JSON.parse(lines[i]); break } catch (e) { /* skip */ }
+            }
+            if (code === 0 && result && result.ok) {
+                root.birthdayContactCreated(true, result.id || "")
+            } else {
+                const err = result?.error || raw || `exit ${code}`
+                console.warn("[Events] Birthday contact creation failed:", err)
+                Quickshell.execDetached([
+                    "/usr/bin/notify-send",
+                    "-h", "int:transient:1",
+                    "-a", "Quickshell ii",
+                    "-i", "error",
+                    "Contact creation failed",
+                    `${err}`
+                ])
+                root.birthdayContactCreated(false, "")
+            }
+        }
+    }
+
+    function createBirthdayContact(name, dateTime, contactId) {
+        birthdayContactProc.command = [
+            "/usr/bin/python3", root.googleOpScript,
+            "create",
+            JSON.stringify({
+                category: "birthday",
+                name: name,
+                dateTime: root._localDateTimeString(dateTime),
+                contactId: contactId || ""
+            })
+        ]
+        birthdayContactProc.running = true
+    }
+
     // ═══ Contact search for birthday picker ═══
     property var contactSearchResults: []
     property bool contactSearchRunning: false
