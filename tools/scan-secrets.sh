@@ -20,6 +20,11 @@ SECRET_PATTERNS=(
     'github_pat_[0-9A-Za-z_]{20,}'
     'xox[baprs]-[0-9A-Za-z-]{10,}'
     'sk-[0-9A-Za-z]{20,}'
+    # A Google-account email in an ICS path or calendar source would leak
+    # the owner's address. SPDX attribution headers are fine, so only flag
+    # emails inside a file:// calendar URL.
+    'file://[^"]*[a-z0-9.+-]+@[a-z0-9.-]+\.[a-z]{2,}'
+    'file://[^"]*-gmail-com\.ics'
 )
 
 RISK_FILES=(
