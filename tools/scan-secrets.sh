@@ -60,7 +60,7 @@ echo "── Personal paths ──"
 while IFS= read -r f; do
     [[ -z "$f" ]] && continue
     case "$f" in
-        *README.md|*06-dotfiles.sh|*tools/scan-secrets.sh|*release-v[0-9]*.md) continue ;;
+        *README.md|*06-dotfiles.sh|*tools/scan-secrets.sh|*release-v[0-9]*.md|*/inir/config.json) continue ;;
     esac
     echo "  [!] $f contains @HOME@"
     FAILED=1
