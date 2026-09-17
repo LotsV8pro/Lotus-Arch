@@ -39,6 +39,12 @@ packs, and documents the reference machine's exact specs.
 
 ### Notes
 
+- **Hyprland session may have rough edges.** It is the session that has been
+  **touched least** during this re-sync (Niri + iNiR is the daily driver).
+  The config re-sync touched `hyprland.lua`, `monitors.lua`, `hypridle.conf`
+  and `hyprlock.conf`, and the new `dotfiles/hypr/config/*.lua` split was
+  migrated from the old `configs/` modules. If you hit issues: `hyprctl`
+  config reload first, and check `~/.config/hypr/` for leftover `.conf` files.
 - **Wallpaper color packs were trimmed from 4 to **3 per color** (Dracula stays a
   single dark set). If you previously installed the 4th image of any pack,
   simply keep using it — your local copy is untouched.
