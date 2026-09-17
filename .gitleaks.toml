@@ -1,0 +1,15 @@
+# Gitleaks config for Lotus-Arch.
+# Default ruleset with allowlist entries for known false positives:
+#   - Material You palette keys in the iNiR theme editor
+#     (e.g. { label: "Variant", key: "m3surfaceVariant" })
+#     are color-token labels, not secrets.
+
+title = "Lotus-Arch gitleaks config"
+
+[extend]
+useDefault = true
+
+[allowlist]
+paths = [
+    '''dotfiles/quickshell/inir/modules/settings/CustomThemeEditor\.qml''',
+]
