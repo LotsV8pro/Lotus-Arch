@@ -15,6 +15,7 @@ useDefault = true
 [allowlist]
 paths = [
     '''dotfiles/quickshell/inir/modules/settings/CustomThemeEditor\.qml''',
+    '''dotfiles/obs-studio/basic/scenes/Untitled\.json''',
 ]
 
 regexes = [
