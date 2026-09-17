@@ -2,25 +2,32 @@
 levelMetersFpsCap=58
 
 [Presets]
-lastLoadedInputPreset=Default
+lastLoadedInputPreset=Warmer
+lastLoadedOutputPreset=Artics Nova 5
 
 [Spectrum]
 spectrumShape=area
 
 [StreamInputs]
-inputDevice=
-mostUsedPresets=Default,Warmer,Current
-plugins=deepfilternet#0,rnnoise#0,speex#0,equalizer#0,compressor#0,exciter#0,stereo_tools#0,limiter#0
-usedPresets=Default:9,Warmer:7,Current:5
+inputDevice=alsa_input.usb-SteelSeries_SteelSeries_Arctis_Nova_5-00.pro-input-0
+mostUsedPresets=Default,Current,Warmer
+plugins=rnnoise#0,equalizer#0,limiter#0
+usedPresets=Default:14,Current:8,Warmer:1
 visiblePage=pluginsPage
-visiblePlugin=exciter#0
+visiblePlugin=equalizer#0
 
 [StreamOutputs]
 blocklist=Wuthering Waves,spotify,Zen
-outputDevice=
+mostUsedPresets=Artics Nova 5
+outputDevice=alsa_output.usb-SteelSeries_SteelSeries_Arctis_Nova_5-00.pro-output-0
+plugins=compressor#0,limiter#0
+usedPresets=Artics Nova 5:2
+visiblePage=pluginsPage
+visiblePlugin=limiter#0
 
 [Window]
 autostartOnLogin=true
-height=1345
+height=990
 visiblePage=inputPage
-width=1242
+visiblePresetSheetPage=autoloadingPage
+width=922

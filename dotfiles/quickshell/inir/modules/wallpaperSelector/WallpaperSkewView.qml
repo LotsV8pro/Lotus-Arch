@@ -631,13 +631,6 @@ Item {
         onTriggered: _saveFavouritesProc.running = true
     }
 
-    Process {
-        id: _saveFavouritesProc
-        command: ["bash", "-c",
-            "printf '%s' " + JSON.stringify(JSON.stringify(root._favouritesDb)) +
-            " > " + JSON.stringify(root._favouritesCachePath)]
-    }
-
     // ─── Color cache persistence ───
     FileView {
         id: colorsFileView
@@ -666,14 +659,39 @@ Item {
     Timer {
         id: _saveColorsDebounce
         interval: 500
-        onTriggered: _saveColorsProc.running = true
+        onTriggered: root._saveColors()
+    }
+
+    function _utf8ByteLength(s: string): int {
+        // Exact UTF-8 byte count, so the Python reader knows how many bytes to
+        // consume from stdin (encodeURIComponent escapes non-ASCII; unescape
+        // then gives one byte per char in the escaped form).
+        return unescape(encodeURIComponent(s)).length
     }
 
     Process {
         id: _saveColorsProc
-        command: ["bash", "-c",
-            "printf '%s' " + JSON.stringify(JSON.stringify(root._colorsDb)) +
-            " > " + JSON.stringify(root._colorsCachePath)]
+        property string _pendingWrite: ""
+        stdinEnabled: true
+        onStarted: _saveColorsProc.write(_saveColorsProc._pendingWrite)
+    }
+
+    function _saveColors(): void {
+        const data = JSON.stringify(root._colorsDb)
+        if (!data) return
+        _saveColorsProc._pendingWrite = data
+        _saveColorsProc.command = ["/usr/bin/python3", "-c",
+            "import sys, os\n"
+            + "n = int(sys.argv[1])\n"
+            + "path = sys.argv[2]\n"
+            + "buf = b''\n"
+            + "while len(buf) < n:\n"
+            + "    chunk = os.read(0, n - len(buf))\n"
+            + "    if not chunk: break\n"
+            + "    buf += chunk\n"
+            + "with open(path, 'w', encoding='utf-8') as f: f.write(buf.decode('utf-8'))",
+            String(root._utf8ByteLength(data)), root._colorsCachePath]
+        _saveColorsProc.running = true
     }
 
     // ─── File deletion ───

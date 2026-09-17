@@ -3,7 +3,7 @@
 window {
     font-family: "JetBrainsMono Nerd Font";
     font-size: 14pt;
-    color: #D8D0E8;
+    color: #DCE8E8;
     background-color: transparent;
 }
 
@@ -11,33 +11,33 @@ button {
     background-repeat: no-repeat;
     background-position: center 30%;
     background-size: 96px 96px;
-    background-color: rgba(28, 26, 34, 0.50);
-    color: #D8D0E8;
-    border: 1px solid rgba(56, 48, 72, 0.50);
-    border-top: 2px solid rgba(216, 208, 232, 0.28);
+    background-color: rgba(19, 27, 27, 0.50);
+    color: #DCE8E8;
+    border: 1px solid rgba(63, 74, 74, 0.50);
+    border-top: 2px solid rgba(220, 232, 232, 0.28);
     border-radius: 26px;
     min-width: 200px;
     min-height: 200px;
     padding: 130px 0 0 0;
     margin: 150px 50px;
-    box-shadow: inset 0 12px 20px -10px rgba(216, 208, 232, 0.22), inset 0 -16px 22px -12px rgba(0, 0, 0, 0.65);
+    box-shadow: inset 0 12px 20px -10px rgba(220, 232, 232, 0.22), inset 0 -16px 22px -12px rgba(0, 0, 0, 0.65);
     outline-style: none;
     text-shadow: none;
     transition: all 0.25s cubic-bezier(.55, 0.0, .28, 1.682), background-color 0.25s ease-in-out, border-color 0.25s ease-in-out;
 }
 
 button:hover {
-    background-color: rgba(196, 168, 226, 0.45);
-    border-color: #8C7AA6;
-    border-top: 2px solid rgba(216, 208, 232, 0.45);
+    background-color: rgba(155, 208, 210, 0.45);
+    border-color: #B0CCCC;
+    border-top: 2px solid rgba(220, 232, 232, 0.45);
     background-size: 96px 96px;
-    box-shadow: inset 0 12px 20px -10px rgba(216, 208, 232, 0.35), inset 0 -16px 22px -12px rgba(0, 0, 0, 0.50);
-    color: #8C7AA6;
+    box-shadow: inset 0 12px 20px -10px rgba(220, 232, 232, 0.35), inset 0 -16px 22px -12px rgba(0, 0, 0, 0.50);
+    color: #B0CCCC;
     margin: 150px 50px;
 }
 
 button label {
-    color: #D8D0E8;
+    color: #DCE8E8;
     font-size: 16px;
     font-weight: 600;
     text-shadow: none;

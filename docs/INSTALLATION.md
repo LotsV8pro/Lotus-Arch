@@ -35,7 +35,7 @@ The installer first asks for your **session**:
   3) Both                — install both, pick at the SDDM login screen
 ```
 
-A hardware-pack question follows (OBS streaming pack) — it gates which streaming configs and services get deployed, in **both** sessions.
+A hardware-pack question follows (OBS streaming pack) — it gates which streaming configs and services get deployed, in **both** sessions. A **starter wallpapers** prompt follows too (optional — declining keeps your `~/Pictures/wallpapers` untouched; accepting seeds the stock 3-per-color filter packs + the default wallpaper).
 
 Then it runs **13 phases** interactively:
 
@@ -56,54 +56,59 @@ Phase 9:  Restore User Apps    — Per-app prompts (Discord, Steam, Spotify, OBS
                                  + Spicetify Lotus theme + Discord Lotus theme
 Phase 10: Performance Tweaks   — Selectable profile (NVIDIA / AMD). Optional:
                                  GPU OC/fan curve, CPU governor, sysctl, NVMe, GRUB C-states
-Phase 11: Optional Extras      — extra presets, GPU tuning pack, GT Racing
-                                 wallpapers (~82 MB), movie-tui config
+Phase 11: Optional Extras      — extra presets, GPU tuning pack, movie-tui
+                                 config
 Phase 12: iNiR Shell           — only if Niri was chosen; clones upstream iNiR,
                                  overlays Lotus configs, wires the session
+Phase 6b: Starter wallpapers   — OPTIONAL separate prompt: 3 per color of the
+                                 filter + Default/2b2.jpg. Declining keeps your
+                                 existing ~/Pictures/wallpapers untouched.
 ```
 
 ### Performance Tweaks (Phase 10)
 
-Phase 10 is **optional and purely additive** — the base desktop works on **any graphics card** without it. It asks about each tweak individually and starts by asking you to pick your **hardware profile** (NVIDIA or AMD, defaulted to the graphics card you selected earlier). Everything here is opt-in, and the **overclock/undervolt numbers below are tuned specifically for an RTX 4070** — running them on a different card is not recommended; skip the OC/undervolt tweaks (or edit the offsets) if you don't have a 4070.
+Phase 10 is **optional and purely additive** — the base desktop works on **any graphics card** without it. It asks about each tweak individually and starts by asking you to pick your **hardware profile** (NVIDIA or AMD, defaulted to the graphics card you selected earlier). Everything here is opt-in, and the **overclock numbers below are tuned specifically for this build's RTX 4070** — running them on a different card is not recommended; skip the OC/lock tweaks (or edit the offsets) if you don't have a 4070.
 
 | Profile | GPU tweaks | CPU tweaks |
 |---|---|---|
-| **NVIDIA** | RTX 4070-tuned example — 160W power limit, +150 core / +1500 mem OC (nvidia-smi), Coolbits X config, dynamic fan curve *(adjust for your model)* | `intel_pstate` min perf 50% + performance governor |
+| **NVIDIA** | RTX 4070 example — **216 W power limit**, memory lock **12001 MHz**, graphics lock **3255 MHz**, +150 core offset (nvidia-smi/nvidia-settings), Coolbits X config, dynamic fan curve *(adjust for your model)* | `intel_pstate` min perf 50% + performance governor |
 | **AMD** | amdgpu DPM forced to high, hwmon fan curve, optional `ppfeaturemask` for CoreCtrl OC | `amd_pstate` EPP=performance + performance governor |
 
-Applied tweaks persist across reboots. **The OC/undervolt figures are for an RTX 4070** — on any other card keep the non-OC tweaks (fan curve, governor, sysctl) and adjust or skip the power-limit/clock offsets:
+Applied tweaks persist across reboots. **The OC figures are for the RTX 4070 of the reference build** — on any other card keep the non-OC tweaks (fan curve, governor, sysctl) and adjust or skip the power-limit/clock locks:
 
 | Tweak | What it does |
 |---|---|
-| **GPU power limit** | RTX 4070 example: caps at 160W — loses ~2% perf, runs cooler and more stable *(adjust per GPU)* |
-| **GPU core OC** | RTX 4070 example: +150 MHz core offset (via Coolbits), stable on that card |
-| **GPU mem OC** | RTX 4070 example: +1500 MHz on GDDR6X, typical headroom *(edit for your VRAM)* |
-| **GPU fan curve** | Dynamic 30-100% based on temperature, keeps card under 65°C |
+| **GPU power limit** | RTX 4070 example: caps at **216 W** (the card's max) — configurable, cooler / quieter *(adjust per GPU)* |
+| **GPU core lock** | RTX 4070 example: locks the GPU to **3255 MHz** (VF-curve ceiling) via `nvidia-smi -lgc` |
+| **GPU mem lock** | RTX 4070 example: locks memory to **12001 MHz** (over the 10501 stock) via `nvidia-smi -lmc` |
+| **GPU core offset** | RTX 4070 example: **+150 MHz** on all performance levels (via Coolbits) |
+| **GPU fan curve** | Dynamic 30-100% based on temperature, keeps card under ~65°C |
 | **AMD GPU perf** | Forces highest DPM performance level + 3D workload profile |
 | **CPU governor** | Sets `performance` governor (Intel pstate + AMD pstate) at boot |
 | **CPU C-states** | Limits deep sleep (C6+) via GRUB — reduces wakeup latency micro-stutters |
 | **sysctl** | `swappiness=5`, lower dirty ratios, autogroup off, NUMA balancing off |
 | **NVMe read-ahead** | 512 KB (up from 128 KB) — improves game asset loading |
-| **NVIDIA Coolbits** | Enables NVIDIA OC/fan control in X config |
+| **NVIDIA Coolbits** | Enables NVIDIA OC/fan control in X config (`Coolbits=28`) |
 | **AMD ppfeaturemask** | Optional — enables amdgpu overclocking/undervolt in CoreCtrl |
 
 ### Performance Tweaks location
 
-The Phase 10 `performance-tweaks/` layout and its RTX 4070-tuned OC values are stored under [../performance-tweaks](../performance-tweaks).
+The Phase 10 `performance-tweaks/` layout and its RTX 4070-tuned OC values are stored under [../performance-tweaks](../performance-tweaks). See also [HARDWARE.md](HARDWARE.md) for the full reference-build spec sheet.
 
 ## Requirements
 
 - **OS:** Arch Linux
 - **Compositor:** Hyprland 0.55+ (Lua config) and/or Niri + iNiR (optional session)
-- **GPU:** works with **NVIDIA, AMD, or Intel**. You select your graphics card during install (gates which drivers Phase 3 installs). The Phase 10 overclock/undervolt profile ships RTX 4070-tuned example values — the basic desktop needs nothing 4070-specific.
+- **GPU:** works with **NVIDIA, AMD, or Intel**. You select your graphics card during install (gates which drivers Phase 3 installs). The Phase 10 overclock profile ships RTX 4070-tuned example values — the basic desktop needs nothing 4070-specific.
+- **Wallpapers:** **optional.** A stock 3-per-color filter set + `Default/2b2.jpg` is seeded only if you accept the prompt; declining keeps your `~/Pictures/wallpapers` exactly as-is. See [HARDWARE.md](HARDWARE.md#starter-wallpapers-optional).
 - **Audio:** PipeWire + WirePlumber + EasyEffects (system-wide EQ/effects — works with any sound card)
 - **Terminal:** Kitty (the configs default to `$term = kitty`; ghostty configs ship as an optional extra in `dotfiles/ghostty/`)
 - **Depends on:** Waybar, Rofi, swaync, wlogout, `awww` (wallpaper daemon — the scripts call `swww`, which is symlinked to `awww` automatically during install since `swww` is deprecated), wallust
 - **Niri session only:** quickshell + iNiR ([github.com/snowarch/iNiR](https://github.com/snowarch/iNiR) — installed automatically by Phase 12)
 
 > **Portable:** configs use a `@HOME@` sentinel that the installer rewrites to your real home directory at deploy
-> time, ships a starter wallpaper set, and keeps optional bits (OBS streaming pipeline) behind per-app
-> prompts — so it works on any hardware and username.
+> time, ships an **optional** starter wallpaper set (3 per color of the filter + a default), and keeps optional bits
+> (OBS streaming pipeline, wallpapers) behind explicit prompts — so it works on any hardware and username.
 >
 > **Any monitors:** the compositor configs ship *portable* by default — niri (`monitor.kdl`) and Hyprland
 > (`monitors.lua`) have **no output names hardcoded**, so they auto-detect every display on any machine, and the

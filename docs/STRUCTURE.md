@@ -14,9 +14,10 @@ A high-level view of the config tree — every entry maps to a `dotfiles/<name>/
 ├── systemd/user/          # Audio & session services (virtual-mic, easyeffects, inir…)
 ├── lotus-palette/         # Preset engine + palette tools
 └── spicetify/Themes/Lotus/# Spotify Lotus theme
-optional/                  # Opt-in extras (Phase 11) — GPU tuning pack, movie-tui, GT Racing wallpapers
+optional/                  # Opt-in extras (Phase 11) — GPU tuning pack, movie-tui
 performance-tweaks/        # Phase 10 — common/ + nvidia/ or amd/ hardware profiles
+wallpapers/                # Optional starter set (Phase 6b) — 3 per color of the filter + Default/2b2.jpg
 .local/                    # User bins (virtual-mic, steam-gamescope, shader limiter) + EasyEffects presets
 ```
 
-> The Phase 10 `performance-tweaks/` layout and its RTX 4070-tuned OC values are described under [INSTALLATION.md → Performance Tweaks](INSTALLATION.md#performance-tweaks-phase-10).
+> The Phase 10 `performance-tweaks/` layout and its RTX 4070-tuned OC values are described under [INSTALLATION.md → Performance Tweaks](INSTALLATION.md#performance-tweaks-phase-10) and the full reference-build spec sheet in [HARDWARE.md](HARDWARE.md).
