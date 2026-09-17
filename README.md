@@ -20,6 +20,7 @@
 Lotus Arch is a complete **Arch Linux desktop environment** with a choice of two sessions — pick at install time, or install **both** and switch from the SDDM login screen:
 
 - **Hyprland** — tiling compositor with a pure Lua configuration (no legacy `.conf` files), waybar, rofi, HyprGlass.
+  > ⚠ *The Hyprland session is the least-tested one — most development happens on Niri + iNiR. It should work, but expect rough edges.*
 - **Niri + iNiR** *(optional)* — scrollable-tiling compositor paired with the [iNiR](https://github.com/snowarch/iNiR) Quickshell shell (overview, agenda/calendar, notification center, animated wallpapers).
 
 Both share the same foundation: cohesive **purple glassmorphism**, works with **any graphics card** (NVIDIA / AMD / Intel), a built-in **preset system** to save/load entire desktop themes, and a system-wide **EasyEffects** audio pipeline.
