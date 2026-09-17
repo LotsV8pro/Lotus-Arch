@@ -3451,6 +3451,7 @@ Singleton {
                 // Orthogonal to overlayMode: this picks the look, that picks the host.
                 property string overlayStyle: "rail"
                 property bool easyMode: false   // false = full Settings UI; Easy mode remains an explicit opt-in
+                property bool onlinePresets: false // show downloadable presets in the Presets page
                 // JSON-encoded [{label, pages:[int]}] — custom nav arrangement; "" = registry defaults.
                 // String on purpose: property var inside JsonObject crashes the VME.
                 property string categories: ""

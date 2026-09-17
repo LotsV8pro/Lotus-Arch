@@ -257,6 +257,14 @@ Singleton {
             desc: Translation.tr("Switch waybar profiles and edit configs"),
             essential: false,
             component: "modules/settings/WaybarEditor.qml"
+        },
+        {
+            key: "presets",
+            name: Translation.tr("Presets"),
+            icon: "bookmark",
+            desc: Translation.tr("Save, load & share widget & wallpaper presets"),
+            essential: true,
+            component: "modules/settings/PresetsConfig.qml"
         }
     ]
 
@@ -274,7 +282,7 @@ Singleton {
     // pages array above — order here defines the visual nav order.
     readonly property var defaultCategories: [
         { label: Translation.tr("Essentials"), pages: [0] },
-        { label: Translation.tr("Appearance"), pages: [4, 25, 3, 14] },
+        { label: Translation.tr("Appearance"), pages: [4, 25, 3, 14, 30] },
         { label: Translation.tr("Shell"), pages: [26, 27, 5, 22, 23, 16, 10, 18, 20, 29] },
         { label: Translation.tr("System"), pages: [1, 24, 7, 6, 12, 15, 8, 17, 28] },
         { label: Translation.tr("Reference"), pages: [9, 13] }
