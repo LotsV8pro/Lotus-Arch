@@ -3,6 +3,9 @@
 #   - Material You palette keys in the iNiR theme editor
 #     (e.g. { label: "Variant", key: "m3surfaceVariant" })
 #     are color-token labels, not secrets.
+#   - OBS `RestoreToken` / `"settings": {*}` runtime values are session
+#     identifiers PipeWire screen capture regenerates on each save — not
+#     credentials.
 
 title = "Lotus-Arch gitleaks config"
 
@@ -12,4 +15,9 @@ useDefault = true
 [allowlist]
 paths = [
     '''dotfiles/quickshell/inir/modules/settings/CustomThemeEditor\.qml''',
+]
+
+regexes = [
+    '''RestoreToken''',
+    'm3surface(Variant|Container(High|Highest|Dim)?|Bright)',
 ]
