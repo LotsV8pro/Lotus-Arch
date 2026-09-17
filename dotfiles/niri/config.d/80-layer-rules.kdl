@@ -25,6 +25,98 @@ layer-rule {
     opacity 1.0
 }
 
+// ── Quickshell menus: open/close with the iris animation ─────────────────────
+// Applies the same top-left iris shader used for windows to every iNiR panel and
+// menu. Persistent backdrop/bar/dim/scrim surfaces are intentionally excluded so
+// they don't iris (they are already handled by iNiR's own QML animations).
+layer-rule {
+    match namespace="^quickshell:(dashboard|overview|overlay|controlPanel|cheatsheet|clipboardPanel|mediaControls|altSwitcher|altSwitcherScrim|wallpaperLauncher|wallpaperSelector|coverflowSelector|onScreenDisplay|popup|m3-popup|tilingOverlay|recordingOsd|notificationPopup|toast-manager|contextMenuBackdrop|settingsOverlay|settingsFocus|equalizer|closeConfirm|regionSelector|annotationEditor|polkit|osk|welcome|wStartMenu|wSession|wAltSwitcher|wAltSwitcherScrim|familyTransition|shellUpdate|boot-greeting|mascotRomp|charging-ripple|sidebarLeft|sidebarRight|widgetSettings|japaneseLookup|wClipboard|wNotificationCenter|wNotificationPopup|wOnScreenDisplay|wTaskView|wWidgets)$"
+    animations {
+        layer-open {
+            duration-ms 400
+            curve "ease-out-quad"
+            custom-shader r"
+                vec4 open_circular_iris_tl(vec3 coords_geo, vec3 size_geo) {
+                    vec3 coords_tex = niri_geo_to_tex * coords_geo;
+                    vec2 uv = coords_tex.st;
+
+                    float p = niri_clamped_progress;
+
+                    vec2 center = vec2(0.0, 0.0);
+
+                    vec2 aspect_uv = uv - center;
+                    aspect_uv.x *= size_geo.x / max(size_geo.y, 1.0);
+
+                    float dist = length(aspect_uv);
+
+                    float max_radius = length(vec2(1.0 * (size_geo.x / max(size_geo.y, 1.0)), 1.0));
+                    float current_radius = max_radius * p;
+
+                    float feather = 0.03;
+
+                    if (dist > current_radius) {
+                        return vec4(0.0);
+                    }
+
+                    vec4 color = texture2D(niri_tex, uv);
+
+                    float alpha = smoothstep(current_radius, current_radius - feather, dist);
+                    color *= alpha;
+
+                    color *= smoothstep(0.0, 0.2, p);
+
+                    return color;
+                }
+
+                vec4 open_color(vec3 coords_geo, vec3 size_geo) {
+                    return open_circular_iris_tl(coords_geo, size_geo);
+                }
+            "
+        }
+        layer-close {
+            duration-ms 400
+            curve "ease-out-quad"
+            custom-shader r"
+                vec4 close_circular_iris_tl(vec3 coords_geo, vec3 size_geo) {
+                    vec3 coords_tex = niri_geo_to_tex * coords_geo;
+                    vec2 uv = coords_tex.st;
+
+                    float p = niri_clamped_progress;
+
+                    vec2 center = vec2(0.0, 0.0);
+
+                    vec2 aspect_uv = uv - center;
+                    aspect_uv.x *= size_geo.x / max(size_geo.y, 1.0);
+
+                    float dist = length(aspect_uv);
+
+                    float max_radius = length(vec2(1.0 * (size_geo.x / max(size_geo.y, 1.0)), 1.0));
+                    float current_radius = max_radius * (1.0 - p);
+
+                    float feather = 0.03;
+
+                    if (dist > current_radius) {
+                        return vec4(0.0);
+                    }
+
+                    vec4 color = texture2D(niri_tex, uv);
+
+                    float alpha = smoothstep(current_radius, current_radius - feather, dist);
+                    color *= alpha;
+
+                    color *= smoothstep(1.0, 0.8, p);
+
+                    return color;
+                }
+
+                vec4 close_color(vec3 coords_geo, vec3 size_geo) {
+                    return close_circular_iris_tl(coords_geo, size_geo);
+                }
+            "
+        }
+    }
+}
+
 // ── Examples ────────────────────────────────────────────────────────────────
 // Make a specific layer surface semi-transparent:
 // layer-rule {

@@ -1,11 +1,10 @@
 [Unit]
-Description=Periodic refresh of Google Calendar ICS feeds for inir
+Description=Sync Google Calendars + birthdays cada 2 minutos
 
 [Timer]
 OnBootSec=1min
-OnUnitActiveSec=5min
+OnUnitActiveSec=2min
 Persistent=true
-RandomizedDelaySec=20
 
 [Install]
 WantedBy=timers.target

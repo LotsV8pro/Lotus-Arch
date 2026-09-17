@@ -11,10 +11,12 @@ DOTFILES="$SCRIPT_DIR/../dotfiles"
 BACKUP_DIR="$HOME/.config/dotfiles-backup/$(date +%Y%m%d_%H%M%S)"
 
 # ── Install-time choices (set by install.sh, overridable via env) ────────────
-#   LOTUS_SESSION   hypr | niri | both     (default: hypr)
-#   LOTUS_STREAMING yes | no               (default: yes)
+#   LOTUS_SESSION    hypr | niri | both     (default: hypr)
+#   LOTUS_STREAMING  yes | no               (default: yes)
+#   LOTUS_WALLPAPERS yes | no               (default: yes)
 SESSION="${LOTUS_SESSION:-hypr}"
 STREAMING="${LOTUS_STREAMING:-yes}"
+WALLPAPERS="${LOTUS_WALLPAPERS:-yes}"
 
 backup_and_copy() {
     local src="$1"
@@ -204,17 +206,26 @@ if command -v awww &>/dev/null && command -v awww-daemon &>/dev/null; then
     sudo ln -sf /usr/bin/awww-daemon /usr/bin/swww-daemon 2>/dev/null || true
 fi
 
-# ── Seed starter wallpapers if the user has none ──
-echo "  → seeding starter wallpapers..."
+# ── Seed starter wallpapers if the user has none (OPTIONAL) ──
+# Declining (LOTUS_WALLPAPERS=no) keeps the user's existing ~/Pictures/wallpapers
+# exactly as-is — nothing is copied, nothing is overwritten.
+echo "  → starter wallpapers: ${WALLPAPERS}"
 WP_DIR="$HOME/Pictures/wallpapers"
-mkdir -p "$WP_DIR"
-if [[ -d "$SCRIPT_DIR/../wallpapers" ]]; then
+if [[ "$WALLPAPERS" == "yes" && -d "$SCRIPT_DIR/../wallpapers" ]]; then
+    mkdir -p "$WP_DIR"
     if ! find "$WP_DIR" -type f \( -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.webp' -o -iname '*.gif' \) 2>/dev/null | grep -q .; then
-        cp -rn "$SCRIPT_DIR/../wallpapers/"* "$WP_DIR/" 2>/dev/null || true
+        # Seed the stock color filter packs (3 per color) + the Default 2B wallpaper
+        cp -rn "$SCRIPT_DIR/../wallpapers/Default" "$WP_DIR/" 2>/dev/null || true
+        for d in "$SCRIPT_DIR"/../wallpapers/*/; do
+            n="$(basename "$d")"
+            [[ "$n" == "Default" ]] && continue
+            cp -rn "$d" "$WP_DIR/" 2>/dev/null || true
+        done
     fi
 fi
 
 # Seed a default wallpaper so initial-boot.sh (wallust + swww) has something
+# Uses the bundled Default/2b2.jpg when present, falling back to the first image.
 if [[ ! -f "$HOME/.config/hypr/wallpaper_effects/.wallpaper_current" ]]; then
     first_wp="$(find "$WP_DIR" -type f \( -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' \) 2>/dev/null | head -1)"
     if [[ -n "$first_wp" ]]; then

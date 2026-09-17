@@ -25,12 +25,17 @@ Rules (per-pixel HSV sampling):
    a. "Monochrome" = a wallpaper that basically has no colour (colored_share
       < MONO_MIN). Split it by mean brightness: White (100) if light, else
       Black (99). This keeps Black, White reserved for true black/white/gray.
-   b. Otherwise it is a colour wallpaper: name its dominant colour (multi-
+   b. "White-dominant" = mostly a bright neutral background with a coloured
+      subject (NEU_MIN of bright-neutral pixels, colour covering at most
+      COL_MAX of the frame, and a bright mean). Even though the subject makes
+      it a "colour" wallpaper (it fails (a)), it reads as White: a character
+      or logo on a white studio backdrop must not land in their hue bucket.
+   c. Otherwise it is a colour wallpaper: name its dominant colour (multi-
       colour walls still get their leading colour, so they are not dumped
       into Black/White). A low DOM_MIN keeps pastel and multi-tone walls
       labelled; a wall that is mostly neutral with a tiny color accent has a
       low colored_share and falls under (a) instead.
-   c. If the dominant colour is a WARM hue (Red/Orange/Yellow) but its mean
+   d. If the dominant colour is a WARM hue (Red/Orange/Yellow) but its mean
       saturation*value intensity is below BROWN_INT, it reads as brown, tan,
       beige or earth-tone (gruvbox/coffee etc.) rather than that colour: it
       is labelled Brown (9). Saturated reds/oranges/yellows keep their hue.
@@ -44,6 +49,8 @@ WHITE_LIT = 0.62  # a monochrome image is White if mean brightness >= this, else
 DOM_MIN = 0.08  # dominant color share of ALL pixels needed to name that color
 BROWN_INT = 0.20  # warm dominant below this mean(sat*value) intensity reads as brown/tan
 WARM_GROUPS = {0, 1, 2}  # Red, Orange, Yellow — low-intensity -> Brown
+NEU_MIN = 0.55  # bright-neutral (white-ish) pixel share needed for White-dominant
+COL_MAX = 0.45  # colour must cover at most this share of all pixels for White-dominant
 RES = 48  # sampling resolution (48x48 = 2304 pixels)
 NBUCKETS = 36  # 36 fine hue families of 10 degrees each (finer boundary control)
 
@@ -100,13 +107,17 @@ def classify(path):
         n = len(data) // 3
         if n == 0:
             return None
-        # group -> [count, sum_s, sum_v, sum_sv]; also mean brightness
+        # group -> [count, sum_s, sum_v, sum_sv]; also mean brightness and
+        # count of bright-neutral (white-ish) background pixels
         grp = {}
+        neu_light = 0
         lit = 0.0
         for i in range(n):
             h, s, v = colorsys.rgb_to_hsv(
                 data[i * 3] / 255.0, data[i * 3 + 1] / 255.0, data[i * 3 + 2] / 255.0)
             lit += v
+            if s < SAT_MONO and v >= WHITE_LIT:
+                neu_light += 1  # bright neutral pixel: white/off-white background
             if s < SAT_MONO or v < VAL_MIN:
                 continue  # grayscale / near-black pixel: no colour
             g = GROUP_MAP[int(h * NBUCKETS) % NBUCKETS]
@@ -117,6 +128,7 @@ def classify(path):
             grp[g][2] += v
             grp[g][3] += s * v
         lit = lit / n
+        neu_share = neu_light / float(n)
         colored = sum(v[0] for v in grp.values())
         colored_share = colored / float(n)
 
@@ -125,6 +137,14 @@ def classify(path):
         if colored_share < MONO_MIN:
             return {"hue": HUE_WHITE if lit >= WHITE_LIT else HUE_BLACK,
                     "sat": 0.0, "lit": round(lit, 3), "share": round(colored_share, 3)}
+
+        # "White-dominant": a mostly bright-neutral background (e.g. a studio
+        # shot, a character or logo on white) with a coloured subject. It has
+        # too much colour to be monochrome above, but reads as White rather
+        # than getting dumped into the subject's hue bucket.
+        if neu_share >= NEU_MIN and colored_share <= COL_MAX:
+            return {"hue": HUE_WHITE, "sat": 0.0,
+                    "lit": round(lit, 3), "share": round(neu_share, 3)}
 
         # Colour wallpaper: name its dominant colour. Multi-colour wallpapers
         # (whose coloured pixels are split across hues) still get their leading

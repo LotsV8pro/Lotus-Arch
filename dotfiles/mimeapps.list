@@ -1,17 +1,20 @@
 [Default Applications]
+application/x-theme=code.desktop
+text/plain=code.desktop
 inode/directory=thunar.desktop
-application/x-wayland-gnome-saved-search=thunar.desktop
-x-scheme-handler/nxm=hd2arsenal.desktop
-x-scheme-handler/rsnl=hd2arsenal.desktop
-x-scheme-handler/discord=vesktop.desktop
+x-scheme-handler/file=thunar.desktop
 text/html=zen.desktop
 x-scheme-handler/http=zen.desktop
 x-scheme-handler/https=zen.desktop
 x-scheme-handler/about=zen.desktop
 x-scheme-handler/unknown=zen.desktop
-x-scheme-handler/heroic=heroic.desktop
+x-scheme-handler/nxm=hd2arsenal.desktop
+x-scheme-handler/rsnl=hd2arsenal.desktop
 
 [Added Associations]
-text/plain=org.xfce.mousepad.desktop;
-video/mp4=mpv.desktop;
-x-scheme-handler/heroic=heroic.desktop;
+application/x-theme=code.desktop;
+text/plain=code.desktop;
+application/schema+json=code.desktop;
+application/x-shellscript=code.desktop;kitty-open.desktop;
+inode/directory=thunar.desktop;
+x-scheme-handler/file=thunar.desktop;

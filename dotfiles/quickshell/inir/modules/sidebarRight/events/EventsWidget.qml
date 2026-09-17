@@ -13,6 +13,7 @@ Item {
     
     // Signal to open external EventsDialog
     signal openEventsDialog(var editEvent)
+    signal requestExpand()
     
     property int fabSize: 48
     property int fabMargins: 14
@@ -48,10 +49,18 @@ Item {
         target: CalendarSync
         function onEventsUpdated() { root._externalTrigger++ }
     }
+    // Periodically recompute so events that just ended drop out of the list live.
+    Timer {
+        interval: 30000
+        repeat: true
+        running: root.visible
+        onTriggered: root._externalTrigger++
+    }
     
     readonly property string _todayKey: Qt.formatDate(DateTime.clock.date, "yyyy-MM-dd")
 
-    // Merged events: local + external, sorted by date
+    // Merged events: local + external, only today's, sorted by start time.
+    // If we are inside a running event's window, the card itself marks "Now".
     readonly property var mergedEvents: {
         const _t = root._eventsTrigger
         const _t2 = root._externalTrigger
@@ -60,40 +69,50 @@ Item {
     }
 
     function _buildMergedEvents(): var {
-        const now = new Date()
-        const local = Events.getUpcomingEvents(30).map(e => Object.assign({}, e, {
+        const today = new Date()
+        today.setHours(0, 0, 0, 0)
+
+        // Only today's events. Both services already narrow by calendar day.
+        const local = (Events.getEventsForDate(today) || []).map(e => Object.assign({}, e, {
             _source: "local"
         }))
 
-        // Get external events for the next 30 days, skip past ones
-        const startDay = new Date(now)
-        startDay.setHours(0, 0, 0, 0)
-        const externalAll = []
-        for (let i = 0; i < 30; i++) {
-            const d = new Date(startDay)
-            d.setDate(d.getDate() + i)
-            const dayEvents = CalendarSync.getEventsForDate(d) || []
-            for (const e of dayEvents) {
-                const evtTime = new Date(e.startDate || e.dateTime)
-                if (evtTime < now && !(e.allDay && evtTime >= startDay)) continue
-                const extStart = e.startDate || e.dateTime
-                externalAll.push(Object.assign({}, e, {
-                    _source: "external",
-                    dateTime: extStart,
-                    category: "general",
-                    priority: "normal"
-                }))
-            }
-        }
-        const filteredExternal = Events.filterExternalDuplicates(local, externalAll)
+        const externalAll = (CalendarSync.getEventsForDate(today) || []).map(e => Object.assign({}, e, {
+            _source: "external",
+            dateTime: e.startDate || e.dateTime,
+            category: "general",
+            priority: "normal"
+        }))
 
-        const all = local.concat(filteredExternal)
-        all.sort((a, b) => {
+        const all = local.concat(externalAll)
+
+        // Drop duplicates (same uid + same start) defensively, so stale
+        // caches from a previous sync never render events twice.
+        const seen = new Set()
+        const unique = all.filter(e => {
+            const key = (e.uid ?? "") + "|" + (e.dateTime ?? e.startDate ?? "")
+            if (key === "|") return true
+            if (seen.has(key)) return false
+            seen.add(key)
+            return true
+        })
+
+        // Hide events that already ended.
+        const now = new Date()
+        const upcoming = unique.filter(e => {
+            if (e.allDay) return true
+            const start = new Date(e.dateTime || e.startDate)
+            const end = e.endDate ? new Date(e.endDate)
+                : new Date(start.getTime() + 60 * 60 * 1000)
+            return end > now
+        })
+
+        upcoming.sort((a, b) => {
             const da = new Date(a.dateTime || a.startDate)
             const db = new Date(b.dateTime || b.startDate)
             return da - db
         })
-        return all
+        return upcoming
     }
 
     readonly property int upcomingCount: {
@@ -101,7 +120,7 @@ Item {
         const _t2 = root._externalTrigger
         return root.mergedEvents.length
     }
-    
+
     ColumnLayout {
         anchors.fill: parent
         spacing: 0
@@ -121,7 +140,7 @@ Item {
             
             StyledText {
                 Layout.fillWidth: true
-                text: Translation.tr("Events & Reminders")
+                text: Translation.tr("Events")
                 font.pixelSize: Appearance.font.pixelSize.small
                 font.weight: Font.Medium
                 color: root.colText
@@ -143,6 +162,22 @@ Item {
                     font.family: Appearance.font.family.numbers
                     color: root.colBadgeText
                 }
+            }
+
+            RippleButton {
+                implicitWidth: 32
+                implicitHeight: 32
+                buttonRadius: Appearance.rounding.full
+                colBackground: "transparent"
+                colBackgroundHover: Appearance.colors.colLayer2Hover
+                onClicked: root.requestExpand()
+                contentItem: MaterialSymbol {
+                    anchors.centerIn: parent
+                    text: "open_in_full"
+                    iconSize: 17
+                    color: root.colPrimary
+                }
+                StyledToolTip { text: Translation.tr("Open full events view") }
             }
         }
         

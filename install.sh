@@ -30,6 +30,7 @@ exec > >(tee -a "$LOG_FILE") 2>&1
 #   Optional overrides:
 #     --session hypr|niri|both      (default: minimal→hypr, full→both)
 #     --streaming yes|no            (default: full→yes,  minimal→no)
+#     --wallpapers yes|no           (default: full→yes,  minimal→no)
 PRESET=""
 for arg in "$@"; do
     case "$arg" in
@@ -38,6 +39,7 @@ for arg in "$@"; do
         --minimal)     PRESET="minimal" ;;
         --session=*)   export LOTUS_SESSION="${arg#*=}" ;;
         --streaming=*) export LOTUS_STREAMING="${arg#*=}" ;;
+        --wallpapers=*) export LOTUS_WALLPAPERS="${arg#*=}" ;;
         -h|--help)
             sed -n '2,20p' "${BASH_SOURCE[0]}"; exit 0 ;;
     esac
@@ -47,11 +49,13 @@ if [[ -n "$PRESET" ]]; then
         minimal)
             export LOTUS_UNATTENDED="minimal"
             export LOTUS_SESSION="${LOTUS_SESSION:-hypr}"
-            export LOTUS_STREAMING="${LOTUS_STREAMING:-no}" ;;
+            export LOTUS_STREAMING="${LOTUS_STREAMING:-no}"
+            export LOTUS_WALLPAPERS="${LOTUS_WALLPAPERS:-no}" ;;
         full)
             export LOTUS_UNATTENDED="full"
             export LOTUS_SESSION="${LOTUS_SESSION:-both}"
-            export LOTUS_STREAMING="${LOTUS_STREAMING:-yes}" ;;
+            export LOTUS_STREAMING="${LOTUS_STREAMING:-yes}"
+            export LOTUS_WALLPAPERS="${LOTUS_WALLPAPERS:-yes}" ;;
         *) echo "Unknown preset: $PRESET (use minimal|full)"; exit 1 ;;
     esac
 fi
@@ -162,7 +166,10 @@ run_phase() {
     print_phase "PHASE $num: $desc"
 
     if [[ -f "$SCRIPT_DIR/install-scripts/$script" ]]; then
-        bash "$SCRIPT_DIR/install-scripts/$script"
+        if ! bash "$SCRIPT_DIR/install-scripts/$script"; then
+            print_error "Phase $num FAILED (see $LOG_FILE)"
+            exit 1
+        fi
         print_status "Phase $num complete"
     else
         print_error "Script not found: $script"
@@ -202,11 +209,13 @@ main() {
     echo "  ◈ Phase 5 — ZSH + Oh-My-ZSH [Y/n]"
     echo "  ◈ Phase 7 — HyprGlass plugin [Y/n]"
     echo "  ◈ Phase 9 — Restore saved user packages [Y/n]"
+    echo "  ◈ Starter wallpapers — optional (~8 MB; 3 per color of the filter +"
+    echo "                         a default 2B; declining keeps your current wallpaper)"
     echo "  ◈ Phase 10 — Performance tweaks (GPU/CPU/RAM/NVMe) [Y/n]"
     echo "              → selectable profile: NVIDIA+Intel or AMD (each tweak optional)"
     echo "  ◈ Phase 11 — Optional extras [y/N each]"
     echo "              → extra look presets, GPU tuning pack,"
-    echo "                GT Racing wallpapers, movie-tui"
+    echo "                movie-tui"
     echo "  ◈ Phase 12 — iNiR shell setup (only if Niri chosen; optional)"
     echo ""
     echo "  Then dotfiles deployed with auto-backup."
@@ -254,6 +263,18 @@ main() {
     fi
     export LOTUS_STREAMING="${LOTUS_STREAMING:-yes}"
     echo -e "  ${GREEN}→ Streaming: ${LOTUS_STREAMING}${NC}"
+
+    # ── Starter wallpapers choice (OPTIONAL) ──
+    # Declining leaves ~/Pictures/wallpapers exactly as-is (your current
+    # wallpaper is preserved). Accepting seeds the stock 3-per-color filter
+    # packs + the Default/2b2.jpg wallpaper on machines that have none.
+    if [[ -z "${LOTUS_UNATTENDED:-}" ]]; then
+        echo ""
+        read -p "  Seed starter wallpapers (~8 MB: 3 per color of the filter)? [y/N]: " wp_ans
+        [[ "$wp_ans" =~ ^[Yy] ]] && export LOTUS_WALLPAPERS="yes" || export LOTUS_WALLPAPERS="no"
+    fi
+    export LOTUS_WALLPAPERS="${LOTUS_WALLPAPERS:-no}"
+    echo -e "  ${GREEN}→ Wallpapers: ${LOTUS_WALLPAPERS}${NC}"
 
     # ── Graphics card selection ──
     # Controls which drivers install (Phase 3) and which overclock profile

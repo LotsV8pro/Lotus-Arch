@@ -2,7 +2,6 @@
 # Phase 11: Optional desktop extras (compositor-agnostic — work on Hyprland AND Niri)
 # - Extra look presets (monochrome, Pixel, White_monochrome)
 # - GPU tuning pack (GWE profiles, vkSumi, vkBasalt + ReShade shaders)
-# - GT Racing wallpaper pack (~82 MB, copied to ~/Pictures/wallpapers)
 # - movie-tui config
 #
 # All OPTIONAL. The base install ships only the Lotus preset.
@@ -12,9 +11,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 DOTFILES="$SCRIPT_DIR/../dotfiles"
 OPTIONAL="$SCRIPT_DIR/../optional"
-WALLPAPERS="$SCRIPT_DIR/../wallpapers"
 PRESETS_DIR="$HOME/.config/lotus-palette/presets"
-PIC_WALLS="$HOME/Pictures/wallpapers"
 
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
@@ -60,17 +57,6 @@ install_gpu_pack() {
     echo -e "${GREEN}[✓]${NC} GPU tuning pack installed (MangoHud is part of the base install)"
 }
 
-install_gt_wallpapers() {
-    echo "  → Installing GT Racing wallpaper pack (~82 MB)..."
-    if [[ ! -d "$WALLPAPERS/GT Racing" ]]; then
-        echo -e "${YELLOW}[!]${NC} wallpapers/GT Racing not found in repo — skipping"
-        return 0
-    fi
-    mkdir -p "$PIC_WALLS"
-    cp -rn "$WALLPAPERS/GT Racing" "$PIC_WALLS/" 2>/dev/null || cp -r "$WALLPAPERS/GT Racing" "$PIC_WALLS/"
-    echo -e "${GREEN}[✓]${NC} GT Racing pack → $PIC_WALLS/GT Racing"
-}
-
 install_movie_tui() {
     echo "  → Installing movie-tui config..."
     if [[ -d "$OPTIONAL/movie-tui" ]]; then
@@ -91,10 +77,6 @@ fi
 
 if ask "  Install GPU tuning pack? (GWE fan/OC profiles, vkSumi, vkBasalt)"; then
     install_gpu_pack
-fi
-
-if ask "  Install GT Racing wallpaper pack? (~82 MB car wallpapers)"; then
-    install_gt_wallpapers
 fi
 
 if ask "  Install movie-tui config? (terminal movie browser — needs a TMDB key)"; then

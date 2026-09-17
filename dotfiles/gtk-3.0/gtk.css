@@ -3,32 +3,32 @@
  * This file is overwritten when you change wallpaper
  */
 
-@define-color accent_color #e9b8db;
-@define-color accent_fg_color #4c2045;
-@define-color accent_bg_color #e9b8db;
+@define-color accent_color #5e5f52;
+@define-color accent_fg_color #f9f9e8;
+@define-color accent_bg_color #5e5f52;
 
-@define-color window_bg_color #1a1418;
-@define-color window_fg_color #eddfe6;
+@define-color window_bg_color #fafafa;
+@define-color window_fg_color #222221;
 
-@define-color headerbar_bg_color #1a1418;
-@define-color headerbar_fg_color #eddfe6;
+@define-color headerbar_bg_color #fafafa;
+@define-color headerbar_fg_color #222221;
 
-@define-color popover_bg_color #251e23;
-@define-color popover_fg_color #eddfe6;
+@define-color popover_bg_color #e9e9e8;
+@define-color popover_fg_color #222221;
 
-@define-color view_bg_color #1a1418;
-@define-color view_fg_color #eddfe6;
+@define-color view_bg_color #fafafa;
+@define-color view_fg_color #222221;
 
-@define-color card_bg_color #211a1f;
-@define-color card_fg_color #eddfe6;
+@define-color card_bg_color #f2f2f1;
+@define-color card_fg_color #222221;
 
-@define-color sidebar_bg_color #1a1418;
-@define-color sidebar_fg_color #eddfe6;
-@define-color sidebar_border_color #1a1418;
-@define-color sidebar_backdrop_color #1a1418;
+@define-color sidebar_bg_color #fafafa;
+@define-color sidebar_fg_color #222221;
+@define-color sidebar_border_color #fafafa;
+@define-color sidebar_backdrop_color #fafafa;
 
 headerbar {
-    background-color: #1a1418;
+    background-color: #fafafa;
     box-shadow: none;
     border-bottom: none;
 }
@@ -41,24 +41,24 @@ headerbar separator {
 .nautilus-window sidebar,
 placessidebar,
 placessidebar list {
-    background-color: #1a1418;
-    color: #eddfe6;
+    background-color: #fafafa;
+    color: #222221;
     border-right: none;
 }
 
 placessidebar row {
     background-color: transparent;
-    color: #eddfe6;
+    color: #222221;
 }
 
 placessidebar row:hover {
-    background-color: #3D3039;
+    background-color: #D8D8D6;
 }
 
 placessidebar row:selected,
 placessidebar row:selected:hover {
-    background-color: #50424c;
-    color: #eddfe6;
+    background-color: #c7c8c3;
+    color: #222221;
 }
 
 placessidebar image {
@@ -66,7 +66,7 @@ placessidebar image {
 }
 
 .view {
-    background-color: #1a1418;
+    background-color: #fafafa;
 }
 
 separator.sidebar {
@@ -74,51 +74,69 @@ separator.sidebar {
     min-width: 0;
 }
 
+/* Generic file/list selection. xdg-desktop-portal-gtk can use GtkTreeView
+ * independently of Nautilus, so sidebar-only rules are not sufficient. */
+treeview.view:selected,
+.view:selected,
+list row:selected,
+listbox row:selected {
+    background-color: #c7c8c3;
+    color: #222221;
+}
+
+treeview.view:selected:hover,
+.view:selected:hover,
+list row:selected:hover,
+listbox row:selected:hover {
+    background-color: #bdbeb8;
+    color: #222221;
+}
+
 /* Context menus and popovers */
 popover,
 popover.background {
-    background-color: #251e23;
-    color: #eddfe6;
+    background-color: #e9e9e8;
+    color: #222221;
 }
 
 menu,
 .context-menu,
 .popup {
-    background-color: #251e23;
-    color: #eddfe6;
+    background-color: #e9e9e8;
+    color: #222221;
 }
 
 menuitem {
-    color: #eddfe6;
+    color: #222221;
 }
 
 menuitem:hover,
 menuitem:selected {
-    background-color: #3D3039;
+    background-color: #D8D8D6;
 }
 
 menuitem:active,
 menuitem:selected:active {
-    background-color: #50424c;
-    color: #eddfe6;
+    background-color: #c7c8c3;
+    color: #222221;
 }
 
 button:hover {
-    background-color: #3D3039;
+    background-color: #D8D8D6;
 }
 
 button:active {
-    background-color: #50424c;
-    color: #eddfe6;
+    background-color: #c7c8c3;
+    color: #222221;
 }
 
 entry:focus,
 textview:focus,
 spinbutton:focus {
-    border-color: alpha(#e9b8db, 0.60);
-    box-shadow: 0 0 0 1px alpha(#e9b8db, 0.25) inset;
+    border-color: alpha(#5e5f52, 0.60);
+    box-shadow: 0 0 0 1px alpha(#5e5f52, 0.25) inset;
 }
 
 menu separator {
-    background-color: alpha(#eddfe6, 0.12);
+    background-color: alpha(#222221, 0.12);
 }

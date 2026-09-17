@@ -32,7 +32,8 @@ window-rule {
 
 // Firefox / Zen: picture-in-picture window opens floating.
 window-rule {
-    match app-id=r#"firefox$"# title="^Picture-in-Picture$"
+    match app-id=r#"zen$"# title="^Picture-in-Picture$"
+    match app-id=r#"zen-browser$"# title="^Picture-in-Picture$"
     open-floating true
 }
 window-rule {
