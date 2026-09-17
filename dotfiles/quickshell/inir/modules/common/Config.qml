@@ -3452,6 +3452,7 @@ Singleton {
                 property string overlayStyle: "rail"
                 property bool easyMode: false   // false = full Settings UI; Easy mode remains an explicit opt-in
                 property bool onlinePresets: false // show downloadable presets in the Presets page
+                property string onlinePresetsRepo: "Blapples/wallpapers" // GitHub owner/repo hosting presets/ for Online presets
                 // JSON-encoded [{label, pages:[int]}] — custom nav arrangement; "" = registry defaults.
                 // String on purpose: property var inside JsonObject crashes the VME.
                 property string categories: ""

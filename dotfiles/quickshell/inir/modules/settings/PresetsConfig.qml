@@ -30,14 +30,22 @@ ContentPage {
         return page.onlinePresets.filter(p => !downloadedNames.has(p.name))
     }
 
+    function onlinePresetsRepo() {
+        return Config.options?.settingsUi?.onlinePresetsRepo ?? "Blapples/wallpapers"
+    }
+
     function refreshOnlinePresets() {
         page.onlinePresetsLoading = true
         page.onlinePresetsError = ""
+        onlinePresetsListProc.command = ["curl", "-sSL", "-w", "\nHTTP_STATUS:%{http_code}",
+            "-H", "Accept: application/vnd.github+json",
+            "-H", "User-Agent: lotus-iNIR-quickshell",
+            `https://api.github.com/repos/${page.onlinePresetsRepo()}/git/trees/main?recursive=1`]
         onlinePresetsListProc.running = true
     }
 
     function rawPresetUrl(path) {
-        const repo = Config.options?.settingsUi?.onlinePresetsRepo ?? "LotsV8pro/Lotus-Arch"
+        const repo = page.onlinePresetsRepo()
         return `https://raw.githubusercontent.com/${repo}/main/${path.split("/").map(encodeURIComponent).join("/")}`
     }
 
@@ -98,10 +106,6 @@ ContentPage {
     // ── Processes ─────────────────────────────────────────────────────
     Process {
         id: onlinePresetsListProc
-        command: ["curl", "-sSL", "-w", "\nHTTP_STATUS:%{http_code}",
-            "-H", "Accept: application/vnd.github+json",
-            "-H", "User-Agent: lotus-iNIR-quickshell",
-            "https://api.github.com/repos/LotsV8pro/Lotus-Arch/git/trees/main?recursive=1"]
         stdout: StdioCollector { id: onlinePresetsListCollector }
         onExited: (code) => {
             page.onlinePresetsLoading = false
@@ -514,7 +518,7 @@ ContentPage {
 
                         StyledText {
                             Layout.fillWidth: true
-                            text: "LotsV8pro/Lotus-Arch"
+                            text: page.onlinePresetsRepo()
                             color: Appearance.colors.colOnSecondaryContainer
                         }
 
