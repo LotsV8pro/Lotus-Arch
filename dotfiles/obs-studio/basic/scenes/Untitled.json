@@ -69,9 +69,7 @@
             "uuid": "8ed38fbf-f545-4246-a49e-2172e1ce2b41",
             "id": "pipewire-screen-capture-source",
             "versioned_id": "pipewire-screen-capture-source",
-            "settings": {
-                "RestoreToken": "dy6Mtu_WOvwzWSxSR_TKlw"
-            },
+            "settings": {},
             "mixers": 0,
             "sync": 0,
             "flags": 0,
