@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Controls
+import QtQuick.Dialogs
 import QtQuick.Layouts
 import Qt5Compat.GraphicalEffects
 import Quickshell
@@ -266,6 +267,7 @@ ContentPage {
                 MaterialTextField {
                     id: presetNameField
                     Layout.fillWidth: true
+                    text: Translation.tr("Save as")
                     placeholderText: Translation.tr("Name, description (optional)")
 
                     onEditingFinished: {
