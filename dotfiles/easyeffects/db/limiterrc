@@ -2,7 +2,9 @@
 release=20
 threshold=-2
 
-
 [soe][Limiter#0]
+alr=true
+lookahead=5.01
+oversampling=22
 release=100
-threshold=-2
+threshold=-8

@@ -7,7 +7,7 @@
         "id": "pulse_output_capture",
         "versioned_id": "pulse_output_capture",
         "settings": {
-            "device_id": "default"
+            "device_id": "obs_virtual_sink.monitor"
         },
         "mixers": 255,
         "sync": 0,
@@ -70,7 +70,7 @@
             "id": "pipewire-screen-capture-source",
             "versioned_id": "pipewire-screen-capture-source",
             "settings": {
-                "RestoreToken": ""
+                "RestoreToken": "dy6Mtu_WOvwzWSxSR_TKlw"
             },
             "mixers": 0,
             "sync": 0,
@@ -217,7 +217,7 @@
     "saved_projectors": [],
     "preview_locked": false,
     "scaling_enabled": false,
-    "scaling_level": -19,
+    "scaling_level": -14,
     "scaling_off_x": 0.0,
     "scaling_off_y": 0.0,
     "virtual-camera": {

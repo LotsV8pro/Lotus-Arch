@@ -50,24 +50,24 @@
         "backgroundOpacity": 0.9,
         "blurAmount": 0.4,
         "compactStyle": false,
-        "enableAnimation": false,
-        "enableBlurGlass": false,
+        "enableAnimation": true,
+        "enableBlurGlass": true,
         "monochromeIcons": false,
         "noVisualUi": false,
         "panelAlignment": "right",
         "preset": "default",
-        "scrimDim": 0,
-        "showOverviewWhileSwitching": true,
+        "scrimDim": 35,
+        "showOverviewWhileSwitching": false,
         "useM3Layout": false,
         "useMostRecentFirst": true
     },
     "appearance": {
         "angel": {
             "blur": {
-                "intensity": 0.5,
+                "intensity": 0.35,
                 "noiseOpacity": 0.2,
-                "overlayOpacity": 0.35,
-                "saturation": 0.15,
+                "overlayOpacity": 0.45,
+                "saturation": 0.2,
                 "vignetteStrength": 0.15
             },
             "border": {
@@ -97,11 +97,11 @@
                 "glass": true,
                 "glassBlur": 0.7,
                 "glassOverlay": 0.5,
-                "hoverOffsetX": 0,
-                "hoverOffsetY": 0,
+                "hoverOffsetX": 7,
+                "hoverOffsetY": 7,
                 "hoverOpacity": 0.6,
-                "offsetX": 0,
-                "offsetY": 0,
+                "offsetX": 3,
+                "offsetY": 2,
                 "opacity": 1
             },
             "glow": {
@@ -120,9 +120,9 @@
                 "panelBorderWidth": 1
             },
             "transparency": {
-                "card": 0.5,
-                "panel": 0.35,
-                "popup": 0.35,
+                "card": 0.4,
+                "panel": 0.28,
+                "popup": 0.28,
                 "tooltip": 0.25
             }
         },
@@ -142,11 +142,11 @@
         "aurora": {
             "customPreset": "",
             "transparency": {
-                "layer": 0.6,
-                "overlay": 0.6,
-                "popup": 0.58,
-                "subSurface": 0.72,
-                "tooltip": 0.45
+                "layer": 0.2,
+                "overlay": 0.18,
+                "popup": 0.22,
+                "subSurface": 0.28,
+                "tooltip": 0.18
             }
         },
         "cava": {
@@ -154,6 +154,7 @@
             "barSpacing": 1,
             "barWidth": 2,
             "bars": 0,
+            "blockedApps": [],
             "colorSource": "theme",
             "foreground": "",
             "framerate": 60,
@@ -164,7 +165,7 @@
         },
         "colorInvert": false,
         "customTheme": {
-            "darkmode": true,
+            "darkmode": false,
             "m3background": "#282828",
             "m3error": "#fb4934",
             "m3errorContainer": "#cc241d",
@@ -232,11 +233,9 @@
         },
         "dockIconTheme": "",
         "extraBackgroundTint": true,
-        "fakeScreenRounding": 1,
-        "favoriteThemes": [
-            "mercury"
-        ],
-        "globalStyle": "aurora",
+        "fakeScreenRounding": 0,
+        "favoriteThemes": [],
+        "globalStyle": "cookie",
         "globalStyleCornerStyles": {
             "angel": 1,
             "aurora": 0,
@@ -248,7 +247,7 @@
             "zzz": 0
         },
         "iconTheme": "WhiteSur-dark",
-        "iiMotionProfile": "classic",
+        "iiMotionProfile": "contextual",
         "island": {
             "glass": true,
             "glassBlur": 1,
@@ -258,21 +257,18 @@
             "sheen": true
         },
         "palette": {
-            "accentColor": "#bfc8ca",
+            "accentColor": "#5B8C7E",
             "type": "auto"
         },
         "recentThemes": [
-            "auto",
-            "tokyo-night",
-            "mercury",
-            "matrix"
+            "auto"
         ],
         "regalia": {
             "glass": true,
-            "glassBlur": 0.72,
-            "glassSaturation": 0.12,
-            "glassSurfaceOpacity": 0.6,
-            "glassTintTransparency": 0.52,
+            "glassBlur": 0.42,
+            "glassSaturation": 0.2,
+            "glassSurfaceOpacity": 0.34,
+            "glassTintTransparency": 0.7,
             "radiusScale": 1
         },
         "shellScale": 1,
@@ -292,14 +288,14 @@
             "enable": true
         },
         "typography": {
-            "mainFont": "Noto Sans Gothic",
-            "monospaceFont": "Noto Sans Gothic",
-            "sizeScale": 0.95,
+            "mainFont": "Roboto Flex",
+            "monospaceFont": "JetBrainsMono Nerd Font",
+            "sizeScale": 1,
             "syncWithSystem": true,
-            "titleFont": "Noto Sans Gothic",
+            "titleFont": "Gabarito",
             "variableAxes": {
                 "grad": 150,
-                "wdth": 100,
+                "wdth": 105,
                 "wght": 300
             }
         },
@@ -308,19 +304,20 @@
             "colorStrength": 1,
             "colorsOnlyMode": false,
             "enableAppsAndShell": true,
-            "enableCava": false,
+            "enableCava": true,
             "enableChrome": true,
             "enableNeovim": false,
-            "enableOpenCode": false,
+            "enableOpenCode": true,
             "enablePearDesktop": true,
             "enableQtApps": true,
-            "enableSpicetify": false,
+            "enableSpicetify": true,
             "enableSteam": false,
             "enableTerminal": true,
             "enableVSCode": true,
             "enableVesktop": true,
             "enableZed": true,
             "previewSourcePath": "",
+            "spicetifyTheme": "Inir",
             "terminalColorAdjustments": {
                 "backgroundBrightness": 0.5,
                 "brightness": 0.6,
@@ -373,20 +370,20 @@
                 "ticks": true
             },
             "glass": true,
-            "shape": "square"
+            "shape": "round"
         }
     },
     "apps": {
-        "bluetooth": "blueman-manager",
+        "bluetooth": "kcmshell6 kcm_bluetooth",
         "browser": "zen-browser",
         "discord": "discord",
         "manageUser": "kcmshell6 kcm_users",
-        "network": "nm-connection-editor",
-        "networkEthernet": "nm-connection-editor",
-        "taskManager": "missioncenter",
-        "terminal": "kitty",
-        "update": "kitty -e arch-update",
-        "volumeMixer": "pavucontrol"
+        "network": "kcmshell6 kcm_networkmanagement",
+        "networkEthernet": "kcmshell6 kcm_networkmanagement",
+        "taskManager": "plasma-systemmonitor --page-name Processes",
+        "terminal": "kitty -1",
+        "update": "kitty -1 --hold=yes fish -i -c 'pkexec pacman -Syu'",
+        "volumeMixer": "~/.config/hypr/hyprland/scripts/launch_first_available.sh \"pavucontrol-qt\" \"pavucontrol\""
     },
     "audio": {
         "protection": {
@@ -397,26 +394,27 @@
     },
     "background": {
         "autoWallpaper": {
-            "enable": true,
-            "folder": "~/Pictures/wallpapers/all",
+            "enable": false,
+            "folder": "",
             "generateColors": true,
             "intervalMinutes": 30
         },
         "backdrop": {
-            "auroraOverlayOpacity": 0.23,
-            "blurRadius": 30,
+            "auroraOverlayOpacity": 0.38,
+            "blurRadius": 32,
             "contrast": 0,
-            "dim": 10,
+            "dim": 35,
             "enable": true,
-            "enableAnimatedBlur": true,
+            "enableAnimatedBlur": false,
             "enableAnimation": true,
+            "fillMode": "fill",
             "hideWallpaper": false,
-            "saturation": 0.65,
+            "saturation": 0,
             "thumbnailPath": "",
             "useAuroraStyle": true,
             "useMainWallpaper": true,
             "vignetteEnabled": false,
-            "vignetteIntensity": 1,
+            "vignetteIntensity": 0.5,
             "vignetteRadius": 0.7,
             "wallpaperPath": ""
         },
@@ -426,19 +424,23 @@
                 "spatialStep": 30,
                 "transitionFps": 60
             },
-            "provider": "awww"
+            "provider": "awww",
+            "web": {
+                "interactive": false,
+                "source": ""
+            }
         },
         "effects": {
-            "blurRadius": 22,
-            "dim": 30,
-            "dynamicDim": 20,
+            "blurRadius": 32,
+            "dim": 0,
+            "dynamicDim": 0,
             "enableAnimatedBlur": false,
             "enableBlur": false,
             "ripple": {
                 "charging": true,
                 "enable": false,
                 "glowIntensity": 1,
-                "hotcorners": true,
+                "hotcorners": false,
                 "lock": true,
                 "overview": true,
                 "reload": true,
@@ -454,7 +456,7 @@
         "hideUpscaleNotification": false,
         "hideWhenFullscreen": true,
         "multiMonitor": {
-            "enable": true
+            "enable": false
         },
         "pan": {
             "x": 0,
@@ -462,20 +464,20 @@
             "zoom": 1
         },
         "parallax": {
-            "autoVertical": false,
-            "axis": "vertical",
-            "enable": true,
-            "enableSidebar": true,
-            "enableWorkspace": true,
-            "panelShift": 0.15,
+            "autoVertical": true,
+            "axis": "auto",
+            "enable": false,
+            "enableSidebar": false,
+            "enableWorkspace": false,
+            "panelShift": 0.22,
             "pauseDuringTransitions": true,
             "transitionSettleMs": 220,
-            "vertical": true,
-            "widgetDepth": 1.2,
-            "widgetsFactor": 1.2,
-            "workspaceShift": 1,
-            "workspaceZoom": 1,
-            "zoom": 1
+            "vertical": false,
+            "widgetDepth": 1.38,
+            "widgetsFactor": 1.38,
+            "workspaceShift": 1.25,
+            "workspaceZoom": 1.08,
+            "zoom": 1.08
         },
         "pauseAnimationOnBattery": true,
         "thumbnailPath": "",
@@ -489,12 +491,25 @@
             "direction": "right",
             "duration": 800,
             "enable": true,
-            "type": "random"
+            "type": "shaderRandom"
         },
-        "wallpaperPath": "@HOME@/Pictures/Wallpapers/GT-cars/Porsche/wallhaven-0j5985.jpg",
-        "wallpapersByMonitor": [ ],
+        "wallpaperPath": "/home/lots/Pictures/Wallpapers/all/2b2.jpg",
+        "wallpapersByMonitor": [
+            {
+                "monitor": "HDMI-A-1",
+                "path": "/home/lots/Pictures/Wallpapers/all/Pixl1.jpg",
+                "workspaceFirst": 1,
+                "workspaceLast": 3
+            },
+            {
+                "monitor": "DP-2",
+                "path": "/home/lots/Pictures/Wallpapers/all/gruvbox_image31.png",
+                "workspaceFirst": 1,
+                "workspaceLast": 4
+            }
+        ],
         "widgets": {
-            "adaptColorsToWallpaperPosition": false,
+            "adaptColorsToWallpaperPosition": true,
             "battery": {
                 "backgroundOpacity": 0.16,
                 "barCount": 20,
@@ -510,10 +525,10 @@
                 "locked": false,
                 "palette": {
                     "primary": "primary",
-                    "secondary": "secondary",
+                    "secondary": "primary",
                     "signal": "signal",
                     "surface": "surface",
-                    "tertiary": "tertiary"
+                    "tertiary": "primary"
                 },
                 "pillHeight": 12,
                 "placementStrategy": "free",
@@ -538,22 +553,22 @@
                 "contentWidth": 280,
                 "cornerRadius": -1,
                 "dim": 0,
-                "enable": false,
+                "enable": true,
                 "groupByDay": true,
                 "locked": false,
                 "maxEvents": 5,
                 "palette": {
                     "primary": "primary",
-                    "secondary": "secondary",
+                    "secondary": "primary",
                     "signal": "signal",
                     "surface": "surface",
-                    "tertiary": "tertiary"
+                    "tertiary": "primary"
                 },
                 "placementStrategy": "free",
                 "showBackground": true,
                 "showBorder": true,
                 "showDate": true,
-                "showLocation": false,
+                "showLocation": true,
                 "showTime": true,
                 "useBlur": false,
                 "widgetOpacity": 100,
@@ -571,16 +586,16 @@
                     "constantlyRotate": false,
                     "dateInClock": true,
                     "dateStyle": "bubble",
-                    "dialNumberStyle": "full",
+                    "dialNumberStyle": "numbers",
                     "hourHandStyle": "hollow",
                     "hourMarks": false,
-                    "minuteHandStyle": "hide",
+                    "minuteHandStyle": "bold",
                     "preset": "default",
-                    "secondHandStyle": "hide",
-                    "sides": 15,
+                    "secondHandStyle": "dot",
+                    "sides": 14,
                     "size": 230,
                     "timeIndicators": false,
-                    "useSineCookie": false
+                    "useSineCookie": true
                 },
                 "cornerRadius": -1,
                 "dateScale": 100,
@@ -593,19 +608,22 @@
                     "spacing": 6
                 },
                 "dim": 70,
-                "enable": true,
+                "enable": false,
                 "fontFamily": "Space Grotesk",
                 "locked": false,
                 "palette": {
                     "primary": "primary",
-                    "secondary": "secondary",
+                    "secondary": "primary",
                     "signal": "signal",
                     "surface": "surface",
-                    "tertiary": "tertiary"
+                    "tertiary": "primary"
+                },
+                "pixel": {
+                    "orientation": "vertical"
                 },
                 "placementStrategy": "free",
                 "quote": {
-                    "enable": false,
+                    "enable": true,
                     "text": ""
                 },
                 "showBackground": false,
@@ -613,16 +631,18 @@
                 "showDate": true,
                 "showSeconds": false,
                 "showShadow": true,
-                "style": "digital",
+                "style": "pixel",
                 "timeFormat": "system",
                 "timeScale": 100,
                 "useBlur": false,
                 "widgetOpacity": 100,
                 "widgetScale": 100,
-                "x": 60,
-                "y": 90
+                "x": 1620,
+                "y": 12
             },
             "customImage": {
+                "contentHeight": 0,
+                "contentWidth": 0,
                 "dim": 0,
                 "enable": false,
                 "fitMode": "cover",
@@ -633,25 +653,25 @@
                 "order": "sequential",
                 "palette": {
                     "primary": "primary",
-                    "secondary": "secondary",
+                    "secondary": "primary",
                     "signal": "signal",
                     "surface": "surface",
-                    "tertiary": "tertiary"
+                    "tertiary": "primary"
                 },
-                "path": "",
+                "path": "/home/lots/Downloads/HSAIxxfbAAA6cTr.jpg",
                 "placementStrategy": "free",
-                "shape": "Square",
-                "size": 220,
+                "shape": "Arch",
+                "size": 275,
                 "sourceMode": "file",
                 "transitionDuration": 450,
                 "widgetOpacity": 100,
                 "widgetScale": 100,
-                "x": 120,
-                "y": 320
+                "x": 24,
+                "y": 60
             },
             "dynamicOpacity": 0,
             "editGrid": {
-                "size": 32,
+                "size": 16,
                 "snap": true
             },
             "imageConverter": {
@@ -667,10 +687,10 @@
                 "locked": false,
                 "palette": {
                     "primary": "primary",
-                    "secondary": "secondary",
+                    "secondary": "primary",
                     "signal": "signal",
                     "surface": "surface",
-                    "tertiary": "tertiary"
+                    "tertiary": "primary"
                 },
                 "placementStrategy": "free",
                 "selectedFormat": "webp",
@@ -693,7 +713,7 @@
                 "cornerRadius": -1,
                 "dateSize": 12,
                 "dateText": "7.12 — 8.31",
-                "detailColor": "#D0B996",
+                "detailColor": "#BCA37D",
                 "detailOpacity": 72,
                 "dim": 10,
                 "enable": true,
@@ -710,30 +730,30 @@
                 "outlineOpacity": 0,
                 "palette": {
                     "primary": "primary",
-                    "secondary": "secondary",
+                    "secondary": "primary",
                     "signal": "signal",
                     "surface": "surface",
-                    "tertiary": "tertiary"
+                    "tertiary": "primary"
                 },
                 "paletteMode": "adaptive",
                 "palettePreset": "adaptive",
                 "placementStrategy": "free",
-                "preset": "magazine",
-                "primaryColor": "#E7D4B2",
+                "preset": "custom",
+                "primaryColor": "#F3E8D3",
                 "primaryColumns": 2,
                 "primaryOpacity": 100,
                 "primarySize": 56,
                 "primaryText": "夏の記憶",
                 "primaryWeight": 500,
                 "rotateLatin": false,
-                "ruleColor": "#C18A53",
+                "ruleColor": "#C89B61",
                 "ruleOpacity": 78,
                 "ruleThickness": 1,
-                "sealColor": "#A64B39",
+                "sealColor": "#C76049",
                 "sealFillOpacity": 0,
                 "sealOpacity": 100,
                 "sealText": "特別展",
-                "secondaryColor": "#CDB48D",
+                "secondaryColor": "#D8C3A2",
                 "secondaryColumns": 3,
                 "secondaryFontFamily": "",
                 "secondaryLetterSpacing": 1,
@@ -754,7 +774,9 @@
                 "x": 56,
                 "y": 120
             },
-            "layerOrder": [],
+            "layerOrder": [
+                "DP-2::userCard"
+            ],
             "mascot": {
                 "anchorWidget": "",
                 "backgroundOpacity": 0.16,
@@ -769,10 +791,10 @@
                 "locked": false,
                 "palette": {
                     "primary": "primary",
-                    "secondary": "secondary",
+                    "secondary": "primary",
                     "signal": "signal",
                     "surface": "surface",
-                    "tertiary": "tertiary"
+                    "tertiary": "primary"
                 },
                 "placementStrategy": "free",
                 "pose": "reading",
@@ -789,24 +811,69 @@
             "mediaControls": {
                 "colorMode": "auto",
                 "dim": 0,
-                "enable": true,
-                "locked": false,
+                "enable": false,
+                "locked": true,
                 "lyricsExpanded": false,
+                "organicCompression": 0,
+                "organicGlow": 100,
+                "organicIdleMotion": 40,
+                "organicMotionSpeed": 250,
+                "organicOpacity": 100,
+                "organicPulse": 150,
+                "organicRange": 20,
+                "organicReach": 35,
+                "organicSensitivity": 35,
                 "palette": {
-                    "primary": "primary",
-                    "secondary": "secondary",
+                    "primary": "tertiary",
+                    "secondary": "tertiary",
                     "signal": "signal",
                     "surface": "surface",
                     "tertiary": "tertiary"
                 },
                 "placementStrategy": "free",
                 "playerPreset": "lyricsSplit",
+                "visualizerAccentStrength": 70,
+                "visualizerBarCount": 32,
+                "visualizerFrequencyProfile": "flat",
+                "visualizerOpacity": 55,
+                "visualizerPaletteMode": "player",
                 "visualizerPosition": "bottom",
+                "visualizerRange": 88,
+                "visualizerSmoothing": 2,
                 "visualizerType": "wave",
                 "widgetOpacity": 100,
                 "widgetScale": 100,
                 "x": 240,
                 "y": 240
+            },
+            "monthCalendar": {
+                "backgroundOpacity": 0.14,
+                "borderOpacity": 0.16,
+                "borderWidth": 1,
+                "colorMode": "auto",
+                "contentHeight": 340,
+                "contentWidth": 300,
+                "cornerRadius": -1,
+                "dim": 0,
+                "enable": false,
+                "locked": false,
+                "palette": {
+                    "primary": "primary",
+                    "secondary": "primary",
+                    "signal": "signal",
+                    "surface": "surface",
+                    "tertiary": "primary"
+                },
+                "placementStrategy": "free",
+                "showAdjacentDays": true,
+                "showBackground": true,
+                "showBorder": true,
+                "useBlur": false,
+                "weekStart": 1,
+                "widgetOpacity": 100,
+                "widgetScale": 100,
+                "x": 420,
+                "y": 120
             },
             "newsTicker": {
                 "backgroundOpacity": 0.16,
@@ -821,10 +888,10 @@
                 "locked": false,
                 "palette": {
                     "primary": "primary",
-                    "secondary": "secondary",
+                    "secondary": "primary",
                     "signal": "signal",
                     "surface": "surface",
-                    "tertiary": "tertiary"
+                    "tertiary": "primary"
                 },
                 "placementStrategy": "free",
                 "showBackground": true,
@@ -850,10 +917,10 @@
                 "locked": false,
                 "palette": {
                     "primary": "primary",
-                    "secondary": "secondary",
+                    "secondary": "primary",
                     "signal": "signal",
                     "surface": "surface",
-                    "tertiary": "tertiary"
+                    "tertiary": "primary"
                 },
                 "placementStrategy": "free",
                 "showBackground": true,
@@ -863,12 +930,271 @@
                 "useBlur": false,
                 "widgetOpacity": 100,
                 "widgetScale": 100,
-                "x": 80,
-                "y": 80
+                "x": 1620,
+                "y": 408
             },
-            "outputOverrides": [ ],
+            "outputOverrides": [
+                {
+                    "height": 1440,
+                    "layoutVersion": 1,
+                    "output": "DP-2",
+                    "widgets": {
+                        "battery": {
+                            "enable": false
+                        },
+                        "calendarUpcoming": {
+                            "enable": false,
+                            "placementStrategy": "free",
+                            "x": 1436,
+                            "y": 764
+                        },
+                        "clock": {
+                            "enable": false,
+                            "placementStrategy": "free",
+                            "x": 956,
+                            "y": 428
+                        },
+                        "custom.example-widget": {
+                            "enable": false
+                        },
+                        "customImage": {
+                            "contentHeight": 288,
+                            "contentWidth": 275,
+                            "enable": true,
+                            "locked": true,
+                            "placementStrategy": "free",
+                            "x": 60,
+                            "y": 156
+                        },
+                        "imageConverter": {
+                            "enable": false,
+                            "placementStrategy": "free",
+                            "x": 1340,
+                            "y": 268
+                        },
+                        "japaneseTypography": {
+                            "locked": true,
+                            "placementStrategy": "free",
+                            "x": 2124,
+                            "y": 60
+                        },
+                        "mascot": {
+                            "enable": false
+                        },
+                        "mediaControls": {
+                            "enable": true,
+                            "locked": true,
+                            "placementStrategy": "free",
+                            "widgetScale": 89,
+                            "x": 2092,
+                            "y": 684
+                        },
+                        "monthCalendar": {
+                            "contentHeight": 384,
+                            "contentWidth": 348,
+                            "enable": false,
+                            "locked": false,
+                            "placementStrategy": "free",
+                            "x": 2172,
+                            "y": 972
+                        },
+                        "newsTicker": {
+                            "enable": true,
+                            "locked": true,
+                            "placementStrategy": "free",
+                            "x": 60,
+                            "y": 540
+                        },
+                        "notes": {
+                            "enable": true,
+                            "locked": true,
+                            "placementStrategy": "free",
+                            "x": 2268,
+                            "y": 1132
+                        },
+                        "systemMonitor": {
+                            "contentHeight": 192,
+                            "contentWidth": 384,
+                            "enable": true,
+                            "locked": true,
+                            "placementStrategy": "free",
+                            "x": 60,
+                            "y": 684
+                        },
+                        "timers": {
+                            "enable": false,
+                            "placementStrategy": "free",
+                            "x": 2092,
+                            "y": 924
+                        },
+                        "todo": {
+                            "enable": false,
+                            "placementStrategy": "free",
+                            "x": 168,
+                            "y": 768
+                        },
+                        "uptime": {
+                            "contentHeight": 96,
+                            "contentWidth": 282,
+                            "enable": true,
+                            "locked": true,
+                            "placementStrategy": "free",
+                            "x": 2220,
+                            "y": 988
+                        },
+                        "userCard": {
+                            "contentWidth": 280,
+                            "enable": true,
+                            "locked": true,
+                            "placementStrategy": "free",
+                            "x": 60,
+                            "y": 300
+                        },
+                        "visualizer": {
+                            "contentHeight": 96,
+                            "enable": false,
+                            "placementStrategy": "free",
+                            "x": 1148,
+                            "y": 732
+                        },
+                        "weather": {
+                            "enable": true,
+                            "locked": true,
+                            "placementStrategy": "free",
+                            "size": 182,
+                            "x": 60,
+                            "y": 924
+                        },
+                        "worldClock": {
+                            "enable": false,
+                            "placementStrategy": "free",
+                            "x": 24,
+                            "y": 444
+                        }
+                    },
+                    "width": 2560
+                },
+                {
+                    "height": 1080,
+                    "layoutVersion": 1,
+                    "output": "HDMI-A-1",
+                    "widgets": {
+                        "calendarUpcoming": {
+                            "contentHeight": 272,
+                            "enable": true,
+                            "locked": true,
+                            "placementStrategy": "free",
+                            "x": 1628,
+                            "y": 380
+                        },
+                        "clock": {
+                            "enable": true,
+                            "locked": true,
+                            "placementStrategy": "free",
+                            "x": 1632,
+                            "y": 60
+                        },
+                        "custom.example-widget": {
+                            "enable": false,
+                            "placementStrategy": "free",
+                            "x": 300,
+                            "y": 189
+                        },
+                        "customImage": {
+                            "enable": false,
+                            "placementStrategy": "free",
+                            "x": 44,
+                            "y": 75
+                        },
+                        "imageConverter": {
+                            "enable": false,
+                            "placementStrategy": "free",
+                            "x": 120,
+                            "y": 360
+                        },
+                        "japaneseTypography": {
+                            "enable": false,
+                            "placementStrategy": "free",
+                            "x": 332,
+                            "y": 165
+                        },
+                        "mascot": {
+                            "enable": false
+                        },
+                        "mediaControls": {
+                            "enable": true,
+                            "placementStrategy": "free",
+                            "widgetScale": 82,
+                            "x": 12,
+                            "y": 60
+                        },
+                        "monthCalendar": {
+                            "enable": true,
+                            "locked": true,
+                            "placementStrategy": "free",
+                            "x": 1608,
+                            "y": 716
+                        },
+                        "newsTicker": {
+                            "enable": false,
+                            "placementStrategy": "free",
+                            "x": 108,
+                            "y": 141
+                        },
+                        "notes": {
+                            "placementStrategy": "free",
+                            "x": 1644,
+                            "y": 651
+                        },
+                        "systemMonitor": {
+                            "placementStrategy": "free",
+                            "x": 50,
+                            "y": 400
+                        },
+                        "timers": {
+                            "enable": false,
+                            "placementStrategy": "free",
+                            "x": 456,
+                            "y": 636
+                        },
+                        "todo": {
+                            "placementStrategy": "free",
+                            "x": 168,
+                            "y": 768
+                        },
+                        "uptime": {
+                            "enable": false
+                        },
+                        "userCard": {
+                            "enable": false,
+                            "placementStrategy": "free",
+                            "x": 668,
+                            "y": 636
+                        },
+                        "visualizer": {
+                            "enable": false,
+                            "placementStrategy": "free",
+                            "x": 44,
+                            "y": 587
+                        },
+                        "weather": {
+                            "enable": false,
+                            "placementStrategy": "free",
+                            "x": 1476,
+                            "y": 804
+                        },
+                        "worldClock": {
+                            "enable": false,
+                            "placementStrategy": "free",
+                            "x": 172,
+                            "y": 363
+                        }
+                    },
+                    "width": 1920
+                }
+            ],
             "powerSaving": {
-                "enable": true,
+                "enable": false,
                 "pauseOnFullscreen": true,
                 "pauseOnGameMode": true,
                 "pauseWhenWindowsPresent": false,
@@ -877,44 +1203,98 @@
             "screenList": [],
             "style": "panel",
             "systemMonitor": {
-                "backgroundOpacity": 0.16,
+                "backgroundOpacity": 0.04,
                 "barCount": 32,
                 "barSpacing": 2,
                 "borderOpacity": 0.2,
                 "borderWidth": 1,
                 "colorMode": "auto",
-                "contentHeight": 120,
+                "contentHeight": 180,
                 "contentWidth": 320,
                 "cornerRadius": -1,
                 "dim": 0,
-                "displayMode": "rings",
+                "displayMode": "tiles",
                 "enable": false,
                 "fillOpacity": 0.7,
                 "graphFillOpacity": 0.3,
                 "locked": false,
                 "palette": {
                     "primary": "primary",
-                    "secondary": "secondary",
+                    "secondary": "primary",
                     "signal": "signal",
                     "surface": "surface",
-                    "tertiary": "tertiary"
+                    "tertiary": "primary"
                 },
-                "placementStrategy": "free",
-                "preset": "default",
-                "showBackground": true,
-                "showBorder": true,
+                "placementStrategy": "leastBusy",
+                "preset": "tall",
+                "showBackground": false,
+                "showBorder": false,
                 "showCpu": true,
                 "showDisk": false,
                 "showGpu": true,
+                "showGpuTemp": false,
                 "showLabels": true,
                 "showMemory": true,
-                "showTemp": true,
+                "showTemp": false,
                 "trackAlpha": 0.08,
                 "useBlur": false,
                 "widgetOpacity": 100,
                 "widgetScale": 100,
                 "x": 50,
                 "y": 400
+            },
+            "timers": {
+                "backgroundOpacity": 0,
+                "borderOpacity": 0.16,
+                "borderWidth": 0,
+                "colorMode": "auto",
+                "cornerRadius": -1,
+                "dim": 0,
+                "enable": false,
+                "locked": false,
+                "palette": {
+                    "primary": "primary",
+                    "secondary": "primary",
+                    "signal": "signal",
+                    "surface": "surface",
+                    "tertiary": "primary"
+                },
+                "placementStrategy": "free",
+                "showBackground": false,
+                "showBorder": false,
+                "useBlur": false,
+                "vertical": false,
+                "widgetOpacity": 100,
+                "widgetScale": 100,
+                "x": 456,
+                "y": 636
+            },
+            "todo": {
+                "backgroundOpacity": 0.14,
+                "borderOpacity": 0.16,
+                "borderWidth": 1,
+                "colorMode": "auto",
+                "contentHeight": 276,
+                "contentWidth": 300,
+                "cornerRadius": -1,
+                "dim": 0,
+                "enable": false,
+                "locked": false,
+                "palette": {
+                    "primary": "primary",
+                    "secondary": "primary",
+                    "signal": "signal",
+                    "surface": "surface",
+                    "tertiary": "primary"
+                },
+                "placementStrategy": "free",
+                "showBackground": true,
+                "showBorder": true,
+                "useBlur": false,
+                "widgetOpacity": 100,
+                "widgetScale": 100,
+                "x": 168,
+                "y": 768
             },
             "uptime": {
                 "backgroundOpacity": 0.16,
@@ -929,10 +1309,10 @@
                 "locked": false,
                 "palette": {
                     "primary": "primary",
-                    "secondary": "secondary",
+                    "secondary": "primary",
                     "signal": "signal",
                     "surface": "surface",
-                    "tertiary": "tertiary"
+                    "tertiary": "primary"
                 },
                 "placementStrategy": "free",
                 "showBackground": true,
@@ -956,12 +1336,12 @@
                 "locked": false,
                 "palette": {
                     "primary": "primary",
-                    "secondary": "secondary",
+                    "secondary": "primary",
                     "signal": "signal",
                     "surface": "surface",
-                    "tertiary": "tertiary"
+                    "tertiary": "primary"
                 },
-                "placementStrategy": "leastBusy",
+                "placementStrategy": "free",
                 "showBackground": true,
                 "showBorder": true,
                 "useBlur": false,
@@ -973,16 +1353,16 @@
             "visualizer": {
                 "accentStrength": 70,
                 "backgroundOpacity": 0.16,
-                "barCount": 64,
-                "barMinHeight": 2,
+                "barCount": 48,
+                "barMinHeight": 1,
                 "barOpacity": 100,
-                "barRadius": 1,
-                "barSpacing": 1,
-                "barsOrigin": "top",
+                "barRadius": 2,
+                "barSpacing": 2,
+                "barsOrigin": "bottom",
                 "borderOpacity": 0.2,
                 "borderWidth": 1,
                 "colorMode": "auto",
-                "contentHeight": 80,
+                "contentHeight": 104,
                 "contentWidth": 304,
                 "cornerRadius": -1,
                 "dim": 0,
@@ -990,30 +1370,39 @@
                 "edgeSoftness": 28,
                 "enable": false,
                 "fillRatio": 90,
-                "frequencyProfile": "bass",
+                "frequencyProfile": "flat",
                 "lineWidth": 2,
                 "locked": false,
+                "organicCompression": 0,
+                "organicCoverSize": 51,
+                "organicGlow": 100,
+                "organicIdleMotion": 18,
+                "organicMotionSpeed": 250,
+                "organicOpacity": 100,
+                "organicPulse": 150,
+                "organicRange": 20,
+                "organicSensitivity": 25,
                 "palette": {
                     "primary": "primary",
-                    "secondary": "secondary",
+                    "secondary": "primary",
                     "signal": "signal",
                     "surface": "surface",
-                    "tertiary": "tertiary"
+                    "tertiary": "primary"
                 },
                 "paletteMode": "cava",
                 "placementStrategy": "free",
-                "preset": "dense",
-                "showBackground": false,
+                "preset": "default",
+                "showBackground": true,
                 "showBorder": true,
                 "smoothing": 2,
                 "useBlur": false,
-                "vizType": "bars",
+                "vizType": "wave",
                 "waveMode": "fill",
                 "waveOpacity": -1,
                 "widgetOpacity": 100,
                 "widgetScale": 100,
-                "x": 60,
-                "y": 400
+                "x": 0,
+                "y": 840
             },
             "weather": {
                 "backgroundOpacity": 0.16,
@@ -1029,17 +1418,17 @@
                 "padding": 20,
                 "palette": {
                     "primary": "primary",
-                    "secondary": "secondary",
+                    "secondary": "primary",
                     "signal": "signal",
                     "surface": "surface",
-                    "tertiary": "tertiary"
+                    "tertiary": "primary"
                 },
                 "placementStrategy": "free",
                 "preset": "default",
                 "shape": "pill",
                 "showBackground": true,
                 "showBorder": true,
-                "showCondition": true,
+                "showCondition": false,
                 "showIcon": true,
                 "showMetrics": true,
                 "showTemp": true,
@@ -1050,8 +1439,8 @@
                 "useBlur": false,
                 "widgetOpacity": 100,
                 "widgetScale": 100,
-                "x": 100,
-                "y": 200
+                "x": 1476,
+                "y": 804
             },
             "worldClock": {
                 "backgroundOpacity": 0.16,
@@ -1066,25 +1455,25 @@
                 "locked": false,
                 "palette": {
                     "primary": "primary",
-                    "secondary": "secondary",
+                    "secondary": "primary",
                     "signal": "signal",
                     "surface": "surface",
-                    "tertiary": "tertiary"
+                    "tertiary": "primary"
                 },
                 "placementStrategy": "free",
                 "showBackground": true,
                 "showBorder": true,
                 "timezones": [
-                    "Australia/Sydney",
+                    "Asia/Kolkata",
                     "Asia/Tokyo",
-                    "Europe/London",
-                    "America/New_York"
+                    "Australia/Melbourne",
+                    "Asia/Seoul"
                 ],
                 "useBlur": false,
                 "widgetOpacity": 100,
                 "widgetScale": 100,
-                "x": 80,
-                "y": 200
+                "x": 24,
+                "y": 444
             },
             "custom": {
                 "example-widget": {
@@ -1116,13 +1505,13 @@
     },
     "bar": {
         "activeWindow": {
-            "showTitle": true
+            "showTitle": false
         },
-        "appearanceStyle": "pill",
+        "appearanceStyle": "m3",
         "autoHide": {
-            "enable": false,
+            "enable": true,
             "hoverRegionWidth": 2,
-            "pushWindows": false,
+            "pushWindows": true,
             "showWhenPressingSuper": {
                 "delay": 140,
                 "enable": true
@@ -1140,7 +1529,7 @@
             "timeFontFamily": "",
             "timePixelSize": 0
         },
-        "cornerStyle": 0,
+        "cornerStyle": 1,
         "customRounding": -1,
         "edgeModulesLayout": {
             "leftOrder": [
@@ -1153,7 +1542,7 @@
                 "weather"
             ]
         },
-        "floatStyleShadow": true,
+        "floatStyleShadow": false,
         "height": 40,
         "indicators": {
             "notifications": {
@@ -1181,20 +1570,19 @@
                 "leftSidebarButton",
                 "activeWindow"
             ],
-            "migrated": true,
+            "migrated": false,
             "right": [
                 "rightSidebarButton",
                 "tray",
                 "timer",
                 "shellUpdate",
-                "systemUpdate",
                 "spacer",
                 "weather"
             ],
             "spacerMode": "auto",
             "spacerWidth": 0
         },
-        "leftScrollAction": "brightness",
+        "leftScrollAction": "none",
         "m3": {
             "borderless": "separated",
             "clock": {
@@ -1297,7 +1685,7 @@
             "battery": true,
             "clock": true,
             "leftSidebarButton": true,
-            "media": false,
+            "media": true,
             "resources": false,
             "rightSidebarButton": true,
             "sysTray": true,
@@ -1328,8 +1716,11 @@
         "pill": {
             "appGap": 1,
             "barMode": false,
+            "batteryDisplay": "percentage",
             "clockSeconds": false,
-            "compactAnnounces": true,
+            "compactAnnounces": false,
+            "expandedHeight": 66,
+            "floatOverWindows": false,
             "glyphs": {
                 "battery": "",
                 "calendar": "",
@@ -1347,41 +1738,46 @@
                 "notify": "",
                 "power": "",
                 "recorder": "",
+                "settings": "",
                 "sysmon": "",
                 "workspaces": ""
             },
-            "iconSize": 17,
-            "iconSpacing": 12,
+            "iconSize": 19,
+            "iconSpacing": 14,
+            "mediaAccess": "bud",
+            "mixerAppRows": 5,
             "modules": {
                 "battery": true,
                 "inbox": true,
                 "mixer": true,
                 "power": true,
-                "sidebars": true,
+                "sidebars": false,
                 "tray": true,
                 "weather": true,
                 "wifi": true,
                 "workspaces": true
             },
             "musicViz": true,
-            "opacity": 1,
             "osd": true,
-            "rowSpacing": 20,
+            "restHeight": 44,
+            "restWidth": 176,
+            "rowSpacing": 24,
             "scale": 1,
             "showGlyphs": true,
             "soul": {
                 "enable": true,
                 "size": 1,
-                "style": "orb"
+                "style": "ring"
             },
+            "superSpaceLauncher": "overview",
             "surfaces": {
                 "clipboard": true,
                 "glance": true,
                 "launcher": true,
-                "recorder": true,
+                "recorder": false,
                 "sysmon": true
             },
-            "time12h": false,
+            "time12h": true,
             "toasts": true,
             "topGap": 1
         },
@@ -1402,11 +1798,13 @@
             "tempCautionThreshold": 65,
             "tempWarningThreshold": 80
         },
-        "rightScrollAction": "volume",
-        "screenList": [],
-        "showBackground": true,
-        "showScrollHints": true,
-        "topLeftIcon": "distro",
+        "rightScrollAction": "none",
+        "screenList": [
+            "DP-2"
+        ],
+        "showBackground": false,
+        "showScrollHints": false,
+        "topLeftIcon": "spark",
         "tray": {
             "filterPassive": true,
             "invertPinnedItems": true,
@@ -1415,19 +1813,19 @@
             "showItemId": false
         },
         "utilButtons": {
-            "screenCastOutput": "",
+            "screenCastOutput": "HDMI-A-1",
             "showColorPicker": true,
-            "showDarkModeToggle": false,
+            "showDarkModeToggle": true,
             "showKeyboardLayoutSwitch": false,
-            "showKeyboardToggle": false,
+            "showKeyboardToggle": true,
             "showMicToggle": true,
             "showNotepad": true,
-            "showPerformanceProfileToggle": false,
-            "showScreenCast": false,
+            "showPerformanceProfileToggle": true,
+            "showScreenCast": true,
             "showScreenRecord": true,
             "showScreenSnip": true
         },
-        "verbose": true,
+        "verbose": false,
         "vertical": false,
         "vignette": {
             "enabled": false,
@@ -1440,8 +1838,8 @@
             "density": 12,
             "edgeInset": 0,
             "edgeSoftness": 28,
-            "enable": false,
-            "frequencyProfile": "smile",
+            "enable": true,
+            "frequencyProfile": "flat",
             "gap": 2,
             "height": 0.6,
             "lineWidth": 2,
@@ -1458,37 +1856,27 @@
             "waveMode": "ribbon"
         },
         "weather": {
-            "city": "",
+            "city": "Igualada",
             "enable": true,
-            "enableGPS": false,
+            "enableGPS": true,
             "fetchInterval": 10,
             "manualLat": 0,
             "manualLon": 0,
-            "useUSCS": false
+            "useUSCS": false,
+            "mode": "manual"
         },
         "workspaces": {
-            "alwaysShowNumbers": true,
+            "alwaysShowNumbers": false,
             "automaticIndicatorColor": true,
             "dynamicCount": true,
             "indicatorColor": "",
             "invertScroll": false,
             "monochromeIcons": true,
-            "numberMap": [
-                "1",
-                "2",
-                "3",
-                "4",
-                "5",
-                "6",
-                "7",
-                "8",
-                "9",
-                "10"
-            ],
+            "numberMap": [],
             "perMonitor": true,
             "scrollBehavior": "workspace",
             "scrollSteps": 3,
-            "showAppIcons": false,
+            "showAppIcons": true,
             "showNumberDelay": 300,
             "shown": 5,
             "useNerdFont": false,
@@ -1509,40 +1897,43 @@
     },
     "bootGreeting": {
         "autoDismissDelay": 5000,
-        "enable": true,
+        "enable": false,
         "showDate": true,
         "showWeather": true
     },
     "calendar": {
         "externalSync": {
             "enable": true,
-            "refreshMinutes": 15,
+            "refreshMinutes": 5,
             "sources": [
                 {
-                    "id": "cal_00_sync",
-                    "name": "Google Calendar",
-                    "url": "file://@HOME@/.config/inir-birthdays/00.ics",
                     "color": "#4285F4",
-                    "enabled": true
+                    "enabled": true,
+                    "id": "cal_00_sync",
+                    "name": "lotsv8proyt@gmail.com",
+                    "url": "file:///home/lots/.config/inir-birthdays/01.ics"
                 },
                 {
+                    "color": "#EA4335",
+                    "enabled": true,
                     "id": "cal_01_sync",
                     "name": "Festivos en España",
-                    "url": "file://@HOME@/.config/inir-birthdays/01.ics",
-                    "color": "#EA4335",
-                    "enabled": true
+                    "url": "file:///home/lots/.config/inir-birthdays/00.ics"
                 },
                 {
+                    "color": "#34A853",
+                    "enabled": true,
                     "id": "cal_03_sync",
                     "name": "Cumpleaños (Contactos)",
-                    "url": "file://@HOME@/.config/inir-birthdays/02.ics",
-                    "color": "#34A853",
-                    "enabled": true
+                    "url": "file:///home/lots/.config/inir-birthdays/02.ics"
                 }
             ]
         },
         "showUpcoming": true,
-        "upcomingDays": 3
+        "upcomingDays": 3,
+        "googleOAuth": {
+            "importDays": 365
+        }
     },
     "clipboard": {
         "pinned": []
@@ -1554,7 +1945,7 @@
         "autoExpandSingleTilingWindow": false
     },
     "conflictKiller": {
-        "autoKillNotificationDaemons": true,
+        "autoKillNotificationDaemons": false,
         "autoKillTrays": true
     },
     "controlPanel": {
@@ -1564,7 +1955,7 @@
         "showQuickActionsSection": true,
         "showSlidersSection": true,
         "showSystemSection": true,
-        "showWallpaperSchemeChips": false,
+        "showWallpaperSchemeChips": true,
         "showWallpaperSection": true,
         "showWeatherSection": true,
         "style": "panel"
@@ -1575,29 +1966,30 @@
     "dashboard": {
         "appearance": {
             "cardOpacity": 1,
-            "density": "comfortable",
+            "density": "compact",
             "showCardTitles": true
         },
         "enable": true,
         "github": {
-            "username": ""
+            "username": "LotsV8pro"
         },
-        "keepLoaded": false,
+        "keepLoaded": true,
         "layout": {
             "center": [
-                "notifications",
-                "todo"
+                "clock",
+                "calendar",
+                "agenda"
             ],
             "left": [
                 "welcome",
-                "clock",
                 "system",
+                "notes",
                 "github"
             ],
             "right": [
                 "media",
-                "weather",
-                "calendar"
+                "notifications",
+                "todo"
             ]
         },
         "showHeader": true,
@@ -1606,18 +1998,18 @@
         "widthRatio": 0.62
     },
     "display": {
-        "primaryMonitor": ""
+        "primaryMonitor": "DP-2"
     },
     "dock": {
         "cardStyle": false,
         "enable": false,
-        "enableBlurGlass": false,
+        "enableBlurGlass": true,
         "enableDragReorder": true,
         "height": 60,
         "hoverPreview": true,
         "hoverPreviewDelay": 400,
         "hoverRegionHeight": 2,
-        "hoverToReveal": false,
+        "hoverToReveal": true,
         "iconSize": 35,
         "ignoredAppRegexes": [],
         "keepPreviewOnClick": false,
@@ -1626,20 +2018,30 @@
         "monochromeIcons": true,
         "notificationBadge": true,
         "pinnedApps": [
-            "zen-browser"
+            "io.missioncenter.missioncenter",
+            "org.kde.dolphin",
+            "com.obsproject.studio",
+            "spotify",
+            "discord",
+            "zen-twilight",
+            "steam",
+            "dev.zed.zed",
+            "twintaillauncher",
+            "moe.launcher.the-honkers-railway-launcher",
+            "org.vinegarhq.sober",
+            "org.prismlauncher.prismlauncher"
         ],
-        "pinnedOnStartup": true,
-        "position": "left",
+        "pinnedOnStartup": false,
+        "position": "bottom",
         "screenList": [],
         "separatePinnedFromRunning": true,
         "showAllWindowDots": true,
         "showBackground": true,
         "showOnDesktop": true,
         "smartIndicator": true,
-        "style": "island"
+        "style": "panel"
     },
     "enabledPanels": [
-        "iiBar",
         "iiBackground",
         "iiBackdrop",
         "iiCheatsheet",
@@ -1659,7 +2061,6 @@
         "iiSidebarLeft",
         "iiSidebarRight",
         "iiTilingOverlay",
-        "iiVerticalBar",
         "iiWallpaperSelector",
         "iiWallpaperLauncher",
         "iiCoverflowSelector",
@@ -1667,35 +2068,23 @@
         "iiShellUpdate",
         "iiDashboard",
         "iiMascotCompanion",
-        "wBar",
-        "wBackground",
-        "wBackdrop",
-        "wStartMenu",
-        "wActionCenter",
-        "wNotificationCenter",
-        "wNotificationPopup",
-        "wOnScreenDisplay",
-        "wWidgets",
-        "wTaskView",
-        "wLock",
-        "wPolkit",
-        "wSessionScreen",
+        "iiEqualizer",
         "iiBootGreeting",
         "iiRecordingOsd"
     ],
     "familyTransitionAnimation": true,
     "gameMode": {
         "autoDetect": true,
-        "checkInterval": 2000,
-        "disableAnimations": false,
+        "checkInterval": 5000,
+        "disableAnimations": true,
         "disableDiscoverOverlay": true,
-        "disableEffects": false,
-        "disableNiriAnimations": false,
+        "disableEffects": true,
+        "disableNiriAnimations": true,
         "disableReloadToasts": true,
-        "minimalMode": false,
+        "minimalMode": true,
         "niriWindowListUpdateIntervalMs": 100,
         "niriWindowListUpdateIntervalMsGameMode": 500,
-        "suppressNotifications": true
+        "suppressNotifications": false
     },
     "hacks": {
         "arbitraryRaceConditionDelay": 20
@@ -1719,7 +2108,7 @@
     },
     "interactions": {
         "deadPixelWorkaround": {
-            "enable": true
+            "enable": false
         },
         "scrolling": {
             "fasterTouchpadScroll": false,
@@ -1791,7 +2180,7 @@
         "translator": {
             "engine": "auto",
             "sourceLanguage": "auto",
-            "targetLanguage": "auto"
+            "targetLanguage": "Español"
         },
         "ui": "auto"
     },
@@ -1801,7 +2190,7 @@
         },
         "night": {
             "automatic": false,
-            "colorTemperature": 6000,
+            "colorTemperature": 6119,
             "enabled": false,
             "from": "19:00",
             "to": "06:30"
@@ -1809,20 +2198,20 @@
     },
     "lock": {
         "blur": {
-            "enable": true,
+            "enable": false,
             "extraZoom": 1.1,
             "radius": 100
         },
         "centerClock": true,
         "clock": {
             "position": "center",
-            "style": "minimal"
+            "style": "default"
         },
         "dim": {
             "enable": false,
             "opacity": 0.3
         },
-        "enableAnimation": true,
+        "enableAnimation": false,
         "launchOnStartup": false,
         "materialShapeChars": true,
         "notifications": {
@@ -1833,9 +2222,9 @@
         },
         "security": {
             "requirePasswordToPower": false,
-            "unlockKeyring": true
+            "unlockKeyring": false
         },
-        "showLockedText": true,
+        "showLockedText": false,
         "status": {
             "enable": true
         },
@@ -1855,7 +2244,7 @@
             "systemEvents": true
         },
         "companion": {
-            "contextualPlacement": true,
+            "contextualPlacement": false,
             "customLines": [],
             "edges": {
                 "bottom": true,
@@ -1891,14 +2280,14 @@
                 "workspace": true
             },
             "intervalMinutes": 25,
-            "monitor": "focused",
+            "monitor": "primary",
             "musicRequireArtist": true,
             "placement": "peek",
             "size": 150,
             "slideMs": 400,
-            "visibleSeconds": 8
+            "visibleSeconds": 5
         },
-        "enable": true,
+        "enable": false,
         "personality": {
             "commentary": true,
             "enabled": true,
@@ -1954,7 +2343,7 @@
         "notificationPopup": true,
         "onScreenDisplay": true,
         "onScreenKeyboard": true,
-        "overlay": false,
+        "overlay": true,
         "overview": true,
         "polkit": true,
         "regionSelector": true,
@@ -1974,10 +2363,11 @@
         "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
     },
     "notifications": {
+        "blockedApps": [],
         "edgeMargin": 4,
         "ignoreAppTimeout": false,
         "maxPopupLifetime": 30000,
-        "position": "topRight",
+        "position": "top_right",
         "quietHours": {
             "enable": false,
             "end": "08:00",
@@ -1986,11 +2376,153 @@
         "scaleOnHover": false,
         "screenList": [],
         "silent": false,
-        "timeout": 3000,
+        "timeout": 7000,
         "timeoutCritical": 0,
         "timeoutLow": 5000,
         "timeoutNormal": 7000,
         "useLegacyCounter": true
+    },
+    "orbit": {
+        "backdropBlurEnable": true,
+        "backdropBlurMode": "shell",
+        "backdropBlurSaturation": 18,
+        "backdropBlurStrength": 72,
+        "backdropBlurTint": 28,
+        "balancedGrid": true,
+        "canvasScrubNavigation": true,
+        "canvasScrubThreshold": 96,
+        "closeOnSelect": true,
+        "enable": false,
+        "hotCorner": "topRight",
+        "hotCornerActivationDistance": 2,
+        "hotCornerDwellMs": 0,
+        "hotCornerEnable": true,
+        "hotCornerSize": 12,
+        "keyboardNavigation": true,
+        "maxPanelWidthPercent": 92,
+        "navigationMotion": {
+            "advanced": false,
+            "durationMs": 320,
+            "easing": "smooth",
+            "preset": "fluid"
+        },
+        "orbital": {
+            "coreSizePercent": 48,
+            "depthPercent": 18,
+            "geometry": {
+                "advanced": false,
+                "atlasColumns": 3,
+                "atlasCoreBoostPercent": 10,
+                "atlasGap": 14,
+                "coreContentMargin": 9,
+                "deckBaseGap": 26,
+                "deckLiftStep": 24,
+                "deckStep": 44,
+                "edgePadding": 10,
+                "galleryBaseGap": 34,
+                "galleryRowGap": 14,
+                "horizonGap": 12,
+                "horizonInset": 24,
+                "horizonVerticalBase": 8,
+                "horizonVerticalRange": 26,
+                "satelliteContentMargin": 6
+            },
+            "horizontalSpreadPercent": 82,
+            "layout": "orbit",
+            "satelliteClickAction": "select",
+            "satellitePreviews": true,
+            "satelliteSizePercent": 42,
+            "showWorkspaceLabels": true,
+            "showWorkspaceWallpaper": true,
+            "surface": {
+                "coreElevation": 2,
+                "frameInset": 5,
+                "outline": true,
+                "outlineOpacityPercent": 72,
+                "outlineWidth": 1,
+                "radiusPercent": 100,
+                "satelliteElevation": 1,
+                "shadowMode": "core",
+                "shadowOpacityPercent": 72,
+                "style": "current"
+            },
+            "verticalSpreadPercent": 58,
+            "visibleWorkspaces": 5,
+            "workspaceLabelMode": "",
+            "workspaceWallpaperOpacity": 70
+        },
+        "pocket": {
+            "layout": "cards",
+            "showPreviews": true
+        },
+        "presentation": {
+            "advanced": false,
+            "direction": "top",
+            "distance": 92,
+            "enterDurationMs": 300,
+            "entryDelayMs": 64,
+            "entryOpacityPercent": 0,
+            "entryStaggerMs": 42,
+            "entryStyle": "cascade",
+            "exitDurationMs": 220,
+            "preset": "adaptive",
+            "shelfDelayMs": 72
+        },
+        "scrimDim": 35,
+        "scrollNavigation": true,
+        "scrollSteps": 1,
+        "scrollSwitchWorkspace": true,
+        "scrollWrapAround": false,
+        "shelf": {
+            "closeOnAction": true,
+            "density": "comfortable",
+            "enable": true,
+            "islandPadding": 8,
+            "islandStyle": "material",
+            "labels": "auto",
+            "layout": "islands",
+            "locatorLabel": "auto",
+            "moduleSpacing": 7,
+            "modules": [
+                "locator",
+                "trail",
+                "niri",
+                "actions",
+                "stash"
+            ],
+            "niriActions": [
+                "maximize",
+                "consume",
+                "expel"
+            ],
+            "pinnedActions": [
+                "open-clipboard",
+                "toggle-tiling",
+                "toggle-dashboard"
+            ],
+            "showStudioButton": true,
+            "trailScope": "output"
+        },
+        "showNewWorkspaceDrop": true,
+        "showStash": true,
+        "showTrail": true,
+        "showWorkspaceNumbers": true,
+        "stageMode": "stage",
+        "stashRestoreMode": "original",
+        "studio": {
+            "density": "compact",
+            "showDescriptions": true,
+            "surfaceStyle": "ricelin",
+            "widthPercent": 26
+        },
+        "trailItems": 5,
+        "userPresetJson": "",
+        "windowGap": 4,
+        "windowLabelIcons": true,
+        "windowLabels": "hover",
+        "workspaceCount": 3,
+        "workspaceScalePercent": 27,
+        "workspaceSpacing": 18
     },
     "osd": {
         "mediaEnabled": true,
@@ -2003,34 +2535,29 @@
         "pinnedOnStartup": false
     },
     "overlay": {
-        "animationDurationMs": 120,
-        "backgroundOpacity": 1,
+        "animationDurationMs": 180,
+        "backgroundOpacity": 0.9,
         "clickthroughOpacity": 0.8,
-        "darkenScreen": false,
+        "darkenScreen": true,
         "floatingImage": {
-            "imageSource": "",
+            "imageSource": "https://media.tenor.com/mZgflfJHsxgAAAAi/march-rave.gif",
             "scale": 0.5
         },
-        "openingZoomAnimation": false,
-        "recorder": {
-            "autoHideOnFullscreen": true,
-            "disableNiriAnims": false,
-            "suppressToasts": true
-        },
-        "scrimAnimationDurationMs": 60,
-        "scrimDim": 100
+        "openingZoomAnimation": true,
+        "scrimAnimationDurationMs": 140,
+        "scrimDim": 35
     },
     "overview": {
         "activeScreenOnly": true,
         "allAppsGrid": false,
         "allAppsGridMode": "minimal",
         "backgroundBlurEnable": true,
-        "backgroundBlurRadius": 50,
-        "backgroundDim": 40,
+        "backgroundBlurRadius": 22,
+        "backgroundDim": 35,
         "bottomMargin": 0,
         "centerIcons": true,
         "closeAfterWindowMove": true,
-        "columns": 1,
+        "columns": 5,
         "dashboard": {
             "enable": false,
             "showMedia": true,
@@ -2047,15 +2574,15 @@
         "keepOverviewOpenOnWindowClick": true,
         "maxPanelWidthRatio": 1,
         "respectBar": true,
-        "rows": 3,
-        "scale": 0.17,
-        "scrimDim": 10,
-        "scrollWorkspaceSteps": 1,
+        "rows": 2,
+        "scale": 0.18,
+        "scrimDim": 35,
+        "scrollWorkspaceSteps": 2,
         "showPreviews": false,
-        "showWorkspaceNumbers": false,
+        "showWorkspaceNumbers": true,
         "switchToWorkspaceOnOpen": false,
         "switchWorkspaceIndex": 1,
-        "topMargin": 80,
+        "topMargin": 0,
         "windowTileMargin": 6,
         "workspaceSpacing": 5
     },
@@ -2068,20 +2595,20 @@
             "panels": "inherit",
             "widgets": "inherit"
         },
-        "blurBackend": "compositor",
+        "blurBackend": "wallpaper",
         "compositorBlur": true,
         "jsgcThreshold": 300,
         "lowPower": false,
         "memoryMonitoring": true,
-        "memoryWarningNotification": true,
+        "memoryWarningNotification": false,
         "reduceAnimations": false
     },
     "policies": {
         "ai": 1,
-        "weeb": 1
+        "weeb": 0
     },
     "powerProfiles": {
-        "preferredProfile": "",
+        "preferredProfile": "performance",
         "restoreOnStart": true
     },
     "regionSelector": {
@@ -2094,13 +2621,27 @@
             "padding": 10,
             "strokeWidth": 6
         },
+        "japaneseLookup": {
+            "anki": {
+                "backField": "Back",
+                "deck": "Default",
+                "enabled": false,
+                "endpoint": "http://127.0.0.1:8765",
+                "frontField": "Front",
+                "model": "Basic"
+            },
+            "enabled": true,
+            "translationTarget": "auto"
+        },
         "lastAction": 0,
         "lastMode": 0,
         "numSize": 48,
+        "ocrLanguage": "auto",
         "rect": {
             "showAimLines": true
         },
         "rememberSnipChoice": true,
+        "savePath": "",
         "screenshotNameFormat": "ss-%Y%m%d-%H%M%S",
         "targetRegions": {
             "content": true,
@@ -2143,7 +2684,7 @@
         "microphoneSource": "",
         "pixelFormat": "yuv420p",
         "preset": "veryfast",
-        "qualityPreset": "balanced",
+        "qualityPreset": "custom",
         "recordingNameFormat": "recording_%Y-%m-%d_%H.%M.%S",
         "recordingOsd": {
             "autoHide": false
@@ -2194,6 +2735,7 @@
     },
     "settingsUi": {
         "categories": "",
+        "chromeLayout": "",
         "easyMode": false,
         "overlayAppearance": {
             "backdropBlur": 0,
@@ -2212,9 +2754,9 @@
     },
     "sidebar": {
         "ai": {
-            "textFadeIn": true
+            "textFadeIn": false
         },
-        "animationType": "slide",
+        "animationType": "iris",
         "animeSchedule": {
             "enable": true,
             "showNsfw": false,
@@ -2227,6 +2769,10 @@
                 "nsfw": "",
                 "sfw": ""
             },
+            "gelbooru": {
+                "apiKey": "",
+                "userId": ""
+            },
             "limit": 20,
             "zerochan": {
                 "username": "[unset]"
@@ -2237,18 +2783,18 @@
         "collapseWidgetsTab": false,
         "cornerOpen": {
             "bottom": false,
-            "clickless": false,
+            "clickless": true,
             "clicklessCornerEnd": true,
             "clicklessCornerVerticalOffset": 1,
-            "cornerRegionHeight": 2,
-            "cornerRegionWidth": 60,
+            "cornerRegionHeight": 5,
+            "cornerRegionWidth": 250,
             "enable": false,
             "valueScroll": true,
-            "visualize": true
+            "visualize": false
         },
         "edgeOpen": {
             "enable": false,
-            "regionWidth": 2
+            "regionWidth": 6
         },
         "instantOpen": false,
         "keepLeftSidebarLoaded": true,
@@ -2257,8 +2803,8 @@
         "left": {
             "tabOrder": [
                 "widgets",
-                "translator",
                 "ai",
+                "translator",
                 "anime",
                 "animeSchedule",
                 "wallhaven",
@@ -2269,9 +2815,9 @@
             ]
         },
         "news": {
-            "enable": false,
+            "enable": true,
             "mode": "local",
-            "topic": "WORLD"
+            "topic": "TECHNOLOGY"
         },
         "openFolderOnDownload": false,
         "plugins": {
@@ -2281,20 +2827,24 @@
         "quickSliders": {
             "enable": true,
             "showBrightness": true,
-            "showMic": false,
+            "showMic": true,
             "showVolume": true
         },
         "quickToggles": {
             "android": {
-                "columns": 4,
+                "columns": 5,
                 "toggles": [
                     {
-                        "size": 1,
+                        "size": 2,
                         "type": "network"
                     },
                     {
-                        "size": 1,
+                        "size": 2,
                         "type": "bluetooth"
+                    },
+                    {
+                        "size": 1,
+                        "type": "idleInhibitor"
                     },
                     {
                         "size": 1,
@@ -2302,7 +2852,19 @@
                     },
                     {
                         "size": 1,
-                        "type": "mic"
+                        "type": "cloudflareWarp"
+                    },
+                    {
+                        "size": 1,
+                        "type": "colorPicker"
+                    },
+                    {
+                        "size": 1,
+                        "type": "nightLight"
+                    },
+                    {
+                        "size": 1,
+                        "type": "notifications"
                     }
                 ]
             },
@@ -2318,21 +2880,22 @@
             ],
             "enabledWidgets": [
                 "todo",
+                "events",
                 "calendar"
             ],
             "headerBanner": "wallpaper",
             "headerBannerPath": "",
             "headerStyle": "profile",
             "sectionOrder": [
-                "widgets",
                 "system",
                 "sliders",
                 "toggles",
+                "widgets",
                 "notifications"
             ],
             "sectionWeights": {
-                "notifications": 0.8,
-                "widgets": 1.2
+                "notifications": 1.2000000000000002,
+                "widgets": 0.7999999999999998
             }
         },
         "screenList": [],
@@ -2349,7 +2912,7 @@
                 "width": 460
             },
             "system": {
-                "customHeight": 1369,
+                "customHeight": 720,
                 "sizeMode": "full",
                 "slot": "right",
                 "width": 460
@@ -2364,11 +2927,11 @@
         },
         "translator": {
             "delay": 300,
-            "enable": false
+            "enable": true
         },
         "wallhaven": {
             "apiKey": "",
-            "enable": false,
+            "enable": true,
             "fitMode": "auto",
             "limit": 24
         },
@@ -2386,13 +2949,13 @@
                 "showNightLight": true,
                 "showSettings": true
             },
-            "crypto": true,
+            "crypto": false,
             "crypto_settings": {
                 "coins": [
                     "bitcoin",
                     "ethereum"
                 ],
-                "refreshInterval": 300
+                "refreshInterval": 60
             },
             "enable": true,
             "glance": {
@@ -2402,7 +2965,7 @@
             },
             "launch": false,
             "media": true,
-            "note": true,
+            "note": false,
             "quickLaunch": [
                 {
                     "cmd": "/usr/bin/nautilus",
@@ -2415,12 +2978,12 @@
                     "name": "Terminal"
                 },
                 {
-                    "cmd": "/usr/bin/zen-browser",
+                    "cmd": "/usr/bin/firefox",
                     "icon": "web",
                     "name": "Browser"
                 },
                 {
-                    "cmd": "/usr/bin/nvim",
+                    "cmd": "/usr/bin/code",
                     "icon": "code",
                     "name": "Code"
                 }
@@ -2444,14 +3007,15 @@
                 "context",
                 "week",
                 "media",
-                "controls",
-                "status",
                 "note",
                 "launch",
+                "controls",
+                "status",
                 "crypto",
+                "wallpaper",
                 "worldclock"
             ],
-            "worldClock": true,
+            "worldClock": false,
             "worldClock_settings": {
                 "highlightLocal": true,
                 "showDate": true,
@@ -2462,20 +3026,20 @@
         },
         "ytmusic": {
             "audioQuality": "best",
-            "autoConnect": true,
-            "browser": "zen-browser",
+            "autoConnect": false,
+            "browser": "zen",
             "cache": {
                 "albums": [],
                 "liked": [],
                 "playlists": []
             },
-            "connected": false,
+            "connected": true,
             "cookiesPath": "",
-            "enable": false,
+            "enable": true,
             "hideSyncBanner": false,
             "lastLikedSync": "",
             "liked": [],
-            "normalizeVolume": true,
+            "normalizeVolume": false,
             "playlists": [],
             "profile": {
                 "avatar": "",
@@ -2520,14 +3084,14 @@
             "timerDone": ""
         },
         "notifications": true,
-        "pomodoro": false,
+        "pomodoro": true,
         "theme": "freedesktop",
         "timer": false,
-        "volume": 0.5
+        "volume": 0.75
     },
     "time": {
         "dateFormat": "ddd, dd/MM",
-        "format": "hh:mm",
+        "format": "h:mm AP",
         "pomodoro": {
             "breakTime": 300,
             "cyclesBeforeLongBreak": 4,
@@ -2540,8 +3104,10 @@
     "tray": {
         "filterPassive": true,
         "invertPinnedItems": true,
-        "monochromeIcons": true,
-        "pinnedItems": [],
+        "monochromeIcons": false,
+        "pinnedItems": [
+            "Fcitx"
+        ],
         "showItemId": false
     },
     "updates": {
@@ -2564,8 +3130,6 @@
                 "network",
                 "hotspot",
                 "bluetooth",
-                "audio",
-                "mic",
                 "easyEffects",
                 "powerProfile",
                 "idleInhibitor",
@@ -2573,6 +3137,7 @@
                 "darkMode",
                 "antiFlashbang",
                 "cloudflareWarp",
+                "mic",
                 "musicRecognition",
                 "notifications",
                 "onScreenKeyboard",
@@ -2665,7 +3230,7 @@
                     },
                     "dim": 55,
                     "enable": false,
-                    "fontFamily": "Roboto Flex",
+                    "fontFamily": "Segoe UI Variable Display",
                     "placementStrategy": "leastBusy",
                     "showDate": true,
                     "showLockStatus": true,
@@ -2681,7 +3246,7 @@
         },
         "bar": {
             "activationWatermark": {
-                "enable": true
+                "enable": false
             },
             "bottom": true,
             "desktopPeek": {
@@ -2748,16 +3313,16 @@
                 "screenRecord",
                 "session"
             ],
-            "showColorScheme": false,
+            "showColorScheme": true,
             "showDateTime": true,
             "showFiles": true,
             "showMedia": true,
-            "showQuickActions": false,
+            "showQuickActions": true,
             "showScreenRecord": true,
             "showScreenshot": true,
             "showSession": true,
             "showSettings": true,
-            "showSystem": false,
+            "showSystem": true,
             "showTerminal": true,
             "showWallpaper": true,
             "showWeather": true,
@@ -2773,12 +3338,14 @@
         "useSystemFileDialog": false
     },
     "wallpapers": {
-        "directory": "~/Pictures/wallpapers/all"
+        "directory": "~/Pictures/Wallpapers/all"
     },
     "welcomeWizard": {
-        "completed": true,
-        "profile": "minimum",
-        "skipped": false
+        "completed": false,
+        "performancePreset": "balanced",
+        "profile": "balanced",
+        "skipped": false,
+        "stylePreset": "material-flow"
     },
     "windows": {
         "appIdentityRules": [],
@@ -2809,7 +3376,7 @@
         "showMediaPlayer": true,
         "showMetadata": true,
         "showPreviews": true,
-        "side": "right",
+        "side": "left",
         "style": "island",
         "triggerWidth": 6
     }

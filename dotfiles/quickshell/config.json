@@ -36,6 +36,9 @@
   "bar": {
     "bottom": false
   },
+  "gameMode": {
+    "suppressNotifications": false
+  },
   "font": {
     "family": {
       "uiFont": "Noto Sans",
@@ -48,6 +51,35 @@
       "textMedium": 16,
       "textLarge": 19,
       "iconLarge": 22
+    }
+  },
+  "calendar": {
+    "externalSync": {
+      "enable": true,
+      "refreshMinutes": 15,
+      "sources": [
+        {
+          "id": "cal_00_sync",
+          "name": "lotsv8proyt@gmail.com",
+          "url": "file://@HOME@/.config/inir-birthdays/01.ics",
+          "color": "#4285F4",
+          "enabled": true
+        },
+        {
+          "id": "cal_01_sync",
+          "name": "Festivos en España",
+          "url": "file://@HOME@/.config/inir-birthdays/00.ics",
+          "color": "#EA4335",
+          "enabled": true
+        },
+        {
+          "id": "cal_03_sync",
+          "name": "Cumpleaños (Contactos)",
+          "url": "file://@HOME@/.config/inir-birthdays/02.ics",
+          "color": "#34A853",
+          "enabled": true
+        }
+      ]
     }
   }
 }

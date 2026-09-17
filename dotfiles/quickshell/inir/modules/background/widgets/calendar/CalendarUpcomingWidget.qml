@@ -53,6 +53,13 @@ AbstractBackgroundWidget {
 
     // ── Refresh trigger when events change ────────────────────
     property int _refreshTrigger: 0
+    property bool _nowTick: false
+    Timer {
+        interval: 30000
+        repeat: true
+        running: root.visible
+        onTriggered: root._nowTick = !root._nowTick
+    }
     Connections {
         target: Events
         function onEventAdded() { root._refreshTrigger++ }
@@ -75,40 +82,44 @@ AbstractBackgroundWidget {
 
     function _buildList(): var {
         const now = new Date()
-        const local = (typeof Events !== "undefined" && Events.getUpcomingEvents)
-            ? Events.getUpcomingEvents(30).map(e => Object.assign({}, e, { _source: "local" }))
+        const today = new Date(now); today.setHours(0, 0, 0, 0)
+
+        // Only today's events
+        const local = (typeof Events !== "undefined" && Events.getEventsForDate)
+            ? (Events.getEventsForDate(today) || []).map(e => Object.assign({}, e, { _source: "local" }))
             : []
 
-        const startDay = new Date(now)
-        startDay.setHours(0, 0, 0, 0)
         const externalAll = []
         if (typeof CalendarSync !== "undefined") {
-            for (let i = 0; i < 30; i++) {
-                const d = new Date(startDay)
-                d.setDate(d.getDate() + i)
-                const dayEvents = CalendarSync.getEventsForDate(d) || []
-                for (const e of dayEvents) {
-                    const evtTime = new Date(e.startDate || e.dateTime)
-                    if (evtTime < now && !(e.allDay && evtTime >= startDay)) continue
-                    externalAll.push(Object.assign({}, e, {
-                        _source: "external",
-                        dateTime: e.startDate || e.dateTime
-                    }))
-                }
+            const dayEvents = CalendarSync.getEventsForDate(today) || []
+            for (const e of dayEvents) {
+                externalAll.push(Object.assign({}, e, {
+                    _source: "external",
+                    dateTime: e.startDate || e.dateTime
+                }))
             }
         }
 
-        const all = local.concat(Events.filterExternalDuplicates(local, externalAll))
-        all.sort((a, b) => new Date(a.dateTime || a.startDate) - new Date(b.dateTime || b.startDate))
-        const limited = all.slice(0, root.maxEvents)
-        let previousDay = ""
-        return limited.map(event => {
-            const dt = new Date(event.dateTime || event.startDate)
-            const dayKey = isNaN(dt.getTime()) ? "" : Qt.formatDate(dt, "yyyy-MM-dd")
-            const showDayHeader = root.groupByDay && dayKey !== "" && dayKey !== previousDay
-            previousDay = dayKey
-            return Object.assign({}, event, { _showDayHeader: showDayHeader })
+        const all = local.concat(externalAll)
+
+        // Drop duplicates (same uid + same start), then hide events that ended.
+        const seen = new Set()
+        const unique = all.filter(e => {
+            const key = (e.uid ?? "") + "|" + (e.dateTime ?? e.startDate ?? "")
+            if (key === "|") return true
+            if (seen.has(key)) return false
+            seen.add(key)
+            return true
         })
+        const upcoming = unique.filter(e => {
+            if (e.allDay) return true
+            const start = new Date(e.dateTime || e.startDate)
+            const end = e.endDate ? new Date(e.endDate)
+                : new Date(start.getTime() + 60 * 60 * 1000)
+            return end > new Date()
+        })
+        upcoming.sort((a, b) => new Date(a.dateTime || a.startDate) - new Date(b.dateTime || b.startDate))
+        return upcoming.slice(0, root.maxEvents)
     }
 
     // ── Edit popover: max events + toggles ────────────────────
@@ -208,7 +219,7 @@ AbstractBackgroundWidget {
             spacing: 6
 
             StyledText {
-                text: Translation.tr("Upcoming")
+                text: Translation.tr("Events")
                 color: root.widgetInkMuted
                 font.pixelSize: Math.round(Appearance.font.pixelSize.smaller * root.scaleFactor)
                 font.weight: Font.Medium
@@ -228,6 +239,17 @@ AbstractBackgroundWidget {
                 required property int index
                 Layout.fillWidth: true
                 spacing: Math.round(3 * root.scaleFactor)
+
+                // In the middle of a running timed event right now
+                readonly property bool isNow: {
+                    root._nowTick // re-evaluate every 30s
+                    if (root._isAllDay(eventDelegate.modelData)) return false
+                    const now = new Date()
+                    const start = new Date(eventDelegate.modelData?.dateTime || eventDelegate.modelData?.startDate)
+                    if (isNaN(start.getTime()) || start > now) return false
+                    if (eventDelegate.modelData?.endDate) return new Date(eventDelegate.modelData.endDate) > now
+                    return now - start < 60 * 60 * 1000
+                }
 
                 StyledText {
                     visible: eventDelegate.modelData?._showDayHeader ?? false
@@ -269,10 +291,13 @@ AbstractBackgroundWidget {
                         StyledText {
                             Layout.fillWidth: true
                             visible: text.length > 0
-                            text: root._formatDateTime(eventDelegate.modelData)
-                            color: root.widgetInkMuted
+                            text: eventDelegate.isNow
+                                ? Translation.tr("Now") + " · " + root._formatTime(eventDelegate.modelData)
+                                : root._formatDateTime(eventDelegate.modelData)
+                            color: eventDelegate.isNow ? root.widgetAccentVisible : root.widgetInkMuted
                             font.pixelSize: Math.round(Appearance.font.pixelSize.smaller * root.scaleFactor)
                             font.family: Appearance.font.family.numbers
+                            font.weight: eventDelegate.isNow ? Font.Bold : Font.Normal
                             elide: Text.ElideRight
                             wrapMode: Text.NoWrap
                         }
@@ -333,6 +358,17 @@ AbstractBackgroundWidget {
             visible: root.upcomingEvents.length > 0
             Layout.fillHeight: true
         }
+    }
+
+    function _isAllDay(event): bool {
+        return Boolean(event?.allDay)
+    }
+
+    function _formatTime(event): string {
+        if (!event) return ""
+        const dt = new Date(event.dateTime || event.startDate)
+        if (isNaN(dt.getTime())) return ""
+        return Qt.formatTime(dt, "HH:mm")
     }
 
     // Format date/time relative to today/tomorrow

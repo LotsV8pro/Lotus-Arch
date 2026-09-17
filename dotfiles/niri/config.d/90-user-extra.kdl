@@ -4,25 +4,51 @@
 //
 // This file is YOURS. iNiR updates will never overwrite it.
 // Put any custom configuration here: extra binds, per-app window rules,
-// named workspaces, etc.
-//
-// Monitor-specific workspace pinning (which monitor each workspace opens on)
-// lives in monitor.lotus.kdl, NOT here, so this file stays portable across
-// machines. See the comment at the top of monitor.kdl / monitor.lotus.kdl.
+// output configuration, named workspaces, etc.
 //
 // Since Niri evaluates config top-to-bottom, settings here take effect
 // after all other config.d files. For window-rule properties, all matching
 // rules accumulate. For scalar values (like gaps), the last one wins.
 // ─────────────────────────────────────────────────────────────────────────────
 
-// Enable VRR (G-Sync) when a game is focused — needs on-demand=true for the
-// relevant output in monitor.kdl (monitor.lotus.kdl sets it for DP-2).
+// Static workspaces assigned to specific monitors (DP-2 is main)
+workspace "1" { open-on-output "DP-2"; }
+workspace "2" { open-on-output "DP-2"; }
+workspace "3" { open-on-output "DP-2"; }
+
+// Change "HDMI-A-1" to your actual secondary monitor name if needed
+workspace "4" { open-on-output "HDMI-A-1"; }
+workspace "5" { open-on-output "HDMI-A-1"; }
+
+// Automatically open specific communication and media apps on the 2nd monitor
+window-rule {
+    // Discord (matches native package, flatpak, and web wrapper app-ids)
+    match app-id="discord"
+    match app-id="com.discordapp.Discord"
+    open-on-workspace "4"
+}
+
+window-rule {
+    // Spotify (Added "Spotify" with capital S to fix the rule)
+    match app-id="Spotify"
+    match app-id="spotify"
+    match app-id="com.spotify.Client"
+    open-on-workspace "5"
+}
+// Enable VRR (G-Sync) when a game is focused — needs on-demand=true in monitor.kdl
 window-rule {
     match app-id=r#"^steam_app_\d+$"#
     match app-id=r#"^gamescope$"#
     match app-id=r#"^steam_proton$"#
     match app-id=r#"^heroic$"#
     match app-id=r#"^lutris$"#
+    variable-refresh-rate true
+}
+
+// Ready or Not (Proton/XWayland) — ensure VRR engages (app-id and title fallback)
+window-rule {
+    match app-id=r#"^steam_app_1144200$"#
+    match title=r#"^Ready or Not$"#
     variable-refresh-rate true
 }
 
@@ -42,3 +68,21 @@ binds {
     Mod+Shift+4 { move-column-to-workspace "4"; }
     Mod+Shift+5 { move-column-to-workspace "5"; }
 }
+
+// Monitor principal Gaming (DP-2) a 165Hz (164.998), a la izquierda
+output "DP-2" {
+    mode "2560x1440@164.998"
+    variable-refresh-rate
+    scale 1.0
+    position x=0 y=0
+}
+
+// Monitor secundario Samsung (HDMI-A-1) a la derecha del DP-2
+output "HDMI-A-1" {
+    mode "1920x1080@60.000"
+    scale 1.0
+    position x=2560 y=0
+}
+
+// Waybar (la única barra que se quiere)
+spawn-at-startup "sh" "-c" "$HOME/.local/bin/waybar_manager.sh"

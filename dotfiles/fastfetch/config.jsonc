@@ -1,96 +1,60 @@
 {
-  "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/master/doc/json_schema.json",
-  "logo": {
-    "source": "$HOME/.config/fastfetch/lotus.txt",
-    "padding": {
-      "top": 1,
-      "left": 2,
-      "right": 6
-    }
-  },
-  "display": {
-    "color": {
-      "keys": "#00ff41"
+    "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+    "logo": {
+        "source": "~/.config/fastfetch/hakufetch.txt",
+        "type": "auto",
+        "position": "top",
+        "padding": { "left": 2 },
+        "color": { "1": "white" }
     },
-    "separator": " → "
-  },
-  "modules": [
-    {
-      "type": "custom",
-      "format": "{#green} ▌LOTUS▌ SYSTEM OVERRIDE{#}"
+    "display": {
+        "separator": "  ",
+        "color": { "keys": "white", "output": "white", "title": "white" },
+        "constants": ["\u001b[37m", "\u001b[37m"]
     },
-    {
-      "type": "custom",
-      "format": "{#green} ┊{#}"
-    },
-    {
-      "type": "os",
-      "key": "{#green} ┊ OS{#}",
-      "keyColor": "green"
-    },
-    {
-      "type": "kernel",
-      "key": "{#green} ┊ KERNEL{#}",
-      "keyColor": "green"
-    },
-    {
-      "type": "custom",
-      "format": "{#green} ┊{#}"
-    },
-    {
-      "type": "cpu",
-      "key": "{#green} ┊ CPU{#}",
-      "keyColor": "green"
-    },
-    {
-      "type": "gpu",
-      "key": "{#green} ┊ GPU{#}",
-      "keyColor": "green"
-    },
-    {
-      "type": "custom",
-      "format": "{#green} ┊{#}"
-    },
-    {
-      "type": "shell",
-      "key": "{#green} ┊ SHELL{#}",
-      "keyColor": "green"
-    },
-    {
-      "type": "terminal",
-      "key": "{#green} ┊ TERMINAL{#}",
-      "keyColor": "green"
-    },
-    {
-      "type": "custom",
-      "format": "{#green} ┊{#}"
-    },
-    {
-      "type": "uptime",
-      "key": "{#green} ┊ UPTIME{#}",
-      "keyColor": "green"
-    },
-    {
-      "type": "loadavg",
-      "key": "{#green} ┊ LOAD{#}",
-      "keyColor": "green"
-    },
-    {
-      "type": "custom",
-      "format": "{#green} ┊{#}"
-    },
-    {
-      "type": "media",
-      "key": "{#green} ┊ MEDIA{#}",
-      "keyColor": "green"
-    },
-    {
-      "type": "custom",
-      "format": "{#green} ┊{#}"
-    },
-    {
-      "type": "custom",
-      "format": "{#green} ▌{#}{#green}[!] ACCESS GRANTED{#}"
-    }
-  ]
+    "modules": [
+        {
+            "type": "custom",
+            "key": "  ╭─Haku-Space─╮"
+        },
+        {
+            "type": "command",
+            "key": "  │ {$2}{$1}  user    │",
+            "text": "echo $USER"
+        },
+        {
+            "type": "kernel",
+            "key": "  │ {$2}{$1}  kernel  │"
+        },
+        {
+            "type": "os",
+            "key": "  │ {$2}{$1}  os      │"
+        },
+        {
+            "type": "wm",
+            "key": "  │ {$2}{$1}  wm      │"
+        },
+        {
+            "type": "disk",
+            "key": "  │ {$2}{$1}  disk    │",
+            "folder": "/"
+        },
+        {
+            "type": "memory",
+            "key": "  │ {$2}{$1}  memory  │"
+        },
+        {
+            "type": "packages",
+            "key": "  │   pkgs    │"
+        },
+        {
+            "type": "custom",
+            "key": "  ╰────────────╯"
+        },
+        {
+            "type": "colors",
+            "key": "  ",
+            "symbol": "circle"
+        }
+    ]
 }

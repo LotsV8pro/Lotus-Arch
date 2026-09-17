@@ -2,8 +2,8 @@
   <img src="https://img.shields.io/badge/Arch_Linux-141218?style=for-the-badge&logo=arch-linux&logoColor=C4A8E2"/>
   <img src="https://img.shields.io/badge/Hyprland-141218?style=for-the-badge&logo=hyprland&logoColor=C4A8E2"/>
   <img src="https://img.shields.io/badge/Niri_%2B_iNiR-141218?style=for-the-badge&logo=niri&logoColor=C4A8E2"/>
-  <img src="https://img.shields.io/badge/Any_GPU-141218?style=for-the-badge&logo=nvidia&logoColor=C4A8E2"/>
-  <img src="https://img.shields.io/badge/Lua_Config-141218?style=for-the-badge&logo=lua&logoColor=C4A8E2"/>
+  <img src="https://img.shields.io/badge/RTX_4070_%2F_Any_GPU-141218?style=for-the-badge&logo=nvidia&logoColor=C4A8E2"/>
+  <img src="https://img.shields.io/badge/Quickshell-141218?style=for-the-badge&logo=qml&logoColor=C4A8E2"/>
   <img src="https://img.shields.io/badge/Purple_Lotus-141218?style=for-the-badge&logo=codeforces&logoColor=C4A8E2"/>
   <img src="https://img.shields.io/github/v/release/LotsV8pro/Lotus-Arch?style=for-the-badge&color=141218"/>
 </p>
@@ -12,17 +12,19 @@
 
 <p align="center">
   <b>Arch Linux — Hyprland and/or Niri + iNiR — Purple Lotus Desktop Environment</b><br>
-  <sub>Purple glassmorphism · works on any GPU · EasyEffects audio · Preset-ready</sub>
+  <sub>Purple glassmorphism · works on any GPU · EasyEffects audio · optional hardware tuning</sub>
 </p>
 
 ## ✦ Overview
 
 Lotus Arch is a complete **Arch Linux desktop environment** with a choice of two sessions — pick at install time, or install **both** and switch from the SDDM login screen:
 
-- **Hyprland** — tiling compositor with a pure Lua configuration (no legacy `.conf` files), waybar, rofi.
-- **Niri + iNiR** *(optional)* — scrollable-tiling compositor paired with the [iNiR](https://github.com/snowarch/iNiR) Quickshell shell.
+- **Hyprland** — tiling compositor with a pure Lua configuration (no legacy `.conf` files), waybar, rofi, HyprGlass.
+- **Niri + iNiR** *(optional)* — scrollable-tiling compositor paired with the [iNiR](https://github.com/snowarch/iNiR) Quickshell shell (overview, agenda/calendar, notification center, animated wallpapers).
 
 Both share the same foundation: cohesive **purple glassmorphism**, works with **any graphics card** (NVIDIA / AMD / Intel), a built-in **preset system** to save/load entire desktop themes, and a system-wide **EasyEffects** audio pipeline.
+
+Everything hardware-specific stays **optional**: the reference build's RTX 4070 overclock values are opt-in (Phase 10), the wallpaper library is opt-in (declining keeps your current wallpaper), and the OBS streaming pipeline is opt-in.
 
 | | |
 |---|---|
@@ -32,10 +34,13 @@ Both share the same foundation: cohesive **purple glassmorphism**, works with **
 | **Preset Manager** | Save/load/delete full desktop themes with `SUPER + CTRL + P` |
 | **Palette Editor** | Visual color picker with `SUPER + P` — change every color instantly |
 | **Any GPU** | Works on **NVIDIA / AMD / Intel** — open-dkms drivers (NVIDIA), Vulkan/radv |
+| **Optional GPU tuning** | RTX 4070 reference overclock (216W / 3255 / +150) — opt-in per tweak |
+| **Optional wallpapers** | 3 per color of the filter + default; declining keeps your own |
 | **Gaming Ready** | Steam, Lutris, MangoHud, Gamemode, Gamescope, VRR support |
 | **Wallpaper Browser** | Folder-based browser with `SUPER + W`, per-color dots, WE auto-sync |
 | **50+ Waybar Themes** | Pill style, floating, glass, monochrome — all Lotus-colored |
 | **Audio** | EasyEffects EQ/effects chain, optional OBS streaming pipeline |
+| **Calendar** | Google Calendar & birthdays in the shell — own OAuth, optional |
 
 ## ✦ Install
 
@@ -53,10 +58,11 @@ cd Lotus-Arch && chmod +x install.sh && ./install.sh
 ```
 
 `./install.sh --preset minimal` (lean Hyprland) or `--preset full` (everything) skip the prompts.
-It runs **13 phases** and asks for your session (Hyprland / Niri / Both), GPU, and audio pack.
+It runs **13 phases** and asks for your session (Hyprland / Niri / Both), GPU, audio pack, and whether to seed the starter wallpapers.
 Works on any hardware: configs are portable and detect your monitors automatically.
 
 > Full details — 13 phases, performance tweaks, requirements — are in [docs/INSTALLATION.md](docs/INSTALLATION.md).
+> The reference machine's specs & optional overclocking are in [docs/HARDWARE.md](docs/HARDWARE.md).
 
 ## ✦ Getting Started (new to tiling?)
 
@@ -115,6 +121,7 @@ All configs are plain text under `~/.config/` and the installer backs up origina
 | Guide | Contents |
 |---|---|
 | [docs/INSTALLATION.md](docs/INSTALLATION.md) | Install commands, 13 phases, performance tweaks, requirements |
+| [docs/HARDWARE.md](docs/HARDWARE.md) | Reference build specs (RTX 4070) & optional GPU/CPU tuning |
 | [docs/SETUP.md](docs/SETUP.md) | First-time setup — make the desktop & audio & calendar yours |
 | [docs/AUDIO.md](docs/AUDIO.md) | EasyEffects audio stack, services, OBS virtual mic |
 | [docs/STRUCTURE.md](docs/STRUCTURE.md) | Config tree layout |
@@ -138,6 +145,23 @@ Lotus Arch is part of a **unified desktop ecosystem** with matching themes:
 | **Waybar / Rofi / Kitty / GTK** | Lotus Purple | — *(included)* |
 
 ---
+
+## ✦ Credits
+
+Lotus Arch stands on the shoulders of great open-source projects:
+
+| Project | Used for |
+|---|---|
+| [**Hyprland**](https://hyprland.org) | Tiling compositor — pure Lua config |
+| [**Niri**](https://github.com/YaLTeu/niri) | Scrollable-tiling compositor (optional session) |
+| [**iNiR**](https://github.com/snowarch/iNiR) | Quickshell desktop shell — this repo ships a customized overlay of its modules |
+| [**Quickshell**](https://github.com/outfoxxed/quickshell) | Qt/QML shell runtime powering iNiR |
+| [**HyprGlass**](https://github.com/hyprnux/hyprglass) | Apple-style liquid glass effect |
+| [**kitty-themes**](https://github.com/dexpota/kitty-themes) | Stock terminal color themes |
+| [**Oh-My-Zsh**](https://github.com/ohmyzsh/ohmyzsh) | ZSH framework |
+| [**Wallpaper Engine**](https://www.wallpaperengine.io) | Animated wallpaper library (optional WE auto-sync) |
+
+Wallpapers are either **original artwork** or stock material bundled for convenience — see [docs/HARDWARE.md → Starter wallpapers](docs/HARDWARE.md#starter-wallpapers-optional). Everything else is MIT-licensed Lotus Arch work.
 
 <p align="center">
   <a href="https://github.com/LotsV8pro/lotus-discord"><img src="https://img.shields.io/badge/Lotus_Discord-141218?style=flat-square&logo=discord&logoColor=C4A8E2"/></a>

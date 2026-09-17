@@ -257,13 +257,14 @@ Item {
                         : bg.angelEverywhere ? Appearance.angel.colPrimary
                         : Appearance.colors.colPrimary
 
-                    // Merged upcoming events (next 14 days)
+                    // Merged upcoming events (only today's, sorted by start time)
                     property int _eventsTrigger: 0
                     Connections {
                         target: Events
                         function onEventAdded(event) { upcomingArea._eventsTrigger++ }
                         function onEventRemoved(id) { upcomingArea._eventsTrigger++ }
                         function onEventUpdated(event) { upcomingArea._eventsTrigger++ }
+                        function onEventTriggered(event) { upcomingArea._eventsTrigger++ }
                     }
                     property int _externalTrigger: 0
                     Connections {
@@ -273,21 +274,12 @@ Item {
                     readonly property var upcomingEvents: {
                         const _t = _eventsTrigger
                         const _t2 = _externalTrigger
-                        const now = new Date()
-                        const local = Events.getUpcomingEvents(14).map(e => Object.assign({}, e, { _source: "local" }))
-                        const startDay = new Date(now); startDay.setHours(0,0,0,0)
-                        const ext = []
-                        for (let i = 0; i < 14; i++) {
-                            const d = new Date(startDay); d.setDate(d.getDate() + i)
-                            const dayEvts = CalendarSync.getEventsForDate(d) || []
-                            for (const e of dayEvts) {
-                                const evtTime = new Date(e.startDate || e.dateTime)
-                                if (evtTime >= now || (e.allDay && evtTime >= startDay))
-                                    ext.push(Object.assign({}, e, { _source: "external", dateTime: e.startDate || e.dateTime, category: "general", priority: "normal" }))
-                            }
-                        }
-                        const deDuped = Events.filterExternalDuplicates(local, ext)
-                        const all = local.concat(deDuped)
+                        const today = new Date(); today.setHours(0, 0, 0, 0)
+                        const local = (Events.getEventsForDate(today) || []).map(e => Object.assign({}, e, { _source: "local" }))
+                        const ext = (CalendarSync.getEventsForDate(today) || []).map(e => Object.assign({}, e, {
+                            _source: "external", dateTime: e.startDate || e.dateTime, category: "general", priority: "normal"
+                        }))
+                        const all = local.concat(ext)
                         all.sort((a,b) => new Date(a.dateTime || a.startDate) - new Date(b.dateTime || b.startDate))
                         return all
                     }
@@ -314,6 +306,25 @@ Item {
                                 font.pixelSize: Appearance.font.pixelSize.small
                                 font.weight: Font.Medium
                                 color: upcomingArea._colText
+                            }
+                            RippleButton {
+                                implicitWidth: 28
+                                implicitHeight: 28
+                                buttonRadius: Appearance.rounding.full
+                                colBackground: "transparent"
+                                colBackgroundHover: Appearance.colors.colLayer2Hover
+                                colRipple: Appearance.colors.colLayer2Active
+                                onClicked: {
+                                    const eventsIdx = root.sections.findIndex(s => s.id === "events")
+                                    if (eventsIdx !== -1) root.activeSection = eventsIdx
+                                }
+                                contentItem: MaterialSymbol {
+                                    anchors.centerIn: parent
+                                    text: "open_in_full"
+                                    iconSize: 15
+                                    color: upcomingArea._colPrimary
+                                }
+                                StyledToolTip { text: Translation.tr("Open all events") }
                             }
                         }
 
@@ -748,6 +759,18 @@ Item {
         visible: bg.angelEverywhere && !Appearance.gameModeMinimal
     }
 
+    IslandPanel {
+        anchors.fill: bg
+        visible: bg.islandStyle
+        radius: bg.radius
+        glassEnabled: true
+        screen: root.panelScreen ?? root.QsWindow?.window?.screen ?? null
+        glassScreenX: root.screenWidth - bg.width - Appearance.sizes.hyprlandGapsOut
+        glassScreenY: Appearance.sizes.hyprlandGapsOut
+        glassScreenWidth: root.screenWidth
+        glassScreenHeight: root.screenHeight
+    }
+
     ZzzPlate {
         anchors.fill: bg
         visible: bg.zzzEverywhere && !Appearance.gameModeMinimal
@@ -860,19 +883,6 @@ Item {
             maskSource: Rectangle {
                 width: bg.width; height: bg.height; radius: bg.radius
             }
-        }
-
-        // Ricelin island face. Angel alone keeps the outer stepped shadow.
-        IslandPanel {
-            anchors.fill: parent
-            visible: bg.islandStyle && !bg.gameModeMinimal
-            radius: bg.radius
-            shadow: false
-            glassEnabled: true
-            glassScreenX: root.screenWidth - bg.width - Appearance.sizes.hyprlandGapsOut
-            glassScreenY: Appearance.sizes.hyprlandGapsOut
-            glassScreenWidth: root.screenWidth ?? 1920
-            glassScreenHeight: root.screenHeight ?? 1080
         }
 
         // Aurora blurred wallpaper
@@ -1812,7 +1822,7 @@ Item {
             const wins = NiriService.windows || []
             for (let i = 0; i < wins.length; i++) {
                 const w = wins[i]
-                if (w.title === "illogical-impulse Settings" && w.app_id === "org.quickshell") {
+                if (w.title === "Settings — iNiR" && w.app_id === "org.quickshell") {
                     GlobalStates.sidebarRightOpen = false
                     Qt.callLater(() => NiriService.focusWindow(w.id))
                     return

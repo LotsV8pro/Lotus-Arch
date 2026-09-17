@@ -1,3 +1,16 @@
-/* LOTUS — Rofi Config */
-@import "~/.config/rofi/0-shared-fonts.rasi"
-@theme "~/.config/rofi/themes/lotus.rasi"
+configuration {
+    modes: "drun,run,window";
+    show-icons: true;
+    terminal: "kitty";
+    drun-display-format: "{icon} {name}";
+    location: 0;
+    disable-history: false;
+    display-drun: "  Apps ";
+    display-run: "  Run ";
+    display-window: " 󰙀 Window ";
+    sidebar-mode: true;
+    window-format: "{w} | {c} | {t}";
+    cycle: false;
+}
+
+@theme "vertical"

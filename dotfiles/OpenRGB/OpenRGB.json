@@ -1995,6 +1995,9 @@
             "Z370 AORUS Ultra Gaming-CF"
         ]
     },
+    "Theme": {
+        "theme": "Dark"
+    },
     "UserInterface": {
         "autoload_profiles": {
             "exit_profile": {

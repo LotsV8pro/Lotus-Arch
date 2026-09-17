@@ -1,0 +1,11 @@
+{
+  "custom/agenda": {
+    "exec": "waybar-agenda.py",
+    "interval": 300,
+    "return-type": "json",
+    "tooltip": true,
+    "max-length": 30,
+    "on-click": "waybar-agenda.py --notify",
+    "format": "{}"
+  }
+}

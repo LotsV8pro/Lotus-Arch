@@ -1,23 +1,28 @@
 [Unit]
 Description=iNiR shell
-# Lifecycle: stop/restart inir when the graphical session stops/restarts.
-PartOf=graphical-session.target
-# Ordering: the compositor-specific wants link starts iNiR alongside the
-# compositor. The launcher waits for the Wayland socket, then systemd keeps the
-# graphical session target blocked until Quickshell owns the tray watcher name.
-# XDG autostart applications start after graphical-session.target, so native
-# StatusNotifierItems cannot race the watcher on cold login.
-Wants=graphical-session-pre.target
-After=graphical-session-pre.target
-Before=graphical-session.target
+# The graphical-session environment (DISPLAY, WAYLAND_DISPLAY) is published
+# by the running compositor.  This unit is compositor-agnostic: it is pulled
+# in via graphical-session.target.wants under Hyprland, or via
+# niri.service.wants under Lotusiri.  Retaining After=niri.service only
+# orders iNiR after niri when niri is part of the transaction (harmless
+# otherwise); Requisite=niri.service was removed so iNiR also starts on
+# Hyprland, where niri.service never runs.
+PartOf=niri.service
+After=niri.service
+# Keep the StatusNotifier watcher ready before desktop autostart applications
+# register tray items.  Niri also orders itself before this target.
+Before=xdg-desktop-autostart.target
 # Rate-limit restarts: max 3 attempts in 30 seconds, then stop trying.
 # These MUST live in [Unit], not [Service] — systemd ignores them elsewhere.
 StartLimitIntervalSec=30
 StartLimitBurst=3
 
 [Service]
-Type=dbus
-BusName=org.kde.StatusNotifierWatcher
+# qs runs in the foreground from `inir run --session`; the StatusNotifier
+# watcher is provided by the inir-xembedsniproxy child (systemd-run), NOT by
+# the qs main PID — so Type=dbus would wait 90s for a bus name qs never
+# acquires, time out, and kill the whole shell on every start.
+Type=simple
 
 # Pre-seed stable environment so the bash wrapper skips detection at boot.
 # QT_SCALE_FACTOR must be 1 — shell scaling is handled in QML.
