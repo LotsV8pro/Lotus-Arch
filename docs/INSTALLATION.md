@@ -17,7 +17,7 @@ chmod +x install.sh
 ./install.sh
 ```
 
-**Unattended presets** (skip all prompts):
+Unattended presets (skip all prompts):
 
 ```bash
 ./install.sh --preset minimal   # lean Hyprland-only desktop
@@ -27,69 +27,69 @@ chmod +x install.sh
 
 ## What gets installed
 
-The installer first asks for your **session**:
+The installer first asks for your session:
 
 ```
-  1) Hyprland            — tiling compositor, Lua config, waybar
-  2) Niri + iNiR shell   — scrollable tiling + full Quickshell desktop (optional)
-  3) Both                — install both, pick at the SDDM login screen
+  1) Hyprland - tiling compositor, Lua config, waybar
+  2) Niri + iNiR shell - scrollable tiling + full Quickshell desktop (optional)
+  3) Both - install both, pick at the SDDM login screen
 ```
 
-A hardware-pack question follows (OBS streaming pack) — it gates which streaming configs and services get deployed, in **both** sessions. A **starter wallpapers** prompt follows too (optional — declining keeps your `~/Pictures/wallpapers` untouched; accepting seeds the stock 3-per-color filter packs + the default wallpaper).
+A hardware-pack question follows (OBS streaming pack), it gates which streaming configs and services get deployed, in both sessions. A starter wallpapers prompt follows too (optional; declining keeps your `~/Pictures/wallpapers` untouched; accepting seeds the stock 3-per-color filter packs + the default wallpaper).
 
-Then it runs **13 phases** interactively:
+Then it runs 13 phases interactively:
 
 ```
-Phase 0:  System Preparation   — multilib, mirrors, system update
-Phase 1:  Core Packages        — interactive categories incl. Hyprland / Niri per session choice
-Phase 2:  AUR Packages         — grouped prompts (Browsing / Chat / Media / Desktop extras)
-Phase 3:  GPU Drivers          — installs only for the graphics card you
+Phase 0:  System Preparation - multilib, mirrors, system update
+Phase 1:  Core Packages - interactive categories incl. Hyprland / Niri per session choice
+Phase 2:  AUR Packages - grouped prompts (Browsing / Chat / Media / Desktop extras)
+Phase 3:  GPU Drivers - installs only for the graphics card you
                                  selected earlier (NVIDIA: open-dkms stack /
                                  AMD: vulkan-radeon / Intel: integrated)
-Phase 4:  Enable Services      — SDDM, PipeWire, Bluetooth, NetworkManager
-Phase 5:  ZSH Shell            — Oh-My-ZSH + custom lotus theme + plugins
-Phase 6:  Deploy Dotfiles      — All configs (backup originals first)
-Phase 7:  Hyprland Plugins     — HyprGlass liquid glass plugin
-Phase 8:  Final Cleanup        — Cache cleanup, directory setup
-Phase 9:  Restore User Apps    — Per-app prompts (Discord, Steam, Spotify, OBS…)
+Phase 4:  Enable Services - SDDM, PipeWire, Bluetooth, NetworkManager
+Phase 5:  ZSH Shell - Oh-My-ZSH + custom lotus theme + plugins
+Phase 6:  Deploy Dotfiles - All configs (backup originals first)
+Phase 7:  Hyprland Plugins - HyprGlass liquid glass plugin
+Phase 8:  Final Cleanup - Cache cleanup, directory setup
+Phase 9:  Restore User Apps - Per-app prompts (Discord, Steam, Spotify, OBS…)
                                  + Audio services (virtual mic, EasyEffects)
                                  + Spicetify Lotus theme + Discord Lotus theme
-Phase 10: Performance Tweaks   — Selectable profile (NVIDIA / AMD). Optional:
+Phase 10: Performance Tweaks - Selectable profile (NVIDIA / AMD). Optional:
                                  GPU OC/fan curve, CPU governor, sysctl, NVMe, GRUB C-states
-Phase 11: Optional Extras      — extra presets, GPU tuning pack, movie-tui
+Phase 11: Optional Extras - extra presets, GPU tuning pack, movie-tui
                                  config
-Phase 12: iNiR Shell           — only if Niri was chosen; clones upstream iNiR,
+Phase 12: iNiR Shell - only if Niri was chosen; clones upstream iNiR,
                                  overlays Lotus configs, wires the session
-Phase 6b: Starter wallpapers   — OPTIONAL separate prompt: 3 per color of the
+Phase 6b: Starter wallpapers - OPTIONAL separate prompt: 3 per color of the
                                  filter + Default/2b2.jpg. Declining keeps your
                                  existing ~/Pictures/wallpapers untouched.
 ```
 
 ### Performance Tweaks (Phase 10)
 
-Phase 10 is **optional and purely additive** — the base desktop works on **any graphics card** without it. It asks about each tweak individually and starts by asking you to pick your **hardware profile** (NVIDIA or AMD, defaulted to the graphics card you selected earlier). Everything here is opt-in, and the **overclock numbers below are tuned specifically for this build's RTX 4070** — running them on a different card is not recommended; skip the OC/lock tweaks (or edit the offsets) if you don't have a 4070.
+Phase 10 is optional and purely additive, the base desktop works on any graphics card without it. It asks about each tweak individually and starts by asking you to pick your hardware profile (NVIDIA or AMD, defaulted to the graphics card you selected earlier). Everything here is opt-in, and the overclock numbers below are tuned specifically for this build's RTX 4070, running them on a different card is not recommended; skip the OC/lock tweaks (or edit the offsets) if you don't have a 4070.
 
 | Profile | GPU tweaks | CPU tweaks |
 |---|---|---|
-| **NVIDIA** | RTX 4070 example — **216 W power limit**, memory lock **12001 MHz**, graphics lock **3255 MHz**, +150 core offset (nvidia-smi/nvidia-settings), Coolbits X config, dynamic fan curve *(adjust for your model)* | `intel_pstate` min perf 50% + performance governor |
-| **AMD** | amdgpu DPM forced to high, hwmon fan curve, optional `ppfeaturemask` for CoreCtrl OC | `amd_pstate` EPP=performance + performance governor |
+| NVIDIA | RTX 4070 example, 216 W power limit, memory lock 12001 MHz, graphics lock 3255 MHz, +150 core offset (nvidia-smi/nvidia-settings), Coolbits X config, dynamic fan curve *(adjust for your model)* | `intel_pstate` min perf 50% + performance governor |
+| AMD | amdgpu DPM forced to high, hwmon fan curve, optional `ppfeaturemask` for CoreCtrl OC | `amd_pstate` EPP=performance + performance governor |
 
-Applied tweaks persist across reboots. **The OC figures are for the RTX 4070 of the reference build** — on any other card keep the non-OC tweaks (fan curve, governor, sysctl) and adjust or skip the power-limit/clock locks:
+Applied tweaks persist across reboots. The OC figures are for the RTX 4070 of the reference build, on any other card keep the non-OC tweaks (fan curve, governor, sysctl) and adjust or skip the power-limit/clock locks:
 
 | Tweak | What it does |
 |---|---|
-| **GPU power limit** | RTX 4070 example: caps at **216 W** (the card's max) — configurable, cooler / quieter *(adjust per GPU)* |
-| **GPU core lock** | RTX 4070 example: locks the GPU to **3255 MHz** (VF-curve ceiling) via `nvidia-smi -lgc` |
-| **GPU mem lock** | RTX 4070 example: locks memory to **12001 MHz** (over the 10501 stock) via `nvidia-smi -lmc` |
-| **GPU core offset** | RTX 4070 example: **+150 MHz** on all performance levels (via Coolbits) |
-| **GPU fan curve** | Dynamic 30-100% based on temperature, keeps card under ~65°C |
-| **AMD GPU perf** | Forces highest DPM performance level + 3D workload profile |
-| **CPU governor** | Sets `performance` governor (Intel pstate + AMD pstate) at boot |
-| **CPU C-states** | Limits deep sleep (C6+) via GRUB — reduces wakeup latency micro-stutters |
-| **sysctl** | `swappiness=5`, lower dirty ratios, autogroup off, NUMA balancing off |
-| **NVMe read-ahead** | 512 KB (up from 128 KB) — improves game asset loading |
-| **NVIDIA Coolbits** | Enables NVIDIA OC/fan control in X config (`Coolbits=28`) |
-| **AMD ppfeaturemask** | Optional — enables amdgpu overclocking/undervolt in CoreCtrl |
+| GPU power limit | RTX 4070 example: caps at 216 W (the card's max), configurable, cooler / quieter *(adjust per GPU)* |
+| GPU core lock | RTX 4070 example: locks the GPU to 3255 MHz (VF-curve ceiling) via `nvidia-smi -lgc` |
+| GPU mem lock | RTX 4070 example: locks memory to 12001 MHz (over the 10501 stock) via `nvidia-smi -lmc` |
+| GPU core offset | RTX 4070 example: +150 MHz on all performance levels (via Coolbits) |
+| GPU fan curve | Dynamic 30-100% based on temperature, keeps card under ~65°C |
+| AMD GPU perf | Forces highest DPM performance level + 3D workload profile |
+| CPU governor | Sets `performance` governor (Intel pstate + AMD pstate) at boot |
+| CPU C-states | Limits deep sleep (C6+) via GRUB, reduces wakeup latency micro-stutters |
+| sysctl | `swappiness=5`, lower dirty ratios, autogroup off, NUMA balancing off |
+| NVMe read-ahead | 512 KB (up from 128 KB), improves game asset loading |
+| NVIDIA Coolbits | Enables NVIDIA OC/fan control in X config (`Coolbits=28`) |
+| AMD ppfeaturemask | Optional, enables amdgpu overclocking/undervolt in CoreCtrl |
 
 ### Performance Tweaks location
 
@@ -97,26 +97,26 @@ The Phase 10 `performance-tweaks/` layout and its RTX 4070-tuned OC values are s
 
 ## Requirements
 
-- **OS:** Arch Linux
-- **Compositor:** Hyprland 0.55+ (Lua config) and/or Niri + iNiR (optional session)
-- **GPU:** works with **NVIDIA, AMD, or Intel**. You select your graphics card during install (gates which drivers Phase 3 installs). The Phase 10 overclock profile ships RTX 4070-tuned example values — the basic desktop needs nothing 4070-specific.
-- **Wallpapers:** **optional.** A stock 3-per-color filter set + `Default/2b2.jpg` is seeded only if you accept the prompt; declining keeps your `~/Pictures/wallpapers` exactly as-is. See [HARDWARE.md](HARDWARE.md#starter-wallpapers-optional).
-- **Audio:** PipeWire + WirePlumber + EasyEffects (system-wide EQ/effects — works with any sound card)
-- **Terminal:** Kitty (the configs default to `$term = kitty`; ghostty configs ship as an optional extra in `dotfiles/ghostty/`)
-- **Depends on:** Waybar, Rofi, swaync, wlogout, `awww` (wallpaper daemon — the scripts call `swww`, which is symlinked to `awww` automatically during install since `swww` is deprecated), wallust
-- **Niri session only:** quickshell + iNiR ([github.com/snowarch/iNiR](https://github.com/snowarch/iNiR) — installed automatically by Phase 12)
+- OS: Arch Linux
+- Compositor: Hyprland 0.55+ (Lua config) and/or Niri + iNiR (optional session)
+- GPU: works with NVIDIA, AMD, or Intel. You select your graphics card during install (gates which drivers Phase 3 installs). The Phase 10 overclock profile ships RTX 4070-tuned example values, the basic desktop needs nothing 4070-specific.
+- Wallpapers: optional. A stock 3-per-color filter set + `Default/2b2.jpg` is seeded only if you accept the prompt; declining keeps your `~/Pictures/wallpapers` exactly as-is. See [HARDWARE.md](HARDWARE.md#starter-wallpapers-optional).
+- Audio: PipeWire + WirePlumber + EasyEffects (system-wide EQ/effects; works with any sound card)
+- Terminal: Kitty (the configs default to `$term = kitty`; ghostty configs ship as an optional extra in `dotfiles/ghostty/`)
+- Depends on: Waybar, Rofi, swaync, wlogout, `awww` (wallpaper daemon; the scripts call `swww`, which is symlinked to `awww` automatically during install since `swww` is deprecated), wallust
+- Niri session only: quickshell + iNiR ([github.com/snowarch/iNiR](https://github.com/snowarch/iNiR), installed automatically by Phase 12)
 
-> **Portable:** configs use a `@HOME@` sentinel that the installer rewrites to your real home directory at deploy
-> time, ships an **optional** starter wallpaper set (3 per color of the filter + a default), and keeps optional bits
-> (OBS streaming pipeline, wallpapers) behind explicit prompts — so it works on any hardware and username.
+> Portable: configs use a `@HOME@` sentinel that the installer rewrites to your real home directory at deploy
+> time, ships an optional starter wallpaper set (3 per color of the filter + a default), and keeps optional bits
+> (OBS streaming pipeline, wallpapers) behind explicit prompts, so it works on any hardware and username.
 >
-> **Any monitors:** the compositor configs ship *portable* by default — niri (`monitor.kdl`) and Hyprland
-> (`monitors.lua`) have **no output names hardcoded**, so they auto-detect every display on any machine, and the
+> Any monitors: the compositor configs ship *portable* by default, niri (`monitor.kdl`) and Hyprland
+> (`monitors.lua`) have no output names hardcoded, so they auto-detect every display on any machine, and the
 > iNiR shell (`config.json`) ships with empty/inert monitor fields. The reference build's precise layout
 > (DP-2 @1440p primary + HDMI-A-1 @1080p secondary, custom positions/scales, workspace pinning) lives in
-> **optional overlays** — `dotfiles/niri/monitor.lotus.kdl`, `dotfiles/hypr/monitors.lotus.lua`, and
-> `dotfiles/inir/config.lotus.json` — that `06-dotfiles.sh` applies automatically **only when both connectors are
-> physically present** (detected via `/sys/class/drm`, compositor-independent so it works even mid-install).
-> Cloning to a different PC just works — and restoring this machine perfectly is one automatic detection away.
+> optional overlays, `dotfiles/niri/monitor.lotus.kdl`, `dotfiles/hypr/monitors.lotus.lua`, and
+> `dotfiles/inir/config.lotus.json`, that `06-dotfiles.sh` applies automatically only when both connectors are
+> physically present (detected via `/sys/class/drm`, compositor-independent so it works even mid-install).
+> Cloning to a different PC just works, and restoring this machine perfectly is one automatic detection away.
 
 See also [TOOLS.md](TOOLS.md) for the helper scripts shipped in `tools/`.

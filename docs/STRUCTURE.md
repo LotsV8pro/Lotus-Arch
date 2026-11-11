@@ -1,11 +1,11 @@
 # Structure
 
-A high-level view of the config tree — every entry maps to a `dotfiles/<name>/` folder deployed to `~/.config/<name>/`:
+A high-level view of the config tree, every entry maps to a `dotfiles/<name>/` folder deployed to `~/.config/<name>/`:
 
 ```
 .config/
-├── hypr/                  # Hyprland session (Lua) — entry + configs + UserConfigs + scripts
-├── niri/                  # Niri session (KDL) — config.kdl + config.d/ modules
+├── hypr/                  # Hyprland session (Lua) - entry + configs + UserConfigs + scripts
+├── niri/                  # Niri session (KDL) - config.kdl + config.d/ modules
 ├── inir/                  # iNiR shell user config (AI models, prefs)
 ├── quickshell/            # iNiR Quickshell shell + overview plugin
 ├── pipewire/              # Generic pipewire tuning (10-quality.conf)
@@ -14,9 +14,9 @@ A high-level view of the config tree — every entry maps to a `dotfiles/<name>/
 ├── systemd/user/          # Audio & session services (virtual-mic, easyeffects, inir…)
 ├── lotus-palette/         # Preset engine + palette tools
 └── spicetify/Themes/Lotus/# Spotify Lotus theme
-optional/                  # Opt-in extras (Phase 11) — GPU tuning pack, movie-tui
-performance-tweaks/        # Phase 10 — common/ + nvidia/ or amd/ hardware profiles
-wallpapers/                # Optional starter set (Phase 6b) — 3 per color of the filter + Default/2b2.jpg
+optional/                  # Opt-in extras (Phase 11) - GPU tuning pack, movie-tui
+performance-tweaks/        # Phase 10 - common/ + nvidia/ or amd/ hardware profiles
+wallpapers/                # Optional starter set (Phase 6b) - 3 per color of the filter + Default/2b2.jpg
 .local/                    # User bins (virtual-mic, steam-gamescope, shader limiter) + EasyEffects presets
 ```
 
