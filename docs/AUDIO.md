@@ -15,15 +15,20 @@ Lotus Arch ships a system-wide audio stack built on PipeWire + WirePlumber with 
 
 | Service | Function |
 |---|---|
-| `easyeffects.service` | EasyEffects in service mode (mic + output processing) |
+| `easyeffects-mic.service` | EasyEffects in service mode (mic chain + output) |
 | `virtual-mic.service` | Permanent loopback from the OBS virtual sink to a virtual mic source |
 
-`easyeffects.service` only ships when the OBS streaming pack is selected in the installer.
+`easyeffects-mic.service` runs on every install, streaming pack or not: the mic
+chain is what Discord and any other capture app hear. `virtual-mic.service`
+belongs to the OBS pack and is dropped when you decline it.
 
 ## EasyEffects
 
 - Master input/output EQ & effects chain, live-switchable in the EasyEffects GUI.
-- Headless service mode (`easyeffects.service`) runs the chain without a window.
+- Headless service mode (`easyeffects-mic.service`) runs the chain without a window.
+- `mic-ee-guard.timer` checks it every 30 seconds and repairs two things that
+  break on their own: the global bypass turning back on, and the input chain
+  disconnecting after a few idle seconds.
 - Presets live in `~/.config/easyeffects/db/`, with autoload presets under `~/.local/share/easyeffects/`.
 - The repo ships generic presets configured against the system default input/output devices, so they apply to whatever hardware you have, adjust the device in EasyEffects to match your own microphone/speakers.
 

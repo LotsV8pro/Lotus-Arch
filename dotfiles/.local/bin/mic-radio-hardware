@@ -27,8 +27,10 @@ while [ -z "$CARD" ] && [ $i -lt 60 ]; do
     i=$((i+1))
 done
 if [ -z "$CARD" ]; then
-    echo "mic-radio-hardware: no card with Rear Mic found" >&2
-    exit 1
+    # Clean exit: this machine has no ALC897-style card. With Restart=always
+    # this used to retry every couple of seconds and fill the journal.
+    echo "mic-radio-hardware: no card with a Rear Mic control, nothing to pin"
+    exit 0
 fi
 echo "mic-radio-hardware: using card $CARD"
 

@@ -33,6 +33,21 @@ backup_and_copy() {
     cp -r "$src" "$dst"
 }
 
+# Copy on top of whatever is there, after a backup. Used for directories that
+# hold state the user creates: units of their own, OBS scenes and profiles.
+# A true-mirror copy would delete those.
+backup_and_overlay() {
+    local src="$1"
+    local dst="$2"
+
+    if [[ -e "$dst" ]]; then
+        mkdir -p "$BACKUP_DIR"
+        cp -a "$dst" "$BACKUP_DIR/" 2>/dev/null || true
+    fi
+    mkdir -p "$dst"
+    cp -a "$src/." "$dst/"
+}
+
 if [[ ! -d "$DOTFILES" ]]; then
     echo "[!] No dotfiles directory found at $DOTFILES"
     exit 0
@@ -68,6 +83,34 @@ for dir in "$DOTFILES"/*/; do
         continue
     fi
 
+    # ── systemd: overlay, never wholesale-replace ──
+    # ~/.config/systemd/user also holds the units the user wrote and the
+    # enable symlinks systemd created. Mirroring the repo over it deleted
+    # both, so a reinstall silently disabled every unit the repo does not
+    # ship (lotus-tune.service, custom ones).
+    if [[ "$name" == "systemd" ]]; then
+        echo "  → systemd (overlay, keeps your own units)"
+        backup_and_overlay "$dir" "$HOME/.config/systemd"
+        # Streaming units follow the stream choice; drop both the unit and the
+        # enable symlink, or systemd is left with a dangling link.
+        if [[ "$STREAMING" != "yes" ]]; then
+            rm -f "$HOME/.config/systemd/user/virtual-mic.service"
+            rm -f "$HOME/.config/systemd/user/default.target.wants/virtual-mic.service"
+        fi
+        continue
+    fi
+
+    # ── OBS: overlay, it holds the user's scenes and profiles ──
+    if [[ "$name" == "obs-studio" ]]; then
+        if [[ "$STREAMING" == "yes" ]]; then
+            echo "  → obs-studio (overlay, keeps your scenes)"
+            backup_and_overlay "$dir" "$HOME/.config/obs-studio"
+        else
+            echo "  → obs-studio skipped (no streaming pack)"
+        fi
+        continue
+    fi
+
     echo "  → $name"
     backup_and_copy "$dir" "$HOME/.config/$name"
 
@@ -82,16 +125,6 @@ for dir in "$DOTFILES"/*/; do
         done
     fi
 
-    # ── Streaming gating: no OBS configs / stream units unless opted in ──
-    if [[ "$STREAMING" != "yes" ]]; then
-        [[ "$name" == "obs-studio" ]] && rm -rf "$HOME/.config/obs-studio"
-    fi
-
-    # Streaming units follow the stream choice
-    if [[ "$name" == "systemd" ]]; then
-        [[ "$STREAMING" != "yes" ]] && \
-            rm -f "$HOME/.config/systemd/user/"virtual-mic.service
-    fi
 done
 
 # ── Machine-specific monitor overlay (optional) ──

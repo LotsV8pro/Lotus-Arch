@@ -29,7 +29,7 @@ Switch sessions anytime from the lock screen to confirm both are wired up.
 The EasyEffects configs ship pointing at the system default input/output. Open EasyEffects and set your own microphone and speakers in the GUI so the EQ/denoise chain targets your hardware:
 
 ```sh
-systemctl --user status easyeffects.service   # confirm the effects chain runs headless
+systemctl --user status easyeffects-mic.service   # confirm the effects chain runs headless
 systemctl --user status virtual-mic.service   # (OBS pack only) loopback sink → virtual mic
 ```
 

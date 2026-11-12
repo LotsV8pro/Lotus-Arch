@@ -278,13 +278,13 @@
             "fillMode": "fill",
             "hideWallpaper": false,
             "saturation": 0,
-            "thumbnailPath": "@HOME@/.cache/thumbnails/large/0cfc4d6c8ec1f030e3c128951cabddcf.png",
+            "thumbnailPath": "",
             "useAuroraStyle": false,
             "useMainWallpaper": false,
             "vignetteEnabled": false,
             "vignetteIntensity": 1,
             "vignetteRadius": 0.7,
-            "wallpaperPath": "@HOME@/Pictures/Wallpapers/Nier Automata Lunar Tears.mp4"
+            "wallpaperPath": "@HOME@/Pictures/wallpapers/Default/2b2.jpg"
         },
         "backend": {
             "awww": {
@@ -423,21 +423,8 @@
             "type": "random"
         },
         "videoPause": "fullscreen",
-        "wallpaperPath": "@HOME@/Pictures/Wallpapers/2B_-_Nier_Automata_4k.mp4",
-        "wallpapersByMonitor": [
-            {
-                "monitor": "HDMI-A-1",
-                "path": "@HOME@/Pictures/Wallpapers/Nier Automata Lunar Tears.mp4",
-                "workspaceFirst": 1,
-                "workspaceLast": 3
-            },
-            {
-                "monitor": "DP-2",
-                "path": "@HOME@/Pictures/Wallpapers/2B_-_Nier_Automata_4k.mp4",
-                "workspaceFirst": 1,
-                "workspaceLast": 4
-            }
-        ],
+        "wallpaperPath": "@HOME@/Pictures/wallpapers/Default/2b2.jpg",
+        "wallpapersByMonitor": [],
         "widgets": {
             "adaptColorsToWallpaperPosition": true,
             "battery": {
@@ -682,7 +669,7 @@
                     "surface": "surface",
                     "tertiary": "wallpaperDeep"
                 },
-                "path": "@HOME@/Pictures/wallpapers/yorha-no2-type-b-nier-automata-moewalls-com.mp4",
+                "path": "",
                 "placementStrategy": "free",
                 "shape": "Cookie4Sided",
                 "sizeClass": "",

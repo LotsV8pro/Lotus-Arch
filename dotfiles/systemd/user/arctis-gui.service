@@ -3,6 +3,9 @@ Description=Arctis Sound Manager — System Tray
 After=graphical-session.target arctis-manager.service
 Wants=arctis-manager.service
 
+# Arctis Sound Manager comes from an AUR package the installer does not pull.
+ConditionPathExists=/usr/bin/asm-gui
+
 [Service]
 Type=simple
 ExecStart=/usr/bin/asm-gui --systray

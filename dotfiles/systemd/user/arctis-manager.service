@@ -5,6 +5,9 @@ Wants=pipewire.service
 StartLimitInterval=1min
 StartLimitBurst=5
 
+# Arctis Sound Manager comes from an AUR package the installer does not pull.
+ConditionPathExists=/usr/bin/asm-daemon
+
 [Service]
 Type=simple
 ExecStart=/usr/bin/asm-daemon

@@ -8,12 +8,13 @@ After=pipewire.service pipewire-pulse.service
 
 [Service]
 Type=exec
-# If another Easy Effects instance is left running it takes the DBus name and
-# the new instance exits at once, so the service would stay "inactive".
-ExecStartPre=/bin/sh -c 'pkill -9 -f "^/usr/bin/easyeffects" 2>/dev/null; sleep 1; exit 0'
+# No pkill here on purpose: if you have the Easy Effects window open, the new
+# instance finds the DBus name taken, exits with 0 and the unit stays inactive.
+# Killing it would throw away any preset you were editing. mic-ee-guard starts
+# the service again when the chain is missing and nothing else is running.
 ExecStart=/usr/bin/easyeffects --hide-window --service-mode
-Restart=always
-RestartSec=3
+Restart=on-failure
+RestartSec=5
 
 # IMPORTANT: do NOT use the Easy Effects CLI here (easyeffects --bypass 2).
 # The CLI starts a SECOND full instance that competes for the virtual source

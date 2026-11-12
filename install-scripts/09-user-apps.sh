@@ -195,7 +195,7 @@ echo "  --- Audio pipeline setup ---"
 
 SERVICES=(
   "virtual-mic.service:OBS Virtual Microphone (loopback from OBS virtual sink)"
-  "easyeffects.service:Easy Effects mic processing (OBS virtual mic EQ)"
+  "easyeffects-mic.service:Easy Effects mic chain (EQ, denoise, compressor)"
 )
 
 for entry in "${SERVICES[@]}"; do

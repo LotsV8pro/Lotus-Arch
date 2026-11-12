@@ -20,6 +20,13 @@
 
 set -euo pipefail
 
+# Everything here writes into $HOME. As root that is /root, with root-owned
+# files, and every --user unit would land in root's session.
+if [[ ${EUID} -eq 0 ]]; then
+    echo "Run this as your user, not with sudo. It asks for sudo when it needs it." >&2
+    exit 1
+fi
+
 export SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 LOG_FILE="$SCRIPT_DIR/install.log"
 exec > >(tee -a "$LOG_FILE") 2>&1

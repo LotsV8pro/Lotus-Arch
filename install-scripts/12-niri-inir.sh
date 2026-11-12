@@ -101,8 +101,9 @@ systemctl --user enable inir-birthdays.timer 2>/dev/null || true
 
 # Wallpaper Engine auto-sync watcher (optional; activates when its workshop
 # cache appears, e.g. after Wallpaper Engine is first run on this machine)
+# The .path is what triggers the oneshot; it has no [Install] section, so
+# enabling the .service never worked. The repo ships the .path symlink anyway.
 systemctl --user enable we-wallpaper-sync.path 2>/dev/null || true
-systemctl --user enable we-wallpaper-sync.service 2>/dev/null || true
 
 echo ""
 echo -e "${GREEN}[✓]${NC} Niri + iNiR configured."

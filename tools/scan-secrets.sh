@@ -25,6 +25,16 @@ SECRET_PATTERNS=(
     # emails inside a file:// calendar URL.
     'file://[^"]*[a-z0-9.+-]+@[a-z0-9.-]+\.[a-z]{2,}'
     'file://[^"]*-gmail-com\.ics'
+    # A calendar source named after an email address leaks the account.
+    '"name"\s*:\s*"[^"]*@[^"]*"'
+    # Weather location pinned to the owner's town.
+    '"city"\s*:\s*"[^"]+"'
+)
+
+# OBS keeps the user's scenes, profiles and capture tokens under basic/.
+PERSONAL_DIRS=(
+    'dotfiles/obs-studio/basic'
+    'dotfiles/obs-studio/plugin_config'
 )
 
 RISK_FILES=(
@@ -70,6 +80,14 @@ while IFS= read -r f; do
     echo "  [!] $f contains /home/lots"
     FAILED=1
 done < <(rg -l "/home/lots" "$SCAN_ROOT" --hidden -g '!.git' 2>/dev/null || true)
+
+echo "── Personal app state ──"
+for d in "${PERSONAL_DIRS[@]}"; do
+    if [[ -d "$SCAN_ROOT/$d" ]]; then
+        echo "  [!] $d exists (scenes, profiles and capture tokens belong on your machine)"
+        FAILED=1
+    fi
+done
 
 echo "── Personal symlinks ──"
 while IFS= read -r f; do
