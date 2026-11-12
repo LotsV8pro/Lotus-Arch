@@ -66,10 +66,24 @@ chmod +x install.sh
 `./install.sh --preset full` installs everything, both without the questions.
 The rest of the flags are in `./install.sh --help`.
 
-The script runs 13 phases, from the system preparation to the optional extras,
+The script runs 14 phases, from the system preparation to the optional extras,
 and asks for the session, the GPU, the audio pack and whether to copy the starter
 wallpapers. Configs detect the monitors, so a different screen layout is not a
 problem.
+
+### Lotus Tune
+
+[Lotus Tune](https://github.com/LotsV8pro/lotus-tune) is installed from its latest
+GitHub release, as an add-on:
+
+```bash
+./install.sh --lotus-tune=yes
+```
+
+The phase downloads the Linux x86_64 tarball, checks its SHA-256 and installs the
+binary, desktop entry and icon under `~/.local`. The `full` preset includes it and
+the `minimal` preset skips it. Set `LOTUS_TUNE_AUTOSTART=yes` to start it with the
+session.
 
 More detail: [docs/INSTALLATION.md](docs/INSTALLATION.md) for the phases and the
 requirements, [docs/HARDWARE.md](docs/HARDWARE.md) for the reference machine and
@@ -134,7 +148,7 @@ undone.
 
 | Guide | Contents |
 |---|---|
-| [docs/INSTALLATION.md](docs/INSTALLATION.md) | Install commands, the 13 phases, requirements |
+| [docs/INSTALLATION.md](docs/INSTALLATION.md) | Install commands, the 14 phases, requirements |
 | [docs/HARDWARE.md](docs/HARDWARE.md) | Reference build (RTX 4070) and optional tuning |
 | [docs/SETUP.md](docs/SETUP.md) | First-time setup of the desktop, audio and calendar |
 | [docs/AUDIO.md](docs/AUDIO.md) | EasyEffects chain, services, OBS virtual mic |

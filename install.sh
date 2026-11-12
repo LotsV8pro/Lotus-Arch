@@ -31,6 +31,7 @@ exec > >(tee -a "$LOG_FILE") 2>&1
 #     --session hypr|niri|both      (default: minimal→hypr, full→both)
 #     --streaming yes|no            (default: full→yes,  minimal→no)
 #     --wallpapers yes|no           (default: full→yes,  minimal→no)
+#     --lotus-tune yes|no           (default: full→yes,  minimal→no)
 PRESET=""
 for arg in "$@"; do
     case "$arg" in
@@ -40,8 +41,12 @@ for arg in "$@"; do
         --session=*)   export LOTUS_SESSION="${arg#*=}" ;;
         --streaming=*) export LOTUS_STREAMING="${arg#*=}" ;;
         --wallpapers=*) export LOTUS_WALLPAPERS="${arg#*=}" ;;
+        --lotus-tune=*) export LOTUS_TUNE="${arg#*=}" ;;
         -h|--help)
-            sed -n '2,20p' "${BASH_SOURCE[0]}"; exit 0 ;;
+            sed -n '2,20p' "${BASH_SOURCE[0]}"
+            echo
+            sed -n '27,34p' "${BASH_SOURCE[0]}"
+            exit 0 ;;
     esac
 done
 if [[ -n "$PRESET" ]]; then
@@ -50,12 +55,14 @@ if [[ -n "$PRESET" ]]; then
             export LOTUS_UNATTENDED="minimal"
             export LOTUS_SESSION="${LOTUS_SESSION:-hypr}"
             export LOTUS_STREAMING="${LOTUS_STREAMING:-no}"
-            export LOTUS_WALLPAPERS="${LOTUS_WALLPAPERS:-no}" ;;
+            export LOTUS_WALLPAPERS="${LOTUS_WALLPAPERS:-no}"
+            export LOTUS_TUNE="${LOTUS_TUNE:-no}" ;;
         full)
             export LOTUS_UNATTENDED="full"
             export LOTUS_SESSION="${LOTUS_SESSION:-both}"
             export LOTUS_STREAMING="${LOTUS_STREAMING:-yes}"
-            export LOTUS_WALLPAPERS="${LOTUS_WALLPAPERS:-yes}" ;;
+            export LOTUS_WALLPAPERS="${LOTUS_WALLPAPERS:-yes}"
+            export LOTUS_TUNE="${LOTUS_TUNE:-yes}" ;;
         *) echo "Unknown preset: $PRESET (use minimal|full)"; exit 1 ;;
     esac
 fi
@@ -330,6 +337,9 @@ main() {
     if [[ "$LOTUS_SESSION" == "niri" || "$LOTUS_SESSION" == "both" ]]; then
         run_phase 12 "12-niri-inir.sh" "Niri + iNiR Shell (optional session)"
     fi
+
+    # Optional add-on app, installed from its own GitHub release.
+    run_phase 13 "13-lotus-tune.sh" "Lotus Tune (optional app)"
 
     echo ""
     echo -e "${GREEN}═══════════════════════════════════════════${NC}"

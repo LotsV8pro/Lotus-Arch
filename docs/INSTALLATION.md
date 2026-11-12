@@ -23,7 +23,11 @@ Unattended presets (skip all prompts):
 ./install.sh --preset minimal   # lean Hyprland-only desktop
 ./install.sh --preset full      # everything on, both sessions
 ./install.sh --session niri --audio basic --streaming no   # targeted overrides
+./install.sh --lotus-tune yes    # add the Lotus Tune player (latest release)
 ```
+
+`--lotus-tune` is also accepted by either preset: `full` turns it on and
+`minimal` leaves it off.
 
 ## What gets installed
 
@@ -37,7 +41,7 @@ The installer first asks for your session:
 
 A hardware-pack question follows (OBS streaming pack), it gates which streaming configs and services get deployed, in both sessions. A starter wallpapers prompt follows too (optional; declining keeps your `~/Pictures/wallpapers` untouched; accepting seeds the stock 3-per-color filter packs + the default wallpaper).
 
-Then it runs 13 phases interactively:
+Then it runs 14 phases interactively:
 
 ```
 Phase 0:  System Preparation - multilib, mirrors, system update
@@ -60,6 +64,8 @@ Phase 11: Optional Extras - extra presets, GPU tuning pack, movie-tui
                                  config
 Phase 12: iNiR Shell - only if Niri was chosen; clones upstream iNiR,
                                  overlays Lotus configs, wires the session
+Phase 13: Lotus Tune - optional; downloads the latest Linux x86_64 release,
+                                 verifies its SHA-256 and installs it in ~/.local
 Phase 6b: Starter wallpapers - OPTIONAL separate prompt: 3 per color of the
                                  filter + Default/2b2.jpg. Declining keeps your
                                  existing ~/Pictures/wallpapers untouched.
