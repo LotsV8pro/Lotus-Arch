@@ -1,10 +1,13 @@
 [sie][Limiter#0]
-release=20
-threshold=-2
+alr=true
+gainBoost=false
+inputGain=16
+release=20.0
+threshold=-1.0
 
 [soe][Limiter#0]
 alr=true
-lookahead=5.01
+gainBoost=false
 oversampling=22
-release=100
-threshold=-8
+release=10
+threshold=-0.5

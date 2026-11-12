@@ -95,6 +95,7 @@ layout {
         // top 64
         // bottom 64
     }
+    default-column-display "normal"
 }
 
 // ── Niri's built-in overview ────────────────────────────────────────────────

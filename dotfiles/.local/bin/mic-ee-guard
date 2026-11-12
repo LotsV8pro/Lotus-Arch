@@ -1,0 +1,81 @@
+#!/bin/bash
+# mic-ee-guard: watch the Easy Effects microphone chain and repair it.
+#
+# What it fixes (all of these happened on this machine):
+#   1. The global bypass stays on -> Easy Effects unloads the plugins and
+#      the mic goes through RAW: Discord hears it very low.
+#   2. The input chain disconnects after ~10 s (Easy Effects idle timer)
+#      when no app is capturing. Microphone monitoring at volume 0.0 keeps
+#      the chain alive WITHOUT any sound reaching the speakers.
+#
+# Runs every 30 s from mic-ee-guard.timer
+set -uo pipefail
+
+SOCK="${XDG_RUNTIME_DIR:-/run/user/$(id -u)}/EasyEffectsServer"
+DB=$HOME/.config/easyeffects/db/easyeffectsrc
+
+send() { printf '%s\n' "$1" | timeout 3 socat - UNIX-CONNECT:"$SOCK" 2>/dev/null; }
+
+# 1) Easy Effects esta corriendo?
+if ! pgrep -f '^/usr/bin/easyeffects' >/dev/null; then
+    systemctl --user start easyeffects-mic.service >/dev/null 2>&1
+    echo "$(date '+%F %T') Easy Effects no estaba corriendo: arrancado"
+    exit 0
+fi
+
+# 2) Cuantos nodos tiene la cadena de entrada?
+n=$(pw-dump 2>/dev/null | python3 -c "
+import json,sys
+try:
+    d=json.load(sys.stdin)
+except Exception:
+    print(0); raise SystemExit
+print(len([1 for o in d if o.get('type')=='PipeWire:Interface:Node'
+          and str(o['info']['props'].get('node.name','')).startswith('ee_sie_')]))
+")
+
+# 3) Global bypass: query it over the local socket ('easyeffects -b' spawns
+#    a second instance and breaks the chain)
+bypass=$(send 'get_global_bypass' | tr -d '\r\n ')
+mon=$(send 'get_microphone_monitoring' | tr -d '\r\n ')
+
+if [ "$bypass" = "1" ]; then
+    send 'global_bypass:0' >/dev/null
+    echo "$(date '+%F %T') bypass global ACTIVADO -> desactivado"
+    sleep 3
+    n=$(pw-dump 2>/dev/null | python3 -c "
+import json,sys
+d=json.load(sys.stdin)
+print(len([1 for o in d if o.get('type')=='PipeWire:Interface:Node'
+          and str(o['info']['props'].get('node.name','')).startswith('ee_sie_')]))
+")
+fi
+
+if [ "${n:-0}" -lt 7 ]; then
+    send 'global_bypass:0' >/dev/null
+    send 'microphone_monitoring:1' >/dev/null
+    sleep 3
+    n2=$(pw-dump 2>/dev/null | python3 -c "
+import json,sys
+d=json.load(sys.stdin)
+print(len([1 for o in d if o.get('type')=='PipeWire:Interface:Node'
+          and str(o['info']['props'].get('node.name','')).startswith('ee_sie_')]))
+")
+    echo "$(date '+%F %T') cadena de entrada desconectada ($n nodos) -> reconectada ($n2 nodos)"
+fi
+
+# 4) Output (PC audio): the compressor stays bypassed (PC audio must be
+#    flat). The LIMITER stays ON as a safety net: apps (mpv/Lotus Tune) can
+#    deliver peaks above 0 dBFS and without the limiter that reaches the DAC
+#    as clipping. The EQ is left alone: the iNiR panel owns it.
+st=$(send "get_property:output:compressor:0:bypass" | tr -d '\r\n ')
+if [ "$st" = "false" ]; then
+    send "set_property:output:compressor:0:bypass:true" >/dev/null
+    echo "$(date '+%F %T') compresor de salida activado -> puesto en bypass (audio del PC plano)"
+fi
+# limiter: on, no auto gain, ceiling -1 dBFS
+lb=$(send "get_property:output:limiter:0:bypass" | tr -d '\r\n ')
+if [ "$lb" != "false" ]; then
+    send "set_property:output:limiter:0:bypass:false" >/dev/null
+    echo "$(date '+%F %T') limitador de salida desactivado -> ACTIVADO (techo -1 dBFS)"
+fi

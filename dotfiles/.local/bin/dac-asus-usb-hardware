@@ -1,0 +1,37 @@
+#!/bin/sh
+# Pin the hardware mixer of the ASUS USB-C DAC/amp (0b05:1d6e).
+#
+# Why: this dongle feeds the mic very hot. With 'Mic' at 46/47 (0 dB) a
+# normal voice peaks at -3.3 dBFS and the "Radio Mic" chain (makeup
+# +24 dB) clipped all day. At 7/47 (-15 dB) the raw peak sits around
+# -18 dBFS, the reference the chain was designed against.
+#
+# The output was pinned as well (169/169 = -1.5 dB). At 142/169
+# (-11.6 dB) the amp stops blasting; the usual slider sets the rest
+# (api.alsa.soft-mixer in 53-usb-dac-soft-mixer.conf).
+#
+# The card index is NOT fixed: it is looked up by USB ID.
+set -u
+
+MIC_VOL=40         # 0..47  (-17.62 .. 0 dB)
+HP_VOL=142         # 0..169 (-64.87 .. -1.5 dB)  techo -11.63 dB, max limpio
+
+CARD=""
+for card_dir in /proc/asound/card*; do
+    [ -e "$card_dir/usbid" ] || continue
+    if [ "$(cat "$card_dir/usbid" 2>/dev/null)" = "0b05:1d6e" ]; then
+        CARD="${card_dir##*/card}"
+        break
+    fi
+done
+
+if [ -z "$CARD" ]; then
+    echo "dac-asus-usb-hardware: DAC ASUS USB-C no detectado" >&2
+    exit 0
+fi
+
+amixer -c "$CARD" -q sset 'Mic' "${MIC_VOL},${MIC_VOL}" on
+amixer -c "$CARD" -q sset 'Headphone' "${HP_VOL},${HP_VOL}" on
+amixer -c "$CARD" -q sset 'Sidetone' off
+amixer -c "$CARD" -q sset 'Extension Unit' off
+echo "dac-asus-usb-hardware: card $CARD -> Mic ${MIC_VOL}/47, Headphone ${HP_VOL}/169"

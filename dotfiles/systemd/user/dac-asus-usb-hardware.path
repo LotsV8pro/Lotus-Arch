@@ -1,0 +1,11 @@
+[Unit]
+Description=Reaplica el mixer del DAC ASUS USB-C al conectar/desconectar
+
+[Path]
+PathChanged=/dev/snd/by-id
+Unit=dac-asus-usb-hardware.service
+TriggerLimitIntervalSec=30s
+TriggerLimitBurst=100
+
+[Install]
+WantedBy=default.target

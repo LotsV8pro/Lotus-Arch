@@ -21,3 +21,10 @@ dotfiles/obs-studio/plugin_config/obs-browser/
 *.backup.*
 *.bak
 **/*.backup
+
+# niri window-memory runtime state (per machine)
+dotfiles/niri/window-memory.json
+
+# Python bytecode
+__pycache__/
+*.pyc

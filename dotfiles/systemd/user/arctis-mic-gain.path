@@ -1,0 +1,11 @@
+[Unit]
+Description=Detect Arctis Nova 5 sound card and fix mic gain
+
+[Path]
+PathChanged=/dev/snd/by-id
+Unit=arctis-mic-gain.service
+TriggerLimitIntervalSec=30s
+TriggerLimitBurst=100
+
+[Install]
+WantedBy=default.target

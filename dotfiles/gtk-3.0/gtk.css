@@ -3,32 +3,45 @@
  * This file is overwritten when you change wallpaper
  */
 
-@define-color accent_color #5e5f52;
-@define-color accent_fg_color #f9f9e8;
-@define-color accent_bg_color #5e5f52;
+@define-color accent_color #62a9d8;
+@define-color accent_fg_color #1b1d1f;
+@define-color accent_bg_color #62a9d8;
 
-@define-color window_bg_color #fafafa;
-@define-color window_fg_color #222221;
+@define-color window_bg_color #0f1515;
+@define-color window_fg_color #F3F6F5;
 
-@define-color headerbar_bg_color #fafafa;
-@define-color headerbar_fg_color #222221;
+@define-color headerbar_bg_color #0f1515;
+@define-color headerbar_fg_color #F3F6F5;
 
-@define-color popover_bg_color #e9e9e8;
-@define-color popover_fg_color #222221;
+@define-color popover_bg_color #1c2322;
+@define-color popover_fg_color #F3F6F5;
 
-@define-color view_bg_color #fafafa;
-@define-color view_fg_color #222221;
+@define-color view_bg_color #0f1515;
+@define-color view_fg_color #F3F6F5;
 
-@define-color card_bg_color #f2f2f1;
-@define-color card_fg_color #222221;
+@define-color card_bg_color #161c1b;
+@define-color card_fg_color #F3F6F5;
 
-@define-color sidebar_bg_color #fafafa;
-@define-color sidebar_fg_color #222221;
-@define-color sidebar_border_color #fafafa;
-@define-color sidebar_backdrop_color #fafafa;
+@define-color success_color #77DAA1;
+@define-color warning_color #F1C026;
+@define-color error_color #F49287;
+@define-color destructive_color #F49287;
+@define-color success_bg_color #77DAA1;
+@define-color warning_bg_color #F1C026;
+@define-color error_bg_color #F49287;
+@define-color destructive_bg_color #F49287;
+@define-color success_fg_color #0f1515;
+@define-color warning_fg_color #0f1515;
+@define-color error_fg_color #0f1515;
+@define-color destructive_fg_color #0f1515;
+
+@define-color sidebar_bg_color #0f1515;
+@define-color sidebar_fg_color #F3F6F5;
+@define-color sidebar_border_color #0f1515;
+@define-color sidebar_backdrop_color #0f1515;
 
 headerbar {
-    background-color: #fafafa;
+    background-color: #0f1515;
     box-shadow: none;
     border-bottom: none;
 }
@@ -41,24 +54,24 @@ headerbar separator {
 .nautilus-window sidebar,
 placessidebar,
 placessidebar list {
-    background-color: #fafafa;
-    color: #222221;
+    background-color: #0f1515;
+    color: #F3F6F5;
     border-right: none;
 }
 
 placessidebar row {
     background-color: transparent;
-    color: #222221;
+    color: #F3F6F5;
 }
 
 placessidebar row:hover {
-    background-color: #D8D8D6;
+    background-color: #243338;
 }
 
 placessidebar row:selected,
 placessidebar row:selected:hover {
-    background-color: #c7c8c3;
-    color: #222221;
+    background-color: #213544;
+    color: #F3F6F5;
 }
 
 placessidebar image {
@@ -66,7 +79,7 @@ placessidebar image {
 }
 
 .view {
-    background-color: #fafafa;
+    background-color: #0f1515;
 }
 
 separator.sidebar {
@@ -80,63 +93,63 @@ treeview.view:selected,
 .view:selected,
 list row:selected,
 listbox row:selected {
-    background-color: #c7c8c3;
-    color: #222221;
+    background-color: #213544;
+    color: #F3F6F5;
 }
 
 treeview.view:selected:hover,
 .view:selected:hover,
 list row:selected:hover,
 listbox row:selected:hover {
-    background-color: #bdbeb8;
-    color: #222221;
+    background-color: #213544;
+    color: #F3F6F5;
 }
 
 /* Context menus and popovers */
 popover,
 popover.background {
-    background-color: #e9e9e8;
-    color: #222221;
+    background-color: #1c2322;
+    color: #F3F6F5;
 }
 
 menu,
 .context-menu,
 .popup {
-    background-color: #e9e9e8;
-    color: #222221;
+    background-color: #1c2322;
+    color: #F3F6F5;
 }
 
 menuitem {
-    color: #222221;
+    color: #F3F6F5;
 }
 
 menuitem:hover,
 menuitem:selected {
-    background-color: #D8D8D6;
+    background-color: #243338;
 }
 
 menuitem:active,
 menuitem:selected:active {
-    background-color: #c7c8c3;
-    color: #222221;
+    background-color: #213544;
+    color: #F3F6F5;
 }
 
 button:hover {
-    background-color: #D8D8D6;
+    background-color: #243338;
 }
 
 button:active {
-    background-color: #c7c8c3;
-    color: #222221;
+    background-color: #213544;
+    color: #F3F6F5;
 }
 
 entry:focus,
 textview:focus,
 spinbutton:focus {
-    border-color: alpha(#5e5f52, 0.60);
-    box-shadow: 0 0 0 1px alpha(#5e5f52, 0.25) inset;
+    border-color: alpha(#62a9d8, 0.60);
+    box-shadow: 0 0 0 1px alpha(#62a9d8, 0.25) inset;
 }
 
 menu separator {
-    background-color: alpha(#222221, 0.12);
+    background-color: alpha(#F3F6F5, 0.12);
 }

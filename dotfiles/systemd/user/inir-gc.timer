@@ -1,0 +1,10 @@
+[Unit]
+Description=Run iNiR GC every 30 minutes
+
+[Timer]
+OnBootSec=20min
+OnUnitActiveSec=30min
+AccuracySec=2min
+
+[Install]
+WantedBy=timers.target

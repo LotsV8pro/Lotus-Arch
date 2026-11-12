@@ -21,7 +21,7 @@ window#waybar {
 }
 
 .modules-right {
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: @on_accent;
     border-radius: 0 0 0 30px;
     padding: 4px 14px 4px 14px;
     margin: 0 0 4px 0;
@@ -58,7 +58,7 @@ window#waybar {
 #hworkspaces {
     margin: 4px;
     padding: 0;
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: @on_accent;
 }
 
 #workspaces {
@@ -101,12 +101,12 @@ window#waybar {
 /* SPECIFIC MODULES                                 */
 /* ============================================================================== */
 #custom-logo {
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: @on_accent;
     min-width: 40px;
     margin: 4px;
     padding: 1px 6px;
     box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.4);
-    border: 4px solid rgba(0, 0, 0, 0.7);
+    border: none;
 }
 
 #custom-recorder {
@@ -197,7 +197,7 @@ window#waybar {
 #custom-logo:hover {
     min-width: 80px;
     color: #000000;
-    border: 4px solid rgba(0, 0, 0, 0.7);
+    border: none;
     background-color: @accent_color;
 }
 
@@ -240,34 +240,29 @@ tooltip label {
 }
 
 /* ====== INIR WAYBAR MODULE STYLES START ====== */
-#custom-logo {
-    color: @on_accent;
-}
-#hworkspaces {
-    color: @on_accent;
-}
-#custom-recorder {
-    color: @on_accent;
-}
-#monitor {
-    color: @on_accent;
-}
-#settings {
-    color: @on_accent;
-}
-#tray {
-    color: @on_accent;
-}
-#custom-agenda {
-    color: @on_accent;
-}
-#clock {
-    color: @on_accent;
-}
-#custom-notification {
-    color: @on_accent;
+#custom-logo,
+#hworkspaces,
+#custom-recorder,
+#monitor,
+#settings,
+#tray,
+#custom-agenda,
+#clock,
+#custom-notification,
+#battery,
+#power-profiles-daemon,
+#pulseaudio,
+#backlight,
+#cpu,
+#memory,
+#temperature,
+#cava,
+#mpris {
+    color: @accent_color;
 }
 /* ====== INIR WAYBAR MODULE STYLES END ====== */
+
+
 
 
 

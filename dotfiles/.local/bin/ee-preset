@@ -1,0 +1,139 @@
+#!/bin/bash
+# ee-preset: audio preset menu bound to Easy Effects.
+#
+#   - ENTRADA: the microphone chain (what people hear on Discord)
+#   - SALIDA : the PC audio on the headphones
+#
+# Usage:
+#   ee-preset menu            (menu rofi)
+#   ee-preset list entrada|salida
+#   ee-preset load entrada|salida "nombre"
+#   ee-preset save entrada|salida "nombre"
+#   ee-preset delete entrada|salida "nombre"
+#   ee-preset current entrada|salida
+set -uo pipefail
+
+SOCK="${XDG_RUNTIME_DIR:-/run/user/$(id -u)}/EasyEffectsServer"
+SHARE="$HOME/.local/share/easyeffects"
+
+send() { printf '%s\n' "$1" | timeout 3 socat - UNIX-CONNECT:"$SOCK" 2>/dev/null; }
+
+pipe_dir() { [ "$1" = "entrada" ] && echo "input" || echo "output"; }
+pipe_tag() { [ "$1" = "entrada" ] && echo "input" || echo "output"; }
+
+list_presets() {
+    local d
+    d="$(pipe_dir "$1")"
+    [ -d "$SHARE/$d" ] || return 0
+    local f
+    for f in "$SHARE/$d"/*.json; do
+        [ -f "$f" ] || continue
+        basename "$f" .json
+    done | sort
+}
+
+load_preset() {
+    local pipeline="$1" name="$2"
+    local res
+    # load_preset prints nothing on success (it only writes on error)
+    res="$(send "load_preset:$(pipe_tag "$pipeline"):$name")"
+    if printf '%s' "$res" | grep -q '^error'; then
+        echo "  no se pudo cargar '$name': $res" >&2
+        return 1
+    fi
+    sleep 2
+    echo "  cargado: $pipeline / $name"
+}
+
+current_preset() {
+    send "get_last_loaded_preset:$(pipe_tag "$1")"
+}
+
+save_preset() {
+    local pipeline="$1" name="$2"
+    if ! "$HOME/.local/bin/ee-preset-save" "$pipeline" "$name"; then
+        return 1
+    fi
+    load_preset "$pipeline" "$name"
+}
+
+delete_preset() {
+    local f
+    f="$(pipe_dir "$1")/$2.json"
+    [ -f "$SHARE/$f" ] || { echo "  no existe: $2" >&2; return 1; }
+    rm -f "$SHARE/$f"
+    echo "  borrado: $2"
+}
+
+menu() {
+    local cur_in cur_out choice name
+    cur_in="$(current_preset entrada)"
+    cur_out="$(current_preset salida)"
+
+    local -a lines=()
+    lines+=("── MICROFONO (entrada) ──")
+    while read -r p; do
+        [ -n "$p" ] || continue
+        [ "$p" = "Current" ] && continue
+        local mark=" "
+        [ "$p" = "$cur_in" ] && mark="✓"
+        lines+=("  $mark $p")
+    done < <(list_presets entrada)
+    lines+=("  + Guardar el micro actual como...")
+    lines+=("")
+    lines+=("── AURICULARES (salida) ──")
+    while read -r p; do
+        [ -n "$p" ] || continue
+        [ "$p" = "Current" ] && continue
+        local mark=" "
+        [ "$p" = "$cur_out" ] && mark="✓"
+        lines+=("  $mark $p")
+    done < <(list_presets salida)
+    lines+=("")
+    lines+=("── ESTADO ──")
+    local bypass mon
+    bypass="$(send 'get_global_bypass' | tr -d '\r\n ')"
+    mon="$(send 'get_microphone_monitoring' | tr -d '\r\n ')"
+    lines+=("  bypass global: $([ "$bypass" = "1" ] && echo ACTIVADO || echo desactivado)")
+    lines+=("  monitorizacion del micro: $([ "$mon" = "1" ] && echo ON || echo off)")
+
+    choice="$(printf '%s\n' "${lines[@]}" | rofi -dmenu -i -p "Presets de audio" \
+        -theme-str "window { width: 40%; }" 2>/dev/null)"
+    [ -n "$choice" ] || return 0
+
+    # strip the check mark and the padding
+    local clean
+    clean="$(printf '%s' "$choice" | sed 's/^[[:space:]]*//; s/^[✓ ] //')"
+
+    case "$clean" in
+        "+ Guardar el micro actual como..."|"+ Guardar la salida actual como...")
+            name="$(rofi -dmenu -i -p "Nombre del preset" -format 'i' 2>/dev/null)"
+            [ -n "$name" ] || return 0
+            if [ "${clean%% *}" = "+" ] && [[ "$clean" == *micro* ]]; then
+                save_preset entrada "$name"
+            else
+                save_preset salida "$name"
+            fi
+            ;;
+        *)
+            # find which pipeline holds it
+            local p
+            for p in entrada salida; do
+                if list_presets "$p" | grep -qxF "$clean"; then
+                    load_preset "$p" "$clean"
+                    return 0
+                fi
+            done
+            ;;
+    esac
+}
+
+case "${1:-menu}" in
+    menu) menu ;;
+    list) list_presets "${2:-entrada}" ;;
+    load) load_preset "${2:-entrada}" "${3:?falta el nombre}" ;;
+    save) save_preset "${2:-entrada}" "${3:?falta el nombre}" ;;
+    delete) delete_preset "${2:-entrada}" "${3:?falta el nombre}" ;;
+    current) current_preset "${2:-entrada}" ;;
+    *) echo "Uso: ee-preset {menu|list|load|save|delete|current} [entrada|salida] [nombre]"; exit 2 ;;
+esac

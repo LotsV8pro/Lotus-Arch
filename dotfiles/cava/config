@@ -4,6 +4,9 @@ bar_spacing = 1
 overshoot = 100
 max_height = 100
 
+
+
+
 # BEGIN inir-managed
 [general]
 framerate = 60
@@ -19,14 +22,14 @@ source = easyeffects_sink.monitor
 channels = stereo
 
 [color]
-background = '#FBFFE0'
+background = '#0f1515'
 gradient = 1
-gradient_color_1 = '#5E5F52'
-gradient_color_2 = '#5B6949'
-gradient_color_3 = '#65655E'
-gradient_color_4 = '#A54731'
-gradient_color_5 = '#4F6354'
-gradient_color_6 = '#E3E4D3'
-gradient_color_7 = '#E4F4CB'
-gradient_color_8 = '#E3E4D3'
+gradient_color_1 = '#62a9d8'
+gradient_color_2 = '#f4b674'
+gradient_color_3 = '#b7c7d3'
+gradient_color_4 = '#f49287'
+gradient_color_5 = '#6fc884'
+gradient_color_6 = '#DDE4EA'
+gradient_color_7 = '#EADFE9'
+gradient_color_8 = '#213544'
 # END inir-managed

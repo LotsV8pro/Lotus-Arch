@@ -67,6 +67,59 @@ binds {
     Mod+Shift+3 { move-column-to-workspace "3"; }
     Mod+Shift+4 { move-column-to-workspace "4"; }
     Mod+Shift+5 { move-column-to-workspace "5"; }
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // Hotkeys for the shell features that had none.
+    //
+    // These panels were only reachable by clicking: the media panel that
+    // slides up from the bottom of the screen, the quick-settings panel,
+    // the task view, the window switcher, the equalizer and the screen
+    // zoom. Every combo below was checked against every combo already in
+    // use (Mod+*, Super+*, Mod+Shift+*, Mod+Ctrl+*, Mod+Alt+*) so nothing
+    // is shadowed.
+    //
+    // "Super" is used literally (not "Mod") so these keep working the same
+    // way inside a nested Niri window, where Mod turns into Alt.
+    // ─────────────────────────────────────────────────────────────────────────
+
+    // Media panel — the one that slides up from the bottom of the screen.
+    Super+M { spawn "inir" "mediaControls" "toggle"; }
+
+    // Quick settings / control panel.
+    Super+Shift+C { spawn "inir" "controlPanel" "toggle"; }
+
+    // Task view — all windows at once.
+    Super+Shift+T { spawn "inir" "taskview" "toggle"; }
+
+    // Window switcher.
+    Super+Shift+Tab { spawn "inir" "altSwitcher" "open"; }
+
+    // Cycle between the panel styles (ii / waffle).
+    Super+Shift+F { spawn "inir" "panelFamily" "cycle"; }
+
+    // YouTube Music play/pause.
+    Super+Y { spawn "inir" "ytmusic" "playPause"; }
+
+    // Screen zoom.
+    Super+Ctrl+Equal { spawn "inir" "zoom" "zoomIn"; }
+    Super+Ctrl+Minus { spawn "inir" "zoom" "zoomOut"; }
+
+    // Workspace orbit navigator.
+    Super+O { spawn "inir" "orbit" "toggle"; }
+
+    // Welcome / activity dashboard.
+    Super+I { spawn "inir" "dashboard" "open"; }
+
+    // Play/pause the active media player.
+    Super+U { spawn "inir" "mpris" "playPause"; }
+
+    // Performance mode for games (disables animations).
+    Super+X { spawn "inir" "gamemode" "toggle"; }
+
+    // Send the focused window to the workspace the other monitor has
+    // active right now (does not create new workspaces).
+    Mod+Shift+BracketLeft  { move-window-to-monitor-left; }
+    Mod+Shift+BracketRight { move-window-to-monitor-right; }
 }
 
 // Monitor principal Gaming (DP-2) a 165Hz (164.998), a la izquierda
@@ -84,5 +137,7 @@ output "HDMI-A-1" {
     position x=2560 y=0
 }
 
-// Waybar (la única barra que se quiere)
-spawn-at-startup "sh" "-c" "$HOME/.local/bin/waybar_manager.sh"
+// Waybar is disabled since 2026-11-08: iNiR 3.0.0 draws the bar from the
+// ii Quickshell family (quickshell:bar) and the two overlapped.
+// To go back: uncomment this and close the iNiR bar with `inir bar close`.
+// spawn-at-startup "sh" "-c" "$HOME/.local/bin/waybar_manager.sh"

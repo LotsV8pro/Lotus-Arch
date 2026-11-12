@@ -1,0 +1,7 @@
+[Unit]
+Description=Vigilante de la cadena de microfono de Easy Effects
+Documentation=man:systemd.timer(5)
+
+[Service]
+Type=oneshot
+ExecStart=%h/.local/bin/mic-ee-guard

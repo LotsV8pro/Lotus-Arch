@@ -1,0 +1,11 @@
+[Unit]
+Description=Comprobacion periodica de la cadena de microfono (cada 30 s)
+
+[Timer]
+OnBootSec=20s
+OnUnitActiveSec=30s
+AccuracySec=5s
+Unit=mic-ee-guard.service
+
+[Install]
+WantedBy=timers.target

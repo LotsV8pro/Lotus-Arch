@@ -549,7 +549,11 @@ class MediaWidget(Gtk.Window, _Draggable):
         except Exception:
             playing = False
         try:
-            pos = float(self._cmd(["position"]) or 0) / 1e6
+            # playerctl >= 2.4 reports the position in seconds; older builds
+            # used microseconds (the raw MPRIS value). Tell them apart by
+            # magnitude: anything above 1e5 can only be us (100000 s = 27 h).
+            raw_pos = float(self._cmd(["position"]) or 0)
+            pos = raw_pos / 1e6 if raw_pos > 100000 else raw_pos
         except ValueError:
             pos = 0.0
         try:

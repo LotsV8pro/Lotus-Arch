@@ -12,7 +12,8 @@
   <property name="misc-text-beside-icons" type="bool" value="false"/>
   <property name="misc-symbolic-icons-in-sidepane" type="bool" value="false"/>
   <property name="misc-highlighting-enabled" type="bool" value="false"/>
-  <property name="last-window-width" type="int" value="1644"/>
-  <property name="last-window-height" type="int" value="1377"/>
-  <property name="last-window-maximized" type="bool" value="true"/>
+  <property name="last-window-width" type="int" value="1215"/>
+  <property name="last-window-height" type="int" value="1302"/>
+  <property name="last-window-maximized" type="bool" value="false"/>
+  <property name="last-separator-position" type="int" value="170"/>
 </channel>

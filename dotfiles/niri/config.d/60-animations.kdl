@@ -20,7 +20,7 @@
 
 animations {
     // Uncomment to disable all animations globally.
-    // off
+    //off
 
     // Slow down every animation by this factor (useful for debugging).
     // Values below 1.0 speed them up. Default: 1.0
@@ -36,41 +36,18 @@ animations {
     window-open {
         duration-ms 200
         curve "ease-out-quad"
+        // Iris from the top-left corner (optimized: see the note below).
         custom-shader r"
-            vec4 open_circular_iris_tl(vec3 coords_geo, vec3 size_geo) {
-                vec3 coords_tex = niri_geo_to_tex * coords_geo;
-                vec2 uv = coords_tex.st;
-
-                float p = niri_clamped_progress;
-
-                vec2 center = vec2(0.0, 0.0);
-
-                vec2 aspect_uv = uv - center;
-                aspect_uv.x *= size_geo.x / max(size_geo.y, 1.0);
-
-                float dist = length(aspect_uv);
-
-                float max_radius = length(vec2(1.0 * (size_geo.x / max(size_geo.y, 1.0)), 1.0));
-                float current_radius = max_radius * p;
-
-                float feather = 0.03;
-
-                if (dist > current_radius) {
-                    return vec4(0.0);
-                }
-
-                vec4 color = texture2D(niri_tex, uv);
-
-                float alpha = smoothstep(current_radius, current_radius - feather, dist);
-                color *= alpha;
-
-                color *= smoothstep(0.0, 0.2, p);
-
-                return color;
-            }
-
             vec4 open_color(vec3 coords_geo, vec3 size_geo) {
-                return open_circular_iris_tl(coords_geo, size_geo);
+                vec2 uv = (niri_geo_to_tex * coords_geo).st;
+                float p = niri_clamped_progress;
+                float ar = size_geo.x / size_geo.y;
+                vec2 d = vec2(uv.x * ar, uv.y);
+                float dist = sqrt(dot(d, d));
+                float m = length(vec2(ar, 1.0)) * p;
+                float a = clamp((m - dist) / 0.03, 0.0, 1.0);
+                if (a <= 0.0) { return vec4(0.0); }
+                return texture2D(niri_tex, uv) * a * smoothstep(0.0, 0.2, p);
             }
         "
     }
@@ -79,41 +56,58 @@ animations {
     window-close {
         duration-ms 200
         curve "ease-out-quad"
+        // Iris closing back into the top-left corner.
         custom-shader r"
-            vec4 close_circular_iris_tl(vec3 coords_geo, vec3 size_geo) {
-                vec3 coords_tex = niri_geo_to_tex * coords_geo;
-                vec2 uv = coords_tex.st;
-
-                float p = niri_clamped_progress;
-
-                vec2 center = vec2(0.0, 0.0);
-
-                vec2 aspect_uv = uv - center;
-                aspect_uv.x *= size_geo.x / max(size_geo.y, 1.0);
-
-                float dist = length(aspect_uv);
-
-                float max_radius = length(vec2(1.0 * (size_geo.x / max(size_geo.y, 1.0)), 1.0));
-                float current_radius = max_radius * (1.0 - p);
-
-                float feather = 0.03;
-
-                if (dist > current_radius) {
-                    return vec4(0.0);
-                }
-
-                vec4 color = texture2D(niri_tex, uv);
-
-                float alpha = smoothstep(current_radius, current_radius - feather, dist);
-                color *= alpha;
-
-                color *= smoothstep(1.0, 0.8, p);
-
-                return color;
-            }
-
             vec4 close_color(vec3 coords_geo, vec3 size_geo) {
-                return close_circular_iris_tl(coords_geo, size_geo);
+                vec2 uv = (niri_geo_to_tex * coords_geo).st;
+                float p = niri_clamped_progress;
+                float ar = size_geo.x / size_geo.y;
+                vec2 d = vec2(uv.x * ar, uv.y);
+                float dist = sqrt(dot(d, d));
+                float m = length(vec2(ar, 1.0)) * (1.0 - p);
+                float a = clamp((m - dist) / 0.03, 0.0, 1.0);
+                if (a <= 0.0) { return vec4(0.0); }
+                return texture2D(niri_tex, uv) * a * smoothstep(1.0, 0.8, p);
+            }
+        "
+    }
+
+    // ── Layer surfaces (Quickshell bars, panels, sidebars, notifications) ───
+    // Same iris effect as windows, so layer-shell surfaces animate too.
+    layer-open {
+        duration-ms 200
+        curve "ease-out-quad"
+        // mismo iris para paneles/sidebars/notificaciones/overview
+        custom-shader r"
+            vec4 open_color(vec3 coords_geo, vec3 size_geo) {
+                vec2 uv = (niri_geo_to_tex * coords_geo).st;
+                float p = niri_clamped_progress;
+                float ar = size_geo.x / size_geo.y;
+                vec2 d = vec2(uv.x * ar, uv.y);
+                float dist = sqrt(dot(d, d));
+                float m = length(vec2(ar, 1.0)) * p;
+                float a = clamp((m - dist) / 0.03, 0.0, 1.0);
+                if (a <= 0.0) { return vec4(0.0); }
+                return texture2D(niri_tex, uv) * a * smoothstep(0.0, 0.2, p);
+            }
+        "
+    }
+
+    layer-close {
+        duration-ms 200
+        curve "ease-out-quad"
+        // mismo cierre para paneles/sidebars/notificaciones/overview
+        custom-shader r"
+            vec4 close_color(vec3 coords_geo, vec3 size_geo) {
+                vec2 uv = (niri_geo_to_tex * coords_geo).st;
+                float p = niri_clamped_progress;
+                float ar = size_geo.x / size_geo.y;
+                vec2 d = vec2(uv.x * ar, uv.y);
+                float dist = sqrt(dot(d, d));
+                float m = length(vec2(ar, 1.0)) * (1.0 - p);
+                float a = clamp((m - dist) / 0.03, 0.0, 1.0);
+                if (a <= 0.0) { return vec4(0.0); }
+                return texture2D(niri_tex, uv) * a * smoothstep(1.0, 0.8, p);
             }
         "
     }
@@ -147,11 +141,14 @@ animations {
     }
 
     overview-open-close {
-        spring damping-ratio=1.0 stiffness=700 epsilon=0.0001
+        // No admite custom-shader (verificado con niri validate), pero se iguala
+        // el timing al del iris para que la transición case visualmente.
+        duration-ms 200
+        curve "ease-out-quad"
     }
 
     recent-windows-close {
-        duration-ms 160
+        duration-ms 200
         curve "ease-out-quad"
     }
 }

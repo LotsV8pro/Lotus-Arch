@@ -33,7 +33,7 @@ layer-rule {
     match namespace="^quickshell:(dashboard|overview|overlay|controlPanel|cheatsheet|clipboardPanel|mediaControls|altSwitcher|altSwitcherScrim|wallpaperLauncher|wallpaperSelector|coverflowSelector|onScreenDisplay|popup|m3-popup|tilingOverlay|recordingOsd|notificationPopup|toast-manager|contextMenuBackdrop|settingsOverlay|settingsFocus|equalizer|closeConfirm|regionSelector|annotationEditor|polkit|osk|welcome|wStartMenu|wSession|wAltSwitcher|wAltSwitcherScrim|familyTransition|shellUpdate|boot-greeting|mascotRomp|charging-ripple|sidebarLeft|sidebarRight|widgetSettings|japaneseLookup|wClipboard|wNotificationCenter|wNotificationPopup|wOnScreenDisplay|wTaskView|wWidgets)$"
     animations {
         layer-open {
-            duration-ms 400
+            duration-ms 200
             curve "ease-out-quad"
             custom-shader r"
                 vec4 open_circular_iris_tl(vec3 coords_geo, vec3 size_geo) {
@@ -74,7 +74,7 @@ layer-rule {
             "
         }
         layer-close {
-            duration-ms 400
+            duration-ms 200
             curve "ease-out-quad"
             custom-shader r"
                 vec4 close_circular_iris_tl(vec3 coords_geo, vec3 size_geo) {
@@ -129,3 +129,9 @@ layer-rule {
 //     match namespace="some-private-overlay"
 //     block-out-from "screencast"
 // }
+
+// Niri's blur behind surfaces that ask for it (iRiS glass set to Blur).
+blur {
+    passes 2
+    offset 2.0
+}

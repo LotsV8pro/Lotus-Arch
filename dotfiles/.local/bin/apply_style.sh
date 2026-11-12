@@ -47,3 +47,10 @@ for s in /tmp/kitty-*; do
     kitty @ --to "unix:$s" ls >/dev/null 2>&1 || continue
     kitty @ --to "unix:$s" load-config >/dev/null 2>&1 || true
 done
+
+# Waybar reload (CSS only reloads on restart)
+if pgrep -x waybar >/dev/null 2>&1; then
+    pkill -x waybar || true
+    sleep 0.2
+    (waybar >/dev/null 2>&1 &)
+fi

@@ -1,0 +1,11 @@
+[Unit]
+Description=Fija el mixer del DAC/amp ASUS USB-C (micro -15 dB, salida -11.6 dB)
+After=pipewire.service wireplumber.service
+Wants=pipewire.service pipewire-pulse.service
+
+[Service]
+Type=oneshot
+ExecStart=%h/.local/bin/dac-asus-usb-hardware
+
+[Install]
+WantedBy=default.target

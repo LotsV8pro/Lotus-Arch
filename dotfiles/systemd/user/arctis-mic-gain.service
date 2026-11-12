@@ -1,0 +1,12 @@
+[Unit]
+Description=Fix SteelSeries Arctis Nova 5 mic gain
+Wants=pipewire.service pipewire-pulse.service
+After=pipewire.service pipewire-pulse.service
+StartLimitIntervalSec=0
+
+[Service]
+Type=oneshot
+ExecStart=%h/.local/bin/arctis-mic-fix.sh
+
+[Install]
+WantedBy=default.target

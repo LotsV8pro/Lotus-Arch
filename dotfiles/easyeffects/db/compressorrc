@@ -1,9 +1,13 @@
 [sie][Compressor#0]
-attack=5
-makeup=4
-threshold=-18
+attack=15
+boostAmount=0
+makeup=19
+ratio=2.5
+release=120
+threshold=-26
 
 [soe][Compressor#0]
+bypass=true
 makeup=5
 ratio=2.0
 release=110

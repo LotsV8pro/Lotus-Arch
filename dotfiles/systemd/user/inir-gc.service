@@ -1,0 +1,6 @@
+[Unit]
+Description=iNiR periodic JS garbage collection (reclaims QtQml memfd leaks)
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/qs -p %h/.config/quickshell/inir ipc call memory collect

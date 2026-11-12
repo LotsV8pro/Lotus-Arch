@@ -161,7 +161,7 @@
     "spacing": 10,
     "show-passive-items": true
   },
-"custom/recorder": {
+  "custom/recorder": {
     "exec": "if [ -f /tmp/recording_time ]; then cat /tmp/recording_time; fi",
     "exec-if": "[ -f /tmp/recording_pid ]",
     "interval": 1,

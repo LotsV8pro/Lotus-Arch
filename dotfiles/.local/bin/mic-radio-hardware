@@ -1,0 +1,58 @@
+#!/bin/sh
+# ALC897 mic (Rear Mic) for the 'Radio Mic' preset.
+#
+# The hardware preamp is pinned:
+#   Capture 29/63 (+4.50 dB), Rear Mic Boost 0, 'Rear Mic' monitor off.
+# Measured on this mic: above Capture ~35 the signal hits the ceiling and
+# the ADC clips, so 29 is the maximum that still leaves headroom for loud
+# speech.
+#
+# The slider volume is applied by PipeWire in software (api.alsa.soft-mixer
+# on the card, see 52-mic-soft-mixer.conf), NOT by the hardware mixer. That
+# is why the ALSA 'Capture' control does not move with the slider and
+# writing it once at startup is enough.
+# The card index is NOT fixed: a USB dongle can enumerate first and take
+# index 0. The script picks the card that has 'Rear Mic' (the ALC897).
+CARD=""
+i=0
+while [ -z "$CARD" ] && [ $i -lt 60 ]; do
+    for candidate in $(awk '/^ *[0-9]+ \[/ { gsub(/[^0-9]/, "", $1); print $1 }' /proc/asound/cards 2>/dev/null); do
+        if amixer -c "$candidate" sget 'Rear Mic' >/dev/null 2>&1 \
+            && amixer -c "$candidate" sget 'Input Source' >/dev/null 2>&1; then
+            CARD="$candidate"
+            break
+        fi
+    done
+    [ -n "$CARD" ] || sleep 0.5
+    i=$((i+1))
+done
+if [ -z "$CARD" ]; then
+    echo "mic-radio-hardware: no card with Rear Mic found" >&2
+    exit 1
+fi
+echo "mic-radio-hardware: using card $CARD"
+
+amixer -c "$CARD" -q sset 'Capture' 29,29 on 2>/dev/null
+amixer -c "$CARD" -q sset 'Rear Mic Boost' 0 2>/dev/null
+amixer -c "$CARD" -q sset 'Rear Mic' off 2>/dev/null
+# Codec Auto-Mute: once it kicks in, the ADC sends digital silence instead
+# of background noise and the start of the phrase gets lost.
+amixer -c "$CARD" -q sset 'Auto-Mute Mode' 'Disabled' 2>/dev/null
+
+# After a PipeWire restart the first capture stream opens the PCM muted and
+# has to be thrown away: the next one works. Open and close a warm-up stream
+# so the start of the first recorded phrase is not lost.
+if command -v parec >/dev/null 2>&1; then
+    timeout 3 parec --device=alsa_input.pci-0000_00_1f.3.analog-stereo \
+        --format=s16le --rate=48000 --channels=1 /dev/null 2>/dev/null
+fi
+
+current_source() {
+    amixer -c "$CARD" sget 'Input Source' 2>/dev/null | sed -n "s/.*Item0: '\(.*\)'/\1/p"
+}
+
+while true; do
+    [ "$(current_source)" = "Rear Mic" ] || \
+        amixer -c "$CARD" -q sset 'Input Source' 'Rear Mic' 2>/dev/null
+    sleep 1
+done

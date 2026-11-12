@@ -1,0 +1,39 @@
+[Unit]
+Description=Easy Effects (cadena de microfono "Radio Mic")
+Documentation=man:systemd-xdg-autostart-generator(8)
+After=graphical-session.target
+PartOf=graphical-session.target
+Wants=pipewire.service
+After=pipewire.service pipewire-pulse.service
+
+[Service]
+Type=exec
+# Si queda otra instancia de Easy Effects suelta, esta toma el DBus y la
+# nueva instancia sale inmediatamente -> el servicio quedaria "inactive".
+ExecStartPre=/bin/sh -c 'pkill -9 -f "^/usr/bin/easyeffects" 2>/dev/null; sleep 1; exit 0'
+ExecStart=/usr/bin/easyeffects --hide-window --service-mode
+Restart=always
+RestartSec=3
+
+# IMPORTANTE: NO usar la CLI de Easy Effects aqui (easyeffects --bypass 2).
+# La CLI arranca una SEGUNDA instancia completa que compite por la fuente
+# virtual "easyeffects_source" y deja esta instancia sin cadena de plugins
+# (el micro pasa en crudo y se oye muy bajo). Para hablar con la instancia
+# que ya corre se usa su socket local (/run/user/%U/EasyEffectsServer).
+#
+#   global_bypass:0         -> desactiva el bypass global (el micro se procesa)
+#   microphone_monitoring:1 -> mantiene la cadena de entrada conectada
+#
+# Con el bypass activo Easy Effects desconecta los plugins de la cadena de
+# entrada y el microfono suena crudo y muy bajo.
+#
+# La monitorizacion del micro se activa con listenToMicVolume=0.0 en el
+# fichero de configuracion: mantiene la cadena viva pero NO deja sonar nada
+# por los altavoces (sin realimentacion acustica).
+ExecStartPost=/bin/sh -c 'sleep 4; printf "global_bypass:0\n" | socat - UNIX-CONNECT:/run/user/%U/EasyEffectsServer 2>/dev/null || true; printf "microphone_monitoring:1\n" | socat - UNIX-CONNECT:/run/user/%U/EasyEffectsServer 2>/dev/null || true'
+TimeoutStopSec=5s
+Slice=app.slice
+ExecCondition=/usr/lib/systemd/systemd-xdg-autostart-condition "" "GNOME"
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,11 @@
+[Unit]
+Description=Sync ddcci backlight devices to primary monitor brightness
+
+[Service]
+Type=simple
+ExecStart=%h/.local/bin/sync-backlight.sh
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=default.target

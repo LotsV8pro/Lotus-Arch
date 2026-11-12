@@ -1,0 +1,175 @@
+#!/usr/bin/env python3
+"""ee-preset-save: guarda el estado actual de una cadena de Easy Effects
+(entrada = micro, salida = audio del PC) como un preset con nombre.
+
+Easy Effects no expone ningun comando para "guardar el estado actual", asi
+que esto se arma a partir de:
+  - ~/.config/easyeffects/db/easyeffectsrc   -> la lista de plugins
+  - ~/.config/easyeffects/db/*.rc             -> los valores actuales ([sie]/[soe])
+  - un preset existente                       -> la estructura y los nombres de clave
+
+Uso: ee-preset-save <entrada|salida> <nombre>
+"""
+import glob
+import json
+import os
+import re
+import sys
+from pathlib import Path
+
+DB = Path.home() / ".config/easyeffects/db"
+SRC = DB / "easyeffectsrc"
+SHARE = Path.home() / ".local/share/easyeffects"
+
+
+def kebab(name: str) -> str:
+    """f1Freq -> f1-freq   (igual que los nombres de clave del preset JSON)"""
+    return re.sub(r"(?<!^)(?=[A-Z])", "-", name).lower()
+
+
+def read_plugin_list(pipeline: str) -> list[str]:
+    text = SRC.read_text()
+    group = "StreamInputs" if pipeline == "entrada" else "StreamOutputs"
+    m = re.search(r"(?ms)^\[%s\]\n(.*?)(?=\n\[|\Z)" % group, text)
+    if not m:
+        return []
+    p = re.search(r"(?m)^plugins=(.*)$", m.group(1))
+    if not p:
+        return []
+    return [x.strip() for x in p.group(1).split(",") if x.strip()]
+
+
+def read_db_groups(pipeline: str) -> dict[str, dict[str, str]]:
+    """-> { 'Equalizer#0': {clave: valor} }"""
+    tag = "sie" if pipeline == "entrada" else "soe"
+    out: dict[str, dict[str, str]] = {}
+    for path in DB.glob("*rc"):
+        try:
+            text = path.read_text()
+        except OSError:
+            continue
+        for m in re.finditer(r"(?ms)^\[(%s)\]\[([^\]]+)\]\n(.*?)(?=\n\[|\Z)" % tag, text):
+            body = m.group(3)
+            vals = dict(re.findall(r"(?m)^([A-Za-z][A-Za-z0-9_]*)=(.*)$", body))
+            out[m.group(2)] = vals
+    return out
+
+
+def find_template(plugin_key: str) -> dict | None:
+    """Busca la entrada de ese plugin en cualquier preset existente."""
+    for path in glob.glob(str(SHARE / "input" / "*.json")) + glob.glob(str(SHARE / "output" / "*.json")):
+        try:
+            data = json.load(open(path, encoding="utf-8"))
+        except Exception:
+            continue
+        for pipe in ("input", "output"):
+            entry = data.get(pipe, {}).get(plugin_key)
+            if isinstance(entry, dict):
+                return json.loads(json.dumps(entry))
+    return None
+
+
+def convert(value: str):
+    low = value.lower()
+    if low in ("true", "false"):
+        return low == "true"
+    try:
+        if re.fullmatch(r"-?\d+", value):
+            return int(value)
+        return float(value)
+    except ValueError:
+        return value
+
+
+def update_plugin(template: dict, dbvals: dict) -> dict:
+    """Sobrescribe los valores del preset con los del db (mismo nombre de clave).
+
+    OJO: los enums (slope, type, mode, decramp...) se guardan en el db como
+    INDICE numerico (3) y en el preset JSON como ETIQUETA ("x4"). Si se
+    copiasen los numeros, Easy Effects aborta la carga con
+    "type must be string, but is number". Asi que: si en la plantilla el valor
+    es una cadena y en el db es un numero, se conserva la etiqueta.
+    """
+    out = json.loads(json.dumps(template))
+    db_kebab = {kebab(k): v for k, v in dbvals.items()}
+    for key in list(out.keys()):
+        if key not in db_kebab:
+            continue
+        raw = db_kebab[key]
+        if isinstance(out[key], str) and re.fullmatch(r"-?\d+(\.\d+)?", raw):
+            continue          # enum: se queda la etiqueta de la plantilla
+        out[key] = convert(raw)
+    # the EQ keeps flat bands in the db file and nested ones in the preset
+    if "left" in out and isinstance(out["left"], dict):
+        for side in ("left", "right"):
+            bands = out[side]
+            if not isinstance(bands, dict):
+                continue
+            for name, band in bands.items():
+                if not isinstance(band, dict):
+                    continue
+                m = re.fullmatch(r"band(\d+)", name)
+                if not m:
+                    continue
+                i = m.group(1)
+                for field, dbkey in (("frequency", f"band{i}Frequency"), ("gain", f"band{i}Gain"),
+                                     ("q", f"band{i}Q"), ("type", f"band{i}Type"),
+                                     ("width", f"band{i}Width")):
+                    if dbkey not in dbvals or field not in band:
+                        continue
+                    raw = dbvals[dbkey]
+                    if isinstance(band[field], str) and re.fullmatch(r"-?\d+(\.\d+)?", raw):
+                        continue      # enum de la banda: se queda la etiqueta
+                    band[field] = convert(raw)
+    return out
+
+
+def main() -> int:
+    if len(sys.argv) < 3:
+        print(__doc__)
+        return 2
+    pipeline = sys.argv[1]
+    name = sys.argv[2].strip()
+    if pipeline not in ("entrada", "salida"):
+        print("  el pipeline debe ser 'entrada' o 'salida'", file=sys.stderr)
+        return 2
+    if not name:
+        print("  falta el nombre", file=sys.stderr)
+        return 2
+
+    plugins = read_plugin_list(pipeline)
+    if not plugins:
+        print("  no se encontro la lista de plugins en easyeffectsrc", file=sys.stderr)
+        return 1
+    dbgroups = read_db_groups(pipeline)
+
+    preset: dict = {}
+    for key in plugins:
+        base, _, inst = key.partition("#")
+        dbname = None
+        for gname in dbgroups:
+            gbase, _, ginst = gname.partition("#")
+            if gbase.lower() == base.lower() and ginst == inst:
+                dbname = gname
+                break
+        if dbname is None:
+            print(f"  aviso: sin datos en el db para '{key}'", file=sys.stderr)
+            continue
+        template = find_template(key)
+        if template is None:
+            print(f"  aviso: no hay plantilla para '{key}'", file=sys.stderr)
+            continue
+        preset[key] = update_plugin(template, dbgroups[dbname])
+
+    outdir = SHARE / ("input" if pipeline == "entrada" else "output")
+    outdir.mkdir(parents=True, exist_ok=True)
+    path = outdir / f"{name}.json"
+    data = {"input" if pipeline == "entrada" else "output": {
+        "blocklist": [], "plugins_order": plugins, **preset}}
+    path.write_text(json.dumps(data, indent=4, sort_keys=True), encoding="utf-8")
+    print(f"  preset guardado: {path}")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
