@@ -11,30 +11,14 @@
 // rules accumulate. For scalar values (like gaps), the last one wins.
 // ─────────────────────────────────────────────────────────────────────────────
 
-// Static workspaces assigned to specific monitors (DP-2 is main)
-workspace "1" { open-on-output "DP-2"; }
-workspace "2" { open-on-output "DP-2"; }
-workspace "3" { open-on-output "DP-2"; }
-
-// Change "HDMI-A-1" to your actual secondary monitor name if needed
-workspace "4" { open-on-output "HDMI-A-1"; }
-workspace "5" { open-on-output "HDMI-A-1"; }
-
-// Automatically open specific communication and media apps on the 2nd monitor
-window-rule {
-    // Discord (matches native package, flatpak, and web wrapper app-ids)
-    match app-id="discord"
-    match app-id="com.discordapp.Discord"
-    open-on-workspace "4"
-}
-
-window-rule {
-    // Spotify (Added "Spotify" with capital S to fix the rule)
-    match app-id="Spotify"
-    match app-id="spotify"
-    match app-id="com.spotify.Client"
-    open-on-workspace "5"
-}
+// Named workspaces with no monitor attached: they live on whatever output
+// niri has, so Mod+1..5 works on any machine. Named workspaces always exist,
+// even when empty. Where each app reopens is up to niri-window-memory.
+workspace "1"
+workspace "2"
+workspace "3"
+workspace "4"
+workspace "5"
 // Enable VRR (G-Sync) when a game is focused — needs on-demand=true in monitor.kdl
 window-rule {
     match app-id=r#"^steam_app_\d+$"#
@@ -120,21 +104,6 @@ binds {
     // active right now (does not create new workspaces).
     Mod+Shift+BracketLeft  { move-window-to-monitor-left; }
     Mod+Shift+BracketRight { move-window-to-monitor-right; }
-}
-
-// Main gaming monitor (DP-2) at 165 Hz (164.998), on the left
-output "DP-2" {
-    mode "2560x1440@164.998"
-    variable-refresh-rate
-    scale 1.0
-    position x=0 y=0
-}
-
-// Secondary Samsung monitor (HDMI-A-1) to the right of DP-2
-output "HDMI-A-1" {
-    mode "1920x1080@60.000"
-    scale 1.0
-    position x=2560 y=0
 }
 
 // Waybar is disabled since 2026-11-08: iNiR 3.0.0 draws the bar from the

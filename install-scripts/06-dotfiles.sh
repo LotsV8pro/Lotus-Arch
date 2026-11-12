@@ -102,6 +102,12 @@ done
 # compositor-independent (works even mid-install, before any Wayland session):
 # it reads DRM connector status from /sys/class/drm.
 detect_reference_outputs() {
+    # Manual override, used by the installer tests and by anyone installing
+    # for a machine they cannot boot right now.
+    case "${LOTUS_REFERENCE_OUTPUTS:-auto}" in
+        yes) return 0 ;;
+        no)  return 1 ;;
+    esac
     local dp2="" hdmi=""
     for c in /sys/class/drm/card*-DP-2/status; do
         [[ "$(cat "$c" 2>/dev/null)" == "connected" ]] && dp2=1
@@ -142,7 +148,19 @@ if detect_reference_outputs; then
         fi
     fi
 else
-    echo "  → portable monitor configs in use (any display auto-detected)"
+    echo "  → no reference outputs: niri keeps its own monitor defaults"
+    # The shipped monitor.kdl targets the reference connectors. On other
+    # hardware it is replaced with an empty file: the include in config.kdl
+    # still resolves and niri picks the preferred mode and layout for
+    # whatever is connected.
+    if [[ -f "$HOME/.config/niri/monitor.kdl" ]]; then
+        cat > "$HOME/.config/niri/monitor.kdl" <<'EOF'
+// Machine-specific output config, included from config.kdl.
+// Empty on purpose: niri uses the preferred mode and an automatic layout for
+// whatever is connected. Set modes, scale and position here (nwg-displays
+// writes this file) or run the installer on the reference build.
+EOF
+    fi
 fi
 
 # Copy top-level dotfiles
@@ -234,8 +252,11 @@ fi
 
 # Seed a default wallpaper so initial-boot.sh (wallust + swww) has something
 # Uses the bundled Default/2b2.jpg when present, falling back to the first image.
-if [[ ! -f "$HOME/.config/hypr/wallpaper_effects/.wallpaper_current" ]]; then
-    first_wp="$(find "$WP_DIR" -type f \( -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' \) 2>/dev/null | head -1)"
+# WP_DIR may not exist at all (user declined wallpapers), and `find` exits 1 on
+# a missing path. Under `set -o pipefail` that killed the whole phase, so the
+# directory is checked first.
+if [[ ! -f "$HOME/.config/hypr/wallpaper_effects/.wallpaper_current" && -d "$WP_DIR" ]]; then
+    first_wp="$(find "$WP_DIR" -type f \( -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' \) 2>/dev/null | head -1 || true)"
     if [[ -n "$first_wp" ]]; then
         mkdir -p "$HOME/.config/hypr/wallpaper_effects"
         cp "$first_wp" "$HOME/.config/hypr/wallpaper_effects/.wallpaper_current" 2>/dev/null || true
