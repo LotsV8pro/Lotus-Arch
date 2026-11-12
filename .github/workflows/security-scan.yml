@@ -1,8 +1,20 @@
 name: security-scan
 
 on:
+  # Every push to every branch used to trigger a run, including the release
+  # branches nobody reads. Main is what matters; pull requests are covered too.
   push:
+    branches: [main]
+    paths-ignore:
+      - 'docs/**'
+      - '**/*.md'
   pull_request:
+
+# One run per ref: pushing three commits in a row no longer sends three
+# notifications for the same code.
+concurrency:
+  group: security-scan-${{ github.ref }}
+  cancel-in-progress: true
 
 permissions:
   contents: read
@@ -13,7 +25,7 @@ jobs:
     name: gitleaks (known secret patterns)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
       - uses: gitleaks/gitleaks-action@v2
@@ -24,7 +36,7 @@ jobs:
     name: repo-specific scan (personal data / browser DBs)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Install ripgrep
         run: sudo apt-get update && sudo apt-get install -y ripgrep
       - name: Run scan-secrets.sh
