@@ -84,7 +84,7 @@ exactly as-is, your current wallpaper is never touched.
 ```
 performance-tweaks/        Phase 10 (opt-in) - common/ + nvidia/ or amd/
 optional/                  Phase 11 - GPU tuning pack, movie-tui
-wallpapers/                Stock wallpaper packs (3 per color) + Default/
+wallpapers/                Only the starter wallpaper (Default/2b2.jpg)
 ```
 
 Related: [INSTALLATION.md](INSTALLATION.md) · [SETUP.md](SETUP.md)

@@ -16,7 +16,7 @@ A high-level view of the config tree, every entry maps to a `dotfiles/<name>/` f
 └── spicetify/Themes/Lotus/# Spotify Lotus theme
 optional/                  # Opt-in extras (Phase 11) - GPU tuning pack, movie-tui
 performance-tweaks/        # Phase 10 - common/ + nvidia/ or amd/ hardware profiles
-wallpapers/                # Optional starter set (Phase 6b) - 3 per color of the filter + Default/2b2.jpg
+wallpapers/                # Optional starter wallpaper (Phase 6b) - Default/2b2.jpg only
 .local/                    # User bins (virtual-mic, steam-gamescope, shader limiter) + EasyEffects presets
 ```
 
