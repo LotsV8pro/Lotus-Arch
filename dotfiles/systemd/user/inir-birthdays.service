@@ -2,7 +2,13 @@
 Description=Sync all Google Calendars + birthdays to local ICS files for inir
 After=network-online.target
 Wants=network-online.target
+# Nothing to sync until the user finishes the OAuth flow. Without this the
+# timer retries every 2 minutes forever and fills the journal with failures.
+ConditionPathExists=%h/.local/share/gcalcli/oauth
 
 [Service]
 Type=oneshot
+# The client libraries are not dependencies of the installer, so skip quietly
+# when they are missing instead of failing the unit on every tick.
+ExecCondition=/usr/bin/python3 -c 'import requests, googleapiclient'
 ExecStart=/usr/bin/python3 %h/.config/inir-birthdays/sync-calendars.py

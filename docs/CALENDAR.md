@@ -12,7 +12,7 @@ This is a per-machine, opt-in feature, none of this is automatic and nothing of 
 |---|---|
 | `dotfiles/inir-birthdays/*.py`, the 3 sync scripts | your OAuth token (`~/.local/share/gcalcli/oauth`) |
 | `dotfiles/quickshell/inir/{services,modules}/*`, the QML calendar overlay | your `events.json` and generated `.ics` files |
-| `dotfiles/systemd/user/inir-birthdays.{service,timer}`, 5-min sync timer | your Google account/contact data |
+| `dotfiles/systemd/user/inir-birthdays.{service,timer}`, 2-min sync timer | your Google account/contact data |
 | `tools/install-calendar.sh`, guided setup |, |
 
 ## Birthday & yearly-event matching
@@ -58,7 +58,7 @@ Because only you own your Google data, the repo can't, and won't, contain a read
    python3 ~/.config/inir-birthdays/people-auth.py
    ```
    It re-runs the consent flow with both `calendar` + `contacts` scopes and refreshes the same token.
-4. Run the guided installer (copies scripts + units, enables the 5-min timer):
+4. Run the guided installer (copies scripts + units, enables the 2-min timer):
    ```bash
    bash tools/install-calendar.sh
    ```
@@ -67,4 +67,6 @@ Because only you own your Google data, the repo can't, and won't, contain a read
    systemctl --user restart inir.service
    ```
 
-Your timezone is detected automatically (override with `INIR_TZ=...`). The sync timer runs every 5 minutes and only talks to your account. Nothing in this stack requires or ships your email, passwords, or tokens.
+Your timezone is detected automatically (override with `INIR_TZ=...`). The sync timer runs every 2 minutes and only talks to your account. It stays
+inactive until both the token and the Python client libraries are in place, so
+a fresh install does not log a failed run every tick. Nothing in this stack requires or ships your email, passwords, or tokens.
