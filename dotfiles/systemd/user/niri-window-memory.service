@@ -1,0 +1,16 @@
+[Unit]
+Description=Restore niri windows to their last workspace and monitor
+# niri publishes NIRI_SOCKET to the user manager; wait for it before connecting.
+PartOf=niri.service
+After=niri.service
+StartLimitIntervalSec=30
+StartLimitBurst=5
+
+[Service]
+Type=simple
+ExecStart=%h/.local/bin/niri-window-memory
+Restart=on-failure
+RestartSec=2
+
+[Install]
+WantedBy=graphical-session.target

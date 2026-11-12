@@ -1,0 +1,256 @@
+#!/usr/bin/env python3
+"""Keep each app on the workspace and monitor where it was last closed.
+
+niri has no per-app memory: `open-on-workspace` only accepts named workspaces,
+and numeric names like "4" are parsed as an index on the focused output. This
+daemon listens to `niri msg --json event-stream`, records the final placement of
+every window, and moves a new window back when the same app_id opens again.
+
+State lives in ~/.config/niri/window-memory.json. Delete an entry there to make
+an app open wherever niri decides again.
+"""
+
+from __future__ import annotations
+
+import json
+import os
+import queue
+import re
+import signal
+import subprocess
+import sys
+import threading
+import time
+from pathlib import Path
+
+CONFIG_HOME = Path(os.environ.get("XDG_CONFIG_HOME") or Path.home() / ".config")
+STATE_PATH = CONFIG_HOME / "niri" / "window-memory.json"
+
+DEFAULT_SETTINGS = {
+    # Dialogs and pop-ups are floating; moving them around is usually wrong.
+    "remember_floating": False,
+    # Follow the window to its remembered place. Turn off to keep the current
+    # focus where it is when an app opens on another monitor.
+    "focus_on_restore": True,
+    # Give the window time to map before moving it.
+    "restore_delay_ms": 150,
+    # Never remember these. steam opens its own windows and updates its title
+    # constantly; portals open transient dialogs.
+    "ignore_app_ids": [
+        r"^steam$",
+        r"^xdg-desktop-portal",
+        r"^org\.freedesktop\.impl\.portal",
+    ],
+}
+
+
+def log(message: str) -> None:
+    print(f"[window-memory] {message}", file=sys.stderr, flush=True)
+
+
+def load_state() -> dict:
+    try:
+        raw = json.loads(STATE_PATH.read_text(encoding="utf-8"))
+    except FileNotFoundError:
+        raw = {}
+    except (OSError, ValueError) as exc:
+        log(f"ignoring unreadable state: {exc}")
+        raw = {}
+    settings = dict(DEFAULT_SETTINGS)
+    settings.update(raw.get("settings") or {})
+    return {
+        "version": 1,
+        "settings": settings,
+        "apps": raw.get("apps") or {},
+    }
+
+
+def write_state(state: dict) -> None:
+    STATE_PATH.parent.mkdir(parents=True, exist_ok=True)
+    tmp = STATE_PATH.with_name(STATE_PATH.name + ".tmp")
+    tmp.write_text(json.dumps(state, indent=2, sort_keys=True) + "\n",
+                   encoding="utf-8")
+    os.replace(tmp, STATE_PATH)
+
+
+def niri(*args: str, timeout: int = 5) -> str:
+    result = subprocess.run(["niri", "msg", *args], capture_output=True,
+                            text=True, timeout=timeout)
+    if result.returncode != 0:
+        raise RuntimeError(result.stderr.strip() or f"niri msg {args[0]} failed")
+    return result.stdout
+
+
+class WindowMemory:
+    def __init__(self) -> None:
+        self.state = load_state()
+        self.settings = self.state["settings"]
+        self.windows: dict[int, dict] = {}
+        self.workspaces: dict[int, dict] = {}
+        self.restored: set[int] = set()
+        self.lock = threading.Lock()
+        self.tasks: queue.Queue = queue.Queue()
+        self.stop = threading.Event()
+
+    def ignored(self, app_id: str | None) -> bool:
+        return any(re.search(pattern, app_id or "")
+                   for pattern in self.settings["ignore_app_ids"])
+
+    def placement(self, window: dict) -> dict | None:
+        workspace = self.workspaces.get(window.get("workspace_id"))
+        if not workspace:
+            return None
+        return {
+            "output": workspace.get("output"),
+            "idx": workspace.get("idx"),
+            "name": workspace.get("name"),
+        }
+
+    def remember(self, window: dict) -> None:
+        app_id = window.get("app_id")
+        placement = self.placement(window)
+        if app_id and placement:
+            self.state["apps"][app_id] = placement
+
+    def save_snapshot(self) -> None:
+        with self.lock:
+            for window in self.windows.values():
+                if self.ignored(window.get("app_id")):
+                    continue
+                if window.get("is_floating") and not self.settings["remember_floating"]:
+                    continue
+                self.remember(window)
+            write_state(self.state)
+        log("saved window placements")
+
+    def on_event(self, kind: str, payload: dict) -> None:
+        if kind == "WorkspacesChanged":
+            with self.lock:
+                self.workspaces = {w["id"]: w for w in payload["workspaces"]}
+            return
+
+        if kind == "WindowsChanged":
+            with self.lock:
+                self.windows = {w["id"]: w for w in payload["windows"]}
+            return
+
+        if kind == "WindowOpenedOrChanged":
+            window = payload["window"]
+            with self.lock:
+                new_window = window["id"] not in self.windows
+                self.windows[window["id"]] = window
+                app_id = window.get("app_id")
+                saved = self.state["apps"].get(app_id or "")
+                movable = (
+                    new_window
+                    and saved
+                    and not self.ignored(app_id)
+                    and (self.settings["remember_floating"]
+                         or not window.get("is_floating"))
+                    and window["id"] not in self.restored
+                )
+                if movable:
+                    self.restored.add(window["id"])
+                    self.tasks.put(
+                        (window["id"], dict(saved), self.placement(window)))
+            return
+
+        if kind == "WindowClosed":
+            window_id = payload["id"]
+            with self.lock:
+                window = self.windows.pop(window_id, None)
+                self.restored.discard(window_id)
+                if window and not self.ignored(window.get("app_id")):
+                    if (self.settings["remember_floating"]
+                            or not window.get("is_floating")):
+                        self.remember(window)
+                        write_state(self.state)
+
+    def restore(self, window_id: int, saved: dict, current: dict | None) -> None:
+        time.sleep(self.settings["restore_delay_ms"] / 1000)
+        with self.lock:
+            window = self.windows.get(window_id)
+        if not window:
+            return
+        if saved.get("output") and (current or {}).get("output") != saved["output"]:
+            niri("action", "move-window-to-monitor", saved["output"],
+                 "--id", str(window_id))
+        reference = saved.get("idx")
+        if reference is None:
+            reference = saved.get("name")
+        if reference is not None:
+            follow = "true" if (self.settings["focus_on_restore"]
+                                and window.get("is_focused")) else "false"
+            niri("action", "move-window-to-workspace", str(reference),
+                 "--window-id", str(window_id), "--focus", follow)
+
+    def worker(self) -> None:
+        while True:
+            task = self.tasks.get()
+            if task is None:
+                return
+            try:
+                self.restore(*task)
+            except Exception as exc:  # keep the daemon alive
+                log(f"could not restore window {task[0]}: {exc}")
+            finally:
+                self.tasks.task_done()
+
+
+memory: WindowMemory
+
+
+def handle_signal(signum, _frame) -> None:
+    log(f"stopping on signal {signum}")
+    memory.stop.set()
+    memory.save_snapshot()
+    raise SystemExit(0)
+
+
+def event_stream() -> None:
+    while not memory.stop.is_set():
+        process = subprocess.Popen(
+            ["niri", "msg", "--json", "event-stream"],
+            stdout=subprocess.PIPE, text=True)
+        try:
+            for line in process.stdout:
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    event = json.loads(line)
+                except ValueError:
+                    continue
+                kind, payload = next(iter(event.items()))
+                memory.on_event(kind, payload)
+        except Exception as exc:
+            log(f"event stream error: {exc}")
+        finally:
+            process.terminate()
+            try:
+                process.wait(timeout=2)
+            except subprocess.TimeoutExpired:
+                process.kill()
+        if not memory.stop.is_set():
+            log("niri is gone, reconnecting")
+            time.sleep(2)
+
+
+def main() -> int:
+    global memory
+    memory = WindowMemory()
+    worker = threading.Thread(target=memory.worker, daemon=True)
+    worker.start()
+    signal.signal(signal.SIGTERM, handle_signal)
+    signal.signal(signal.SIGINT, handle_signal)
+    log(f"tracking windows, state at {STATE_PATH}")
+    try:
+        event_stream()
+    finally:
+        memory.save_snapshot()
+        memory.tasks.put(None)
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

@@ -4,6 +4,14 @@ Pick `Niri` at install (or choose Both) to get the scrollable-tiling [Niri](http
 
 The niri monitor configuration is portable by default; this machine's exact dual-monitor layout lives in the optional `dotfiles/niri/monitor.lotus.kdl` overlay that activates only when the same outputs are detected (see the [Portable note](INSTALLATION.md#requirements)).
 
+## Window memory
+
+Niri reopens every app on the workspace and monitor where it was last closed. A small daemon does the work: `~/.local/bin/niri-window-memory` listens to `niri msg --json event-stream`, records the placement of each window by `app_id`, and moves a new window back when the same app opens again. It runs as the `niri-window-memory.service` user unit, which the install enables with the graphical session.
+
+Niri's own `open-on-workspace` cannot do this here: it resolves a workspace by name, and this config names the workspaces `1`..`5`, which niri reads as an index on the focused output instead of a name.
+
+Placements live in `~/.config/niri/window-memory.json`. Delete an app's entry there to make it open wherever niri decides again. Dialogs and floating windows are not remembered, and Steam and the portal dialogs are on the ignore list; both lists are in the `settings` block of that file.
+
 ## Animated wallpapers & color dots
 
 The Lotus iNiR wallpaper selector (`SUPER + W`, the Skew browser) filters your library by predominant color. With this release the color dots now also cover animated wallpapers (video + GIF), a representative video frame is sampled (via ffmpeg, so the black fade-in frame is skipped) and classified into the same 11 color families (Red … Pink, Brown, Black, White). Live previews are on by default for gifs/videos; press `Escape` or use the toggle button to turn them off, and the choice is remembered.
