@@ -39,7 +39,7 @@ The installer first asks for your session:
   3) Both - install both, pick at the SDDM login screen
 ```
 
-A hardware-pack question follows (OBS streaming pack), it gates which streaming configs and services get deployed, in both sessions. A starter wallpapers prompt follows too (optional; declining keeps your `~/Pictures/wallpapers` untouched; accepting seeds the stock 3-per-color filter packs + the default wallpaper).
+A hardware-pack question follows (OBS streaming pack), it gates which streaming configs and services get deployed, in both sessions. A starter wallpapers prompt follows too (optional; declining keeps your `~/Pictures/wallpapers` untouched; accepting seeds the default 2B wallpaper).
 
 Then it runs 14 phases interactively:
 
@@ -66,9 +66,9 @@ Phase 12: iNiR Shell - only if Niri was chosen; clones upstream iNiR,
                                  overlays Lotus configs, wires the session
 Phase 13: Lotus Tune - optional; downloads the latest Linux x86_64 release,
                                  verifies its SHA-256 and installs it in ~/.local
-Phase 6b: Starter wallpapers - OPTIONAL separate prompt: 3 per color of the
-                                 filter + Default/2b2.jpg. Declining keeps your
-                                 existing ~/Pictures/wallpapers untouched.
+Phase 6b: Starter wallpaper - OPTIONAL separate prompt: one default image
+                                 (Default/2b2.jpg). Declining keeps your existing
+                                 ~/Pictures/wallpapers untouched.
 ```
 
 ### Performance Tweaks (Phase 10)
@@ -113,7 +113,7 @@ The Phase 10 `performance-tweaks/` layout and its RTX 4070-tuned OC values are s
 - Niri session only: quickshell + iNiR ([github.com/snowarch/iNiR](https://github.com/snowarch/iNiR), installed automatically by Phase 12)
 
 > Portable: configs use a `@HOME@` sentinel that the installer rewrites to your real home directory at deploy
-> time, ships an optional starter wallpaper set (3 per color of the filter + a default), and keeps optional bits
+> time, ships one optional starter wallpaper (the default 2B image), and keeps optional bits
 > (OBS streaming pipeline, wallpapers) behind explicit prompts, so it works on any hardware and username.
 >
 > Any monitors: the compositor configs ship *portable* by default, niri (`monitor.kdl`) and Hyprland

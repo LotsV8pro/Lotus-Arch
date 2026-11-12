@@ -223,8 +223,8 @@ main() {
     echo "  ◈ Phase 5 — ZSH + Oh-My-ZSH [Y/n]"
     echo "  ◈ Phase 7 — HyprGlass plugin [Y/n]"
     echo "  ◈ Phase 9 — Restore saved user packages [Y/n]"
-    echo "  ◈ Starter wallpapers — optional (~8 MB; 3 per color of the filter +"
-    echo "                         a default 2B; declining keeps your current wallpaper)"
+    echo "  ◈ Starter wallpaper — optional (~0.4 MB, one default 2B image);"
+    echo "                      declining keeps your current wallpaper"
     echo "  ◈ Phase 10 — Performance tweaks (GPU/CPU/RAM/NVMe) [Y/n]"
     echo "              → selectable profile: NVIDIA+Intel or AMD (each tweak optional)"
     echo "  ◈ Phase 11 — Optional extras [y/N each]"
@@ -284,7 +284,7 @@ main() {
     # packs + the Default/2b2.jpg wallpaper on machines that have none.
     if [[ -z "${LOTUS_UNATTENDED:-}" ]]; then
         echo ""
-        read -p "  Seed starter wallpapers (~8 MB: 3 per color of the filter)? [y/N]: " wp_ans
+        read -p "  Seed the default wallpaper (~0.4 MB)? [y/N]: " wp_ans
         [[ "$wp_ans" =~ ^[Yy] ]] && export LOTUS_WALLPAPERS="yes" || export LOTUS_WALLPAPERS="no"
     fi
     export LOTUS_WALLPAPERS="${LOTUS_WALLPAPERS:-no}"

@@ -273,7 +273,7 @@ WP_DIR="$HOME/Pictures/wallpapers"
 if [[ "$WALLPAPERS" == "yes" && -d "$SCRIPT_DIR/../wallpapers" ]]; then
     mkdir -p "$WP_DIR"
     if ! find "$WP_DIR" -type f \( -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.webp' -o -iname '*.gif' \) 2>/dev/null | grep -q .; then
-        # Seed the stock color filter packs (3 per color) + the Default 2B wallpaper
+        # Seed the single starter wallpaper (Default/2b2.jpg)
         cp -rn "$SCRIPT_DIR/../wallpapers/Default" "$WP_DIR/" 2>/dev/null || true
         for d in "$SCRIPT_DIR"/../wallpapers/*/; do
             n="$(basename "$d")"
