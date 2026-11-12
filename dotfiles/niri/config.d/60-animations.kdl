@@ -77,7 +77,7 @@ animations {
     layer-open {
         duration-ms 200
         curve "ease-out-quad"
-        // mismo iris para paneles/sidebars/notificaciones/overview
+        // Same iris for panels, sidebars, notifications and the overview.
         custom-shader r"
             vec4 open_color(vec3 coords_geo, vec3 size_geo) {
                 vec2 uv = (niri_geo_to_tex * coords_geo).st;
@@ -96,7 +96,7 @@ animations {
     layer-close {
         duration-ms 200
         curve "ease-out-quad"
-        // mismo cierre para paneles/sidebars/notificaciones/overview
+        // Same close animation for panels, sidebars, notifications and overview.
         custom-shader r"
             vec4 close_color(vec3 coords_geo, vec3 size_geo) {
                 vec2 uv = (niri_geo_to_tex * coords_geo).st;
@@ -141,8 +141,8 @@ animations {
     }
 
     overview-open-close {
-        // No admite custom-shader (verificado con niri validate), pero se iguala
-        // el timing al del iris para que la transición case visualmente.
+        // It rejects custom-shader (checked with niri validate), so the timing
+        // is matched to the iris to keep the transition visually consistent.
         duration-ms 200
         curve "ease-out-quad"
     }

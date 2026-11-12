@@ -344,7 +344,7 @@ Singleton {
     property var appNameList: _cachedAppNameList
     property var popupAppNameList: _cachedPopupAppNameList
 
-    // Rate limiting sencillo para evitar spam de notificaciones
+    // Simple rate limiting to avoid notification spam
     property double _lastIngressSec: 0
     property int _ingressCountThisSec: 0
     property int maxIngressPerSecond: 20
@@ -665,7 +665,7 @@ Singleton {
         root.refresh()
     }
 
-    // Enviar algunas notificaciones de prueba para previsualizar posición/sonido
+    // Send a few test notifications to preview position and sound
     function sendTestNotifications() {
         const tests = [
             {

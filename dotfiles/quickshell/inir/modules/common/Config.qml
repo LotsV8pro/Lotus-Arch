@@ -2676,7 +2676,7 @@ Singleton {
                     property string start: "22:00"
                     property string end: "08:00"
                 }
-                // Timeouts por urgencia (ms). 0 = no expira automáticamente
+                // Timeouts per urgency (ms). 0 = never expires
                 property int timeoutLow: 5000
                 property int timeoutNormal: 7000
                 property int timeoutCritical: 0
@@ -2684,9 +2684,9 @@ Singleton {
                 property bool ignoreAppTimeout: false
                 // Max popup lifetime (ms). Caps persistent notifications. 0 = no cap.
                 property int maxPopupLifetime: 30000
-                // Posición del popup de notificaciones: topRight, bottomRight, topLeft, bottomLeft
+                // Notification popup position: topRight, bottomRight, topLeft, bottomLeft
                 property string position: "topRight"
-                // Margen respecto a los bordes de pantalla (px)
+                // Margin from the screen edges (px)
                 property int edgeMargin: 4
                 // Slightly enlarge notifications when the mouse hovers over them
                 property bool scaleOnHover: false
@@ -2712,9 +2712,9 @@ Singleton {
                 property bool openingZoomAnimation: true
                 property bool darkenScreen: true
                 property real clickthroughOpacity: 0.8
-                property real backgroundOpacity: 0.9 // 0-1, opacidad de los paneles de overlay
-                property int scrimDim: 35 // 0-100, intensidad del oscurecido de pantalla
-                // Duraciones de animación del overlay (ms)
+                property real backgroundOpacity: 0.9 // 0-1, overlay panel opacity
+                property int scrimDim: 35 // 0-100, screen dim strength
+                // Overlay animation durations (ms)
                 property int animationDurationMs: 180
                 property int scrimAnimationDurationMs: 140
                 property JsonObject floatingImage: JsonObject {

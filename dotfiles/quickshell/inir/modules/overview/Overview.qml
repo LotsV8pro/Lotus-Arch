@@ -844,7 +844,7 @@ Scope {
                 }
             }
 
-            // Scrim de fondo: oscurece todo detrás del overview mientras está activo
+            // Backdrop scrim: dims everything behind the overview while it is open
             Rectangle {
                 anchors.fill: parent
                 z: -1
@@ -887,7 +887,7 @@ Scope {
                         GlobalStates.overviewOpen = false
                         return
                     }
-                    // Cierra solo si el click es fuera del contenido visible
+                    // Close only when the click lands outside the visible content
                     // Check against searchWidget and overviewLoader, not columnLayout
                     // because columnLayout fills the whole window height
                     const searchPos = mapToItem(searchWidget, mouse.x, mouse.y)
@@ -946,7 +946,7 @@ Scope {
                 function onOverviewOpenChanged() {
                     CompositorService.setSortingConsumer("overview", GlobalStates.overviewOpen)
                     if (!GlobalStates.overviewOpen) {
-                        // Al cerrar, limpiar completamente la búsqueda
+                        // On close, clear the search completely
                         searchWidget.cancelSearch();
                         searchWidget.disableExpandAnimation();
                         overviewScope.dontAutoCancelSearch = false;

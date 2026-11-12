@@ -8,28 +8,28 @@ After=pipewire.service pipewire-pulse.service
 
 [Service]
 Type=exec
-# Si queda otra instancia de Easy Effects suelta, esta toma el DBus y la
-# nueva instancia sale inmediatamente -> el servicio quedaria "inactive".
+# If another Easy Effects instance is left running it takes the DBus name and
+# the new instance exits at once, so the service would stay "inactive".
 ExecStartPre=/bin/sh -c 'pkill -9 -f "^/usr/bin/easyeffects" 2>/dev/null; sleep 1; exit 0'
 ExecStart=/usr/bin/easyeffects --hide-window --service-mode
 Restart=always
 RestartSec=3
 
-# IMPORTANTE: NO usar la CLI de Easy Effects aqui (easyeffects --bypass 2).
-# La CLI arranca una SEGUNDA instancia completa que compite por la fuente
-# virtual "easyeffects_source" y deja esta instancia sin cadena de plugins
-# (el micro pasa en crudo y se oye muy bajo). Para hablar con la instancia
-# que ya corre se usa su socket local (/run/user/%U/EasyEffectsServer).
+# IMPORTANT: do NOT use the Easy Effects CLI here (easyeffects --bypass 2).
+# The CLI starts a SECOND full instance that competes for the virtual source
+# "easyeffects_source" and leaves this instance without a plugin chain (the
+# mic goes through raw and sounds very low). Talk to the running instance
+# over its local socket (/run/user/%U/EasyEffectsServer) instead.
 #
-#   global_bypass:0         -> desactiva el bypass global (el micro se procesa)
-#   microphone_monitoring:1 -> mantiene la cadena de entrada conectada
+#   global_bypass:0         -> turn the global bypass off (mic gets processed)
+#   microphone_monitoring:1 -> keep the input chain connected
 #
-# Con el bypass activo Easy Effects desconecta los plugins de la cadena de
-# entrada y el microfono suena crudo y muy bajo.
+# With the bypass on, Easy Effects unloads the input chain plugins and the
+# mic goes through raw and very low.
 #
-# La monitorizacion del micro se activa con listenToMicVolume=0.0 en el
-# fichero de configuracion: mantiene la cadena viva pero NO deja sonar nada
-# por los altavoces (sin realimentacion acustica).
+# Microphone monitoring comes from listenToMicVolume=0.0 in the config file:
+# it keeps the chain alive while sending nothing to the speakers (no
+# acoustic feedback).
 ExecStartPost=/bin/sh -c 'sleep 4; printf "global_bypass:0\n" | socat - UNIX-CONNECT:/run/user/%U/EasyEffectsServer 2>/dev/null || true; printf "microphone_monitoring:1\n" | socat - UNIX-CONNECT:/run/user/%U/EasyEffectsServer 2>/dev/null || true'
 TimeoutStopSec=5s
 Slice=app.slice

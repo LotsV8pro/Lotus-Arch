@@ -122,7 +122,7 @@ binds {
     Mod+Shift+BracketRight { move-window-to-monitor-right; }
 }
 
-// Monitor principal Gaming (DP-2) a 165Hz (164.998), a la izquierda
+// Main gaming monitor (DP-2) at 165 Hz (164.998), on the left
 output "DP-2" {
     mode "2560x1440@164.998"
     variable-refresh-rate
@@ -130,7 +130,7 @@ output "DP-2" {
     position x=0 y=0
 }
 
-// Monitor secundario Samsung (HDMI-A-1) a la derecha del DP-2
+// Secondary Samsung monitor (HDMI-A-1) to the right of DP-2
 output "HDMI-A-1" {
     mode "1920x1080@60.000"
     scale 1.0

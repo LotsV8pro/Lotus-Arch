@@ -147,7 +147,7 @@ ApplicationWindow {
         var wafflePageIndex = getWaffleSettingsPageIndex();
         var easyOn = root.easyMode;
 
-        // 1. Buscar en el índice estático de secciones (para navegación rápida a secciones)
+        // 1. Look in the static section index (for quick jumps to sections)
         const settingsSearchIndex = SettingsPageRegistry.searchIndex();
         for (var i = 0; i < settingsSearchIndex.length; i++) {
             var entry = settingsSearchIndex[i];
@@ -199,7 +199,7 @@ ApplicationWindow {
             }
         }
 
-        // 2. Buscar en el registro dinámico de widgets
+        // 2. Look in the dynamic widget registry
         if (typeof SettingsSearchRegistry !== "undefined") {
             var widgetResults = SettingsSearchRegistry.buildResults(settingsSearchText);
             // Filter out Waffle Style widgets if waffle family is not active
@@ -890,7 +890,7 @@ ApplicationWindow {
                         }
                     }
 
-                    // Botón de limpiar
+                    // Clear button
                     RippleButton {
                         id: clearButton
                         Layout.preferredWidth: 32

@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # apply-from-wallpaper.sh
-# Regenera colors.conf desde el material palette del wallpaper (colors.json)
+# Rebuild colors.conf from the wallpaper Material palette (colors.json)
 # y reaplica LOTUS (UserDecorations, wallust/hyprlock, ghostty, rofi, gtk, wlogout).
-# Llamado desde switchwall.sh post_process en cada cambio de fondo.
+# Called from switchwall.sh post_process on every wallpaper change.
 
 set -euo pipefail
 
