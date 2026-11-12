@@ -29,6 +29,8 @@ SECRET_PATTERNS=(
     '"name"\s*:\s*"[^"]*@[^"]*"'
     # Weather location pinned to the owner's town.
     '"city"\s*:\s*"[^"]+"'
+    # A real Google OAuth client ID (the placeholder in the sync guide has no digits).
+    '[0-9]{6,}-[a-z0-9]{20,}\.apps\.googleusercontent\.com'
 )
 
 # OBS keeps the user's scenes, profiles and capture tokens under basic/.
