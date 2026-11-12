@@ -106,7 +106,7 @@ The Phase 10 `performance-tweaks/` layout and its RTX 4070-tuned OC values are s
 - OS: Arch Linux
 - Compositor: Hyprland 0.55+ (Lua config) and/or Niri + iNiR (optional session)
 - GPU: works with NVIDIA, AMD, or Intel. You select your graphics card during install (gates which drivers Phase 3 installs). The Phase 10 overclock profile ships RTX 4070-tuned example values, the basic desktop needs nothing 4070-specific.
-- Wallpapers: optional. A stock 3-per-color filter set + `Default/2b2.jpg` is seeded only if you accept the prompt; declining keeps your `~/Pictures/wallpapers` exactly as-is. See [HARDWARE.md](HARDWARE.md#starter-wallpapers-optional).
+- Wallpapers: optional. `Default/2b2.jpg` is seeded only if you accept the prompt; declining keeps your `~/Pictures/wallpapers` exactly as-is. See [HARDWARE.md](HARDWARE.md#starter-wallpapers-optional).
 - Audio: PipeWire + WirePlumber + EasyEffects (system-wide EQ/effects; works with any sound card)
 - Terminal: Kitty (the configs default to `$term = kitty`; ghostty configs ship as an optional extra in `dotfiles/ghostty/`)
 - Depends on: Waybar, Rofi, swaync, wlogout, `awww` (wallpaper daemon; the scripts call `swww`, which is symlinked to `awww` automatically during install since `swww` is deprecated), wallust

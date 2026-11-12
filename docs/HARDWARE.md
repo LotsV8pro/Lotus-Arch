@@ -72,12 +72,11 @@ want. See [INSTALLATION.md → Phase 10](INSTALLATION.md#performance-tweaks-phas
 
 ## Starter wallpapers (optional)
 
-The repo ships a small stock collection, 3 wallpapers per color of the
-filter (the same 11 named color families the iNiR wallpaper selector uses:
-Red, Orange, Yellow, Green, Cyan, Blue, Violet, Pink, Brown, Black, White) plus
-a dracula/violet dark set and the default `Default/2b2.jpg`. Installing it is a
-separate optional prompt; declining leaves your `~/Pictures/wallpapers`
-exactly as-is, your current wallpaper is never touched.
+The repo ships one image, `Default/2b2.jpg` (377 KB), and that is what the
+shipped iNiR config points at. Installing it is a separate optional prompt;
+declining leaves your `~/Pictures/wallpapers` exactly as-is, your current
+wallpaper is never touched. The selector's colour filter still works on
+whatever wallpapers you have.
 
 ## Repo layout
 

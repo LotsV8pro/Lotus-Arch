@@ -280,7 +280,7 @@ main() {
 
     # ── Starter wallpapers choice (OPTIONAL) ──
     # Declining leaves ~/Pictures/wallpapers exactly as-is (your current
-    # wallpaper is preserved). Accepting seeds the stock 3-per-color filter
+    # wallpaper is preserved). Accepting seeds Default/2b2.jpg
     # packs + the Default/2b2.jpg wallpaper on machines that have none.
     if [[ -z "${LOTUS_UNATTENDED:-}" ]]; then
         echo ""

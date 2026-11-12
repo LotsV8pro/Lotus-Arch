@@ -12,7 +12,7 @@ bash <(curl -fsSL https://raw.githubusercontent.com/LotsV8pro/Lotus-Arch/main/in
 
 - Pick Hyprland, Niri + iNiR, or both at the session prompt.
 - Choose the OBS streaming pack (optional) if you want the virtual-mic + EasyEffects mic chain; it's what the audio stack builds on. There is no vendor-specific audio gating, the base audio stack (PipeWire + WirePlumber + EasyEffects) works with any sound card or headset.
-- Starter wallpapers (optional), accepting seeds the stock 3-per-color filter packs + `Default/2b2.jpg` on machines with no wallpapers; declining keeps your existing `~/Pictures/wallpapers` untouched, so your current wallpaper always survives.
+- Starter wallpapers (optional), accepting seeds `Default/2b2.jpg` on machines with no wallpapers; declining keeps your existing `~/Pictures/wallpapers` untouched, so your current wallpaper always survives.
 - Select your GPU during install so the right drivers (Phase 3) and performance profile (Phase 10) are applied.
 
 ## 2. Verify the desktop
