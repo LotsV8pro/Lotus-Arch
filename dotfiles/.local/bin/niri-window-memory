@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 """Keep each app on the workspace and monitor where it was last closed.
 
-niri has no per-app memory: `open-on-workspace` only accepts named workspaces,
-and numeric names like "4" are parsed as an index on the focused output. This
-daemon listens to `niri msg --json event-stream`, records the final placement of
-every window, and moves a new window back when the same app_id opens again.
+Niri has no per-app memory. A window rule can pin an app to a workspace, but it
+takes one hand-written rule per app and it cannot follow the window when you
+move it. This daemon listens to `niri msg --json event-stream`, records where
+each window was closed, and moves a new window back when the same app_id opens
+again. It stores the workspace index plus the output, because the IPC actions
+read a plain number as an index on the focused output.
 
 State lives in ~/.config/niri/window-memory.json. Delete an entry there to make
 an app open wherever niri decides again.

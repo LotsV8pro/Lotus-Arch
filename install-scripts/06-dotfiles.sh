@@ -187,15 +187,23 @@ for share_dir in "$DOTFILES/.local/share/"*/; do
     cp -r "$share_dir"* "$HOME/.local/share/$name/" 2>/dev/null || true
 done
 
-# ── Rewrite any hardcoded home paths to the current user's home ──
-# Configs use the @HOME@ sentinel (and, for live mirrors, legacy @HOME@) so
-# every deployed config targets the real home directory and works for any username.
-echo "  → rewriting @HOME@ / legacy @HOME@ paths..."
-find "$HOME/.config" -path "$HOME/.config/dotfiles-backup" -prune -o -type f -exec grep -Il . {} + 2>/dev/null | while IFS= read -r f; do
-    sed -i -e "s|@HOME@|$HOME|g" -e "s|@HOME@|$HOME|g" "$f" 2>/dev/null || true
+# ── Rewrite hardcoded home paths to the current user's home ──
+# Two forms exist: the @HOME@ sentinel in the templates, and the literal
+# /home/lots path that desktop apps wrote into their own state (qt5ct, OBS,
+# Spicetify, qpwgraph, the iNiR wallpaper paths). Both are rewritten so the
+# configs work under any username. Only text files are touched: ~/.local/bin
+# also holds compiled helpers.
+echo "  → rewriting home paths to $HOME..."
+rewrite_home() {
+    [[ -f "$1" ]] || return 0
+    grep -Iq . "$1" 2>/dev/null || return 0
+    sed -i -e "s|@HOME@|$HOME|g" -e "s|/home/lots|$HOME|g" "$1" 2>/dev/null || true
+}
+find "$HOME/.config" -path "$HOME/.config/dotfiles-backup" -prune -o -type f -exec grep -Il . {} + 2>/dev/null |
+    while IFS= read -r f; do rewrite_home "$f"; done
+for f in "$HOME"/.local/bin/* "$HOME"/.zshrc "$HOME"/.zshenv; do
+    rewrite_home "$f"
 done
-sed -i -e "s|@HOME@|$HOME|g" -e "s|@HOME@|$HOME|g" "$HOME/.local/bin/"* 2>/dev/null || true
-sed -i -e "s|@HOME@|$HOME|g" -e "s|@HOME@|$HOME|g" "$HOME/.zshrc" "$HOME/.zshenv" 2>/dev/null || true
 
 # ── swww → awww compatibility symlinks ──
 # swww is deprecated; awww (extra repo) is its successor. The configs still

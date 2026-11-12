@@ -8,7 +8,7 @@ The niri monitor configuration is portable by default; this machine's exact dual
 
 Niri reopens every app on the workspace and monitor where it was last closed. A small daemon does the work: `~/.local/bin/niri-window-memory` listens to `niri msg --json event-stream`, records the placement of each window by `app_id`, and moves a new window back when the same app opens again. It runs as the `niri-window-memory.service` user unit, which the install enables with the graphical session.
 
-Niri's own `open-on-workspace` cannot do this here: it resolves a workspace by name, and this config names the workspaces `1`..`5`, which niri reads as an index on the focused output instead of a name.
+A window rule can pin one app to one workspace, but that takes a rule per app and it does not follow the window when you move it. The daemon learns from use instead: it reads the event stream and stores the workspace index plus the output where each window was closed. Niri's IPC actions read a plain number as an index on the focused output, so the index alone is ambiguous with two monitors, and the daemon always moves the window to the remembered output first.
 
 Placements live in `~/.config/niri/window-memory.json`. Delete an app's entry there to make it open wherever niri decides again. Dialogs and floating windows are not remembered, and Steam and the portal dialogs are on the ignore list; both lists are in the `settings` block of that file.
 
