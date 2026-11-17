@@ -21,9 +21,11 @@ useful to someone else. It is not a distribution and it is not supported.
 The installer asks which one you want, and you can install both and choose at the
 login screen.
 
-**Hyprland**: tiling compositor with a Lua configuration. Waybar, rofi, kitty and
-the HyprGlass blur effect. This is the session with fewer hours of use lately,
-because development moved to the other one. It works, but expect rough edges.
+**Hyprland** (legacy, unmaintained): tiling compositor with a Lua
+configuration. Waybar, rofi, kitty and the HyprGlass blur effect. Development
+stopped here and the session is no longer maintained. The configs remain in the
+repo for reference, but Niri + iNiR is the session that gets updates. New
+installations should choose Niri; Hyprland is kept only for historical reasons.
 
 **Niri + iNiR**: scrollable tiling compositor with the
 [iNiR](https://github.com/snowarch/iNiR) shell, which brings the overview, the
