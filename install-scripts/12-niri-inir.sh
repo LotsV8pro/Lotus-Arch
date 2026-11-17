@@ -29,11 +29,22 @@ for pkg in quickshell brightnessctl swaybg; do
 done
 
 # ── 2. iNiR from upstream ────────────────────────────────────────────────────
-INIR_SRC="${INIR_SRC:-/tmp/inir-upstream}"
+INIR_SRC="${INIR_SRC:-$HOME/inir}"
+# Repair a launcher left pointing at a temporary clone by an earlier run.
+if [[ -L "$HOME/.local/bin/inir" ]]; then
+    BAD_TARGET="$(readlink -f "$HOME/.local/bin/inir" 2>/dev/null || true)"
+    if [[ "$BAD_TARGET" == /tmp/* ]]; then
+        echo "  → Removing stale launcher pointing at $BAD_TARGET"
+        rm -f "$HOME/.local/bin/inir"
+    fi
+fi
+
 if [[ ! -x "$HOME/.local/bin/inir" ]]; then
     echo "  → Cloning iNiR (LotsV8pro fork) ..."
-    rm -rf "$INIR_SRC"
-    git clone --depth 1 https://github.com/LotsV8pro/iNiR.git "$INIR_SRC"
+    # Keep the checkout in $HOME: setup links the launcher to $REPO_ROOT,
+    # so a /tmp clone leaves a broken symlink after reboot.
+    mkdir -p "$(dirname "$INIR_SRC")"
+    git clone https://github.com/LotsV8pro/iNiR.git "$INIR_SRC"
 
     # Run upstream setup when present; fall back to manual launcher install.
     if [[ -x "$INIR_SRC/setup" ]]; then
