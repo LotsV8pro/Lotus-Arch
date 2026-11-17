@@ -68,6 +68,19 @@ fi
 LOG_FILE="$SCRIPT_DIR/install.log"
 exec > >(tee -a "$LOG_FILE") 2>&1
 
+# Sudo may be needed by several phases (pacman, yay). Warm the credential
+# once at the start so later phases never block on a password prompt.
+if [[ ${EUID} -ne 0 ]] && command -v sudo &>/dev/null; then
+    if ! sudo -n true 2>/dev/null; then
+        echo "[i] Sudo access is needed for package installation."
+        sudo -v || { echo "Sudo auth failed."; exit 1; }
+        # Keep the timestamp alive for the whole installer.
+        ( while true; do sudo -n -v 2>/dev/null || break; sleep 60; done ) &
+        SUDO_KEEPER=$!
+        trap 'kill "$SUDO_KEEPER" 2>/dev/null || true' EXIT
+    fi
+fi
+
 # ── CLI presets (unattended) ─────────────────────────────────────────────────
 #   ./install.sh --preset minimal   lean Hyprland-only setup, no prompts
 #   ./install.sh --preset full      everything on, both sessions, no prompts
