@@ -5,7 +5,7 @@
 set -euo pipefail
 
 echo -n "  Install HyprGlass plugin (glass blur effects)? [Y/n]: "
-read -r plugin_ans
+read -r plugin_ans </dev/tty
 if [[ "$plugin_ans" =~ ^[Nn] ]]; then
     echo "  Skipping Hyprland plugins."
     exit 0

@@ -18,7 +18,7 @@ DEFAULT_PROFILE="nvidia"
 [[ "${LOTUS_GPU:-}" == "amd" ]] && DEFAULT_PROFILE="amd"
 [[ "${LOTUS_GPU:-}" == "intel" ]] && DEFAULT_PROFILE="intel"
 echo -n "  Hardware profile [1/2/s=SkiP] (default: $DEFAULT_PROFILE): "
-read -r profile
+read -r profile </dev/tty
 case "$profile" in
     s|S|n|N) echo "  Skipping performance tweaks."; exit 0 ;;
     2|amd|AMD) PROFILE="amd" ;;
@@ -33,7 +33,7 @@ echo ""
 apply_gpu_power() {
     if [[ "$PROFILE" == "amd" ]]; then
         echo -n "    AMD GPU max performance level (DPM high)? [Y/n]: "
-        read -r ans
+        read -r ans </dev/tty
         if [[ ! "$ans" =~ ^[Nn] ]]; then
             sudo install -m 755 "$PERF_DIR/amd/gpu-tweaks.sh" /usr/local/bin/gpu-tweaks.sh
             sudo install -m 644 "$PERF_DIR/amd/systemd/gpu-tweaks.service" /etc/systemd/system/gpu-tweaks.service
@@ -44,7 +44,7 @@ apply_gpu_power() {
         fi
     else
         echo -n "    GPU power limit (160W) + memory OC (+1500 MHz)? [Y/n]: "
-        read -r ans
+        read -r ans </dev/tty
         if [[ ! "$ans" =~ ^[Nn] ]]; then
             sudo install -m 755 "$PERF_DIR/nvidia/gpu-tweaks.sh" /usr/local/bin/gpu-tweaks.sh
             sudo install -m 644 "$PERF_DIR/nvidia/systemd/gpu-tweaks.service" /etc/systemd/system/gpu-tweaks.service
@@ -62,7 +62,7 @@ apply_gpu_fan() {
     else
         echo -n "    GPU core OC (+150 MHz) + dynamic fan curve? [Y/n]: "
     fi
-    read -r ans
+    read -r ans </dev/tty
     if [[ ! "$ans" =~ ^[Nn] ]]; then
         sudo install -m 755 "$PERF_DIR/$PROFILE/gpu-fan-curve.sh" /usr/local/bin/gpu-fan-curve.sh
         sudo install -m 644 "$PERF_DIR/$PROFILE/systemd/gpu-fan-curve.service" /etc/systemd/system/gpu-fan-curve.service
@@ -75,7 +75,7 @@ apply_gpu_fan() {
 
 apply_cpu() {
     echo -n "    CPU performance governor + min perf 50% (Intel pstate / AMD pstate EPP)? [Y/n]: "
-    read -r ans
+    read -r ans </dev/tty
     if [[ ! "$ans" =~ ^[Nn] ]]; then
         sudo install -m 755 "$PERF_DIR/common/cpu-tweaks.sh" /usr/local/bin/cpu-tweaks.sh
         sudo install -m 644 "$PERF_DIR/common/systemd/cpu-tweaks.service" /etc/systemd/system/cpu-tweaks.service
@@ -105,7 +105,7 @@ apply_cpu() {
 
 apply_sysctl() {
     echo -n "    RAM/IO sysctl tweaks (swappiness=5, dirty ratios, etc.)? [Y/n]: "
-    read -r ans
+    read -r ans </dev/tty
     if [[ ! "$ans" =~ ^[Nn] ]]; then
         sudo install -m 644 "$PERF_DIR/common/99-performance.conf" /etc/sysctl.d/99-performance.conf
         sudo sysctl --system 2>/dev/null || true
@@ -118,7 +118,7 @@ apply_sysctl() {
 apply_gpu_xconf() {
     if [[ "$PROFILE" == "amd" ]]; then
         echo -n "    AMD ppfeaturemask (overclocking via CoreCtrl)? [Y/n]: "
-        read -r ans
+        read -r ans </dev/tty
         if [[ ! "$ans" =~ ^[Nn] ]]; then
             sudo mkdir -p /etc/modprobe.d
             sudo install -m 644 "$PERF_DIR/amd/50-amdgpu.conf" /etc/modprobe.d/50-amdgpu.conf
@@ -128,7 +128,7 @@ apply_gpu_xconf() {
         fi
     else
         echo -n "    NVIDIA X config (Coolbits for OC/fan control)? [Y/n]: "
-        read -r ans
+        read -r ans </dev/tty
         if [[ ! "$ans" =~ ^[Nn] ]]; then
             sudo mkdir -p /etc/X11/xorg.conf.d
             sudo install -m 644 "$PERF_DIR/nvidia/10-nvidia.conf" /etc/X11/xorg.conf.d/10-nvidia.conf
@@ -141,7 +141,7 @@ apply_gpu_xconf() {
 
 apply_nvme() {
     echo -n "    NVMe read-ahead (512KB for faster loading)? [Y/n]: "
-    read -r ans
+    read -r ans </dev/tty
     if [[ ! "$ans" =~ ^[Nn] ]]; then
         sudo install -m 644 "$PERF_DIR/common/99-nvme-performance.rules" /etc/udev/rules.d/99-nvme-performance.rules
         sudo udevadm control --reload-rules 2>/dev/null || true
@@ -154,7 +154,7 @@ apply_nvme() {
 
 apply_grub() {
     echo -n "    GRUB kernel params (CPU C-state limits for lower latency)? [Y/n]: "
-    read -r ans
+    read -r ans </dev/tty
     if [[ ! "$ans" =~ ^[Nn] ]]; then
         if sudo bash "$PERF_DIR/common/grub-cmdline.sh" "$PROFILE"; then
             echo "      ✓ GRUB updated (reboot required)"

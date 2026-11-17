@@ -8,7 +8,7 @@ echo ""
 
 confirm() {
   echo -n "  Install $1? [Y/n]: "
-  read -r ans
+  read -r ans </dev/tty
   [[ "$ans" =~ ^[Nn] ]] && return 1 || return 0
 }
 

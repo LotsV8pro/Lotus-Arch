@@ -187,7 +187,7 @@ confirm() {
         return 1 # replaced by category check below
     fi
     echo -e -n "\n  Install $1? [Y/n]: "
-    read -r ans
+    read -r ans </dev/tty
     [[ "$ans" =~ ^[Nn] ]] && return 1 || return 0
 }
 
@@ -203,7 +203,7 @@ confirm_session() { # <category> <desc>
             : ;;                                          # forced yes
         *)                                                # session=both → ask
             echo -e -n "\n  Install $desc? [Y/n]: "
-            read -r ans
+            read -r ans </dev/tty
             [[ "$ans" =~ ^[Nn] ]] && return 1 ;;
     esac
     return 0
