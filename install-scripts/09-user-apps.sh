@@ -21,7 +21,7 @@ NOTABLE_APPS=(
   "steam:Steam (gaming platform)"
   "lutris:Lutris (game manager)"
   "discord:Discord Chat"
-  "spotify:Spotify Music"
+  "lotus-tune:Lotus Tune (YouTube Music player)"
   "qpwgraph:QPWGraph (PipeWire routing)"
   "obs-studio:OBS Studio (recording/streaming)"
   "gamescope:Gamescope (gaming compositor)"
@@ -33,8 +33,7 @@ NOTABLE_APPS=(
   "fastfetch:Fastfetch (system info)"
   "cava:Cava (audio visualizer)"
   "neovim:Neovim (text editor)"
-  "openrgb:OpenRGB (RGB control)"
-  "linux-wallpaperengine-bin:Wallpaper Engine"
+  "signalrgb-bin:SignalRGB (RGB control)"
 )
 
 SELECTED_PACMAN=()
@@ -59,7 +58,7 @@ echo "  --- Remaining packages (grouped by type) ---"
 
 # Define categories using package name patterns
 declare -A CATEGORIES
-CATEGORIES["Desktop Apps"]="discord vesktop-bin spotify zen-browser-bin github-cli"
+CATEGORIES["Desktop Apps"]="discord vesktop-bin lotus-tune zen-browser-bin github-cli"
 CATEGORIES["Gaming"]="steam lutris mangohud gamemode gamescope protontricks steam-devices wine winetricks"
 CATEGORIES["Media"]="mpv mpv-mpris ffmpeg ffmpegthumbnailer loupe mousepad obs-studio obs-studio-plugin-browser obs-pipewire-audio-capture-git"
 CATEGORIES["Audio"]="pipewire pipewire-alsa pipewire-audio pipewire-pulse wireplumber pamixer pavucontrol playerctl qpwgraph cava"
@@ -67,7 +66,7 @@ CATEGORIES["Dev Tools"]="neovim nodejs npm python python-pip rust gcc cmake ninj
 CATEGORIES["System Utils"]="fastfetch btop lsd fzf jq ripgrep htop yazi inxi nvtop"
 CATEGORIES["Bluetooth"]="blueman bluez bluez-utils"
 CATEGORIES["Theming"]="kvantum qt5ct qt6ct nwg-look nwg-displays gtk-engine-murrine"
-CATEGORIES["ASUS Hardware"]="asusctl deepcool-digital-linux-git openrgb"
+CATEGORIES["ASUS Hardware"]="asusctl deepcool-digital-linux-git signalrgb-bin"
 CATEGORIES["Printing"]="cups system-config-printer"
 
 for cat_name in "${!CATEGORIES[@]}"; do
@@ -160,21 +159,6 @@ fi
 if [[ ${#SELECTED_AUR[@]} -gt 0 ]]; then
   echo "  → Installing selected AUR packages..."
   yay -S --needed --noconfirm "${SELECTED_AUR[@]}" 2>&1 | tail -3 || true
-fi
-
-# ── Apply Spicetify Lotus theme ──
-if confirm "Apply Lotus Spicetify theme (Spotify)"; then
-  if command -v spicetify &>/dev/null; then
-    THEME_DIR="$HOME/.config/spicetify/Themes/Lotus"
-    if [[ -d "$SCRIPT_DIR/../dotfiles/spicetify/Themes/Lotus" ]]; then
-      mkdir -p "$THEME_DIR"
-      cp -r "$SCRIPT_DIR/../dotfiles/spicetify/Themes/Lotus/"* "$THEME_DIR/"
-      spicetify config current_theme Lotus 2>/dev/null || true
-      spicetify config color_scheme "Lotus Purple" 2>/dev/null || true
-      spicetify apply 2>&1 | tail -3 || true
-      echo "  ✓ Spicetify Lotus theme applied"
-    fi
-  fi
 fi
 
 # ── Apply Discord Vencord Lotus theme ──

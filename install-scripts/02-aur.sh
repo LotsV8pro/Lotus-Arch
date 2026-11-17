@@ -17,14 +17,13 @@ STREAMING="${LOTUS_STREAMING:-yes}"
 AUR_GROUPS=(
     "BROWSING:Browsing & Dev (Zen Browser, GitHub CLI)"
     "CHAT:Chat (Discord)"
-    "MEDIA:Media & Audio tools (Spotify, cava, noise suppression)"
-    "DESKTOP:Desktop extras (Wallpaper Engine, OpenRGB, DeepCool Digital)"
+    "MEDIA:Media & Audio tools (Lotus Tune, cava, noise suppression)"
+    "DESKTOP:Desktop extras (SignalRGB, DeepCool Digital)"
 )
 
 # [core] groups — no prompt, always selected
 CORE_PACKAGES=(
     zram-generator
-    wallust
     gtk-engine-murrine
     ttf-victor-mono
     quickshell
@@ -33,8 +32,8 @@ CORE_PACKAGES=(
 GROUP_PACKAGES=(
     "BROWSING:zen-browser-bin github-cli"
     "CHAT:discord"
-    "MEDIA:spotify cava noise-suppression-for-voice"
-    "DESKTOP:linux-wallpaperengine-bin openrgb deepcool-digital-linux-git"
+    "MEDIA:lotus-tune cava noise-suppression-for-voice"
+    "DESKTOP:signalrgb-bin deepcool-digital-linux-git"
 )
 
 SELECTED=("${CORE_PACKAGES[@]}")

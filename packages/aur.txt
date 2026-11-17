@@ -15,7 +15,6 @@ inir-deps
 input-remapper-git
 iriunwebcam-bin
 libcava
-linux-wallpaperengine-bin
 localsend-bin
 mangojuice
 nvfancontrol
@@ -27,7 +26,6 @@ python-materialyoucolor-debug
 python-pulsectl
 python-py3nvml
 qt6-avif-image-plugin
-spotify
 ttf-gabarito-git
 ttf-oxanium
 ttf-readex-pro
