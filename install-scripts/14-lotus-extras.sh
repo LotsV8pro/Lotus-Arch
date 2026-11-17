@@ -13,6 +13,21 @@ GREEN='\033[0;32m'; YELLOW='\033[1;33m'; NC='\033[0m'
 echo "[14] Lotus extras (Vencord themes, firewall, agent skills)..."
 
 # ── 1. Vencord themes ────────────────────────────────────────────────────────
+# Vencord itself (official CLI, pinned release with SHA-256 check).
+if ! command -v vencord &>/dev/null && [[ ! -d "$HOME/.config/Vencord" ]]; then
+    VENCORD_CLI_URL="https://github.com/Vencord/Installer/releases/download/v1.4.2/VencordInstallerCli-linux"
+    VENCORD_SHA="52642c8521a866ad241c10337144a4f513672c54b9c86a8169954785054c815d"
+    CLI_TMP="$(mktemp)"
+    if curl -fsSL "$VENCORD_CLI_URL" -o "$CLI_TMP" && echo "$VENCORD_SHA  $CLI_TMP" | sha256sum -c - &>/dev/null; then
+        chmod +x "$CLI_TMP"
+        "$CLI_TMP" --install 2>/dev/null || true
+        echo -e "  ${GREEN}[✓]${NC} Vencord installed"
+    else
+        echo -e "  ${YELLOW}[!]${NC} Vencord download/checksum failed; install from https://vencord.dev"
+    fi
+    rm -f "$CLI_TMP"
+fi
+
 THEMES_DIR="$HOME/.config/Vencord/themes"
 mkdir -p "$THEMES_DIR"
 for theme in lotus-purple caelestia; do

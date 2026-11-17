@@ -53,8 +53,12 @@ skills. Phase 12 clones [LotsV8pro/iNiR](https://github.com/LotsV8pro/iNiR)
 (the fork with the per-screen palettes, calendar and Lotus Tune lyrics), not
 the upstream shell. Phase 14 adds the themes from
 [lotus-discord](https://github.com/LotsV8pro/lotus-discord), nftables and the
-skills. Pick **Niri + iNiR** (or **Both**) when the installer asks for the
-session; the themes and the firewall are installed regardless of the session.
+skills. Phase 14 also installs Vencord itself from its official CLI (SHA-256
+checked) before dropping the themes, so Discord comes out themed without any
+manual step. Pick **Niri + iNiR** (or **Both**) when the installer asks for the
+session; Vencord, the themes and the firewall are installed regardless of the
+session. If you use Vesktop instead of Discord, its bundled Vencord reads the
+same theme folder.
 
 On a fresh Arch install:
 
