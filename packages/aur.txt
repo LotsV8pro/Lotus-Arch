@@ -35,7 +35,6 @@ ttf-twemoji
 ttf-victor-mono
 vesktop-bin
 vial-appimage
-waybar-git
 whitesur-icon-theme
 wlogout
 zen-browser-bin

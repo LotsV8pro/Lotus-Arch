@@ -164,7 +164,9 @@ fi
 
 if [[ ${#SELECTED_AUR[@]} -gt 0 ]]; then
   echo "  → Installing selected AUR packages..."
-  yay -S --needed --noconfirm "${SELECTED_AUR[@]}" 2>&1 | tail -3 || true
+  if ! yay -S --needed --noconfirm "${SELECTED_AUR[@]}" >/dev/null 2>&1; then
+    echo "  [!] Some AUR packages failed (conflicts); continuing."
+  fi
 fi
 
 # ── Apply Discord Vencord Lotus theme ──
