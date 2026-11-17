@@ -193,6 +193,8 @@ confirm() {
 
 # Session-aware confirm: HYPR/NIRI are forced by $LOTUS_SESSION (hypr|niri|both);
 # only in the "both" case does the user get a choice.
+EXCLUDE_FILE="$(dirname "$SESSION_FILE")/.lotus-excluded"
+: > "$EXCLUDE_FILE"
 SESSION_FILE="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/.lotus-session"
 SESSION="${LOTUS_SESSION:-$(cat "$SESSION_FILE" 2>/dev/null || echo hypr)}"
 confirm_session() { # <category> <desc>
@@ -245,10 +247,35 @@ for entry in "${CATEGORIES[@]}"; do
             *) [[ " ${MINIMAL_CATEGORIES[*]} " == *" $name "* ]] || continue ;;
         esac
     else
-        case "$name" in
-            HYPR|NIRI) confirm_session "$name" "$desc" || continue ;;
-            *)         confirm "$desc" || continue ;;
-        esac
+        if ! { case "$name" in
+            HYPR|NIRI) confirm_session "$name" "$desc" ;;
+            *)         confirm "$desc" ;;
+        esac; }; then
+            # remember rejected packages so phase 9 does not ask again
+            case "$name" in
+                HYPR) echo "${HYPR[@]}"   >> "$EXCLUDE_FILE" ;;
+                NIRI) echo "${NIRI[@]}"   >> "$EXCLUDE_FILE" ;;
+                GRAPHICS) echo "${GRAPHICS[@]}" >> "$EXCLUDE_FILE" ;;
+                BAR) echo "${BAR[@]}" >> "$EXCLUDE_FILE" ;;
+                LAUNCHER) echo "${LAUNCHER[@]}" >> "$EXCLUDE_FILE" ;;
+                TERMINAL) echo "${TERMINAL[@]}" >> "$EXCLUDE_FILE" ;;
+                FILEMANAGER) echo "${FILEMANAGER[@]}" >> "$EXCLUDE_FILE" ;;
+                NOTIFY) echo "${NOTIFY[@]}" >> "$EXCLUDE_FILE" ;;
+                DM) echo "${DM[@]}" >> "$EXCLUDE_FILE" ;;
+                SCREENSHOT) echo "${SCREENSHOT[@]}" >> "$EXCLUDE_FILE" ;;
+                THEME) echo "${THEME[@]}" >> "$EXCLUDE_FILE" ;;
+                FONTS) echo "${FONTS[@]}" >> "$EXCLUDE_FILE" ;;
+                UTILS) echo "${UTILS[@]}" >> "$EXCLUDE_FILE" ;;
+                MEDIA) echo "${MEDIA[@]}" >> "$EXCLUDE_FILE" ;;
+                BLUETOOTH) echo "${BLUETOOTH[@]}" >> "$EXCLUDE_FILE" ;;
+                MISC) echo "${MISC[@]}" >> "$EXCLUDE_FILE" ;;
+                GAMING) echo "${GAMING[@]}" >> "$EXCLUDE_FILE" ;;
+                HARDWARE) echo "${HARDWARE[@]}" >> "$EXCLUDE_FILE" ;;
+                LIBS32) echo "${LIBS32[@]}" >> "$EXCLUDE_FILE" ;;
+                DEV) echo "${DEV[@]}" >> "$EXCLUDE_FILE" ;;
+            esac
+            continue
+        fi
     fi
     case "$name" in
         HYPR)       SELECTED+=("${HYPR[@]}") ;;

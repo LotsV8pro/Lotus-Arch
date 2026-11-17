@@ -1,203 +1,68 @@
 #!/bin/bash
-# Phase 9: User apps — prompt per app from your saved package lists
+# Phase 9: Restore user packages and themes.
+# No prompts: phases 1 and 2 already asked. Packages explicitly rejected there
+# are recorded in .lotus-excluded and skipped here.
 
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-
 echo "[09] Restoring user packages and themes..."
-echo ""
 
-confirm() {
-  if [[ -n "${LOTUS_UNATTENDED:-}" ]]; then
-    echo "  Install $1? [auto: yes]"
-    return 0
-  fi
-  echo -n "  Install $1? [Y/n]: "
-  read -r ans
-  [[ "$ans" =~ ^[Nn] ]] && return 1 || return 0
-}
-
+EXCLUDE_FILE="$SCRIPT_DIR/../.lotus-excluded"
 PACMAN_FILE="$SCRIPT_DIR/../packages/pacman.txt"
 AUR_FILE="$SCRIPT_DIR/../packages/aur.txt"
 FLATPAK_FILE="$SCRIPT_DIR/../packages/flatpak.txt"
 
-# ── Notable apps — asked individually ──
-NOTABLE_APPS=(
-  "steam:Steam (gaming platform)"
-  "lutris:Lutris (game manager)"
-  "discord:Discord Chat"
-  "lotus-tune:Lotus Tune (YouTube Music player)"
-  "qpwgraph:QPWGraph (PipeWire routing)"
-  "obs-studio:OBS Studio (recording/streaming)"
-  "gamescope:Gamescope (gaming compositor)"
-  "mangohud:MangoHud (gaming overlay)"
-  "gamemode:Gamemode (game optimization)"
-  "zen-browser-bin:Zen Browser (Firefox-based)"
-  "protontricks:Protontricks (Proton tools)"
-  "btop:Btop (system monitor)"
-  "fastfetch:Fastfetch (system info)"
-  "cava:Cava (audio visualizer)"
-  "neovim:Neovim (text editor)"
-)
+declare -A EXCLUDED=()
+if [[ -f "$EXCLUDE_FILE" ]]; then
+  while IFS= read -r line; do
+    for pkg in $line; do EXCLUDED["$pkg"]=1; done
+  done < "$EXCLUDE_FILE"
+fi
 
-SELECTED_PACMAN=()
-SELECTED_AUR=()
+wanted() { [[ -z "${EXCLUDED[$1]:-}" ]]; }
 
-for entry in "${NOTABLE_APPS[@]}"; do
-  pkg="${entry%%:*}"
-  desc="${entry#*:}"
-  if confirm "$desc"; then
-    # Check if it's in pacman or aur list
-    if grep -q "^$pkg$" "$PACMAN_FILE" 2>/dev/null; then
-      SELECTED_PACMAN+=("$pkg")
-    elif grep -q "^$pkg$" "$AUR_FILE" 2>/dev/null; then
-      SELECTED_AUR+=("$pkg")
-    fi
-  fi
-done
-
-# ── Rest of packages — grouped by category ──
-echo ""
-echo "  --- Remaining packages (grouped by type) ---"
-
-# Define categories using package name patterns
-declare -A CATEGORIES
-CATEGORIES["Desktop Apps"]="discord vesktop-bin lotus-tune zen-browser-bin github-cli"
-CATEGORIES["Gaming"]="steam lutris mangohud gamemode gamescope protontricks steam-devices wine winetricks"
-CATEGORIES["Media"]="mpv mpv-mpris ffmpeg ffmpegthumbnailer loupe mousepad obs-studio obs-studio-plugin-browser obs-pipewire-audio-capture-git"
-CATEGORIES["Audio"]="pipewire pipewire-alsa pipewire-audio pipewire-pulse wireplumber pamixer pavucontrol playerctl qpwgraph cava"
-CATEGORIES["Dev Tools"]="neovim nodejs npm python python-pip rust gcc cmake ninja meson deno jdk-openjdk"
-CATEGORIES["System Utils"]="fastfetch btop lsd fzf jq ripgrep htop yazi inxi nvtop"
-CATEGORIES["Bluetooth"]="blueman bluez bluez-utils"
-CATEGORIES["Theming"]="kvantum qt5ct qt6ct nwg-look nwg-displays gtk-engine-murrine"
-CATEGORIES["ASUS Hardware"]="asusctl deepcool-digital-linux-git "
-CATEGORIES["Printing"]="cups system-config-printer"
-
-for cat_name in "${!CATEGORIES[@]}"; do
-  # Get category packages that are in saved list and not already selected
-  cat_pkgs=()
-  for pkg in ${CATEGORIES[$cat_name]}; do
-    if grep -q "^$pkg$" "$PACMAN_FILE" 2>/dev/null; then
-      if [[ ! " ${SELECTED_PACMAN[*]} " =~ " $pkg " ]]; then
-        cat_pkgs+=("$pkg")
-      fi
-    elif grep -q "^$pkg$" "$AUR_FILE" 2>/dev/null; then
-      if [[ ! " ${SELECTED_AUR[*]} " =~ " $pkg " ]]; then
-        cat_pkgs+=("$pkg")
-      fi
-    fi
-  done
-
-  [[ ${#cat_pkgs[@]} -eq 0 ]] && continue
-
-  cat_desc="${cat_name} (${cat_pkgs[*]})"
-  if confirm "$cat_desc"; then
-    for pkg in "${cat_pkgs[@]}"; do
-      if grep -q "^$pkg$" "$PACMAN_FILE" 2>/dev/null; then
-        SELECTED_PACMAN+=("$pkg")
-      else
-        SELECTED_AUR+=("$pkg")
-      fi
-    done
-  fi
-done
-
-# ── Rest of unassigned packages ──
-REST_PACMAN=()
-while IFS= read -r pkg; do
-  [[ -z "$pkg" ]] && continue
-  # Skip if already selected or in a category
-  if [[ ! " ${SELECTED_PACMAN[*]} " =~ " $pkg " ]]; then
-    skip=false
-    for cat_pkgs in "${CATEGORIES[@]}"; do
-      if [[ " $cat_pkgs " =~ " $pkg " ]]; then
-        skip=true; break
-      fi
-    done
-    $skip || REST_PACMAN+=("$pkg")
-  fi
+# Collect packages from both saved lists, minus rejected ones.
+PACMAN_PKGS=()
+while IFS= read -r p; do
+  [[ -z "$p" || "$p" == \#* ]] && continue
+  wanted "$p" && PACMAN_PKGS+=("$p")
 done < "$PACMAN_FILE"
 
-REST_AUR=()
-while IFS= read -r pkg; do
-  [[ -z "$pkg" ]] && continue
-  if [[ ! " ${SELECTED_AUR[*]} " =~ " $pkg " ]]; then
-    skip=false
-    for cat_pkgs in "${CATEGORIES[@]}"; do
-      if [[ " $cat_pkgs " =~ " $pkg " ]]; then
-        skip=true; break
-      fi
-    done
-    $skip || REST_AUR+=("$pkg")
-  fi
+AUR_PKGS=()
+while IFS= read -r p; do
+  [[ -z "$p" || "$p" == \#* ]] && continue
+  wanted "$p" && AUR_PKGS+=("$p")
 done < "$AUR_FILE"
 
-if [[ ${#REST_PACMAN[@]} -gt 0 ]]; then
-  if confirm "All remaining pacman packages (${#REST_PACMAN[@]} — system deps, fonts, etc)"; then
-    SELECTED_PACMAN+=("${REST_PACMAN[@]}")
-  fi
+if [[ ${#PACMAN_PKGS[@]} -gt 0 ]]; then
+  echo "  → Installing ${#PACMAN_PKGS[@]} pacman packages..."
+  sudo -n pacman -S --needed --noconfirm "${PACMAN_PKGS[@]}" >/dev/null 2>&1 || true
 fi
 
-if [[ ${#REST_AUR[@]} -gt 0 ]]; then
-  if confirm "All remaining AUR packages (${#REST_AUR[@]})"; then
-    SELECTED_AUR+=("${REST_AUR[@]}")
-  fi
-fi
-
-# ── Flatpaks ──
-if [[ -f "$FLATPAK_FILE" ]] && [[ -s "$FLATPAK_FILE" ]]; then
-  if confirm "Flatpak apps ($(tr '\n' ' ' < "$FLATPAK_FILE"))"; then
-    while IFS= read -r app; do
-      [[ -z "$app" ]] && continue
-      [[ "$app" == org.gnome.Platform* ]] && { echo "  [skip] $app (platform)"; continue; }
-      flatpak install --noninteractive -y "$app" 2>&1 | tail -1 || true
-    done < "$FLATPAK_FILE"
-  fi
-fi
-
-# ── Install selected ──
-if [[ ${#SELECTED_PACMAN[@]} -gt 0 ]]; then
-  echo "  → Installing selected pacman packages..."
-  sudo -n pacman -S --needed --noconfirm "${SELECTED_PACMAN[@]}" 2>&1 | tail -3 || true
-fi
-
-if [[ ${#SELECTED_AUR[@]} -gt 0 ]]; then
-  echo "  → Installing selected AUR packages..."
-  if ! yay -S --needed --noconfirm "${SELECTED_AUR[@]}" >/dev/null 2>&1; then
+if [[ ${#AUR_PKGS[@]} -gt 0 ]] && command -v yay &>/dev/null; then
+  echo "  → Installing ${#AUR_PKGS[@]} AUR packages..."
+  if ! yay -S --needed --noconfirm "${AUR_PKGS[@]}" >/dev/null 2>&1; then
     echo "  [!] Some AUR packages failed (conflicts); continuing."
   fi
 fi
 
-# ── Apply Discord Vencord Lotus theme ──
-if confirm "Install Lotus Discord theme (Vencord)"; then
-  VENCORD_DIR="$HOME/.config/Vencord/themes"
-  if [[ -d "$VENCORD_DIR" ]]; then
-    if [[ -f "$SCRIPT_DIR/../dotfiles/Vencord/themes/lotus-purple.theme.css" ]]; then
-      cp "$SCRIPT_DIR/../dotfiles/Vencord/themes/lotus-purple.theme.css" "$VENCORD_DIR/"
-      echo "  ✓ Discord Lotus theme installed"
-      echo "  → Enable it in Vencord Settings > Themes > Lotus Purple"
-    fi
-  fi
+# Flatpak apps (skip platform packages that need extra permissions).
+if [[ -f "$FLATPAK_FILE" ]] && command -v flatpak &>/dev/null; then
+  while IFS= read -r app; do
+    [[ -z "$app" || "$app" == org.gnome.Platform* ]] && continue
+    flatpak install --noninteractive -y "$app" >/dev/null 2>&1 || true
+  done < "$FLATPAK_FILE"
 fi
 
-# ── Audio setup: EasyEffects + OBS virtual mic ──
-echo ""
-echo "  --- Audio pipeline setup ---"
+# ── Apply Discord Vencord Lotus theme ──
+VENCORD_DIR="$HOME/.config/Vencord/themes"
+if [[ -d "$VENCORD_DIR" ]]; then
+  for t in lotus-purple caelestia; do
+    [[ -f "$SCRIPT_DIR/../dotfiles/Vencord/themes/$t.theme.css" ]] && \
+      cp "$SCRIPT_DIR/../dotfiles/Vencord/themes/$t.theme.css" "$VENCORD_DIR/" 2>/dev/null || true
+  done
+  echo "  → Discord Lotus themes installed (enable in Vencord Settings > Themes)"
+fi
 
-SERVICES=(
-  "virtual-mic.service:OBS Virtual Microphone (loopback from OBS virtual sink)"
-  "easyeffects-mic.service:Easy Effects mic chain (EQ, denoise, compressor)"
-)
-
-for entry in "${SERVICES[@]}"; do
-  svc="${entry%%:*}"
-  desc="${entry#*:}"
-  if confirm "$desc"; then
-    systemctl --user enable "$svc" 2>/dev/null || true
-    systemctl --user start "$svc" 2>/dev/null || true
-    echo "    enabled ✓"
-  fi
-done
-
-echo "[09] User packages, themes, and audio services restored."
+echo "[09] Done."

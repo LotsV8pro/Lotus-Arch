@@ -9,6 +9,7 @@ set -euo pipefail
 
 echo "[02] Installing AUR packages..."
 
+EXCLUDE_FILE="$(dirname "$SESSION_FILE")/.lotus-excluded"
 SESSION_FILE="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/.lotus-session"
 SESSION="${LOTUS_SESSION:-$(cat "$SESSION_FILE" 2>/dev/null || echo hypr)}"
 STREAMING="${LOTUS_STREAMING:-yes}"
@@ -51,7 +52,12 @@ for entry in "${AUR_GROUPS[@]}"; do
     else
         echo -e -n "\n  Install $desc? [Y/n]: "
         read -r ans
-        [[ "$ans" =~ ^[Nn] ]] && continue
+        if [[ "$ans" =~ ^[Nn] ]]; then
+            for g in "${GROUP_PACKAGES[@]}"; do
+                [[ "${g%%:*}" == "$name" ]] && echo "${g#*:}" >> "$EXCLUDE_FILE"
+            done
+            continue
+        fi
     fi
 
     for g in "${GROUP_PACKAGES[@]}"; do
