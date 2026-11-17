@@ -429,6 +429,7 @@ main() {
     run_phase 11 "11-optional-extras.sh" "Optional Extras (presets / GPU / wallpapers)"
     if [[ "$LOTUS_SESSION" == "niri" || "$LOTUS_SESSION" == "both" ]]; then
         run_phase 12 "12-niri-inir.sh" "Niri + iNiR Shell (optional session)"
+        run_phase 12b "12b-niri-build.sh" "Niri 26.05 custom build (layer animations)"
     fi
 
     # Optional add-on app, installed from its own GitHub release.

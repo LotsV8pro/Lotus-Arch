@@ -16,7 +16,6 @@ HYPR=(
 
 # ── Niri Session (optional alternative to Hyprland) ──
 NIRI=(
-    niri
     xdg-desktop-portal-gnome xdg-desktop-portal-gtk
     xdg-user-dirs xdg-utils
     quickshell

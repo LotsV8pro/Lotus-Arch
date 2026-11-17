@@ -1,0 +1,56 @@
+# Maintainer: LotsV8pro
+# Based on the niri-git PKGBUILD by cosmo / FreeFull.
+pkgname=niri-lotus
+pkgver=26.05.r3481.g04480f0
+pkgrel=1
+pkgdesc="Scrollable-tiling Wayland compositor with layer animations (PR #3481)"
+arch=(x86_64 aarch64)
+url="https://github.com/Atan-D-RP4/niri"
+license=(GPL-3.0-or-later)
+depends=(cairo glib2 libdisplay-info libinput libpipewire libxkbcommon mesa pango pixman seatd)
+makedepends=(clang rust git)
+optdepends=('fuzzel: application launcher'
+            'waybar: status bar'
+            'alacritty: terminal'
+            'mako: notifications'
+            'swaybg: wallpaper tool'
+            'swaylock: screen locker'
+            'xdg-desktop-portal-gtk: portals'
+            'xdg-desktop-portal-gnome: screencasting'
+            'gnome-keyring: secret portal'
+            'polkit-gnome: root permissions')
+provides=("niri=${pkgver}" "niri-git=${pkgver}")
+conflicts=("niri" "niri-git" "niri-bin")
+options=(!debug !lto !strip)
+source=("niri::git+https://github.com/Atan-D-RP4/niri.git#branch=feat/layer-anims")
+b2sums=('SKIP')
+
+pkgver() {
+  cd niri
+  git describe --long --tags --abbrev=7 2>/dev/null | \
+    sed 's/\([^-]*-g\)/r\1/;s/-/./g;s/^v//' || echo "26.05.r3481.g04480f0"
+}
+
+prepare() {
+  cd niri
+  export CARGO_HOME="$srcdir/niri/.cargo"
+  cargo fetch --locked --target "$(rustc -vV | sed -n 's/host: //p')"
+}
+
+build() {
+  cd niri
+  export CARGO_HOME="$srcdir/niri/.cargo"
+  export CARGO_TARGET_DIR=target
+  cargo build --frozen --release
+}
+
+package() {
+  cd niri
+  install -Dm755 "target/release/niri" -t "$pkgdir/usr/bin/"
+  install -Dm755 "resources/niri-session" -t "$pkgdir/usr/bin/"
+  install -Dm644 "resources/default-config.kdl" -t "$pkgdir/usr/share/doc/niri"
+  install -Dm644 "resources/niri.desktop" -t "$pkgdir/usr/share/wayland-sessions/"
+  install -Dm644 "resources/niri-portals.conf" -t "$pkgdir/usr/share/xdg-desktop-portal/"
+  install -Dm644 "resources/niri.service" "resources/niri-shutdown.target" \
+    -t "$pkgdir/usr/lib/systemd/user/"
+}

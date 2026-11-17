@@ -92,7 +92,6 @@ nautilus
 neovim
 networkmanager
 network-manager-applet
-niri
 noto-fonts
 noto-fonts-emoji
 ntfs-3g

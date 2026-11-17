@@ -31,6 +31,13 @@ installations should choose Niri; Hyprland is kept only for historical reasons.
 [iNiR](https://github.com/snowarch/iNiR) shell, which brings the overview, the
 calendar, the notification centre and animated wallpapers.
 
+The installer builds **niri 26.05 with layer animations** (PR
+[#3481](https://github.com/niri-wm/niri/pull/3481)) from the PKGBUILD in
+`packages/niri-lotus/`. The stock `niri` package in the Arch repos is older and
+cannot parse the Lotus animation config (`custom-shader`, `ease-in-quad`,
+`animations` inside layer rules), which leaves a black screen. The build needs
+Rust and can take several minutes; the fallback is the stock package.
+
 Both share the same foundation:
 
 | Piece | What it does |
