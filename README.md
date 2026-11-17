@@ -60,11 +60,16 @@ session; Vencord, the themes and the firewall are installed regardless of the
 session. If you use Vesktop instead of Discord, its bundled Vencord reads the
 same theme folder.
 
-On a fresh Arch install:
+On a fresh Arch install (or a live ISO booted as root):
 
 ```bash
 curl -sL https://raw.githubusercontent.com/LotsV8pro/Lotus-Arch/main/auto-install.sh | bash
 ```
+
+Run that one as root. It creates the operator user (`lots` by default; override
+with `LOTUS_USER=name`), gives it sudo, installs git, clones the repo into that
+user's home and then runs `install.sh` as that user. `install.sh` refuses to run
+as root because it writes to `$HOME` and registers `--user` units.
 
 On an existing Arch install:
 
