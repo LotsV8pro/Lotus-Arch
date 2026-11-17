@@ -4,8 +4,17 @@
 
 set -euo pipefail
 
-echo -n "  Install HyprGlass plugin (glass blur effects)? [Y/n]: "
-read -r plugin_ans
+# HyprGlass belongs to the Hyprland session only.
+if [[ "${LOTUS_SESSION:-}" == "niri" ]]; then
+    echo "  Skipping Hyprland plugins (Niri-only session)."
+    exit 0
+fi
+if [[ -z "${LOTUS_UNATTENDED:-}" ]]; then
+    echo -n "  Install HyprGlass plugin (glass blur effects)? [Y/n]: "
+    read -r plugin_ans
+else
+    plugin_ans="y"
+fi
 if [[ "$plugin_ans" =~ ^[Nn] ]]; then
     echo "  Skipping Hyprland plugins."
     exit 0

@@ -3,14 +3,21 @@
 
 set -euo pipefail
 
-echo -n "  Install ZSH + Oh-My-ZSH with plugins? [Y/n]: "
-read -r zsh_ans
-if [[ "$zsh_ans" =~ ^[Nn] ]]; then
-    echo "  Skipping ZSH setup."
-    exit 0
+# Core component: no prompt in unattended mode.
+if [[ -z "${LOTUS_UNATTENDED:-}" ]]; then
+    echo -n "  Install ZSH + Oh-My-ZSH with plugins? [Y/n]: "
+    read -r zsh_ans
+    if [[ "$zsh_ans" =~ ^[Nn] ]]; then
+        echo "  Skipping ZSH setup."
+        exit 0
+    fi
 fi
 
 echo "[05] Setting up ZSH..."
+if ! command -v zsh &>/dev/null; then
+    echo "  → Installing zsh"
+    sudo -n pacman -S --needed --noconfirm zsh || true
+fi
 
 # Install Oh-My-ZSH if not present
 if [[ ! -d "$HOME/.oh-my-zsh" ]]; then
