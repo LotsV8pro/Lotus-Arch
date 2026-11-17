@@ -1,10 +1,10 @@
 #!/bin/bash
 # Phase 11: Optional desktop extras (compositor-agnostic — work on Hyprland AND Niri)
-# - Extra look presets (monochrome, Pixel, White_monochrome)
 # - GPU tuning pack (GWE profiles, vkSumi, vkBasalt + ReShade shaders)
 # - movie-tui config
 #
 # All OPTIONAL. The base install ships only the Lotus preset.
+# Extra look presets were removed: monochrome/Pixel/White_monochrome are obsolete.
 
 set -euo pipefail
 
@@ -23,17 +23,6 @@ ask() {
     local answer
     read -p "$prompt [y/N]: " answer
     [[ "$answer" == "y" || "$answer" == "Y" ]]
-}
-
-install_extra_presets() {
-    echo "  → Installing extra look presets..."
-    mkdir -p "$PRESETS_DIR"
-    cp -r "$DOTFILES/lotus-palette/presets-optional/"* "$PRESETS_DIR/" 2>/dev/null || true
-    # Shell/bar state defaults for presets saved before this field existed
-    for d in "$PRESETS_DIR"/*/; do
-        [[ -f "$d/shell-state.txt" ]] || printf 'waybar=yes\n' > "$d/shell-state.txt"
-    done
-    echo -e "${GREEN}[✓]${NC} Extra presets installed (switch with SUPER+CTRL+P)"
 }
 
 install_gpu_pack() {
@@ -70,10 +59,6 @@ install_movie_tui() {
 
 echo ""
 echo "── Optional extras ──────────────────────────────"
-
-if ask "  Install extra look presets? (monochrome / Pixel / White_monochrome)"; then
-    install_extra_presets
-fi
 
 if ask "  Install GPU tuning pack? (GWE fan/OC profiles, vkSumi, vkBasalt)"; then
     install_gpu_pack
