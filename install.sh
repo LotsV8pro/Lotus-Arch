@@ -29,7 +29,7 @@ if [[ ${EUID} -eq 0 ]]; then
     TARGET_USER="${LOTUS_USER:-}"
     if [[ -z "$TARGET_USER" ]]; then
         if [[ -t 0 ]]; then
-            read -r -p "[?] Operator user name [lots]: " TARGET_USER </dev/tty
+            read -r -p "[?] Operator user name [lots]: " TARGET_USER
             TARGET_USER="${TARGET_USER:-lots}"
         else
             TARGET_USER="lots"
@@ -54,9 +54,9 @@ if [[ ${EUID} -eq 0 ]]; then
         cp -a "$SCRIPT_DIR/." "$DEST/"
     fi
     chown -R "$TARGET_USER:$TARGET_USER" "$DEST"
-    # -c with a quoted command loses stdin on some setups; start a login
-    # shell for the user and run the installer there so prompts read from tty.
-    exec su - "$TARGET_USER" -c "cd '$DEST' && exec ./install.sh $*"
+    # Preserve the controlling TTY so the interactive menu can read input.
+    # su -c detaches stdin; runuser keeps the tty attached.
+    exec runuser -u "$TARGET_USER" -- bash -c "cd '$DEST' && exec ./install.sh $*"
 fi
 LOG_FILE="$SCRIPT_DIR/install.log"
 exec > >(tee -a "$LOG_FILE") 2>&1
@@ -275,7 +275,7 @@ main() {
     echo -e "${YELLOW}  ⚠  Your existing configs will be backed up.${NC}"
     echo ""
     if [[ -z "${LOTUS_UNATTENDED:-}" ]]; then
-        read -r -p "Continue? [y/N]: " confirm </dev/tty
+        read -r -p "Continue? [y/N]: " confirm
         if [[ "$confirm" != "y" && "$confirm" != "Y" ]]; then
             echo "Cancelled."
             exit 0
@@ -295,7 +295,7 @@ main() {
         echo "                           (iNiR is OPTIONAL — skip by choosing 1 or 3)"
         echo "  3) Both                — install both sessions, pick at the SDDM login"
         echo ""
-        read -r -p "Session [1/2/3] (default: 1): " sess </dev/tty
+        read -r -p "Session [1/2/3] (default: 1): " sess
         case "$sess" in
             2) export LOTUS_SESSION="niri" ;;
             3) export LOTUS_SESSION="both" ;;
@@ -308,7 +308,7 @@ main() {
     if [[ -z "${LOTUS_UNATTENDED:-}" ]]; then
         echo ""
         echo -e "${CYAN}Hardware packs (applied to BOTH sessions):${NC}"
-        read -r -p "  OBS streaming pack (OBS config, virtual mic)? [y/N]: " s_ans </dev/tty
+        read -r -p "  OBS streaming pack (OBS config, virtual mic)? [y/N]: " s_ans
         [[ "$s_ans" =~ ^[Yy] ]] && export LOTUS_STREAMING="yes" || export LOTUS_STREAMING="no"
     fi
     export LOTUS_STREAMING="${LOTUS_STREAMING:-yes}"
@@ -320,7 +320,7 @@ main() {
     # packs + the Default/2b2.jpg wallpaper on machines that have none.
     if [[ -z "${LOTUS_UNATTENDED:-}" ]]; then
         echo ""
-        read -r -p "  Seed the default wallpaper (~0.4 MB)? [y/N]: " wp_ans </dev/tty
+        read -r -p "  Seed the default wallpaper (~0.4 MB)? [y/N]: " wp_ans
         [[ "$wp_ans" =~ ^[Yy] ]] && export LOTUS_WALLPAPERS="yes" || export LOTUS_WALLPAPERS="no"
     fi
     export LOTUS_WALLPAPERS="${LOTUS_WALLPAPERS:-no}"
@@ -343,7 +343,7 @@ main() {
         echo "  1) NVIDIA   (nvidia-open-dkms + settings)"
         echo "  2) AMD      (amdgpu/mesa)"
         echo "  3) Intel    (integrated only)"
-        read -r -p "  Graphics [1/2/3] (default: ${DETECTED_GPU}): " gpu_ans </dev/tty
+        read -r -p "  Graphics [1/2/3] (default: ${DETECTED_GPU}): " gpu_ans
         case "$gpu_ans" in
             2|amd|AMD) export LOTUS_GPU="amd" ;;
             3|intel|Intel) export LOTUS_GPU="intel" ;;

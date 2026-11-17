@@ -9,7 +9,7 @@ set -euo pipefail
 GPU="${LOTUS_GPU:-}"
 if [[ -z "$GPU" ]]; then
     echo -n "  Graphics card [nvidia/amd/intel] (default: nvidia): "
-    read -r gpu_ans </dev/tty
+    read -r gpu_ans
     GPU="${gpu_ans:-nvidia}"
 fi
 

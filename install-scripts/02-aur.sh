@@ -50,7 +50,7 @@ for entry in "${AUR_GROUPS[@]}"; do
         continue
     else
         echo -e -n "\n  Install $desc? [Y/n]: "
-        read -r ans </dev/tty
+        read -r ans
         [[ "$ans" =~ ^[Nn] ]] && continue
     fi
 

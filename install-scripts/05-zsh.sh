@@ -4,7 +4,7 @@
 set -euo pipefail
 
 echo -n "  Install ZSH + Oh-My-ZSH with plugins? [Y/n]: "
-read -r zsh_ans </dev/tty
+read -r zsh_ans
 if [[ "$zsh_ans" =~ ^[Nn] ]]; then
     echo "  Skipping ZSH setup."
     exit 0
