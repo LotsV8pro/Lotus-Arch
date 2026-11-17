@@ -1,0 +1,18 @@
+[Unit]
+Description=Niri Wayland compositor
+Documentation=https://niri-wm.github.io/niri/
+After=graphical-session-pre.target
+Wants=graphical-session-pre.target
+Before=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/niri --session
+Environment=XDG_SESSION_TYPE=wayland
+Environment=XDG_CURRENT_DESKTOP=niri
+Restart=on-failure
+RestartSec=2
+SuccessExitStatus=0 1 143
+
+[Install]
+WantedBy=graphical-session.target

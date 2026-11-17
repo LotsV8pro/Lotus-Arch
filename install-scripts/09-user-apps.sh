@@ -20,7 +20,16 @@ if [[ -f "$EXCLUDE_FILE" ]]; then
   done < "$EXCLUDE_FILE"
 fi
 
-wanted() { [[ -z "${EXCLUDED[$1]:-}" ]]; }
+SESSION="$(cat "$SCRIPT_DIR/../.lotus-session" 2>/dev/null || echo "${LOTUS_SESSION:-hypr}")"
+wanted() {
+  local p="$1"
+  [[ -n "${EXCLUDED[$p]:-}" ]] && return 1
+  # Hyprland packages never belong to a Niri-only install.
+  if [[ "$SESSION" == "niri" && "$p" =~ ^(hypr|xdg-desktop-portal-hyprland) ]]; then
+    return 1
+  fi
+  return 0
+}
 
 # Collect packages from both saved lists, minus rejected ones.
 PACMAN_PKGS=()
