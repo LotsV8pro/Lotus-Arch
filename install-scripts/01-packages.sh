@@ -193,9 +193,9 @@ confirm() {
 
 # Session-aware confirm: HYPR/NIRI are forced by $LOTUS_SESSION (hypr|niri|both);
 # only in the "both" case does the user get a choice.
+SESSION_FILE="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/.lotus-session"
 EXCLUDE_FILE="$(dirname "$SESSION_FILE")/.lotus-excluded"
 : > "$EXCLUDE_FILE"
-SESSION_FILE="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/.lotus-session"
 SESSION="${LOTUS_SESSION:-$(cat "$SESSION_FILE" 2>/dev/null || echo hypr)}"
 confirm_session() { # <category> <desc>
     local cat="$1" desc="$2" ans="Y"
