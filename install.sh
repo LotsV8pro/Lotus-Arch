@@ -21,6 +21,8 @@
 set -euo pipefail
 
 export SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# Optional Clonezilla-style dialogs (whiptail). Falls back to plain prompts.
+source "$SCRIPT_DIR/install-scripts/lib/dialog.sh" 2>/dev/null || true
 
 # Everything here writes into $HOME and registers --user units, so it must run
 # as a real user. If invoked as root (fresh install / live ISO), create the
@@ -276,10 +278,17 @@ main() {
     echo -e "${YELLOW}  ⚠  Your existing configs will be backed up.${NC}"
     echo ""
     if [[ -z "${LOTUS_UNATTENDED:-}" ]]; then
-        read -r -p "Continue? [y/N]: " confirm
-        if [[ "$confirm" != "y" && "$confirm" != "Y" ]]; then
-            echo "Cancelled."
-            exit 0
+        if have_dialog; then
+            if ! confirm_dialog "Lotus Arch" "Ready to install the Lotus desktop?\n\nExisting configs will be backed up.\nA reboot is required after installation."; then
+                echo "Cancelled."
+                exit 0
+            fi
+        else
+            read -r -p "Continue? [y/N]: " confirm
+            if [[ "$confirm" != "y" && "$confirm" != "Y" ]]; then
+                echo "Cancelled."
+                exit 0
+            fi
         fi
     fi
 
@@ -289,14 +298,20 @@ main() {
         export LOTUS_SESSION="${LOTUS_SESSION:-hypr}"
     else
         echo ""
-        echo -e "${CYAN}Choose your desktop session:${NC}"
-        echo ""
-        echo "  1) Hyprland            — tiling compositor, Lua config, waybar"
-        echo "  2) Niri + iNiR shell   — scrollable tiling + full Quickshell desktop"
-        echo "                           (iNiR is OPTIONAL — skip by choosing 1 or 3)"
-        echo "  3) Both                — install both sessions, pick at the SDDM login"
-        echo ""
-        read -r -p "Session [1/2/3] (default: 1): " sess
+        if have_dialog; then
+            sess="$(menu_dialog "Desktop session" "Choose which desktop session to install:" \
+                1 "Hyprland - tiling, Lua config, waybar" \
+                2 "Niri + iNiR - Quickshell desktop" \
+                3 "Both - pick at SDDM login")" || sess="1"
+        else
+            echo -e "${CYAN}Choose your desktop session:${NC}"
+            echo ""
+            echo "  1) Hyprland            — tiling compositor, Lua config, waybar"
+            echo "  2) Niri + iNiR shell   — scrollable tiling + full Quickshell desktop"
+            echo "  3) Both                — install both sessions, pick at the SDDM login"
+            echo ""
+            read -r -p "Session [1/2/3] (default: 1): " sess
+        fi
         case "$sess" in
             2) export LOTUS_SESSION="niri" ;;
             3) export LOTUS_SESSION="both" ;;
@@ -340,11 +355,18 @@ main() {
     fi
     if [[ -z "${LOTUS_UNATTENDED:-}" ]]; then
         echo ""
-        echo -e "${CYAN}Graphics card (selects which GPU drivers are installed):${NC}"
-        echo "  1) NVIDIA   (nvidia-open-dkms + settings)"
-        echo "  2) AMD      (amdgpu/mesa)"
-        echo "  3) Intel    (integrated only)"
-        read -r -p "  Graphics [1/2/3] (default: ${DETECTED_GPU}): " gpu_ans
+        if have_dialog; then
+            gpu_ans="$(menu_dialog "Graphics card" "Select GPU drivers to install:\n(detected: ${DETECTED_GPU})" \
+                1 "NVIDIA - nvidia-open-dkms + settings" \
+                2 "AMD - amdgpu/mesa" \
+                3 "Intel - integrated only / no extra drivers")" || gpu_ans="$DETECTED_GPU"
+        else
+            echo -e "${CYAN}Graphics card (selects which GPU drivers are installed):${NC}"
+            echo "  1) NVIDIA   (nvidia-open-dkms + settings)"
+            echo "  2) AMD      (amdgpu/mesa)"
+            echo "  3) Intel    (integrated only)"
+            read -r -p "  Graphics [1/2/3] (default: ${DETECTED_GPU}): " gpu_ans
+        fi
         case "$gpu_ans" in
             2|amd|AMD) export LOTUS_GPU="amd" ;;
             3|intel|Intel) export LOTUS_GPU="intel" ;;
@@ -396,5 +418,15 @@ main() {
     echo -e "  ${CYAN}Log: $LOG_FILE${NC}"
     echo ""
 }
+
+# Dialogs are optional; try to install whiptail before the first question.
+if ! command -v whiptail &>/dev/null; then
+    if [[ ${EUID} -eq 0 ]]; then
+        pacman -S --needed --noconfirm libnewt >/dev/null 2>&1 || true
+    else
+        sudo -n pacman -S --needed --noconfirm libnewt >/dev/null 2>&1 || true
+    fi
+fi
+source "$SCRIPT_DIR/install-scripts/lib/dialog.sh" 2>/dev/null || true
 
 main "$@"
