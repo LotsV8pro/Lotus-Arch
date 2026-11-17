@@ -35,6 +35,7 @@ if [[ ${EUID} -eq 0 ]]; then
             TARGET_USER="lots"
         fi
     fi
+    TARGET_USER="${TARGET_USER,,}"   # usernames are lowercase on Linux
     echo "[i] Operator user: $TARGET_USER (change with LOTUS_USER=name)"
     if ! id "$TARGET_USER" &>/dev/null; then
         echo "[i] Creating user $TARGET_USER ..."
@@ -44,8 +45,16 @@ if [[ ${EUID} -eq 0 ]]; then
         passwd "$TARGET_USER" || true
     fi
     echo "[i] Re-running the installer as $TARGET_USER ..."
-    chown -R "$TARGET_USER:$TARGET_USER" "$SCRIPT_DIR"
-    exec su - "$TARGET_USER" -c "cd '$SCRIPT_DIR' && ./install.sh $*"
+    USER_HOME="$(getent passwd "$TARGET_USER" | cut -d: -f6)"
+    DEST="$USER_HOME/Lotus-Arch"
+    # /root (mode 700) is not traversable by the new user: copy the checkout
+    # into their home before dropping privileges.
+    if [[ "$SCRIPT_DIR" != "$DEST" ]]; then
+        mkdir -p "$DEST"
+        cp -a "$SCRIPT_DIR/." "$DEST/"
+    fi
+    chown -R "$TARGET_USER:$TARGET_USER" "$DEST"
+    exec su - "$TARGET_USER" -c "cd '$DEST' && ./install.sh $*"
 fi
 LOG_FILE="$SCRIPT_DIR/install.log"
 exec > >(tee -a "$LOG_FILE") 2>&1
