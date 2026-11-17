@@ -40,7 +40,7 @@ niri recarga solo. No hay `niri msg reload-config`.
 
 ## 5. Quickshell / iNiR (el shell del escritorio)
 
-- Servicio: `inir.service` (systemd **--user**) → `/home/lots/.local/bin/inir run --session`
+- Servicio: `inir.service` (systemd **--user**) → `~/.local/bin/inir run --session`
 - Config QML: `~/.config/quickshell/inir/` (hay otros shells sin usar: `lotus-shell`,
   `end4-pC`, `Persona-Quickshell`, `modules`, `services`)
 - CLI: `inir run|settings|status|doctor|update|repair|logs|overview|clipboard|lock|region|session|cheatsheet|theme|terminal|browser|colorpicker`
