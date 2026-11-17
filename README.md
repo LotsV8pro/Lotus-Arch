@@ -60,19 +60,7 @@ session; Vencord, the themes and the firewall are installed regardless of the
 session. If you use Vesktop instead of Discord, its bundled Vencord reads the
 same theme folder.
 
-On a fresh Arch install (or a live ISO booted as root):
-
-```bash
-curl -sL https://raw.githubusercontent.com/LotsV8pro/Lotus-Arch/main/auto-install.sh | bash
-```
-
-It works whether you run it as root or as your user: `install.sh` detects root,
-creates the operator user (`lots` by default; override with `LOTUS_USER=name`),
-gives it sudo, and re-executes itself as that user, forwarding all flags. That
-user is needed because the installer writes to `$HOME` and registers `--user`
-systemd units.
-
-On an existing Arch install:
+Install from a normal Arch install or a live ISO (root works too):
 
 ```bash
 git clone https://github.com/LotsV8pro/Lotus-Arch.git
@@ -80,6 +68,16 @@ cd Lotus-Arch
 chmod +x install.sh
 ./install.sh
 ```
+
+`install.sh` works as root or as a user. As root it asks for the operator user
+name (default `lots`, press Enter to accept) and re-executes itself as that
+user. You can skip the question with `LOTUS_USER=name ./install.sh`. The user
+is needed because the installer writes to `$HOME` and registers `--user`
+systemd units. All flags pass through (for example
+`LOTUS_USER=name ./install.sh --preset full`).
+
+The `auto-install.sh` quick wrapper is still available for convenience, but the
+two commands above are the tested path.
 
 `./install.sh --preset minimal` installs a lean Hyprland setup and
 `./install.sh --preset full` installs everything, both without the questions.

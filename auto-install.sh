@@ -1,6 +1,6 @@
 #!/bin/bash
 # Quick installer — run on a fresh Arch install (as root or as a user)
-# Downloads and runs the full installer; install.sh handles root itself.
+# Clones the repo and runs install.sh, which handles the operator user itself.
 
 set -euo pipefail
 
@@ -18,9 +18,8 @@ if ! command -v git &>/dev/null; then
 fi
 
 REPO_DIR="${HOME}/Lotus-Arch"
-if [[ ${EUID} -eq 0 ]]; then
-    REPO_DIR="/root/Lotus-Arch"
-fi
+[[ ${EUID} -eq 0 ]] && REPO_DIR="/root/Lotus-Arch"
+
 if [[ -d "$REPO_DIR" ]]; then
     echo "[i] Updating existing clone ..."
     git -C "$REPO_DIR" pull || true

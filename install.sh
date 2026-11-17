@@ -26,7 +26,16 @@ export SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # as a real user. If invoked as root (fresh install / live ISO), create the
 # operator user and re-execute as them; all flags are forwarded.
 if [[ ${EUID} -eq 0 ]]; then
-    TARGET_USER="${LOTUS_USER:-lots}"
+    TARGET_USER="${LOTUS_USER:-}"
+    if [[ -z "$TARGET_USER" ]]; then
+        if [[ -t 0 ]]; then
+            read -rp "[?] Operator user name [lots]: " TARGET_USER
+            TARGET_USER="${TARGET_USER:-lots}"
+        else
+            TARGET_USER="lots"
+        fi
+    fi
+    echo "[i] Operator user: $TARGET_USER (change with LOTUS_USER=name)"
     if ! id "$TARGET_USER" &>/dev/null; then
         echo "[i] Creating user $TARGET_USER ..."
         useradd -m -G wheel -s /bin/bash "$TARGET_USER"
