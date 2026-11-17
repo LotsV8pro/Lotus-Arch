@@ -20,14 +20,24 @@
 
 set -euo pipefail
 
-# Everything here writes into $HOME. As root that is /root, with root-owned
-# files, and every --user unit would land in root's session.
-if [[ ${EUID} -eq 0 ]]; then
-    echo "Run this as your user, not with sudo. It asks for sudo when it needs it." >&2
-    exit 1
-fi
-
 export SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# Everything here writes into $HOME and registers --user units, so it must run
+# as a real user. If invoked as root (fresh install / live ISO), create the
+# operator user and re-execute as them; all flags are forwarded.
+if [[ ${EUID} -eq 0 ]]; then
+    TARGET_USER="${LOTUS_USER:-lots}"
+    if ! id "$TARGET_USER" &>/dev/null; then
+        echo "[i] Creating user $TARGET_USER ..."
+        useradd -m -G wheel -s /bin/bash "$TARGET_USER"
+        echo "$TARGET_USER ALL=(ALL:ALL) ALL" > "/etc/sudoers.d/$TARGET_USER"
+        chmod 440 "/etc/sudoers.d/$TARGET_USER"
+        passwd "$TARGET_USER" || true
+    fi
+    echo "[i] Re-running the installer as $TARGET_USER ..."
+    chown -R "$TARGET_USER:$TARGET_USER" "$SCRIPT_DIR"
+    exec su - "$TARGET_USER" -c "cd '$SCRIPT_DIR' && ./install.sh $*"
+fi
 LOG_FILE="$SCRIPT_DIR/install.log"
 exec > >(tee -a "$LOG_FILE") 2>&1
 

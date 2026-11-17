@@ -66,10 +66,11 @@ On a fresh Arch install (or a live ISO booted as root):
 curl -sL https://raw.githubusercontent.com/LotsV8pro/Lotus-Arch/main/auto-install.sh | bash
 ```
 
-Run that one as root. It creates the operator user (`lots` by default; override
-with `LOTUS_USER=name`), gives it sudo, installs git, clones the repo into that
-user's home and then runs `install.sh` as that user. `install.sh` refuses to run
-as root because it writes to `$HOME` and registers `--user` units.
+It works whether you run it as root or as your user: `install.sh` detects root,
+creates the operator user (`lots` by default; override with `LOTUS_USER=name`),
+gives it sudo, and re-executes itself as that user, forwarding all flags. That
+user is needed because the installer writes to `$HOME` and registers `--user`
+systemd units.
 
 On an existing Arch install:
 
