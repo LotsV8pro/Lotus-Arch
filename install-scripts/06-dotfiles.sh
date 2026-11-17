@@ -136,12 +136,17 @@ done
 # compositor-independent (works even mid-install, before any Wayland session):
 # it reads DRM connector status from /sys/class/drm.
 detect_reference_outputs() {
-    # Manual override, used by the installer tests and by anyone installing
-    # for a machine they cannot boot right now.
-    case "${LOTUS_REFERENCE_OUTPUTS:-auto}" in
-        yes) return 0 ;;
-        no)  return 1 ;;
+    # Manual override, used by installer tests and by anyone installing for a
+    # machine they cannot boot right now.
+    case "${LOTUS_MONITOR:-${LOTUS_REFERENCE_OUTPUTS:-auto}}" in
+        yes|reference) return 0 ;;
+        no|portable|virtual) return 1 ;;
     esac
+    # A VM has no real DP-2/HDMI-A-1 connectors: never apply the reference
+    # layout when running under QEMU/KVM or when niri is absent.
+    if grep -qiE 'qemu|kvm|virtio' /proc/cpuinfo 2>/dev/null ||        grep -qi 'qemu' /sys/class/dmi/id/product_name 2>/dev/null; then
+        return 1
+    fi
     local dp2="" hdmi=""
     for c in /sys/class/drm/card*-DP-2/status; do
         [[ "$(cat "$c" 2>/dev/null)" == "connected" ]] && dp2=1
