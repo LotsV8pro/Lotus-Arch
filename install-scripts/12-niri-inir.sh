@@ -1,7 +1,7 @@
 #!/bin/bash
 # Phase 12: Niri session + iNiR shell (optional)
 # - Verifies quickshell / niri packages (Phase 1 "NIRI" category)
-# - Installs iNiR from upstream (github.com/snowarch/iNiR)
+# - Installs iNiR from the Lotus fork (github.com/LotsV8pro/iNiR)
 # - Overlays the Lotus-Arch niri + inir configs on top
 # - Enables the inir user service for the niri session
 #
@@ -31,9 +31,9 @@ done
 # ── 2. iNiR from upstream ────────────────────────────────────────────────────
 INIR_SRC="${INIR_SRC:-/tmp/inir-upstream}"
 if [[ ! -x "$HOME/.local/bin/inir" ]]; then
-    echo "  → Cloning iNiR (snowarch) ..."
+    echo "  → Cloning iNiR (LotsV8pro fork) ..."
     rm -rf "$INIR_SRC"
-    git clone --depth 1 https://github.com/snowarch/iNiR.git "$INIR_SRC"
+    git clone --depth 1 https://github.com/LotsV8pro/iNiR.git "$INIR_SRC"
 
     # Run upstream setup when present; fall back to manual launcher install.
     if [[ -x "$INIR_SRC/setup" ]]; then
@@ -51,7 +51,7 @@ fi
 
 if [[ ! -x "$HOME/.local/bin/inir" ]]; then
     echo -e "${YELLOW}[!] iNiR launcher not found after setup.${NC}"
-    echo "    Install it manually from https://github.com/snowarch/iNiR"
+    echo "    Install it manually from https://github.com/LotsV8pro/iNiR"
     echo "    Lotus-Arch configs are already in place and will be picked up."
     exit 0
 fi

@@ -347,6 +347,7 @@ main() {
 
     # Optional add-on app, installed from its own GitHub release.
     run_phase 13 "13-lotus-tune.sh" "Lotus Tune (optional app)"
+    run_phase 14 "14-lotus-extras.sh" "Lotus Extras (themes, firewall, skills)"
 
     echo ""
     echo -e "${GREEN}═══════════════════════════════════════════${NC}"
