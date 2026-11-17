@@ -39,10 +39,15 @@ if [[ ${EUID} -eq 0 ]]; then
     fi
     TARGET_USER="${TARGET_USER,,}"   # usernames are lowercase on Linux
     echo "[i] Operator user: $TARGET_USER (change with LOTUS_USER=name)"
+    # Ensure passwordless sudo even when the user already exists.
+    if id "$TARGET_USER" &>/dev/null; then
+        echo "$TARGET_USER ALL=(ALL:ALL) NOPASSWD: ALL" > "/etc/sudoers.d/$TARGET_USER"
+        chmod 440 "/etc/sudoers.d/$TARGET_USER"
+    fi
     if ! id "$TARGET_USER" &>/dev/null; then
         echo "[i] Creating user $TARGET_USER ..."
         useradd -m -G wheel -s /bin/bash "$TARGET_USER"
-        echo "$TARGET_USER ALL=(ALL:ALL) ALL" > "/etc/sudoers.d/$TARGET_USER"
+        echo "$TARGET_USER ALL=(ALL:ALL) NOPASSWD: ALL" > "/etc/sudoers.d/$TARGET_USER"
         chmod 440 "/etc/sudoers.d/$TARGET_USER"
         passwd "$TARGET_USER" || true
     fi

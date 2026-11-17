@@ -150,6 +150,7 @@ if [[ -f "$FLATPAK_FILE" ]] && [[ -s "$FLATPAK_FILE" ]]; then
   if confirm "Flatpak apps ($(tr '\n' ' ' < "$FLATPAK_FILE"))"; then
     while IFS= read -r app; do
       [[ -z "$app" ]] && continue
+      [[ "$app" == org.gnome.Platform* ]] && { echo "  [skip] $app (platform)"; continue; }
       flatpak install --noninteractive -y "$app" 2>&1 | tail -1 || true
     done < "$FLATPAK_FILE"
   fi
@@ -158,7 +159,7 @@ fi
 # ── Install selected ──
 if [[ ${#SELECTED_PACMAN[@]} -gt 0 ]]; then
   echo "  → Installing selected pacman packages..."
-  sudo pacman -S --needed --noconfirm "${SELECTED_PACMAN[@]}" 2>&1 | tail -3 || true
+  sudo -n pacman -S --needed --noconfirm "${SELECTED_PACMAN[@]}" 2>&1 | tail -3 || true
 fi
 
 if [[ ${#SELECTED_AUR[@]} -gt 0 ]]; then
