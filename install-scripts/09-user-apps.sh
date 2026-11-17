@@ -3,10 +3,16 @@
 
 set -euo pipefail
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
 echo "[09] Restoring user packages and themes..."
 echo ""
 
 confirm() {
+  if [[ -n "${LOTUS_UNATTENDED:-}" ]]; then
+    echo "  Install $1? [auto: yes]"
+    return 0
+  fi
   echo -n "  Install $1? [Y/n]: "
   read -r ans
   [[ "$ans" =~ ^[Nn] ]] && return 1 || return 0
