@@ -18,7 +18,7 @@ AUR_GROUPS=(
     "BROWSING:Browsing & Dev (Zen Browser, GitHub CLI)"
     "CHAT:Chat (Discord)"
     "MEDIA:Media & Audio tools (Lotus Tune, cava, noise suppression)"
-    "DESKTOP:Desktop extras (SignalRGB, DeepCool Digital)"
+    "DESKTOP:Desktop extras (DeepCool Digital)"
 )
 
 # [core] groups — no prompt, always selected
@@ -33,7 +33,7 @@ GROUP_PACKAGES=(
     "BROWSING:zen-browser-bin github-cli"
     "CHAT:discord"
     "MEDIA:lotus-tune cava noise-suppression-for-voice"
-    "DESKTOP:signalrgb-bin deepcool-digital-linux-git"
+    "DESKTOP:deepcool-digital-linux-git"
 )
 
 SELECTED=("${CORE_PACKAGES[@]}")

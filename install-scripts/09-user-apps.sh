@@ -33,7 +33,6 @@ NOTABLE_APPS=(
   "fastfetch:Fastfetch (system info)"
   "cava:Cava (audio visualizer)"
   "neovim:Neovim (text editor)"
-  "signalrgb-bin:SignalRGB (RGB control)"
 )
 
 SELECTED_PACMAN=()
@@ -66,7 +65,7 @@ CATEGORIES["Dev Tools"]="neovim nodejs npm python python-pip rust gcc cmake ninj
 CATEGORIES["System Utils"]="fastfetch btop lsd fzf jq ripgrep htop yazi inxi nvtop"
 CATEGORIES["Bluetooth"]="blueman bluez bluez-utils"
 CATEGORIES["Theming"]="kvantum qt5ct qt6ct nwg-look nwg-displays gtk-engine-murrine"
-CATEGORIES["ASUS Hardware"]="asusctl deepcool-digital-linux-git signalrgb-bin"
+CATEGORIES["ASUS Hardware"]="asusctl deepcool-digital-linux-git "
 CATEGORIES["Printing"]="cups system-config-printer"
 
 for cat_name in "${!CATEGORIES[@]}"; do
