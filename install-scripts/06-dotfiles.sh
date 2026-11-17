@@ -14,7 +14,8 @@ BACKUP_DIR="$HOME/.config/dotfiles-backup/$(date +%Y%m%d_%H%M%S)"
 #   LOTUS_SESSION    hypr | niri | both     (default: hypr)
 #   LOTUS_STREAMING  yes | no               (default: yes)
 #   LOTUS_WALLPAPERS yes | no               (default: yes)
-SESSION="${LOTUS_SESSION:-hypr}"
+SESSION_FILE="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/.lotus-session"
+SESSION="${LOTUS_SESSION:-$(cat "$SESSION_FILE" 2>/dev/null || echo hypr)}"
 STREAMING="${LOTUS_STREAMING:-yes}"
 WALLPAPERS="${LOTUS_WALLPAPERS:-yes}"
 

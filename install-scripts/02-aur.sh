@@ -9,7 +9,8 @@ set -euo pipefail
 
 echo "[02] Installing AUR packages..."
 
-SESSION="${LOTUS_SESSION:-hypr}"
+SESSION_FILE="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/.lotus-session"
+SESSION="${LOTUS_SESSION:-$(cat "$SESSION_FILE" 2>/dev/null || echo hypr)}"
 STREAMING="${LOTUS_STREAMING:-yes}"
 
 # ── Grouped AUR packages ─────────────────────────────────────────────────────

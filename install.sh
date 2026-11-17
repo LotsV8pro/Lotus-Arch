@@ -317,13 +317,18 @@ main() {
             echo ""
             read -r -p "Session [1/2/3] (default: 1): " sess
         fi
+        sess="$(echo "$sess" | tr -d '[:space:]' | tr 'A-Z' 'a-z')"
         case "$sess" in
-            2) export LOTUS_SESSION="niri" ;;
-            3) export LOTUS_SESSION="both" ;;
-            *) export LOTUS_SESSION="hypr" ;;
+            2|niri|niri+inir) export LOTUS_SESSION="niri" ;;
+            3|both) export LOTUS_SESSION="both" ;;
+            1|hypr|hyprland) export LOTUS_SESSION="hypr" ;;
+            *) export LOTUS_SESSION="${DETECTED_SESSION:-hypr}" ;;
         esac
     fi
     echo -e "  ${GREEN}→ Session: ${LOTUS_SESSION}${NC}"
+    # Persist the choice: every phase reads LOTUS_SESSION from the environment,
+    # but a saved copy survives re-executions (root -> user) and menu retries.
+    echo "$LOTUS_SESSION" > "$SCRIPT_DIR/.lotus-session"
 
     # ── Hardware pack choice (drives Phase 2/6/9 gating) ──
     if [[ -z "${LOTUS_UNATTENDED:-}" ]]; then
