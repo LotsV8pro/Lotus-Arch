@@ -74,10 +74,14 @@ if [[ ${EUID} -ne 0 ]] && command -v sudo &>/dev/null; then
     if ! sudo -n true 2>/dev/null; then
         echo "[i] Sudo access is needed for package installation."
         sudo -v || { echo "Sudo auth failed."; exit 1; }
-        # Keep the timestamp alive for the whole installer.
-        ( while true; do sudo -n -v 2>/dev/null || break; sleep 60; done ) &
-        SUDO_KEEPER=$!
-        trap 'kill "$SUDO_KEEPER" 2>/dev/null || true' EXIT
+        # Install a NOPASSWD drop-in so nested sudo calls (yay, pacman hooks)
+        # never prompt mid-install. Uses the credential just authenticated.
+        ME="$(whoami)"
+        if [[ ! -f "/etc/sudoers.d/lotus-$ME" ]]; then
+            printf '%s ALL=(ALL:ALL) NOPASSWD: ALL\n' "$ME" | \
+                sudo tee "/etc/sudoers.d/lotus-$ME" >/dev/null 2>&1 || true
+            sudo chmod 440 "/etc/sudoers.d/lotus-$ME" 2>/dev/null || true
+        fi
     fi
 fi
 
