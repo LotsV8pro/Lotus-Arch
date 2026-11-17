@@ -152,7 +152,13 @@ check_arch() {
 }
 
 check_network() {
-    if ! timeout 5 ping -c 1 -W 2 archlinux.org &>/dev/null; then
+    # ICMP is often blocked; the installer only needs HTTP(S) to pacman/GitHub.
+    if command -v curl &>/dev/null; then
+        if ! curl -fsS --max-time 15 https://archlinux.org -o /dev/null; then
+            print_error "No internet connection (curl to archlinux.org failed)!"
+            exit 1
+        fi
+    elif ! timeout 5 ping -c 1 -W 2 8.8.8.8 &>/dev/null; then
         print_error "No internet connection!"
         exit 1
     fi
