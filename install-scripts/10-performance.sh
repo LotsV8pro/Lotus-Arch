@@ -14,13 +14,17 @@ echo "  Select your hardware profile — GPU tweaks differ per vendor:"
 echo "    [1] NVIDIA + Intel   (RTX 4070 OC/fan curve via nvidia-smi, Coolbits)"
 echo "    [2] AMD              (amdgpu perf level, hwmon fan curve, pstate)"
 echo ""
-DEFAULT_PROFILE="nvidia"
-[[ "${LOTUS_GPU:-}" == "amd" ]] && DEFAULT_PROFILE="amd"
-[[ "${LOTUS_GPU:-}" == "intel" ]] && DEFAULT_PROFILE="intel"
-echo -n "  Hardware profile [1/2/s=SkiP] (default: $DEFAULT_PROFILE): "
+DEFAULT_PROFILE="${LOTUS_GPU:-nvidia}"
+# Integrated graphics have no vendor-specific GPU tweaks to apply.
+if [[ "$DEFAULT_PROFILE" == "intel" ]]; then
+    echo "  Integrated graphics detected: no GPU overclock profile applies; skipping."
+    exit 0
+fi
+echo "    [3] Skip — no GPU tweaks"
+echo -n "  Hardware profile [1/2/3/s=SkiP] (default: $DEFAULT_PROFILE): "
 read -r profile
 case "$profile" in
-    s|S|n|N) echo "  Skipping performance tweaks."; exit 0 ;;
+    s|S|n|N|3|skip|Skip) echo "  Skipping performance tweaks."; exit 0 ;;
     2|amd|AMD) PROFILE="amd" ;;
     1|nvidia|NVIDIA) PROFILE="nvidia" ;;
     *) PROFILE="$DEFAULT_PROFILE" ;;
