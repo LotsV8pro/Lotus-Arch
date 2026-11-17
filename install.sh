@@ -181,9 +181,10 @@ install_yay() {
     fi
 
     # makepkg needs base-devel + git to build yay from the AUR.
-    if ! command -v makepkg &>/dev/null || ! command -v git &>/dev/null; then
+    if ! command -v makepkg &>/dev/null || ! command -v git &>/dev/null \
+       || ! command -v fakeroot &>/dev/null; then
         print_info "Installing base-devel + git (required to build yay)..."
-        sudo pacman -S --needed --noconfirm base-devel git
+        sudo pacman -S --needed --noconfirm base-devel git fakeroot
     fi
 
     print_info "Installing yay (AUR helper)..."
