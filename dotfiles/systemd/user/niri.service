@@ -1,9 +1,6 @@
 [Unit]
 Description=Niri Wayland compositor
-Documentation=https://niri-wm.github.io/niri/
-After=graphical-session-pre.target
-Wants=graphical-session-pre.target
-Before=graphical-session.target
+After=dbus.socket
 
 [Service]
 Type=simple
@@ -15,4 +12,4 @@ RestartSec=2
 SuccessExitStatus=0 1 143
 
 [Install]
-WantedBy=graphical-session.target
+WantedBy=default.target
